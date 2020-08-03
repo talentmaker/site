@@ -19,12 +19,21 @@
 import {
     Route,
     BrowserRouter as Router,
-    Switch,
+    Switch
 } from "react-router-dom"
+import Legal from "./legal/Legal"
+import PrivacyPolicy from "./legal/PrivacyPolicy"
 import React from "react"
 
 const App = (): JSX.Element => (
     <Router>
+        <Switch>
+            <Route path="/legal" component={Legal}/>
+            <Route
+                path = "/privacy-policy"
+                component = {PrivacyPolicy}
+            />
+        </Switch>
     </Router>
 )
 
