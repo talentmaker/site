@@ -29,24 +29,12 @@ build() {
     printf "${IGreen}Done!${Cyan}"
 }
 
-watch() {
-    printf "${IBlue}Watching ${Red}SASS ${Cyan}with ${Red}SASS${Cyan}\n"
-    sass scss:public/css --watch &
-
-    printf $"${IBlue}Warching ${Cyan}with ${Blue}react-scripts build${Cyan}\n"
-    npx react-scripts start &
-
-    wait
-}
-
 if [[ $1 == "--only" ]]; then
     if [[ $2 == "sass" ]]; then
         sass scss:public/css --style compressed || npx sass scss:public/css --style compressed
     else
         printf "${BIRed}ERROR: ${Purple}Unknown option $2 for $1\n"
     fi
-elif [[ $1 == "-w" ]]||[[ $1 == "--watch" ]]; then
-    watch
 else
     build
 fi

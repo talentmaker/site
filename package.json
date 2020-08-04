@@ -21,8 +21,9 @@
     "react-router-dom": "^5.2.0"
   },
   "scripts": {
-    "start": "bash build.sh -w",
-    "start:win": "echo \"WARN: windows watching does not watch SASS\" && react-scripts start",
+    "start": "react-scripts start",
+    "sass": "bash build.sh --only sass",
+    "sass:watch": "sass scss:public/css --style compressed --watch",
     "build": "bash build.sh",
     "build:win": "sass scss:public/css && react-scripts build",
     "test": "react-scripts test"
