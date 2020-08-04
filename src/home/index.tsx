@@ -16,27 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import {
-    Route,
-    BrowserRouter as Router,
-    Switch
-} from "react-router-dom"
-import Home from "./home"
-import Legal from "./legal/Legal"
-import PrivacyPolicy from "./legal/PrivacyPolicy"
+import "./home.scss"
 import React from "react"
 
-const App = (): JSX.Element => (
-    <Router>
-        <Switch>
-            <Route path="/" exact component={Home}/>
-            <Route path="/legal" component={Legal}/>
-            <Route
-                path = "/privacy-policy"
-                component = {PrivacyPolicy}
-            />
-        </Switch>
-    </Router>
-)
+interface HomeState {
+    viewport: [number, number],
+}
 
-export default App
+export default class Home extends React.Component<{}, HomeState> {
+
+    public constructor (props: {}) {
+        super(props)
+
+        window.onresize = (): void => this.setState({
+            viewport: [window.innerWidth, window.innerHeight],
+        })
+
+        this.state = {
+            viewport: [window.innerWidth, window.innerHeight],
+        }
+    }
+
+    public render = (): JSX.Element => <></>
+
+}
