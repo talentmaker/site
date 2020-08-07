@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "description": "Web application for Talentmaker",
-  "homepage": "https://github.com/Luke-zhang-04/talentmaker-site",
   "author": {
     "email": "luke.zhang2004dev@gmail.com",
     "name": "Luke Zhang"
@@ -13,6 +12,7 @@
     "url": "https://github.com/Luke-zhang-04/round-maker/issues"
   },
   "dependencies": {
+    "@animated-burgers/burger-squeeze": "^1.1.2",
     "bootstrap": "^5.0.0-alpha1",
     "normalize.css": "^8.0.1",
     "query-string": "^6.13.1",
