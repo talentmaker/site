@@ -1,8 +1,10 @@
 /**
  * Talentmaker website
  * 
- * Copyright (C) 2020 Luke Zhang - Luke-zhang-04.github.io
+ * @copyright (C) 2020 Luke Zhang, Ethan Lim
+ * @author Luke Zhang - Luke-zhang-04.github.io 
  *
+ * @license GPL-3.0
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published
  * by the Free Software Foundation, either version 3 of the License, or
@@ -17,9 +19,29 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import * as serviceWorker from "./serviceWorker"
-import App from "./App"
+import {
+    Route,
+    BrowserRouter as Router,
+    Switch
+} from "react-router-dom"
+import Home from "./home"
+import Legal from "./legal/Legal"
+import PrivacyPolicy from "./legal/PrivacyPolicy"
 import React from "react"
 import ReactDOM from "react-dom"
+
+const App = (): JSX.Element => (
+    <Router>
+        <Switch>
+            <Route path="/" exact component={Home}/>
+            <Route path="/legal" component={Legal}/>
+            <Route
+                path = "/privacy-policy"
+                component = {PrivacyPolicy}
+            />
+        </Switch>
+    </Router>
+)
 
 ReactDOM.render(
     <React.StrictMode>
