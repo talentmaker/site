@@ -13,3 +13,4 @@
 
 # Colours.sh is vendored
 colours.sh linguist-vendored=true
+src/legal/Gpl.jsx linguist-vendored=true
