@@ -2,7 +2,7 @@
  * Talentmaker website
  * 
  * @copyright (C) 2020 Luke Zhang, Ethan Lim
- * @author Luke Zhang - Luke-zhang-04.github.io 
+ * @author Luke Zhang - luke-zhang-04.github.io 
  *
  * @license GPL-3.0
  * This program is free software: you can redistribute it and/or modify
