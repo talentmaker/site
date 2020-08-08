@@ -26,12 +26,14 @@ import {
 } from "react-router-dom"
 import Home from "./home"
 import Legal from "./legal/Legal"
+import Nav from "./Nav"
 import PrivacyPolicy from "./legal/PrivacyPolicy"
 import React from "react"
 import ReactDOM from "react-dom"
 
 const App = (): JSX.Element => (
     <Router>
+        <Nav/>
         <Switch>
             <Route path="/" exact component={Home}/>
             <Route path="/legal" component={Legal}/>

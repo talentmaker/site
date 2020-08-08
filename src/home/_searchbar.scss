@@ -1,17 +1,4 @@
-/*!
- * Universal styling for Talentmaker-site
- * Includes Normalize.css, Bootstrap SASS, and other styles that apply to all pages
- */
-
-@use "variables";
-
-@import "bootstrap";
-@import "../node_modules/@animated-burgers/burger-squeeze/styles.scss";
-@import "../node_modules/@animated-burgers/burger/styles.scss";
-@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400&display=swap');
-@import "../node_modules/normalize.css/normalize";
-
-/*!
+/*
  * Talentmaker website
  *
  * Copyright (C) 2020 Luke Zhang, Ethan Lim
@@ -30,14 +17,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-body {
-  background-color: $light;
-  color: $dark;
-  overflow: hidden !important;
-}
+@use "../../scss/variables" as variables;
+
+@mixin searchbar {
+  border-radius: 100vw;
+  border: none;
   
-html,
-body {
-  max-width: 100% !important;
-  overflow-x: hidden !important;
+  &::placeholder {
+    color: variables.$dark;
+    opacity: 1;
+    font-weight: 350;
+  }
+}
+
+@mixin input-btn {
+  border-radius: 100vw;
+  background-image: linear-gradient(to right, #3f88c5, #6199c7);
+  color: variables.$light;
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  z-index: 1000;
 }

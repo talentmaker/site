@@ -25,6 +25,23 @@ interface HomeState {
     viewport: [number, number],
 }
 
+const SearchBar = (): JSX.Element => <div className="searchbar-container">
+        <input className="form-control searchbar" type="text" placeholder="Find a Project" aria-label="search"/>
+        <button className="btn input-btn">Get Started</button>
+    </div>,
+    LandingPage = (): JSX.Element => <div className="landing-page">
+        <div className="row">
+            <div className="col-md-6 text">
+                <h1>A student project community and technology consulting company</h1>
+                <p>Encouraging and empowering students for their future adventures, gaining real project experience, and building career asprirations.</p>
+                <SearchBar/>
+            </div>
+            <div className="col-md-6 image">
+                <img className="w-100" src="images/problemSolving.svg" alt="problem solving"/>
+            </div>
+        </div>
+    </div>
+
 export default class Home extends React.Component<{}, HomeState> {
 
     public constructor (props: {}) {
@@ -39,6 +56,6 @@ export default class Home extends React.Component<{}, HomeState> {
         }
     }
 
-    public render = (): JSX.Element => <></>
+    public render = (): JSX.Element => <LandingPage/>
 
 }

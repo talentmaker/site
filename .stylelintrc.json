@@ -7,7 +7,7 @@
     "rules": {
         "indentation": 2,
         "at-rule-no-unknown": [true, {
-            "ignoreAtRules": ["function", "if", "each", "include", "mixin", "use", "for"]
+            "ignoreAtRules": ["function", "if", "each", "include", "mixin", "use", "for", "debug"]
         }],
         "no-eol-whitespace": [true, {
             "ignore": ["empty-lines"]
