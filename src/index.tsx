@@ -24,6 +24,7 @@ import {
     BrowserRouter as Router,
     Switch
 } from "react-router-dom"
+import Footer from "./footer"
 import Home from "./home"
 import Legal from "./legal/Legal"
 import Nav from "./Nav"
@@ -38,10 +39,11 @@ const App = (): JSX.Element => (
             <Route path="/" exact component={Home}/>
             <Route path="/legal" component={Legal}/>
             <Route
-                path = "/privacy-policy"
-                component = {PrivacyPolicy}
+                path="/privacy-policy"
+                component={PrivacyPolicy}
             />
         </Switch>
+        <Footer/>
     </Router>
 )
 
