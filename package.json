@@ -30,9 +30,8 @@
     "sass:dev": "npx sass scss:public/css --watch",
     "build": "npx sass scss:public/css && react-scripts build",
     "test": "react-scripts test",
-    "lint": "npx eslint \"*/**/*.{js,jsx,ts,tsx}\" && npx stylelint \"*/**/*.{scss,css}\"",
-    "lint:fix": "npx eslint \"*/**/*.{js,jsx,ts,tsx}\" --fix && npx stylelint \"*/**/*.{scss,css}\" --fix",
-    "eslint:watch": "npx esw \"*/**/*.{js,jsx,ts,tsx}\" --fix --watch"
+    "lint": "npx eslint \"./src/**/*.{js,jsx,ts,tsx}\" && npx stylelint \"*/**/*.{scss,css}\"",
+    "lint:fix": "npx eslint \"./src/**/*.{js,jsx,ts,tsx}\" --fix && npx stylelint \"*/**/*.{scss,css}\" --fix"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -64,7 +63,6 @@
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-prefer-arrow": "^1.2.1",
     "eslint-plugin-react": "^7.20.0",
-    "eslint-watch": "^7.0.0",
     "node-sass": "npm:sass",
     "react-scripts": "3.4.1",
     "sass": "^1.26.10",
