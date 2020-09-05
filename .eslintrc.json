@@ -60,7 +60,7 @@
         "@typescript-eslint/space-before-function-paren": "off",
         "@typescript-eslint/type-annotation-spacing": "off",
         "@typescript-eslint/unified-signatures": "off",
-        
+
         "accessor-pairs": "error",
         "array-bracket-newline": ["error", {
             "multiline": true
@@ -381,7 +381,7 @@
 
                 "no-dupe-class-members": "off",
                 "@typescript-eslint/no-dupe-class-members": ["error"],
-                
+
                 "@typescript-eslint/no-extra-non-null-assertion": "error",
 
                 "no-extra-semi": "off",
