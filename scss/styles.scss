@@ -41,3 +41,12 @@ body {
   max-width: 100% !important;
   overflow-x: hidden !important;
 }
+
+.card-custom {
+  background-image: url("../images/card.svg");
+  background-size: auto 100vw;
+}
+
+.project-row {
+  height: 50vh;
+}

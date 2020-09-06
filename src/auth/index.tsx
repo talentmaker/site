@@ -1,9 +1,10 @@
-/*!
+/**
  * Talentmaker website
+ * 
+ * @copyright (C) 2020 Luke Zhang, Ethan Lim
+ * @author Luke Zhang - luke-zhang-04.github.io 
  *
- * Copyright (C) 2020 Luke Zhang, Ethan Lim
- * https://luke-zhang-04.github.io
- *
+ * @license GPL-3.0
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published
  * by the Free Software Foundation, either version 3 of the License, or
@@ -17,35 +18,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-@use "../../scss/variables" as variables;
 
-@media (min-width: map-get(variables.$grid-breakpoints, lg)) {
-  .navbar {
-    $logo-width: 10vw;
+import React from "react"
+import Reg from "./register"
 
-    padding-left: 5vw;
+export default class Auth extends React.Component {
 
-    .navbar-brand {
-      font-size: 3vw;
-      margin-right: 3vw;
-      margin-left: $logo-width;
+    public render = (): JSX.Element => (
+        <Reg/>
+    )
 
-      img[alt="logo"] {
-        width: $logo-width;
-        position: absolute;
-        left: 3vw;
-      }
-    }
-
-    .nav-link {
-      $mx: 1vw;
-
-      font-size: 2.5vw;
-      margin-left: $mx;
-      margin-right: $mx;
-      padding-right: 0 !important;
-      padding-left: 0 !important;
-      font-weight: 400;
-    }
-  }
 }

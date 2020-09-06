@@ -60,7 +60,7 @@
         "@typescript-eslint/space-before-function-paren": "off",
         "@typescript-eslint/type-annotation-spacing": "off",
         "@typescript-eslint/unified-signatures": "off",
-        
+
         "accessor-pairs": "error",
         "array-bracket-newline": ["error", {
             "multiline": true
@@ -381,7 +381,7 @@
 
                 "no-dupe-class-members": "off",
                 "@typescript-eslint/no-dupe-class-members": ["error"],
-                
+
                 "@typescript-eslint/no-extra-non-null-assertion": "error",
 
                 "no-extra-semi": "off",
@@ -416,7 +416,10 @@
 
                 "@typescript-eslint/type-annotation-spacing": ["error", { "before": false, "after": true }],
 
-                "@typescript-eslint/unified-signatures": "error"
+                "@typescript-eslint/unified-signatures": "error",
+
+                "require-jsdoc": "error",
+                "valid-jsdoc": "off"
             }
         },
         {
