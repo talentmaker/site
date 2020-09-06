@@ -33,7 +33,7 @@ const poolData = {
  * @param username - username
  * @param email - email
  * @param password - password
- * @returns Promise with Cognito user
+ * @returns promise with Cognito user
  */
 export const register = (
     username: string,
@@ -65,7 +65,7 @@ export const register = (
 /**
  * Log a user in. Promise based 😀
  * @param username - username
- * @param password- password
+ * @param password - password
  * @returns promise with Cognito user
  */
 export const login = (
@@ -94,6 +94,28 @@ export const login = (
             },
         })
     })
+}
+
+/**
+ * Get the current user
+ */
+export const {getCurrentUser} = userPool
+
+/**
+ * Logs a user out
+ * @param strict - if an error should be thrown on null user
+ * @returns - error if strict, otherwise void
+ */
+export const logout = (strict = true): void | Error => {
+    const user = getCurrentUser()
+
+    if (strict && !user) {
+        return new Error("User is null")
+    } else if (user) {
+        return user.signOut()
+    }
+
+    return undefined
 }
 
 export default {
