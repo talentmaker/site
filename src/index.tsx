@@ -24,6 +24,7 @@ import {
     BrowserRouter as Router,
     Switch
 } from "react-router-dom"
+import Auth from "./auth"
 import Footer from "./footer"
 import Home from "./home"
 import Legal from "./legal/Legal"
@@ -42,6 +43,7 @@ const App = (): JSX.Element => (
                 path="/privacy-policy"
                 component={PrivacyPolicy}
             />
+            <Route path="/auth" component={Auth}/>
         </Switch>
         <Footer/>
     </Router>

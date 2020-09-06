@@ -44,7 +44,7 @@
         .searchbar {
           @include searchbar.searchbar;
         }
-  
+
         .input-btn {
           @include searchbar.input-btn;
         }
@@ -91,7 +91,7 @@
     .row {
       .text {
         margin-top: 5vw;
-        
+
         h1 {
           font-size: 3vw;
         }
