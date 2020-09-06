@@ -1,8 +1,8 @@
 /**
  * Talentmaker website
- * 
+ *
  * @copyright (C) 2020 Luke Zhang, Ethan Lim
- * @author Luke Zhang - luke-zhang-04.github.io 
+ * @author Luke Zhang - luke-zhang-04.github.io
  *
  * @license GPL-3.0
  * This program is free software: you can redistribute it and/or modify
@@ -32,18 +32,22 @@ export default class Home extends React.Component<{}, HomeState> {
         <button className="btn input-btn">Get Started</button>
     </div>
 
-    private static _landingPage = (): JSX.Element => <div className="landing-page">
-        <div className="row">
-            <div className="col-md-6 text">
-                <h1>A student project community and technology consulting company</h1>
-                <p>Encouraging and empowering students for their future adventures, gaining real project experience, and building career asprirations.</p>
-                <Home._searchBar/>
-            </div>
-            <div className="col-md-6 image">
-                <img className="w-100" src="images/problemSolving.svg" alt="problem solving"/>
+    private static _landingPage = (): JSX.Element => {
+        const SearchBar = Home._searchBar
+
+        return <div className="landing-page">
+            <div className="row">
+                <div className="col-md-6 text">
+                    <h1>A student project community and technology consulting company</h1>
+                    <p>Encouraging and empowering students for their future adventures, gaining real project experience, and building career asprirations.</p>
+                    <SearchBar/>
+                </div>
+                <div className="col-md-6 image">
+                    <img className="w-100" src="images/problemSolving.svg" alt="problem solving"/>
+                </div>
             </div>
         </div>
-    </div>
+    }
 
     public constructor (props: {}) {
         super(props)
@@ -57,8 +61,12 @@ export default class Home extends React.Component<{}, HomeState> {
         }
     }
 
-    public render = (): JSX.Element => <>
-        <Home._landingPage/>
-    </>
+    public render = (): JSX.Element => {
+        const Landingpage = Home._landingPage
+
+        return <>
+            <Landingpage/>
+        </>
+    }
 
 }
