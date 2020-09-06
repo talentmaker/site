@@ -46,12 +46,6 @@ plugins:
 
   stylelint:
     enabled: true
-    channel: "stylelint-13"
-    config:
-      config: ./.stylelintrc.json
-      ignore_warnings: true
-      extensions:
-        - .scss
 
 exclude_patterns:
   - "src/serviceWorker.ts"
