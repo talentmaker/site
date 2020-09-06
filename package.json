@@ -30,7 +30,7 @@
     "sass": "npx sass scss:public/css --style compressed",
     "sass:watch": "npx sass scss:public/css --style compressed --watch",
     "sass:dev": "npx sass scss:public/css --watch",
-    "build": "npx sass scss:public/css && react-scripts build",
+    "build": "npx sass scss:public/css && npx react-scripts build",
     "test": "react-scripts test",
     "lint": "npx eslint \"./src/**/*.{js,jsx,ts,tsx}\" && npx stylelint \"*/**/*.{scss,css}\"",
     "lint:fix": "npx eslint \"./src/**/*.{js,jsx,ts,tsx}\" --fix && npx stylelint \"*/**/*.{scss,css}\" --fix"
@@ -61,8 +61,8 @@
     "@types/react-router": "^5.1.8",
     "@types/react-router-dom": "^5.1.5",
     "@types/yup": "^0.29.6",
-    "@typescript-eslint/eslint-plugin": "^3.1.0",
-    "@typescript-eslint/parser": "^3.1.0",
+    "@typescript-eslint/eslint-plugin": "^4.0.1",
+    "@typescript-eslint/parser": "^4.0.1",
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-prefer-arrow": "^1.2.1",
     "eslint-plugin-react": "^7.20.0",
@@ -71,7 +71,7 @@
     "sass": "^1.26.10",
     "stylelint": "^13.6.0",
     "stylelint-config-standard": "^20.0.0",
-    "typescript": "^4.0.0"
+    "typescript": "^4.0.1"
   },
   "resolutions": {
     "node-sass": "npm:sass"
