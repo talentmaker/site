@@ -3,7 +3,7 @@ name: build
 on: [push, pull_request]
 
 jobs:
-  lint:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -14,15 +14,6 @@ jobs:
 
     - name: lint
       run: yarn lint
-
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: install deps
-      run: yarn --frozen-lockfile
 
     - name: build
       run: yarn build

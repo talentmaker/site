@@ -18,7 +18,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-// import "./home.scss"
+import "./home.scss"
 import React from "react"
 
 interface HomeState {
