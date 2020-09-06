@@ -38,7 +38,7 @@ plugins:
     enabled: true
     channel: "eslint-6"
     config:
-      config: ./.eslintrc.json
+      config: ./.eslintrc.codeclimate.json
       ignore_warnings: true
       extensions:
         - .ts
