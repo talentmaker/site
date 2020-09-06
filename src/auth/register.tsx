@@ -147,7 +147,12 @@ export default class Reg extends React.Component {
 
             console.log("USER", user)
         } catch (err) {
-            alert(`ERROR: ${err.message}`)
+            if (err instanceof Error) {
+                alert(`ERROR: ${err.message}`)
+            } else {
+                alert("ERROR: Unknown")
+            }
+
             console.log(err)
         }
 
