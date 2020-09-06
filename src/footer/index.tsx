@@ -1,8 +1,8 @@
 /**
  * Talentmaker website
- * 
+ *
  * @copyright (C) 2020 Luke Zhang, Ethan Lim
- * @author Luke Zhang - luke-zhang-04.github.io 
+ * @author Luke Zhang - luke-zhang-04.github.io
  *
  * @license GPL-3.0
  * This program is free software: you can redistribute it and/or modify
@@ -21,7 +21,29 @@
 
 import React from "react"
 
-const Footer = (): JSX.Element => <footer className="page-footer font-small bg-dark text-light pt-4">
+interface FooterProps {
+    title: string,
+    links: [string, string][],
+}
+
+/**
+ * Footer links
+ * @param param0 - props for footer
+ */
+const FooterLinks = ({title, links}: FooterProps): JSX.Element => (
+    <div className="col-md-4 mb-md-0 mb-3">
+        <h5 className="text-uppercase">{title}</h5>
+        <ul className="list-unstyled">
+            {links.map((link, index) => (
+                <li key={`footer-link-${title}-${index}`}>
+                    <a href={link[0]}>{link[1]}</a>
+                </li>
+            ))}
+        </ul>
+    </div>
+)
+
+export const Footer = (): JSX.Element => <footer className="page-footer font-small bg-dark text-light pt-4">
     <div className="container-fluid text-center text-md-left">
         <div className="row">
             <div className="col-md-4 mt-md-0 mt-3">
@@ -31,25 +53,25 @@ const Footer = (): JSX.Element => <footer className="page-footer font-small bg-d
 
             <hr className="clearfix w-100 d-md-none pb-0"/>
 
-            <div className="col-md-4 mb-md-0 mb-3">
-                <h5 className="text-uppercase">Links</h5>
-                <ul className="list-unstyled">
-                    <li><a href="#!">Link 1</a></li>
-                    <li><a href="#!">Link 2</a></li>
-                    <li><a href="#!">Link 3</a></li>
-                    <li><a href="#!">Link 4</a></li>
-                </ul>
-            </div>
+            <FooterLinks
+                title="Links"
+                links={[
+                    ["#", "Link A"],
+                    ["#", "Link B"],
+                    ["#", "Link C"],
+                    ["#", "Link D"],
+                ]}
+            />
 
-            <div className="col-md-4 mb-md-0 mb-3">
-                <h5 className="text-uppercase">Links</h5>
-                <ul className="list-unstyled">
-                    <li><a href="#!">Link 1</a></li>
-                    <li><a href="#!">Link 2</a></li>
-                    <li><a href="#!">Link 3</a></li>
-                    <li><a href="#!">Link 4</a></li>
-                </ul>
-            </div>
+            <FooterLinks
+                title="Links"
+                links={[
+                    ["#", "Link A"],
+                    ["#", "Link B"],
+                    ["#", "Link C"],
+                    ["#", "Link D"],
+                ]}
+            />
         </div>
     </div>
 
