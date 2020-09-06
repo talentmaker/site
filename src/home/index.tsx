@@ -25,24 +25,25 @@ interface HomeState {
     viewport: [number, number],
 }
 
-const SearchBar = (): JSX.Element => <div className="searchbar-container">
+export default class Home extends React.Component<{}, HomeState> {
+
+    private static _searchBar = (): JSX.Element => <div className="searchbar-container">
         <input className="form-control searchbar" type="text" placeholder="Find a Project" aria-label="search"/>
         <button className="btn input-btn">Get Started</button>
-    </div>,
-    LandingPage = (): JSX.Element => <div className="landing-page">
+    </div>
+
+    private static _landingPage = (): JSX.Element => <div className="landing-page">
         <div className="row">
             <div className="col-md-6 text">
                 <h1>A student project community and technology consulting company</h1>
                 <p>Encouraging and empowering students for their future adventures, gaining real project experience, and building career asprirations.</p>
-                <SearchBar/>
+                <Home._searchBar/>
             </div>
             <div className="col-md-6 image">
                 <img className="w-100" src="images/problemSolving.svg" alt="problem solving"/>
             </div>
         </div>
     </div>
-
-export default class Home extends React.Component<{}, HomeState> {
 
     public constructor (props: {}) {
         super(props)
@@ -56,6 +57,8 @@ export default class Home extends React.Component<{}, HomeState> {
         }
     }
 
-    public render = (): JSX.Element => <LandingPage/>
+    public render = (): JSX.Element => <>
+        <Home._landingPage/>
+    </>
 
 }

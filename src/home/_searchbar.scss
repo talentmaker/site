@@ -19,14 +19,32 @@
  */
 @use "../../scss/variables" as variables;
 
+$line-height: 2vw;
+
 @mixin searchbar {
   border-radius: 100vw;
   border: none;
+  padding: 0.375vw 0.75vw;
+  line-height: $line-height;
+  border-width: 0;
+  min-height: 0;
+  box-shadow: 0 0 5vw rgba(variables.$dark, 0.25);
+
+  @media (max-width: map-get(variables.$grid-breakpoints, sm)) {
+    padding: 1vw 2vw;
+  }
   
   &::placeholder {
     color: variables.$dark;
     opacity: 1;
     font-weight: 350;
+    font-size: 1.5vw;
+    line-height: $line-height;
+
+    @media (max-width: map-get(variables.$grid-breakpoints, sm)) {
+      font-size: 3.5vw;
+      vertical-align: middle;
+    }
   }
 }
 
@@ -39,4 +57,14 @@
   right: 0;
   cursor: pointer;
   z-index: 1000;
+  font-size: 1.5vw;
+  padding: 0.375vw 0.75vw;
+  border-width: 0;
+  line-height: $line-height;
+  height: 100%;
+
+  @media (max-width: map-get(variables.$grid-breakpoints, sm)) {
+    font-size: 3vw;
+    padding: 1vw 2vw;
+  }
 }

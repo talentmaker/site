@@ -1,8 +1,8 @@
 /**
  * Talentmaker website
- * 
+ *
  * @copyright (C) 2020 Luke Zhang, Ethan Lim
- * @author Luke Zhang - luke-zhang-04.github.io 
+ * @author Luke Zhang - luke-zhang-04.github.io
  *
  * @license GPL-3.0
  * This program is free software: you can redistribute it and/or modify
@@ -24,6 +24,7 @@ import {
     BrowserRouter as Router,
     Switch
 } from "react-router-dom"
+import Auth from "./auth"
 import Footer from "./footer"
 import Home from "./home"
 import Legal from "./legal/Legal"
@@ -42,6 +43,7 @@ const App = (): JSX.Element => (
                 path="/privacy-policy"
                 component={PrivacyPolicy}
             />
+            <Route path="/auth" component={Auth}/>
         </Switch>
         <Footer/>
     </Router>
