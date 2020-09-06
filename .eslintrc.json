@@ -416,7 +416,10 @@
 
                 "@typescript-eslint/type-annotation-spacing": ["error", { "before": false, "after": true }],
 
-                "@typescript-eslint/unified-signatures": "error"
+                "@typescript-eslint/unified-signatures": "error",
+
+                "require-jsdoc": "error",
+                "valid-jsdoc": "off"
             }
         },
         {
