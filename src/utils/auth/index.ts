@@ -33,7 +33,7 @@ const poolData = {
  * @param username - username
  * @param email - email
  * @param password - password
- * @returns - Promise with Cognito user
+ * @returns Promise with Cognito user
  */
 export const register = (
     username: string,
@@ -62,10 +62,16 @@ export const register = (
     })
 }
 
+/**
+ * Log a user in. Promise based 😀
+ * @param username - username
+ * @param password- password
+ * @returns promise with Cognito user
+ */
 export const login = (
     username: string,
     password: string
-): void => {
+): Promise<AwsCognito.CognitoUserSession> => {
     const authDetails = new AwsCognito.AuthenticationDetails({
             Username: username,
             Password: password,
@@ -76,13 +82,17 @@ export const login = (
         },
         cognitoUser = new AwsCognito.CognitoUser(userData)
 
-    cognitoUser.authenticateUser(authDetails, {
-        onSuccess: (result) => {
-            console.log(result)
-        },
-        onFailure: (err) => {
-            console.log(err)
-        },
+    return new Promise((resolve, reject) => {
+        cognitoUser.authenticateUser(authDetails, {
+            onSuccess: (result) => {
+                console.log(result)
+                resolve(result)
+            },
+            onFailure: (err) => {
+                console.log(err)
+                reject(err)
+            },
+        })
     })
 }
 
