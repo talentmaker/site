@@ -78,6 +78,7 @@ export const login = (
         }),
         userData = {
             Username: username,
+            Email: username,
             Pool: userPool
         },
         cognitoUser = new AwsCognito.CognitoUser(userData)

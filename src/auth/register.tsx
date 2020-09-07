@@ -146,6 +146,7 @@ export default class Reg extends React.Component {
             const user = await authApi.register(values.name, values.email, values.password)
 
             console.log("USER", user)
+            alert("Success! You have been registered! Please confirm your email.")
         } catch (err) {
             if (err instanceof Error) {
                 alert(`ERROR: ${err.message}`)
@@ -160,27 +161,29 @@ export default class Reg extends React.Component {
     }
 
     public render = (): JSX.Element => (
-        <Formik
-            initialValues={this._initialValues}
-            onSubmit={this._submit}
-            validate={this._validate}
-            validationSchema={Reg._validationSchema}
-        >
-            {({isSubmitting, values}): JSX.Element => (
-                <Form className="container">
-                    <Reg._input name="name" type="name" label="Username"/>
-                    <Reg._input name="email" type="email" label="Email"/>
-                    <Reg._input name="password" type="password" label="Password"/>
-                    <Reg._input name="password2" type="password" label="Confirm password"/>
-                    <Reg._checkbox name="didagree" type="checkbox"/>
+        <>
+            <Formik
+                initialValues={this._initialValues}
+                onSubmit={this._submit}
+                validate={this._validate}
+                validationSchema={Reg._validationSchema}
+            >
+                {({isSubmitting}): JSX.Element => (
+                    <Form className="container">
+                        <Reg._input name="name" type="name" label="Username"/>
+                        <Reg._input name="email" type="email" label="Email"/>
+                        <Reg._input name="password" type="password" label="Password"/>
+                        <Reg._input name="password2" type="password" label="Confirm password"/>
+                        <Reg._checkbox name="didagree" type="checkbox"/>
 
-                    <button className="btn btn-primary" type="submit" disabled={isSubmitting}>
-                        Register
-                    </button>
-                    <pre>{JSON.stringify(values, null, 2)}</pre>
-                </Form>
-            )}
-        </Formik>
+                        <button className="btn btn-primary" type="submit" disabled={isSubmitting}>
+                            Register
+                        </button>
+                    </Form>
+                )}
+            </Formik>
+            <Link to="/auth?mode=login" className="text-center px-5 mt-3 ml-auto mr-auto d-block">Already Have an Account? Login!</Link>
+        </>
     )
 
 }
