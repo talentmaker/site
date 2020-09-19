@@ -66,7 +66,7 @@ export default class Reg extends React.Component {
         }
 
         return (
-            <div className="input-group border-none">
+            <div className="input-group border-none br-0">
                 <div className="input-group-prepend">
                     <span className="input-group-text">{props.children ?? ""}</span>
                 </div>

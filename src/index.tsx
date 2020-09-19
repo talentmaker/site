@@ -19,11 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import * as serviceWorker from "./serviceWorker"
-import {
-    Route,
-    BrowserRouter as Router,
-    Switch
-} from "react-router-dom"
+import {Route, BrowserRouter as Router, Switch} from "react-router-dom"
 import Auth from "./auth"
 import Footer from "./footer"
 import Home from "./home"
@@ -35,25 +31,22 @@ import ReactDOM from "react-dom"
 
 const App = (): JSX.Element => (
     <Router>
-        <Nav/>
+        <Nav />
         <Switch>
-            <Route path="/" exact component={Home}/>
-            <Route path="/legal" component={Legal}/>
-            <Route
-                path="/privacy-policy"
-                component={PrivacyPolicy}
-            />
-            <Route path="/auth" component={Auth}/>
+            <Route path="/" exact component={Home} />
+            <Route path="/legal" component={Legal} />
+            <Route path="/privacy-policy" component={PrivacyPolicy} />
+            <Route path="/auth" component={Auth} />
         </Switch>
-        <Footer/>
+        <Footer />
     </Router>
 )
 
 ReactDOM.render(
     <React.StrictMode>
-        <App/>
+        <App />
     </React.StrictMode>,
-    document.getElementById("root")
+    document.getElementById("root"),
 )
 
 /*

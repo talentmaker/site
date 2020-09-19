@@ -19,6 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import "./auth.scss"
 import {Field, Form, Formik, FormikHelpers, useField} from "formik"
 import {Link} from "react-router-dom"
 import React from "react"

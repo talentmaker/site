@@ -73,9 +73,9 @@ export default class Auth extends React.Component<{}, AuthState> {
     }
 
     public render = (): JSX.Element => (
-        <>
+        <div className="row">
             {this.state.mode === "login" ? <Login/> : <Reg/>}
-        </>
+        </div>
     )
 
 }
