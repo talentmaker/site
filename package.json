@@ -32,8 +32,9 @@
     "sass:dev": "npx sass scss:public/css --watch",
     "build": "npx sass scss:public/css && npx react-scripts build",
     "test": "react-scripts test",
-    "lint": "npx eslint \"./src/**/*.{js,jsx,ts,tsx}\" && npx stylelint \"*/**/*.{scss,css}\"",
-    "lint:fix": "npx eslint \"./src/**/*.{js,jsx,ts,tsx}\" --fix && npx stylelint \"*/**/*.{scss,css}\" --fix"
+    "lint": "bash lint.sh",
+    "lint:fix": "bash lint.sh --fix",
+    "lint:watch": "node lint.mjs"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -63,6 +64,7 @@
     "@types/yup": "^0.29.6",
     "@typescript-eslint/eslint-plugin": "^4.0.1",
     "@typescript-eslint/parser": "^4.0.1",
+    "chokidar": "^3.4.2",
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-prefer-arrow": "^1.2.1",
     "eslint-plugin-react": "^7.20.0",
