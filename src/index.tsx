@@ -31,20 +31,20 @@ import ReactDOM from "react-dom"
 
 const App = (): JSX.Element => (
     <Router>
-        <Nav />
+        <Nav/>
         <Switch>
-            <Route path="/" exact component={Home} />
-            <Route path="/legal" component={Legal} />
-            <Route path="/privacy-policy" component={PrivacyPolicy} />
-            <Route path="/auth" component={Auth} />
+            <Route path="/" exact component={Home}/>
+            <Route path="/legal" component={Legal}/>
+            <Route path="/privacy-policy" component={PrivacyPolicy}/>
+            <Route path="/auth" component={Auth}/>
         </Switch>
-        <Footer />
+        <Footer/>
     </Router>
 )
 
 ReactDOM.render(
     <React.StrictMode>
-        <App />
+        <App/>
     </React.StrictMode>,
     document.getElementById("root"),
 )

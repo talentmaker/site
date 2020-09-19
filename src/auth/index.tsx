@@ -37,7 +37,7 @@ export default class Auth extends React.Component<{}, AuthState> {
         super(props)
 
         this.state = {
-            mode: "login"
+            mode: "login",
         }
     }
 
@@ -64,7 +64,7 @@ export default class Auth extends React.Component<{}, AuthState> {
      */
     private _onRouteChanged = (prevMode: string): void => {
         const mode = queryString.parse(
-            (this.props as StringObj<StringObj<string>>)?.location.search
+            (this.props as StringObj<StringObj<string>>)?.location.search,
         )?.mode as string
 
         if (mode !== prevMode) {
