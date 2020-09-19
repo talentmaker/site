@@ -34,6 +34,7 @@ interface FormProps {
     name: string,
     type: string,
     placeholder?: string,
+    children?: JSX.Element,
 }
 
 export default class Login extends React.Component {
@@ -48,9 +49,14 @@ export default class Login extends React.Component {
         return (
             <div className="input-group">
                 <div className="input-group-prepend">
-                    <span className="input-group-text">{props.placeholder || props.label}</span>
+                    <span className="input-group-text">{props.children ?? ""}</span>
                 </div>
-                <Field type={props.type} {...field} className="form-control"/>
+                <Field
+                    type={props.type}
+                    {...field}
+                    placeholder={props.placeholder || props.label}
+                    className="form-control"
+                />
             </div>
         )
     }
@@ -90,8 +96,12 @@ export default class Login extends React.Component {
             >
                 {({isSubmitting}): JSX.Element => (
                     <Form className="container">
-                        <Login._input name="name" type="username" label="Username" placeholder="Username or Email"/>
-                        <Login._input name="password" type="password" label="Password"/>
+                        <Login._input name="name" type="username" label="Username" placeholder="Username or Email">
+                            <span className="material-icons">person</span>
+                        </Login._input>
+                        <Login._input name="password" type="password" label="Password">
+                            <span className="material-icons">vpn_key</span>
+                        </Login._input>
 
                         <button className="btn btn-primary" type="submit" disabled={isSubmitting}>
                             Login

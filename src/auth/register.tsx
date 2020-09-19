@@ -34,9 +34,10 @@ interface FormValues {
 }
 
 interface FormProps {
-    label: string,
     name: string,
     type: string,
+    children?: JSX.Element,
+    label: string,
 }
 
 export default class Reg extends React.Component {
@@ -65,11 +66,11 @@ export default class Reg extends React.Component {
         }
 
         return (
-            <div className="input-group">
+            <div className="input-group border-none">
                 <div className="input-group-prepend">
-                    <span className="input-group-text">{props.label}</span>
+                    <span className="input-group-text">{props.children ?? ""}</span>
                 </div>
-                <Field type={props.type} {...field} className={`form-control ${errorClass ? errorClass : ""}`}/>
+                <Field type={props.type} {...field} placeholder={props.label} className={`form-control ${errorClass ? errorClass : ""}`}/>
                 {feedback}
             </div>
         )
@@ -170,10 +171,18 @@ export default class Reg extends React.Component {
             >
                 {({isSubmitting}): JSX.Element => (
                     <Form className="container">
-                        <Reg._input name="name" type="name" label="Username"/>
-                        <Reg._input name="email" type="email" label="Email"/>
-                        <Reg._input name="password" type="password" label="Password"/>
-                        <Reg._input name="password2" type="password" label="Confirm password"/>
+                        <Reg._input name="name" type="name" label="Name">
+                            <span className="material-icons">person</span>
+                        </Reg._input>
+                        <Reg._input name="email" type="email" label="Email">
+                            <span className="material-icons">alternate_email</span>
+                        </Reg._input>
+                        <Reg._input name="password" type="password" label="Password">
+                            <span className="material-icons">vpn_key</span>
+                        </Reg._input>
+                        <Reg._input name="password2" type="password" label="Confirm password">
+                            <span className="material-icons">vpn_key</span>
+                        </Reg._input>
                         <Reg._checkbox name="didagree" type="checkbox"/>
 
                         <button className="btn btn-primary" type="submit" disabled={isSubmitting}>
