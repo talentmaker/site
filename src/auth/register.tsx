@@ -191,7 +191,6 @@ export default class Reg extends React.Component {
                     </Form>
                 )}
             </Formik>
-            <Link to="/auth?mode=login" className="text-center px-5 mt-3 ml-auto mr-auto d-block">Already Have an Account? Login!</Link>
         </>
     )
 

@@ -21,7 +21,6 @@
 
 import "./auth.scss"
 import {Field, Form, Formik, FormikHelpers, useField} from "formik"
-import {Link} from "react-router-dom"
 import React from "react"
 import authApi from "../utils/auth"
 
@@ -110,7 +109,6 @@ export default class Login extends React.Component {
                     </Form>
                 )}
             </Formik>
-            <Link to="/auth?mode=register" className="text-center px-5 mt-3 ml-auto mr-auto d-block">Don&apos;t Have an Account? Register!</Link>
         </>
     )
 
