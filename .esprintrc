@@ -1,4 +1,0 @@
-{
-    "paths": ["./src/**/*.\"{js,jsx,ts,tsx}\""],
-    "ignored": ["**/node_modules/**/*"]
-}
