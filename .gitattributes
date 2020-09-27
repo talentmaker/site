@@ -7,10 +7,6 @@
 # Remove lang stats for generated and compiled files
 *.css linguist-generated=true
 
-# Make sure scss counts as css
-*.scss linguist-language=CSS
-*.sass linguist-language=CSS
-
 # Colours.sh is vendored
 colours.sh linguist-vendored=true
 src/legal/Gpl.jsx linguist-vendored=true
