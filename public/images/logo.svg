@@ -1,21 +1,12 @@
 <!--
-  Talentmaker website
+Talentmaker website
 
-  Copyright (C) 2020 Luke Zhang, Ethan Lim
-  https://Luke-zhang-04.github.io
-  https://github.com/ethanlim04
+Copyright (C) 2020 Luke Zhang, Ethan Lim
+https://Luke-zhang-04.github.io
+https://github.com/ethanlim04
 
-  This program is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published
-  by the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+Author: Luke Zhang - luke-zhang-04.github.io
 
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+License: BSD-3-Clause
 -->
 <svg width="246" height="150" viewBox="0 0 246 150" fill="none" xmlns="http://www.w3.org/2000/svg"><title>Talentmaker SVG | logo</title><ellipse cx="47.2792" cy="21.506" rx="19.2072" ry="18.6145" fill="#4F7BC4"/><ellipse cx="140.729" cy="18.6145" rx="19.2072" ry="18.6145" fill="#D22739"/><ellipse cx="226.793" cy="18.6145" rx="19.2072" ry="18.6145" fill="#F2C534"/><rect y="40.8434" width="94.1891" height="27.4699" rx="13.7349" fill="#4F7BC4"/><rect x="31.7659" y="145.301" width="92.1687" height="28.0721" rx="14.036" transform="rotate(-90 31.7659 145.301)" fill="#4F7BC4"/><rect x="123.369" y="145.301" width="99.759" height="28.0721" rx="14.036" transform="rotate(-90 123.369 145.301)" fill="#D22739"/><rect width="74.4924" height="27.7621" rx="13.881" transform="matrix(-0.726821 -0.686827 0.702414 -0.711769 175.28 109.3)" fill="#D22739"/><rect width="74.5346" height="27.7463" rx="13.8732" transform="matrix(0.744524 -0.667596 0.683521 0.729931 166.216 90.6024)" fill="#F2C534"/><rect x="212.757" y="150" width="104.458" height="28.0721" rx="14.036" transform="rotate(-90 212.757 150)" fill="#F2C534"/></svg>
