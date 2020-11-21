@@ -7,7 +7,7 @@
     "email": "luke.zhang2004dev@gmail.com",
     "name": "Luke Zhang"
   },
-  "license": "GPL-3.0",
+  "license": "BSD-3-Clause",
   "bugs": {
     "url": "https://github.com/Luke-zhang-04/round-maker/issues"
   },
@@ -15,7 +15,7 @@
     "@animated-burgers/burger-squeeze": "^1.1.2",
     "amazon-cognito-identity-js": "^4.3.4",
     "aws-sdk": "^2.740.0",
-    "bootstrap": "^5.0.0-alpha1",
+    "bootstrap": "^5.0.0-alpha3",
     "formik": "^2.1.5",
     "normalize.css": "^8.0.1",
     "query-string": "^6.13.1",
