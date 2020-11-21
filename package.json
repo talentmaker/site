@@ -28,8 +28,8 @@
   "scripts": {
     "start": "react-scripts start",
     "sass": "npx sass scss:public/css --style compressed",
-    "sass:watch": "npx sass scss:public/css --style compressed --watch",
-    "sass:dev": "npx sass scss:public/css --watch",
+    "sass:watch": "npx sass scss:public/css --watch",
+    "sass:dev": "npx sass scss:public/css",
     "build": "npx sass scss:public/css && npx react-scripts build",
     "test": "react-scripts test",
     "lint": "bash lint.sh",
