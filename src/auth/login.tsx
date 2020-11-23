@@ -11,11 +11,14 @@
 
 import "./auth.scss"
 import {Field, Form, Formik, FormikHelpers, useField} from "formik"
+import {History} from "history"
 import React from "react"
-import authApi from "../utils/auth"
+import UserContext from "../userContext"
+import {url} from "../globals"
+import {useHistory} from "react-router-dom"
 
 interface FormValues {
-    name: string,
+    email: string,
     password: string,
 }
 
@@ -27,7 +30,11 @@ interface FormProps {
     children?: JSX.Element,
 }
 
-export default class Login extends React.Component {
+interface LoginProps {
+    history: History<History.UnknownFacade>["push"],
+}
+
+class Login extends React.Component<LoginProps> {
 
     /**
      * Input field component
@@ -52,55 +59,86 @@ export default class Login extends React.Component {
     }
 
     private _initialValues: FormValues = {
-        name: "",
+        email: "",
         password: "",
     }
 
     private _submit = async (
         values: FormValues,
-        {setSubmitting}: FormikHelpers<FormValues>
+        {setSubmitting}: FormikHelpers<FormValues>,
+        setUser: (user?: {[key: string]: unknown} | null)=> Promise<void>,
     ): Promise<void> => {
+        const {history} = this.props
+
         setSubmitting(true)
+
         try {
-            const user = await authApi.login(values.name, values.password)
+            const response = await fetch(
+                    `${url}/auth/login`,
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        credentials: "include",
+                        body: JSON.stringify({
+                            email: values.email,
+                            password: values.password,
+                        }),
+                    },
+                ),
+                data = await response.json() as {[key: string]: unknown}
 
-            console.log("USER", user)
-        } catch (err) {
-            if (err instanceof Error) {
-                alert(`ERROR: ${err.message}`)
+            if (response.status === 200) {
+                await setUser(data)
             } else {
-                alert("ERROR: Unknown")
+                throw data
             }
+        } catch (err) {
+            console.error(err)
 
-            console.log(err)
+            if (err instanceof Error || typeof err.message === "string") {
+                alert(`ERROR: ${err.message as string}`)
+            } else {
+                alert(`ERROR: ${JSON.stringify(err)}`)
+            }
         }
 
         setSubmitting(false)
+        history("/")
     }
 
-    public render = (): JSX.Element => (
-        <>
-            <Formik
-                initialValues={this._initialValues}
-                onSubmit={this._submit}
-            >
-                {({isSubmitting}): JSX.Element => (
-                    <Form className="container">
-                        <Login._input name="name" type="username" label="Username" placeholder="Username or Email">
-                            <span className="material-icons">person</span>
-                        </Login._input>
-                        <Login._input name="password" type="password" label="Password">
-                            <span className="material-icons">vpn_key</span>
-                        </Login._input>
+    public render = (): JSX.Element => <UserContext.Consumer>
+        {({setUserFromUnknown: setUser}): JSX.Element => <Formik
+            initialValues={this._initialValues}
+            onSubmit={(values, helpers): Promise<void> => (
+                this._submit(values, helpers, setUser)
+            )}
+        >
+            {({isSubmitting}): JSX.Element => (
+                <Form className="container">
+                    <Login._input name="email" type="Email" label="Email" placeholder="Email">
+                        <span className="material-icons">person</span>
+                    </Login._input>
+                    <Login._input name="password" type="password" label="Password">
+                        <span className="material-icons">vpn_key</span>
+                    </Login._input>
 
-                        <button className="btn btn-primary" type="submit" disabled={isSubmitting}>
+                    <button className="btn btn-primary" type="submit" disabled={isSubmitting}>
                             Login
-                        </button>
-                    </Form>
-                )}
-            </Formik>
-        </>
-    )
+                    </button>
+                </Form>
+            )}
+        </Formik>}
+    </UserContext.Consumer>
 
 }
 
+const LoginWithHistory = (): JSX.Element => {
+    const history = useHistory(),
+        {push: changeHistory} = history
+
+    return <Login history={changeHistory}/>
+}
+
+export default LoginWithHistory
