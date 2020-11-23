@@ -87,17 +87,17 @@ export default class Nav extends React.Component<Partial<RouteComponentProps>, N
         const NavLinks = this._navLinks
 
         return <UserContext.Consumer>
-            {({currentUser}) => <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <Link className="navbar-brand" to="/">
-                <img src="images/logo.svg" alt="logo"/> talentmaker
-            </Link>
-            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span className="navbar-toggler-icon"></span>
-            </button>
-            <div className="collapse navbar-collapse" id="navbarNav">
-                <NavLinks isloggedin={currentUser !== null && currentUser !== undefined}/>
-            </div>
-        </nav>}
+            {({currentUser}): JSX.Element => <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                <Link className="navbar-brand" to="/">
+                    <img src="images/logo.svg" alt="logo"/> talentmaker
+                </Link>
+                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span className="navbar-toggler-icon"></span>
+                </button>
+                <div className="collapse navbar-collapse" id="navbarNav">
+                    <NavLinks isloggedin={currentUser !== null && currentUser !== undefined}/>
+                </div>
+            </nav>}
         </UserContext.Consumer>
     }
 
