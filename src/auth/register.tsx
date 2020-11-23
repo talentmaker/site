@@ -107,7 +107,7 @@ export default class Reg extends React.Component {
     private static _validationSchema = yup.object({
         username: yup.string()
             .required(`Username ${Reg._isRequired}`)
-            .max(128),
+            .max(32),
         email: yup.string()
             .required(`Email ${Reg._isRequired}`)
             .email(),
