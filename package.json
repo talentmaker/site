@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@animated-burgers/burger-squeeze": "^1.1.2",
+    "amazon-cognito-identity-js": "^4.5.5",
     "bootstrap": "^5.0.0-alpha3",
     "formik": "^2.1.5",
     "normalize.css": "^8.0.1",
@@ -25,10 +26,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "sass": "npx sass scss:public/css --style compressed",
-    "sass:watch": "npx sass scss:public/css --watch",
-    "sass:dev": "npx sass scss:public/css",
-    "build": "npx sass scss:public/css && npx react-scripts build",
+    "sass": "npx sass public/scss:public/css --style compressed",
+    "sass:watch": "npx sass public/scss:public/css --watch",
+    "sass:dev": "npx sass public/scss:public/css",
+    "build": "npx sass public/scss:public/css && npx react-scripts build",
     "test": "react-scripts test",
     "lint": "bash lint.sh",
     "lint:fix": "bash lint.sh --fix",

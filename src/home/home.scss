@@ -1,4 +1,4 @@
-/*!
+/**
  * Talentmaker website
  *
  * Copyright (C) 2020 Luke Zhang, Ethan Lim
@@ -8,7 +8,7 @@
  *
  * License: BSD-3-Clause
  */
-@use "../../scss/variables" as variables;
+@use "./../../public/scss/variables" as variables;
 @use "./searchbar" as searchbar;
 
 .landing-page {
