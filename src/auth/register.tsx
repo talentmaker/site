@@ -2,18 +2,21 @@
  * Talentmaker website
  *
  * @copyright (C) 2020 Luke Zhang, Ethan Lim
+ * https://Luke-zhang-04.github.io
+ * https://github.com/ethanlim04
+ * @author Luke Zhang
+ *
  * @license BSD-3-Clause
- * @author Luke Zhang - luke-zhang-04.github.io
  */
 /* eslint-disable prefer-named-capture-group */
 import * as yup from "yup"
 import {Field, Form, Formik, FormikHelpers, useField} from "formik"
 import {Link} from "react-router-dom"
 import React from "react"
-import authApi from "../utils/auth"
+import {url} from "../globals"
 
 interface FormValues {
-    name: string,
+    username: string,
     email: string,
     password: string,
     password2: string,
@@ -21,9 +24,10 @@ interface FormValues {
 }
 
 interface FormProps {
-    label: string,
     name: string,
     type: string,
+    children?: JSX.Element,
+    label: string,
 }
 
 export default class Reg extends React.Component {
@@ -52,11 +56,11 @@ export default class Reg extends React.Component {
         }
 
         return (
-            <div className="input-group">
+            <div className="input-group border-none br-0">
                 <div className="input-group-prepend">
-                    <span className="input-group-text">{props.label}</span>
+                    <span className="input-group-text">{props.children ?? ""}</span>
                 </div>
-                <Field type={props.type} {...field} className={`form-control ${errorClass ? errorClass : ""}`}/>
+                <Field type={props.type} {...field} placeholder={props.label} className={`form-control ${errorClass ? errorClass : ""}`}/>
                 {feedback}
             </div>
         )
@@ -90,7 +94,7 @@ export default class Reg extends React.Component {
     private static _isRequired = "is a required field."
 
     private _initialValues: FormValues = {
-        name: "",
+        username: "",
         email: "",
         password: "",
         password2: "",
@@ -101,14 +105,18 @@ export default class Reg extends React.Component {
      * Validation schema with yup
      */
     private static _validationSchema = yup.object({
-        name: yup.string()
-            .required(`Username ${Reg._isRequired}`),
+        username: yup.string()
+            .required(`Username ${Reg._isRequired}`)
+            .max(128),
         email: yup.string()
             .required(`Email ${Reg._isRequired}`)
             .email(),
         password: yup.string()
             .required()
-            .min(6),
+            .min(8)
+            .matches(/[0-9]/gu, "Password must include at least 1 number")
+            .matches(/[a-z]/gu, "Password must include at least 1 lowercase letter")
+            .matches(/[A-Z]/gu, "Password must include at least 1 uppercase letter"),
         password2: yup.string()
             .oneOf([yup.ref("password"), undefined], "Passwords must match")
             .required()
@@ -126,48 +134,71 @@ export default class Reg extends React.Component {
 
     private _submit = async (
         values: FormValues,
-        {setSubmitting}: FormikHelpers<FormValues>
+        {setSubmitting}: FormikHelpers<FormValues>,
     ): Promise<void> => {
         setSubmitting(true)
         try {
-            const user = await authApi.register(values.name, values.email, values.password)
+            const response = await fetch(
+                    `${url}/auth/register`,
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            username: values.username,
+                            email: values.email,
+                            password: values.password,
+                        }),
+                    },
+                ),
+                data = await response.json() as {[key: string]: unknown}
 
-            console.log("USER", user)
-        } catch (err) {
-            if (err instanceof Error) {
-                alert(`ERROR: ${err.message}`)
+            if (response.status === 200) {
+                alert("Success! You have been registered! Please confirm your email.")
             } else {
-                alert("ERROR: Unknown")
+                throw data
             }
+        } catch (err) {
+            console.error(err)
 
-            console.log(err)
+            if (err instanceof Error || typeof err.message === "string") {
+                alert(`ERROR: ${err.message as string}`)
+            } else {
+                alert(`ERROR: ${JSON.stringify(err)}`)
+            }
         }
 
         setSubmitting(false)
     }
 
-    public render = (): JSX.Element => (
-        <Formik
-            initialValues={this._initialValues}
-            onSubmit={this._submit}
-            validate={this._validate}
-            validationSchema={Reg._validationSchema}
-        >
-            {({isSubmitting, values}): JSX.Element => (
-                <Form className="container">
-                    <Reg._input name="name" type="name" label="Username"/>
-                    <Reg._input name="email" type="email" label="Email"/>
-                    <Reg._input name="password" type="password" label="Password"/>
-                    <Reg._input name="password2" type="password" label="Confirm password"/>
-                    <Reg._checkbox name="didagree" type="checkbox"/>
+    public render = (): JSX.Element => <Formik
+        initialValues={this._initialValues}
+        onSubmit={this._submit}
+        validate={this._validate}
+        validationSchema={Reg._validationSchema}
+    >
+        {({isSubmitting}): JSX.Element => (
+            <Form className="container">
+                <Reg._input name="username" type="username" label="Username">
+                    <span className="material-icons">person</span>
+                </Reg._input>
+                <Reg._input name="email" type="email" label="Email">
+                    <span className="material-icons">alternate_email</span>
+                </Reg._input>
+                <Reg._input name="password" type="password" label="Password">
+                    <span className="material-icons">vpn_key</span>
+                </Reg._input>
+                <Reg._input name="password2" type="password" label="Confirm password">
+                    <span className="material-icons">vpn_key</span>
+                </Reg._input>
+                <Reg._checkbox name="didagree" type="checkbox"/>
 
-                    <button className="btn btn-primary" type="submit" disabled={isSubmitting}>
-                        Register
-                    </button>
-                    <pre>{JSON.stringify(values, null, 2)}</pre>
-                </Form>
-            )}
-        </Formik>
-    )
+                <button className="btn btn-primary" type="submit" disabled={isSubmitting}>
+                            Register
+                </button>
+            </Form>
+        )}
+    </Formik>
 
 }

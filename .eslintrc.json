@@ -89,7 +89,7 @@
         "comma-style": "error",
         "complexity": "error",
         "computed-property-spacing": "error",
-        "consistent-return": "error",
+        "consistent-return": "off",
         "consistent-this": "error",
         "curly": "error",
         "default-case": "warn",
@@ -199,7 +199,7 @@
         "no-param-reassign": "warn",
         "no-path-concat": "error",
         "no-plusplus": "off",
-        "no-process-env": "error",
+        "no-process-env": "off",
         "no-process-exit": "error",
         "no-proto": "error",
         // "no-restricted-exports": "error",
@@ -353,7 +353,7 @@
                     }
                 }],
                 "@typescript-eslint/member-ordering": "error",
-                "@typescript-eslint/naming-convention": ["error", {
+                "@typescript-eslint/naming-convention": ["off", {
                     "selector": "default",
                     "format": ["camelCase"]
                 },{
@@ -377,6 +377,9 @@
                     "selector": "parameter",
                     "format": ["camelCase"],
                     "leadingUnderscore": "allow"
+                }, {
+                    "selector": "property",
+                    "format": ["camelCase", "PascalCase", "snake_case"]
                 }],
 
                 "no-dupe-class-members": "off",
@@ -437,7 +440,15 @@
                 "@typescript-eslint/naming-convention": ["error", {
                     "selector": "default",
                     "format": ["camelCase"]
-                },{
+                }, {
+                    "selector": "property",
+                    "format": ["camelCase", "PascalCase", "snake_case"]
+                }, {
+                    "selector": "property",
+                    "modifiers": ["private"],
+                    "format": ["camelCase"],
+                    "leadingUnderscore": "require"
+                }, {
                     "selector": "variableLike",
                     "format": ["camelCase", "PascalCase"],
                     "leadingUnderscore": "allow"
@@ -446,7 +457,7 @@
                     "modifiers": ["private"],
                     "format": ["camelCase"],
                     "leadingUnderscore": "require"
-                },{
+                }, {
                     "selector": "typeLike",
                     "format": ["PascalCase"]
                 }, {
