@@ -1,0 +1,41 @@
+/*!
+ * Universal styling for Talentmaker-site
+ * Includes Normalize.css, Bootstrap SASS, and other styles that apply to all pages
+ */
+
+@use "variables";
+
+@import "bootstrap";
+@import "./../../node_modules/@animated-burgers/burger-squeeze/styles.scss";
+@import "./../../node_modules/@animated-burgers/burger/styles.scss";
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400&display=swap');
+@import "./../../node_modules/normalize.css/normalize";
+
+/*!
+ * Talentmaker website
+ *
+ * Copyright (C) 2020 Luke Zhang, Ethan Lim
+ * Author: Luke Zhang - luke-zhang-04.github.io
+ *
+ * License: BSD-3-Clause
+ */
+body {
+  background-color: $light;
+  color: $dark;
+  overflow: hidden !important;
+}
+
+html,
+body {
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+}
+
+.card-custom {
+  background-image: url("../images/card.svg");
+  background-size: auto 100vw;
+}
+
+.project-row {
+  height: 50vh;
+}

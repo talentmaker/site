@@ -1,0 +1,34 @@
+/**
+ * Talentmaker website
+ *
+ * Copyright (C) 2020 Luke Zhang, Ethan Lim
+ * Author: Luke Zhang - luke-zhang-04.github.io
+ *
+ * License: BSD-3-Clause
+ */
+
+@import "./../../node_modules/bootstrap/scss/utilities";
+
+$full-range: ();
+
+@for $width from 1 through 100 {
+  $full-range: map-merge(
+    $full-range,
+    (
+      $width: percentage($width / 100)
+    ),
+  );
+}
+
+$utilities: map-merge(
+  $utilities,
+  (
+    "width": map-merge(
+      map-get($utilities, "width"),
+      (
+        responsive: true,
+        values: $full-range,
+      ),
+    ),
+  )
+);
