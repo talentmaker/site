@@ -29,7 +29,7 @@
     "sass": "npx sass public/scss:public/css --style compressed",
     "sass:watch": "npx sass public/scss:public/css --watch",
     "sass:dev": "npx sass public/scss:public/css",
-    "build": "npx sass public/scss:public/css && npx react-scripts build",
+    "build": "npx sass public/scss:public/css --style compressed && npx react-scripts build",
     "test": "react-scripts test",
     "lint": "bash lint.sh",
     "lint:fix": "bash lint.sh --fix",
