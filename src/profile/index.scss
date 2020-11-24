@@ -1,0 +1,18 @@
+@use "../../public/scss/variables";
+
+.pfp {
+  width: 100%;
+  clip-path: circle(at center);
+}
+
+.sub {
+  font-size: 1.25vw;
+}
+
+.username {
+  font-size: 3vw;
+}
+
+.bar {
+  height: 10vh;
+}
