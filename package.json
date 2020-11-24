@@ -13,9 +13,8 @@
   },
   "dependencies": {
     "@animated-burgers/burger-squeeze": "^1.1.2",
-    "amazon-cognito-identity-js": "^4.3.4",
-    "aws-sdk": "^2.740.0",
-    "bootstrap": "^5.0.0-alpha1",
+    "amazon-cognito-identity-js": "^4.5.5",
+    "bootstrap": "^5.0.0-alpha3",
     "formik": "^2.1.5",
     "normalize.css": "^8.0.1",
     "query-string": "^6.13.1",
@@ -27,13 +26,14 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "sass": "npx sass scss:public/css --style compressed",
-    "sass:watch": "npx sass scss:public/css --style compressed --watch",
-    "sass:dev": "npx sass scss:public/css --watch",
-    "build": "npx sass scss:public/css && npx react-scripts build",
+    "sass": "npx sass public/scss:public/css --style compressed",
+    "sass:watch": "npx sass public/scss:public/css --watch",
+    "sass:dev": "npx sass public/scss:public/css",
+    "build": "npx sass public/scss:public/css --style compressed && npx react-scripts build",
     "test": "react-scripts test",
-    "lint": "npx eslint \"./src/**/*.{js,jsx,ts,tsx}\" && npx stylelint \"*/**/*.{scss,css}\"",
-    "lint:fix": "npx eslint \"./src/**/*.{js,jsx,ts,tsx}\" --fix && npx stylelint \"*/**/*.{scss,css}\" --fix"
+    "lint": "bash lint.sh",
+    "lint:fix": "bash lint.sh --fix",
+    "lint:watch": "./lint"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -63,15 +63,17 @@
     "@types/yup": "^0.29.6",
     "@typescript-eslint/eslint-plugin": "^4.0.1",
     "@typescript-eslint/parser": "^4.0.1",
+    "chokidar": "^3.4.2",
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-prefer-arrow": "^1.2.1",
     "eslint-plugin-react": "^7.20.0",
+    "eslint_d": "^9.1.2",
     "node-sass": "npm:sass",
     "react-scripts": "3.4.1",
     "sass": "^1.26.10",
     "stylelint": "^13.6.0",
     "stylelint-config-standard": "^20.0.0",
-    "typescript": "^3.9.7"
+    "typescript": "^4.1.0"
   },
   "resolutions": {
     "node-sass": "npm:sass"

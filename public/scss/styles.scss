@@ -6,17 +6,18 @@
 @use "variables";
 
 @import "bootstrap";
-@import "../node_modules/@animated-burgers/burger-squeeze/styles.scss";
-@import "../node_modules/@animated-burgers/burger/styles.scss";
+@import "./../../node_modules/@animated-burgers/burger-squeeze/styles.scss";
+@import "./../../node_modules/@animated-burgers/burger/styles.scss";
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400&display=swap');
-@import "../node_modules/normalize.css/normalize";
+@import "./../../node_modules/normalize.css/normalize";
 
 /*!
  * Talentmaker website
  *
  * Copyright (C) 2020 Luke Zhang, Ethan Lim
- * License BSD-3-Clause
- * Author Luke Zhang - luke-zhang-04.github.io
+ * Author: Luke Zhang - luke-zhang-04.github.io
+ *
+ * License: BSD-3-Clause
  */
 body {
   background-color: $light;
