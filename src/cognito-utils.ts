@@ -20,7 +20,6 @@ export type CognitoUser = {
     accessToken: string,
     email: string,
     sub: string,
-    subHash: string,
     username: string,
 }
 
@@ -33,6 +32,5 @@ export const isCognitoUser = (
     typeof obj.accessToken === "string" &&
     typeof obj.email === "string" &&
     typeof obj.sub === "string" &&
-    typeof obj.subHash === "string" &&
     typeof obj.username === "string"
 )

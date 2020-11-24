@@ -20,13 +20,16 @@ $accent: #01559c;
 $font-family-sans-serif: "Ubuntu", sans-serif;
 $font-family-base: "Ubuntu", sans-serif;
 
-$theme-colors: (
-  none: $none,
-  primary: $primary,
-  secondary: $secondary,
-  light: $light,
-  dark: $dark,
-  accent: $accent,
+$theme-colors: map-merge(
+  $theme-colors,
+  (
+    none: $none,
+    primary: $primary,
+    secondary: $secondary,
+    light: $light,
+    dark: $dark,
+    accent: $accent,
+  ),
 );
 
 $spacer: 1rem;

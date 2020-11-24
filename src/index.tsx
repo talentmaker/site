@@ -126,7 +126,10 @@ class App extends React.Component<App.Props, App.State> {
                 <Route path="/legal" component={Legal}/>
                 <Route path="/privacy-policy" component={PrivacyPolicy}/>
                 <Route path="/auth" component={Auth}/>
-                <Route path="/profile" component={Profile}/>
+                <Route
+                    path="/profile"
+                    render={(): JSX.Element => <Profile user={this.state.currentUser}/>}
+                />
             </Switch>
             <Footer/>
         </Router>
