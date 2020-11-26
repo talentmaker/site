@@ -91,6 +91,10 @@ class Login extends React.Component<LoginProps> {
 
             if (response.status === 200) {
                 await setUser(data)
+
+                setSubmitting(false)
+
+                return history("/")
             } else {
                 throw data
             }
@@ -105,7 +109,6 @@ class Login extends React.Component<LoginProps> {
         }
 
         setSubmitting(false)
-        history("/")
     }
 
     public render = (): JSX.Element => <UserContext.Consumer>

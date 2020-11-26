@@ -52,8 +52,6 @@ class App extends React.Component<App.Props, App.State> {
     }
 
     public componentDidMount = async (): Promise<void> => {
-        console.log(localStorage)
-
         if (localStorage.getItem("loggedin") === "true") {
             const user = await (await fetch(
                 `${url}/auth/tokens`,
@@ -101,7 +99,7 @@ class App extends React.Component<App.Props, App.State> {
                 },
             )
 
-            localStorage.setItem("loggedin", "true")
+            localStorage.setItem("loggedin", "false")
         } else {
             localStorage.setItem("loggedin", "true")
         }
