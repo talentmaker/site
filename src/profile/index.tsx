@@ -9,7 +9,7 @@ declare namespace Types {
     }
 
     export interface SubComponentProps {
-        user: CognitoUser
+        user: CognitoUser,
     }
 
 }
@@ -19,7 +19,9 @@ export default class UserDisplay extends React.Component<Types.Props> {
     protected UserInfo = ({user}: Types.SubComponentProps): JSX.Element => (
         <div className="row">
             <div className="col-lg-2">
-                <div className="px-4 my-3"><img src="images/profile.svg" className="pfp"/></div>
+                <div className="px-4 my-3">
+                    <img src="images/profile.svg" className="pfp" alt="Profile picture"/>
+                </div>
             </div>
             <div className="col-lg-6 d-flex flex-column justify-content-center">
                 <p className="username">

@@ -12,6 +12,7 @@ import * as serviceWorker from "./serviceWorker"
 import {CognitoUser, isCognitoUser} from "./cognito-utils"
 import {Route, BrowserRouter as Router, Switch} from "react-router-dom"
 import Auth from "./auth"
+import Competitions from "./competitions"
 import Footer from "./footer"
 import Home from "./home"
 import Legal from "./legal/Legal"
@@ -128,6 +129,7 @@ class App extends React.Component<App.Props, App.State> {
                     path="/profile"
                     render={(): JSX.Element => <Profile user={this.state.currentUser}/>}
                 />
+                <Route path="/competitions" component={Competitions}/>
             </Switch>
             <Footer/>
         </Router>

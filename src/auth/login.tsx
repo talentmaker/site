@@ -95,9 +95,9 @@ class Login extends React.Component<LoginProps> {
                 setSubmitting(false)
 
                 return history("/")
-            } else {
-                throw data
-            }
+            } 
+            throw data
+            
         } catch (err) {
             console.error(err)
 

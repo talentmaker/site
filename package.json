@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@animated-burgers/burger-squeeze": "^1.1.2",
+    "@luke-zhang-04/dateplus": "^2.0.3",
     "amazon-cognito-identity-js": "^4.5.5",
     "bootstrap": "^5.0.0-alpha3",
     "formik": "^2.1.5",

@@ -68,7 +68,7 @@ export default class Nav extends React.Component<Partial<RouteComponentProps>, N
         const NavLink = this._navLink,
             navValues: string[][] = [
                 ["/", "Home"],
-                ["/projects", "Projects"],
+                ["/competitions", "Competitions"],
                 ["/talents", "Talents"],
                 ["/talentmakers", "Talentmakers"],
                 isloggedin ? ["/profile", "Profile"] : ["/auth", "Sign Up"],
