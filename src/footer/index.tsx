@@ -33,7 +33,7 @@ const FooterLinks = ({title, links}: FooterProps): JSX.Element => (
     </div>
 )
 
-export const Footer = (): JSX.Element => <footer className="page-footer font-small bg-dark text-light pt-4">
+export const Footer = (): JSX.Element => <footer className="page-footer font-small bg-darker text-light pt-4">
     <div className="container-fluid text-center text-md-left">
         <div className="row">
             <div className="col-md-4 mt-md-0 mt-3">

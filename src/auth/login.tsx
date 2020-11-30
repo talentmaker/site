@@ -31,7 +31,7 @@ interface FormProps {
 }
 
 interface LoginProps {
-    history: History<History.UnknownFacade>["push"],
+    history: History<unknown>["push"],
 }
 
 class Login extends React.Component<LoginProps> {
@@ -95,9 +95,9 @@ class Login extends React.Component<LoginProps> {
                 setSubmitting(false)
 
                 return history("/")
-            } 
+            }
             throw data
-            
+
         } catch (err) {
             console.error(err)
 

@@ -87,7 +87,7 @@ export default class Nav extends React.Component<Partial<RouteComponentProps>, N
         const NavLinks = this._navLinks
 
         return <UserContext.Consumer>
-            {({currentUser}): JSX.Element => <nav className="navbar navbar-expand-lg navbar-light bg-light">
+            {({currentUser}): JSX.Element => <nav className="navbar navbar-expand-lg navbar-dark bg-none">
                 <Link className="navbar-brand" to="/">
                     <img src="images/logo.svg" alt="logo"/> talentmaker
                 </Link>

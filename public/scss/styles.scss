@@ -20,9 +20,26 @@
  * License: BSD-3-Clause
  */
 body {
-  background-color: $light;
-  color: $dark;
+  background-color: $dark;
+  color: $light;
   overflow: hidden !important;
+}
+
+.form-control {
+  background-color: variables.$dark;
+
+  &:focus {
+    background-color: mix(variables.$dark, white, 90%);
+  }
+}
+
+.form-control::placeholder,
+.form-control {
+  color: variables.$light;
+}
+
+.input-group-text {
+  background-color: mix(variables.$dark, white, 90%);
 }
 
 html,

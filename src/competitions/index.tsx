@@ -111,7 +111,7 @@ export default class Competitions extends React.Component<{}, State> {
                     </div>
                     <div className="container comp-details">
                         <h1>{comp.name ?? `${comp.orgName}'s Competition`}</h1>
-                        <p className="text-secondary">{comp.shortDesc}</p>
+                        <p className="text-accent">{comp.shortDesc}</p>
                         <a href={`/competition?id=${comp.id}`} className="btn btn-outline-primary">More</a>
                     </div>
                 </div>

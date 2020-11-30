@@ -16,11 +16,11 @@ declare namespace Types {
 
 export default class UserDisplay extends React.Component<Types.Props> {
 
-    protected UserInfo = ({user}: Types.SubComponentProps): JSX.Element => (
+    protected userInfo = ({user}: Types.SubComponentProps): JSX.Element => (
         <div className="row">
             <div className="col-lg-2">
                 <div className="px-4 my-3">
-                    <img src="images/profile.svg" className="pfp" alt="Profile picture"/>
+                    <img src="images/profile.svg" className="pfp" alt="Profile"/>
                 </div>
             </div>
             <div className="col-lg-6 d-flex flex-column justify-content-center">
@@ -38,11 +38,11 @@ export default class UserDisplay extends React.Component<Types.Props> {
         </div>
     )
 
-    protected StatsAndProjects = (
+    protected statsAndProjects = (
         {user}: Types.SubComponentProps,
     ): JSX.Element => (
         <div className="row">
-            <div className="col-3 bg-dark">
+            <div className="col-3 bg-darker">
                 <ul className="list-unstyled text-light px-4 py-5">
                     <li>Email: {user.email}</li>
                     <br/>
@@ -57,22 +57,22 @@ export default class UserDisplay extends React.Component<Types.Props> {
         </div>
     )
 
-    protected ProfilePage = (): JSX.Element => {
+    protected profilePage = (): JSX.Element => {
         if (this.props.user === undefined) {
-            return <div className="container">It looks like you've been signed out</div>
+            return <div className="container">It looks like you&apos;ve been signed out</div>
         }
 
         return <>
-            <this.UserInfo user={this.props.user}/>
+            <this.userInfo user={this.props.user}/>
 
             <div className="row bg-primary bar">
                 <div className="col-sm-12"></div>
             </div>
 
-            <this.StatsAndProjects user={this.props.user}/>
+            <this.statsAndProjects user={this.props.user}/>
         </>
     }
 
-    public render = (): JSX.Element => <this.ProfilePage/>
+    public render = (): JSX.Element => <this.profilePage/>
 
 }

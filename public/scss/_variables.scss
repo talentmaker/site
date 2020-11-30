@@ -15,10 +15,14 @@ $primary: #3f88c5;
 $secondary: #032b43;
 $light: #f4f4f4;
 $dark: #373737;
+$darker: #272727;
 $accent: #01559c;
 
 $font-family-sans-serif: "Ubuntu", sans-serif;
 $font-family-base: "Ubuntu", sans-serif;
+
+$body-bg: $dark;
+$body-color: $light;
 
 $theme-colors: map-merge(
   $theme-colors,
@@ -29,6 +33,7 @@ $theme-colors: map-merge(
     light: $light,
     dark: $dark,
     accent: $accent,
+    darker: $darker,
   ),
 );
 
