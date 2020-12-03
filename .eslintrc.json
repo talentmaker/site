@@ -79,11 +79,11 @@
         "capitalized-comments": "warn",
         "class-methods-use-this": "error",
         "comma-dangle": ["warn", {
-            "arrays": "only-multiline",
-            "objects": "only-multiline",
-            "imports": "never",
-            "exports": "only-multiline",
-            "functions": "only-multiline"
+            "arrays": "always-multiline",
+            "objects": "always-multiline",
+            "imports": "always-multiline",
+            "exports": "always-multiline",
+            "functions": "always-multiline"
         }],
         "comma-spacing": "error",
         "comma-style": "error",

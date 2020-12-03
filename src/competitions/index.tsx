@@ -9,24 +9,11 @@
  * @license BSD-3-Clause
  */
 import "./index.scss"
+import type {Competition} from "../competition"
 import DatePlus from "@luke-zhang-04/dateplus"
 import React from "react"
 import dateUtils from "../date-utils"
 import {url} from "../globals"
-
-type Competition = {
-    id: number,
-    name: string | null,
-    desc: string | null,
-    videoURL: string | null,
-    deadline: string,
-    website: string | null,
-    email: string,
-    orgId: string,
-    coverImageURL: string,
-    orgName: string,
-    shortDesc: string,
-}
 
 type UnknownArray = {[key: string]: unknown}[]
 
@@ -69,23 +56,28 @@ export default class Competitions extends React.Component<{}, State> {
     }
 
     public componentDidMount = async (): Promise<void> => {
-        const data = await (await fetch(`${url}/competitions/get`,
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
+        try {
+            const data = await (await fetch(`${url}/competitions/get`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
                 },
+            )).json()
+
+            if (!isCompetition(data)) {
+                alert("Server response did not match the pre-determined data structure.")
+                console.error(`${data} is not of type Competition`)
+
+                return
             }
-        )).json()
 
-        if (!isCompetition(data)) {
-            alert("Server response did not match the pre-determined data structure.")
-            console.error(`${data} is not of type Competition`)
-
-            return
+            this.setState({competitions: data})
+        } catch (err: unknown) {
+            alert(`An error occured :( ${err}`)
+            console.error(err)
         }
-
-        this.setState({competitions: data})
     }
 
     private _getSortedComponents = (): Competition[][][] => {
@@ -111,7 +103,7 @@ export default class Competitions extends React.Component<{}, State> {
                     </div>
                     <div className="container comp-details">
                         <h1>{comp.name ?? `${comp.orgName}'s Competition`}</h1>
-                        <p className="text-accent">{comp.shortDesc}</p>
+                        <p className="text-primary">{comp.shortDesc}</p>
                         <a href={`/competition?id=${comp.id}`} className="btn btn-outline-primary">More</a>
                     </div>
                 </div>

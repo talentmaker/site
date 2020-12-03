@@ -8,22 +8,12 @@
  *
  * License: BSD-3-Clause
  */
+@use "./../../public/scss/variables" as variables;
 
-@use "../../public/scss/variables";
+blockquote {
+  border-left: solid mix(variables.$darker, white, 80%) 0.5rem;
 
-.pfp {
-  width: 100%;
-  clip-path: circle(at center);
-}
-
-.sub {
-  font-size: 1.25vw;
-}
-
-.username {
-  font-size: 3vw;
-}
-
-.bar {
-  height: 10vh;
+  p {
+    margin: 0;
+  }
 }

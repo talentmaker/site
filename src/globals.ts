@@ -8,10 +8,11 @@
  *
  * @license BSD-3-Clause
  */
+
 export const url = process.env.NODE_ENV === "development"
     ? "http://localhost:3333"
     : ""
 
-export default {
+export default Object.freeze({
     url,
-}
+})

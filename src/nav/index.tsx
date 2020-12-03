@@ -12,7 +12,7 @@ import "./Nav.scss"
 import {
     Link,
     RouteComponentProps,
-    withRouter
+    withRouter,
 } from "react-router-dom"
 import React from "react"
 import UserContext from "../userContext"

@@ -8,10 +8,18 @@
  *
  * @license BSD-3-Clause
  */
+// Load Prismjs languages
+import "prismjs"
+import "prismjs/components/prism-clike"
+import "prismjs/components/prism-javascript"
+import "prismjs/components/prism-typescript"
+import "prismjs/components/prism-python"
+
 import * as serviceWorker from "./serviceWorker"
 import {CognitoUser, isCognitoUser} from "./cognito-utils"
 import {Route, BrowserRouter as Router, Switch} from "react-router-dom"
 import Auth from "./auth"
+import Competition from "./competition"
 import Competitions from "./competitions"
 import Footer from "./footer"
 import Home from "./home"
@@ -130,6 +138,7 @@ class App extends React.Component<App.Props, App.State> {
                     render={(): JSX.Element => <Profile user={this.state.currentUser}/>}
                 />
                 <Route path="/competitions" component={Competitions}/>
+                <Route path="/competition" component={Competition}/>
             </Switch>
             <Footer/>
         </Router>

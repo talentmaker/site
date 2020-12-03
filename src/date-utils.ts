@@ -7,8 +7,12 @@
  * @author Luke Zhang
  *
  * @license BSD-3-Clause
+ * @file I hate dealing with time zones
  */
 
+/**
+ * Get the current UTC Time
+ */
 export const getUtcTime = (): number => {
     const now = new Date()
 
@@ -23,6 +27,23 @@ export const getUtcTime = (): number => {
     )
 }
 
+type Instantiable<T> = {new(...args: unknown[]): T}
+
+/**
+ * Convert a utc date to local
+ */
+export const utcToLocal = <T extends Date>(
+    date: T,
+    Constructor: Instantiable<T>,
+): T => {
+    const newDate = new Constructor(date.getTime())
+
+    newDate.setMinutes(date.getMinutes() - date.getTimezoneOffset())
+
+    return newDate
+}
+
 export default {
     getUtcTime,
+    utcToLocal,
 }

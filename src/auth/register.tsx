@@ -119,7 +119,7 @@ export default class Reg extends React.Component {
             .matches(/[A-Z]/gu, "Password must include at least 1 uppercase letter"),
         password2: yup.string()
             .oneOf([yup.ref("password"), undefined], "Passwords must match")
-            .required()
+            .required(),
     })
 
     private _validate = (values: FormValues): {} => {
