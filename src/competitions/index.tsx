@@ -9,8 +9,9 @@
  * @license BSD-3-Clause
  */
 import "./index.scss"
-import type {Competition} from "../competition"
+import type {Competition} from "../competition/baseComponent"
 import DatePlus from "@luke-zhang-04/dateplus"
+import {Link} from "react-router-dom"
 import React from "react"
 import dateUtils from "../date-utils"
 import {url} from "../globals"
@@ -57,6 +58,7 @@ export default class Competitions extends React.Component<{}, State> {
 
     public componentDidMount = async (): Promise<void> => {
         try {
+            // Get a competition
             const data = await (await fetch(`${url}/competitions/get`,
                 {
                     method: "GET",
@@ -66,7 +68,7 @@ export default class Competitions extends React.Component<{}, State> {
                 },
             )).json()
 
-            if (!isCompetition(data)) {
+            if (!isCompetition(data)) { // Check the fetched data
                 alert("Server response did not match the pre-determined data structure.")
                 console.error(`${data} is not of type Competition`)
 
@@ -80,7 +82,12 @@ export default class Competitions extends React.Component<{}, State> {
         }
     }
 
+    /**
+     * Sort competitions into "chunks"
+     */
     private _getSortedComponents = (): Competition[][][] => {
+
+        // Competitions due in the future and past
         const future: Competition[] = this.state.competitions.filter((val) => (
             new Date(val.deadline).getTime() >= dateUtils.getUtcTime()
         )),
@@ -91,6 +98,11 @@ export default class Competitions extends React.Component<{}, State> {
         return [arrayToChunks(future), arrayToChunks(past)]
     }
 
+    /**
+     * A single competition column
+     * @param comp - competition details
+     * @param index - index of competition (for the key prop)
+     */
     private _competition = (comp: Competition, index: number): JSX.Element => {
         const deadline = new DatePlus(comp.deadline)
 
@@ -104,13 +116,19 @@ export default class Competitions extends React.Component<{}, State> {
                     <div className="container comp-details">
                         <h1>{comp.name ?? `${comp.orgName}'s Competition`}</h1>
                         <p className="text-primary">{comp.shortDesc}</p>
-                        <a href={`/competition?id=${comp.id}`} className="btn btn-outline-primary">More</a>
+                        <Link
+                            to={`/competition?id=${comp.id}`}
+                            className="btn btn-outline-primary"
+                        >More</Link>
                     </div>
                 </div>
             </div>
         </div>
     }
 
+    /**
+     * Renders competitions
+     */
     private _competitions = (): JSX.Element => {
         const competitions = this._getSortedComponents()
 

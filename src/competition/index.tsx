@@ -8,7 +8,6 @@
  *
  * @license BSD-3-Clause
  */
-import "./index.scss"
 import {
     BlockQuote,
     CodeBlock,
@@ -16,87 +15,45 @@ import {
     TableCell,
     purifyMarkdown,
 } from "../markdown"
+import BaseComponent from "./baseComponent"
 import DatePlus from "@luke-zhang-04/dateplus"
-import Prism from "prismjs"
 import React from "react"
 import ReactMarkdown from "react-markdown"
+import UserContext from "../userContext"
 import gfm from "remark-gfm" // Github Flavoured Markdown
+import join from "./join"
 import queryString from "query-string"
-import {url} from "../globals"
 
-type Props = {
-    id: string,
-}
+class CompetitionComponent extends BaseComponent {
 
-export type Competition = {
-    id: number,
-    name: string | null,
-    desc: string | null,
-    videoURL: string | null,
-    deadline: string,
-    website: string | null,
-    email: string,
-    orgId: string,
-    coverImageURL: string,
-    orgName: string,
-    topics: string[],
-    shortDesc: string,
-}
+    /**
+     * Join a competition
+     */
+    private _join = async (): Promise<void> => {
+        const {user, id} = this.props
 
-const isCompetition = (
-    obj: {[key: string]: unknown},
-): obj is Competition => (
-    typeof obj.id === "number" &&
-    typeof obj.deadline === "string" &&
-    typeof obj.coverImageURL === "string"
-)
-
-type State = {
-    competition?: Competition,
-}
-
-class CompetitionComponent extends React.Component<Props, State> {
-
-    public constructor (props: Props) {
-        super(props)
-
-        this.state = {}
-    }
-
-    public componentDidMount = async (): Promise<void> => {
-        try {
-            const data = await (await fetch(
-                `${url}/competitions/getOne?id=${this.props.id}`,
-                {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                },
-            )).json() as {[key: string]: unknown}
-
-            if (!isCompetition(data)) {
-                alert("The data from the server did not match")
-
-                console.error(`The data ${Object.entries(data)} is not the correct structure.`)
-
-                return
-            }
-
-            this.setState({competition: data})
-        } catch (err) {
-
-            alert(`An error occured :( ${err}`)
-            console.error(err)
+        if (user !== undefined && user !== null) {
+            await join(user, Number(id))
         }
-
-        Prism.highlightAll()
     }
 
-    public componentDidUpdate = (): void => {
-        Prism.highlightAll()
-    }
+    /**
+     * Button to join the competition
+     */
+    private _joinBtn = (): JSX.Element => (
+        this.state.competition?.inComp
+            ? <div className="border border-1 border-success text-success p-2 mr-3">
+                <span className="material-icons">done</span> Joined
+            </div>
+            : <button
+                className="btn btn-outline-primary btn-lg mr-3"
+                onClick={this._join}
+            >Join</button>
+    )
 
+    /**
+     * Banner with organization information
+     */
     private _orgInfo = (): JSX.Element => <div className="row">
         <div className="col-lg-2">
             <div className="px-4 my-3">
@@ -112,10 +69,17 @@ class CompetitionComponent extends React.Component<Props, State> {
             </p>
         </div>
         <div className="col-lg-4 d-flex flex-row align-items-center justify-content-end">
-            <button className="btn btn-outline-primary btn-lg mr-3">Join</button>
+            {
+                this.props.user === undefined
+                    ? <></>
+                    : <this._joinBtn/>
+            }
         </div>
     </div>
 
+    /**
+     * Sidebar with competition information
+     */
     private _compInfo = (): JSX.Element => {
         const {competition} = this.state
 
@@ -162,6 +126,9 @@ class CompetitionComponent extends React.Component<Props, State> {
         return <></>
     }
 
+    /**
+     * Render markdown description
+     */
     private _renderDescription = (): JSX.Element => (
         <div className="markdown-container p-3">
             <div className="container py-2 bg-darker">
@@ -183,6 +150,9 @@ class CompetitionComponent extends React.Component<Props, State> {
         </div>
     )
 
+    /**
+     * Get embeded video source
+     */
     private _getSrc = (): string => this.state.competition?.videoURL
         ?.replace("watch?v=", "embed/")
         .replace("https://youtu.be", "https://www.youtube.com/embed") ?? ""
@@ -190,7 +160,7 @@ class CompetitionComponent extends React.Component<Props, State> {
     public render = (): JSX.Element => <>
         <this._orgInfo/>
         <div className="row bg-primary bar">
-            <div className="col-sm-12 topics">
+            <div className="col-sm-12 topics"> {/* Blue bar with competitions */}
                 {this.state.competition?.topics.map((topic, index): JSX.Element => (
                     <p
                         className="bg-primary mx-1 my-0 py-1 px-2 d-flex"
@@ -226,7 +196,12 @@ export const Competition = (): JSX.Element => {
     const query = queryString.parse(window.location.search)
 
     if ("id" in query && typeof query.id === "string") {
-        return <CompetitionComponent id={query.id}/>
+        return <UserContext.Consumer>
+            {({currentUser: user}): JSX.Element => <CompetitionComponent
+                id={query.id as string}
+                user={user ?? undefined}
+            />}
+        </UserContext.Consumer>
     }
 
     return <>

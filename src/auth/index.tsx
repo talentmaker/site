@@ -84,14 +84,9 @@ export default class Auth extends React.Component<{}, AuthState> {
             {
                 this.state.mode === "login"
                     ? <Auth._toReg/>
-
                     : <Auth._toLogin/>
             }
         </div>
     )
 
 }
-
-// <Link to="/auth?mode=register" className="text-center px-5 mt-3 ml-auto mr-auto d-block">Don&apos;t Have an Account? Register!</Link>
-
-// <Link to="/auth?mode=login" className="text-center px-5 mt-3 ml-auto mr-auto d-block">Already Have an Account? Login!</Link>

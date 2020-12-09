@@ -74,17 +74,20 @@ class App extends React.Component<App.Props, App.State> {
             )).json() as {[key: string]: unknown}
 
             if (isCognitoUser(user)) {
-                this.setUser(user)
+                await this.setUser(user)
+                this.setState({})
 
                 return
             }
 
-            this.setUser(undefined)
+            await this.setUser(undefined)
+            this.setState({})
 
             return
         }
 
-        this.setUser(undefined)
+        await this.setUser(undefined)
+        this.setState({})
     }
 
     public setUserFromUnknown = async (
@@ -96,7 +99,9 @@ class App extends React.Component<App.Props, App.State> {
     }
 
     public setUser = async (user?: CognitoUser | null): Promise<void> => {
-        if (user === undefined || user === null) {
+        const isloggedin = localStorage.getItem("loggedin") === "true"
+
+        if (isloggedin && (user === undefined || user === null)) {
             await fetch(
                 `${url}/auth/logout`,
                 {
