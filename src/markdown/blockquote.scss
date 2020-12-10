@@ -8,7 +8,7 @@
  *
  * License: BSD-3-Clause
  */
-@use "./../../public/scss/variables" as variables;
+@use "./../scss/variables" as variables;
 
 blockquote {
   border-left: solid mix(variables.$darker, white, 80%) 0.5rem;

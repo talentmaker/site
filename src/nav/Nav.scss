@@ -8,7 +8,7 @@
  *
  * License: BSD-3-Clause
  */
-@use "./../../public/scss/variables" as variables;
+@use "./../scss/variables" as variables;
 
 @media (min-width: map-get(variables.$grid-breakpoints, lg)) {
   .navbar {

@@ -15,6 +15,9 @@ import "prismjs/components/prism-javascript"
 import "prismjs/components/prism-typescript"
 import "prismjs/components/prism-python"
 
+// Styles
+import "./styles.scss"
+
 import * as serviceWorker from "./serviceWorker"
 import {CognitoUser, isCognitoUser} from "./cognito-utils"
 import {Route, BrowserRouter as Router, Switch} from "react-router-dom"
