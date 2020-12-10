@@ -10,6 +10,7 @@
  */
 
 import {Link, withRouter} from "react-router-dom"
+import AuthImage from "./authimage.svg"
 import Login from "./login"
 import React from "react"
 import Reg from "./register"
@@ -72,7 +73,7 @@ export default class Auth extends React.Component<{}, AuthState> {
             <div className="row py-5">
                 <div className="col-6 bg-primary align-items-center justify-content-center d-flex py-5">
                     <img
-                        src="images/authform.svg"
+                        src={AuthImage}
                         alt="auth images"
                         className="w-75 flex-center"
                     />

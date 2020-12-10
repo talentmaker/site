@@ -1,5 +1,6 @@
 import "./index.scss"
 import type {CognitoUser} from "../cognito-utils"
+import DefaultPFP from "../images/profile.svg"
 import React from "react"
 import UserContext from "../userContext"
 
@@ -23,7 +24,7 @@ export default class UserDisplay extends React.Component<Types.Props> {
                 <div className="row">
                     <div className="col-lg-2">
                         <div className="px-4 my-3">
-                            <img src="images/profile.svg" className="pfp" alt="Profile"/>
+                            <img src={DefaultPFP} className="pfp" alt="Profile"/>
                         </div>
                     </div>
                     <div className="col-lg-6 d-flex flex-column justify-content-center">

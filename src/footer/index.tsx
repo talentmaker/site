@@ -9,6 +9,7 @@
  * @license BSD-3-Clause
  */
 
+import Logo from "../images/logo.svg"
 import React from "react"
 
 interface FooterProps {
@@ -38,7 +39,7 @@ export const Footer = (): JSX.Element => <footer className="page-footer font-sma
         <div className="row">
             <div className="col-md-4 mt-md-0 mt-3">
                 <h5 className="text-uppercase">Talentmaker</h5>
-                <img src="images/logo.svg" alt="logo" className="w-100"/>
+                <img src={Logo} alt="logo" className="w-100"/>
             </div>
 
             <hr className="clearfix w-100 d-md-none pb-0"/>

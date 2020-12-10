@@ -9,6 +9,7 @@
  * @license BSD-3-Clause
  */
 import "./home.scss"
+import ProblemSolvingSvg from "./problemSolving.svg"
 import React from "react"
 
 interface HomeState {
@@ -30,7 +31,7 @@ export default class Home extends React.Component<{}, HomeState> {
                 <Home._searchBar/>
             </div>
             <div className="col-md-6 image">
-                <img className="w-100" src="images/problemSolving.svg" alt="problem solving"/>
+                <img className="w-100" src={ProblemSolvingSvg} alt="problem solving"/>
             </div>
         </div>
     </div>

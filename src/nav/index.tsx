@@ -14,6 +14,7 @@ import {
     RouteComponentProps,
     withRouter,
 } from "react-router-dom"
+import Logo from "../images/logo.svg"
 import React from "react"
 import UserContext from "../userContext"
 
@@ -89,7 +90,7 @@ export default class Nav extends React.Component<Partial<RouteComponentProps>, N
         return <UserContext.Consumer>
             {({currentUser}): JSX.Element => <nav className="navbar navbar-expand-lg navbar-dark bg-none">
                 <Link className="navbar-brand" to="/">
-                    <img src="images/logo.svg" alt="logo"/> talentmaker
+                    <img src={Logo} alt="logo"/> talentmaker
                 </Link>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
