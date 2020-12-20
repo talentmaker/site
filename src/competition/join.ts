@@ -15,10 +15,10 @@ import {url} from "../globals"
 export const join = async (
     user: CognitoUser,
     competitionId: number,
-): Promise<void> => {
+): Promise<boolean> => {
     const {idToken, idTokenChecksum} = user,
 
-        data = await (await fetch(
+        data = await fetch(
             `${url}/competitions/join`,
             {
                 method: "POST",
@@ -31,9 +31,9 @@ export const join = async (
                     competitionId,
                 }),
             },
-        )).json() as {[key: string]: unknown}
+        )
 
-    console.log(data)
+    return data.ok
 }
 
 export default join
