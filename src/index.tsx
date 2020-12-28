@@ -12,6 +12,7 @@
 import "prismjs"
 import "prismjs/components/prism-clike"
 import "prismjs/components/prism-javascript"
+import "prismjs/components/prism-markdown"
 import "prismjs/components/prism-typescript"
 import "prismjs/components/prism-python"
 
@@ -24,6 +25,7 @@ import {Route, BrowserRouter as Router, Switch} from "react-router-dom"
 import Auth from "./auth"
 import Competition from "./competition"
 import Competitions from "./competitions"
+import EditProject from "./editProject"
 import Footer from "./footer"
 import Home from "./home"
 import Legal from "./legal/Legal"
@@ -147,6 +149,7 @@ class App extends React.Component<App.Props, App.State> {
                 />
                 <Route path="/competitions" component={Competitions}/>
                 <Route path="/competition" component={Competition}/>
+                <Route path="/editProject" component={EditProject}/>
             </Switch>
             <Footer/>
         </Router>

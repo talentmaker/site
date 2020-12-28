@@ -60,7 +60,12 @@ export default class Reg extends React.Component {
                 <div className="input-group-prepend">
                     <span className="input-group-text">{props.children ?? ""}</span>
                 </div>
-                <Field type={props.type} {...field} placeholder={props.label} className={`form-control ${errorClass ? errorClass : ""}`}/>
+                <Field
+                    type={props.type}
+                    {...field}
+                    placeholder={props.label}
+                    className={`form-control ${errorClass ?? ""}`}
+                />
                 {feedback}
             </div>
         )

@@ -8,20 +8,13 @@
  *
  * @license BSD-3-Clause
  */
-import {
-    BlockQuote,
-    CodeBlock,
-    Table,
-    TableCell,
-    purifyMarkdown,
-} from "../markdown"
 import BaseComponent from "./baseComponent"
 import DatePlus from "@luke-zhang-04/dateplus"
 import DefaultPFP from "../images/profile.svg"
+import {Link} from "react-router-dom"
+import Markdown from "../markdown"
 import React from "react"
-import ReactMarkdown from "react-markdown"
 import UserContext from "../userContext"
-import gfm from "remark-gfm" // Github Flavoured Markdown
 import join from "./join"
 import queryString from "query-string"
 
@@ -57,6 +50,18 @@ class CompetitionComponent extends BaseComponent {
     )
 
     /**
+     * Button to create a new submission
+     */
+    private _submissionBtn = (): JSX.Element => (
+        this.state.competition?.inComp
+            ? <Link
+                className="btn btn-outline-primary mx-2"
+                to={`editProject?compId=${this.state.competition.id}`}
+            >Create Submission</Link>
+            : <></>
+    )
+
+    /**
      * Banner with organization information
      */
     private _orgInfo = (): JSX.Element => <div className="row">
@@ -74,6 +79,7 @@ class CompetitionComponent extends BaseComponent {
             </p>
         </div>
         <div className="col-lg-4 d-flex flex-row align-items-center justify-content-end">
+            <this._submissionBtn/>
             {
                 this.props.user === undefined
                     ? <></>
@@ -137,20 +143,9 @@ class CompetitionComponent extends BaseComponent {
     private _renderDescription = (): JSX.Element => (
         <div className="markdown-container p-3">
             <div className="container py-2 bg-darker">
-                <ReactMarkdown
-                    plugins={[[gfm]]}
-                    renderers={{
-                        blockquote: BlockQuote,
-                        code: CodeBlock,
-                        table: Table,
-                        tableCell: TableCell,
-                    }}
-                    allowDangerousHtml
-                >
-                    {purifyMarkdown(
-                        this.state.competition?.desc ?? "# No description provided",
-                    )}
-                </ReactMarkdown>
+                <Markdown>
+                    {this.state.competition?.desc ?? "# No description provided"}
+                </Markdown>
             </div>
         </div>
     )

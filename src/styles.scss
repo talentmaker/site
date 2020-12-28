@@ -29,7 +29,12 @@ body {
   background-color: variables.$dark;
 
   &:focus {
-    background-color: mix(variables.$dark, white, 90%);
+    background-color: variables.$dark-grey;
+    color: variables.$light;
+  }
+
+  &::placeholder {
+    opacity: 0.5; // Mute placeholder text
   }
 }
 
@@ -39,7 +44,7 @@ body {
 }
 
 .input-group-text {
-  background-color: mix(variables.$dark, white, 90%);
+  background-color: variables.$dark-grey;
 }
 
 html,
@@ -59,4 +64,54 @@ body {
 .material-icons {
   display: inline-block;
   vertical-align: middle;
+}
+
+// For Markdown Editor
+.token {
+  $shadow-size: 0.25px;
+
+  &.important,
+  &.bold {
+    font-weight: normal !important; // Remove bold because it messes with cursor positioning
+  }
+
+  &.bold {
+    text-shadow: -$shadow-size 0 #fff, $shadow-size 0 #fff; // Use text shadow to bold instead
+  }
+
+  &.important {
+    $color-important: #cc99cd;
+
+    text-shadow: -$shadow-size 0 $color-important, $shadow-size 0 $color-important; // Use text shadow to bold instead
+  }
+
+  &.strike {
+    text-decoration: line-through; // Strike missing strikethrough
+  }
+
+  &.blockquote {
+    margin: 0;          // Margin HAS TO BE 0
+    font-size: inherit; // Font HAS TO BE the same as the textarea
+    color: #e2777a;   // Blockquote punctuation should have a colour b/c colours are cool
+  }
+
+  &.list {
+    color: #6196cc; // List bullet should have colour
+  }
+}
+
+// For markdown preview
+.markdown-container {
+  word-wrap: break-word;
+  margin: 0;
+  padding: 0;
+
+  li {
+    display: list-item;
+  }
+
+  h1 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
 }

@@ -16,6 +16,7 @@ $secondary: #032b43;
 $light: #f4f4f4;
 $dark: #373737;
 $darker: #272727;
+$dark-grey: mix($dark, white, 90%);
 $accent: #01559c;
 
 $font-family-sans-serif: "Ubuntu", sans-serif;
@@ -34,6 +35,7 @@ $theme-colors: map-merge(
     dark: $dark,
     accent: $accent,
     darker: $darker,
+    dark-grey: $dark-grey,
   ),
 );
 
