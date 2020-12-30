@@ -23,6 +23,17 @@ interface Params {
     content?: React.ReactNode,
 
     /**
+     * Name of icon
+     * @default "error"
+     */
+    icon?: string,
+
+    /**
+     * `className` for icon
+     */
+    iconClassName?: string,
+
+    /**
      * Toast title
      */
     title?: string,

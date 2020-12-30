@@ -14,6 +14,7 @@ import {Field, Form, Formik, FormikHelpers, useField} from "formik"
 import {History} from "history"
 import React from "react"
 import UserContext from "../userContext"
+import notify from "../notify"
 import {url} from "../globals"
 import {useHistory} from "react-router-dom"
 
@@ -63,6 +64,30 @@ class Login extends React.Component<LoginProps> {
         password: "",
     }
 
+    private _handleError = (err: unknown): void => {
+        console.error(err)
+
+        if (
+            err instanceof Error ||
+                typeof err === "object" &&
+                typeof (err as {[key: string]: unknown}).message === "string"
+        ) {
+            notify({
+                title: "Error",
+                icon: "report_problem",
+                iconClassName: "text-danger",
+                content: `ERROR: ${(err as {[key: string]: unknown}).message as string}`,
+            })
+        } else {
+            notify({
+                title: "Error",
+                icon: "report_problem",
+                iconClassName: "text-danger",
+                content: `ERROR: ${JSON.stringify(err)}`,
+            })
+        }
+    }
+
     private _submit = async (
         values: FormValues,
         {setSubmitting}: FormikHelpers<FormValues>,
@@ -98,14 +123,8 @@ class Login extends React.Component<LoginProps> {
             }
             throw data
 
-        } catch (err) {
-            console.error(err)
-
-            if (err instanceof Error || typeof err.message === "string") {
-                alert(`ERROR: ${err.message as string}`)
-            } else {
-                alert(`ERROR: ${JSON.stringify(err)}`)
-            }
+        } catch (err: unknown) {
+            this._handleError(err)
         }
 
         setSubmitting(false)

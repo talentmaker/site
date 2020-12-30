@@ -15,9 +15,34 @@ import {highlight, languages} from "prismjs"
 import Editor from "@luke-zhang-04/react-simple-markdown-editor"
 import Markdown from "../markdown"
 import React from "react"
+import notify from "../notify"
 import {url} from "../globals"
 
 export class EditProjectComponent extends BaseComponent {
+
+    private _handleError = (err: unknown): void => {
+        console.error(err)
+
+        if (
+            err instanceof Error ||
+                typeof err === "object" &&
+                typeof (err as {[key: string]: unknown}).message === "string"
+        ) {
+            notify({
+                title: "Error",
+                icon: "report_problem",
+                iconClassName: "text-danger",
+                content: `ERROR: ${(err as {[key: string]: unknown}).message as string}`,
+            })
+        } else {
+            notify({
+                title: "Error",
+                icon: "report_problem",
+                iconClassName: "text-danger",
+                content: `ERROR: ${JSON.stringify(err)}`,
+            })
+        }
+    }
 
     public componentDidMount = async (): Promise<void> => {
         const {user} = this.props
@@ -43,10 +68,8 @@ export class EditProjectComponent extends BaseComponent {
                         this.setState({desc: data.desc})
                     }
                 }
-            } catch (err) {
-                alert(`An error occured :( ${err}`)
-
-                console.error(err)
+            } catch (err: unknown) {
+                this._handleError(err)
             }
         }
     }
@@ -61,6 +84,7 @@ export class EditProjectComponent extends BaseComponent {
 
     private _hasUser = this.props.user !== undefined
 
+    /* eslint-disable max-lines-per-function */ // Unavoidable
     private _submit = async (
         values: FormValues,
         {setSubmitting}: FormikHelpers<FormValues>,
@@ -92,25 +116,30 @@ export class EditProjectComponent extends BaseComponent {
                     data = await response.json() as {[key: string]: unknown}
 
                 if (response.status === 200) {
-                    alert("Success!")
+                    notify({
+                        title: "Success!",
+                        content: "Successfully edited your project!",
+                        icon: "done_all",
+                        iconClassName: "text-success",
+                    })
                 } else {
                     throw data
                 }
             } catch (err) {
-                console.error(err)
-
-                if (err instanceof Error || typeof err.message === "string") {
-                    alert(`ERROR: ${err.message as string}`)
-                } else {
-                    alert(`ERROR: ${JSON.stringify(err)}`)
-                }
+                this._handleError(err)
             }
         } else {
-            alert(`ERROR: Not authenticated`)
+            notify({
+                title: "Error",
+                icon: "report_problem",
+                iconClassName: "text-danger",
+                content: "Not authenticated.",
+            })
         }
 
         setSubmitting(false)
     }
+    /* eslint-enable max-lines-per-function */
 
     private _initialValues = (): FormValues => {
         const {project} = this.state

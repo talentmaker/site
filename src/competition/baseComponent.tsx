@@ -12,6 +12,7 @@ import "./index.scss"
 import type {CognitoUser} from "../cognito-utils"
 import Prism from "prismjs"
 import React from "react"
+import notify from "../notify"
 import {url} from "../globals"
 
 type Props = {
@@ -84,7 +85,12 @@ export default abstract class BaseComponent
             )).json() as {[key: string]: unknown}
 
             if (!isCompetition(data)) {
-                alert("The data from the server did not match")
+                notify({
+                    title: "Error",
+                    icon: "report_problem",
+                    iconClassName: "text-danger",
+                    content: "The data from the server did not match",
+                })
 
                 console.error(`The data ${Object.entries(data)} is not the correct structure.`)
 
@@ -93,7 +99,12 @@ export default abstract class BaseComponent
 
             this.setState({competition: data})
         } catch (err) {
-            alert(`An error occured :( ${err}`)
+            notify({
+                title: "Error",
+                icon: "report_problem",
+                iconClassName: "text-danger",
+                content: `${err}`,
+            })
 
             console.error(err)
         }

@@ -14,6 +14,7 @@ import DatePlus from "@luke-zhang-04/dateplus"
 import {Link} from "react-router-dom"
 import React from "react"
 import dateUtils from "../date-utils"
+import notify from "../notify"
 import {url} from "../globals"
 
 type UnknownArray = {[key: string]: unknown}[]
@@ -69,7 +70,12 @@ export default class Competitions extends React.Component<{}, State> {
             )).json()
 
             if (!isCompetition(data)) { // Check the fetched data
-                alert("Server response did not match the pre-determined data structure.")
+                notify({
+                    title: "Error",
+                    icon: "report_problem",
+                    iconClassName: "text-danger",
+                    content: `Data from server did not match the pre-determined structure`,
+                })
                 console.error(`${data} is not of type Competition`)
 
                 return
@@ -77,7 +83,13 @@ export default class Competitions extends React.Component<{}, State> {
 
             this.setState({competitions: data})
         } catch (err: unknown) {
-            alert(`An error occured :( ${err}`)
+            notify({
+                title: "Error",
+                icon: "report_problem",
+                iconClassName: "text-danger",
+                content: `${err}`,
+            })
+
             console.error(err)
         }
     }

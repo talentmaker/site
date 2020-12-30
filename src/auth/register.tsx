@@ -13,6 +13,7 @@ import * as yup from "yup"
 import {Field, Form, Formik, FormikHelpers, useField} from "formik"
 import {Link} from "react-router-dom"
 import React from "react"
+import notify from "../notify"
 import {url} from "../globals"
 
 interface FormValues {
@@ -137,6 +138,30 @@ export default class Reg extends React.Component {
         return errors
     }
 
+    private _handleError = (err: unknown): void => {
+        console.error(err)
+
+        if (
+            err instanceof Error ||
+                typeof err === "object" &&
+                typeof (err as {[key: string]: unknown}).message === "string"
+        ) {
+            notify({
+                title: "Error",
+                icon: "report_problem",
+                iconClassName: "text-danger",
+                content: `ERROR: ${(err as {[key: string]: unknown}).message as string}`,
+            })
+        } else {
+            notify({
+                title: "Error",
+                icon: "report_problem",
+                iconClassName: "text-danger",
+                content: `ERROR: ${JSON.stringify(err)}`,
+            })
+        }
+    }
+
     private _submit = async (
         values: FormValues,
         {setSubmitting}: FormikHelpers<FormValues>,
@@ -160,18 +185,17 @@ export default class Reg extends React.Component {
                 data = await response.json() as {[key: string]: unknown}
 
             if (response.status === 200) {
-                alert("Success! You have been registered! Please confirm your email.")
+                notify({
+                    title: "Successfully Registered!",
+                    content: "Success! You have been registered! Please confirm your email.",
+                    icon: "account_box",
+                    iconClassName: "text-success",
+                })
             } else {
                 throw data
             }
-        } catch (err) {
-            console.error(err)
-
-            if (err instanceof Error || typeof err.message === "string") {
-                alert(`ERROR: ${err.message as string}`)
-            } else {
-                alert(`ERROR: ${JSON.stringify(err)}`)
-            }
+        } catch (err: unknown) {
+            this._handleError(err)
         }
 
         setSubmitting(false)
