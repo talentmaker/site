@@ -4,6 +4,8 @@ import DefaultPFP from "../images/profile.svg"
 import type {History} from "history"
 import React from "react"
 import UserContext from "../userContext"
+import notify from "../notify"
+import {url} from "../globals"
 import {useHistory} from "react-router-dom"
 
 declare namespace Types {
@@ -23,6 +25,65 @@ declare namespace Types {
 }
 
 class UserDisplay extends React.Component<Types.Props> {
+
+    private static _handleError = (err: unknown): void => {
+        console.error(err)
+
+        if (
+            err instanceof Error ||
+                typeof err === "object" &&
+                typeof (err as {[key: string]: unknown}).message === "string"
+        ) {
+            notify({
+                title: "Error",
+                icon: "report_problem",
+                iconClassName: "text-danger",
+                content: `ERROR: ${(err as {[key: string]: unknown}).message as string}`,
+            })
+        } else {
+            notify({
+                title: "Error",
+                icon: "report_problem",
+                iconClassName: "text-danger",
+                content: `ERROR: ${JSON.stringify(err)}`,
+            })
+        }
+    }
+
+    /**
+     * Request to become organization
+     */
+    private _orgRequest = async (
+        {user}: Types.SubComponentProps,
+    ): Promise<void> => {
+        try {
+            const response = await fetch(`${url}/organization/request`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    credentials: "include",
+                    body: JSON.stringify({
+                        idToken: user.idToken,
+                        idTokenChecksum: user.idTokenChecksum,
+                    }),
+                }),
+                data = await response.json()
+
+            if (response.status === 200) {
+                notify({
+                    title: "Successfully Made Request!",
+                    content: "Success! You have requested to become an organization!",
+                    icon: "account_box",
+                    iconClassName: "text-success",
+                })
+            } else {
+                throw data
+            }
+        } catch (err: unknown) {
+            UserDisplay._handleError(err)
+        }
+    }
 
     protected userInfo = ({user}: Types.SubComponentProps): JSX.Element => (
         <UserContext.Consumer>
@@ -67,7 +128,14 @@ class UserDisplay extends React.Component<Types.Props> {
                     <br/>
                     <li>Username: {user.username}</li>
                     <br/>
-                    <li>UUID (short): {user.sub.slice(0, 8)}</li>
+                    <li>UID (short): {user.sub.slice(0, 8)}</li>
+                    <br/>
+                    An organization? Apply to become an organization!
+                    <br/>
+                    <button
+                        className="btn btn-outline-primary"
+                        onClick={(): Promise<void> => this._orgRequest({user})}
+                    >Apply</button>
                 </ul>
             </div>
             <div className="col-9">
