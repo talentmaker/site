@@ -56,11 +56,10 @@ const currentNotification = React.createRef<HTMLDivElement>()
 /**
  * Create notification toast
  * @param params - parameters of notification
+ * @param timeout - time the notification should stay on in seconds @default 5
  */
-export const notify = (params: Params, timeout = 15_000): void => {
+export const notify = (params: Params, timeout = 5): void => {
     const {current: app} = appRef
-
-    console.log({app})
 
     if (app !== null) {
         const removeNotification = (): void => {
@@ -79,13 +78,11 @@ export const notify = (params: Params, timeout = 15_000): void => {
                 onClick: removeNotification,
             }
 
-        console.log("Setting state")
-
         app.setState({
             notification: React.createElement(Toast, props, params.content),
         })
 
-        setTimeout(removeNotification, timeout)
+        setTimeout(removeNotification, timeout * 1000)
     }
 }
 
