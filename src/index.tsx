@@ -37,12 +37,15 @@ import ReactDOM from "react-dom"
 import UserContext from "./userContext"
 import {url} from "./globals"
 
-export declare namespace App {
+export const appRef = React.createRef<App>()
+
+export declare namespace AppTypes {
     export interface Props {}
 
     export interface State {
         isAuthenticated: boolean,
         currentUser?: CognitoUser,
+        notification?: JSX.Element,
     }
 
     export interface Context {
@@ -54,14 +57,15 @@ export declare namespace App {
     }
 }
 
-class App extends React.Component<App.Props, App.State> {
+class App extends React.Component<AppTypes.Props, AppTypes.State> {
 
-    public constructor (props: App.Props) {
+    public constructor (props: AppTypes.Props) {
         super(props)
 
         this.state = {
             isAuthenticated: false,
             currentUser: undefined,
+            notification: undefined,
         }
     }
 
@@ -136,6 +140,7 @@ class App extends React.Component<App.Props, App.State> {
             setUserFromUnknown: this.setUserFromUnknown,
         }}
     >
+        {this.state.notification}
         <Router>
             <Nav/>
             <Switch>
@@ -159,7 +164,7 @@ class App extends React.Component<App.Props, App.State> {
 
 ReactDOM.render(
     <React.StrictMode>
-        <App/>
+        <App ref={appRef}/>
     </React.StrictMode>,
     document.getElementById("root"),
 )

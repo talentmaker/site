@@ -115,3 +115,37 @@ body {
     margin-bottom: 1rem;
   }
 }
+
+// Fix toasts
+.toast-fixed {
+  position: fixed;
+  top: 1%;
+  left: 50%;                   // Position left edge 50% from left
+  transform: translateX(-50%); // Centre element by moving half its width over
+  z-index: 1000;
+}
+
+@keyframes toast-entrance {
+  from {
+    top: -10%;
+    opacity: 0;
+  }
+
+  to {
+    top: 1%;
+    opacity: 1;
+  }
+}
+
+// Remove border radius from toasts
+.toast {
+  border-radius: 0;
+
+  .toast-header {
+    border-radius: 0;
+  }
+
+  &.show {
+    animation: toast-entrance 0.25s ease-out;
+  }
+}
