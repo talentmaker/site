@@ -1,13 +1,19 @@
 import "./index.scss"
 import type {CognitoUser} from "../cognito-utils"
 import DefaultPFP from "../images/profile.svg"
+import type {History} from "history"
 import React from "react"
 import UserContext from "../userContext"
+import {useHistory} from "react-router-dom"
 
 declare namespace Types {
 
-    export interface Props {
+    export interface WrapperProps {
         user?: CognitoUser,
+    }
+
+    export interface Props extends WrapperProps {
+        history: History<unknown>["push"],
     }
 
     export interface SubComponentProps {
@@ -16,7 +22,7 @@ declare namespace Types {
 
 }
 
-export default class UserDisplay extends React.Component<Types.Props> {
+class UserDisplay extends React.Component<Types.Props> {
 
     protected userInfo = ({user}: Types.SubComponentProps): JSX.Element => (
         <UserContext.Consumer>
@@ -39,7 +45,11 @@ export default class UserDisplay extends React.Component<Types.Props> {
                         <button className="btn btn-outline-primary btn-lg">Edit</button>
                         <button
                             className="btn btn-outline-danger btn-lg mx-4"
-                            onClick={(): Promise<void> => setUser(undefined)}
+                            onClick={async (): Promise<void> => {
+                                await setUser(undefined)
+
+                                return this.props.history("/")
+                            }}
                         >Logout</button>
                     </div>
                 </div>
@@ -85,3 +95,12 @@ export default class UserDisplay extends React.Component<Types.Props> {
     public render = (): JSX.Element => <this.profilePage/>
 
 }
+
+export const UserDisplayWithHistory: React.FC<Types.WrapperProps> = (props) => {
+    const history = useHistory(),
+        {push: changeHistory} = history
+
+    return <UserDisplay history={changeHistory} {...props}/>
+}
+
+export default UserDisplayWithHistory
