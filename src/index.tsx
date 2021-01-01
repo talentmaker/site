@@ -25,6 +25,7 @@ import {Route, BrowserRouter as Router, Switch} from "react-router-dom"
 import Auth from "./auth"
 import Competition from "./competition"
 import Competitions from "./competitions"
+import EditCompetition from "./editCompetition"
 import EditProject from "./editProject"
 import Footer from "./footer"
 import Home from "./home"
@@ -145,16 +146,17 @@ class App extends React.Component<AppTypes.Props, AppTypes.State> {
             <Nav/>
             <Switch>
                 <Route path="/" exact component={Home}/>
+                <Route path="/auth" component={Auth}/>
+                <Route path="/competition" component={Competition}/>
+                <Route path="/competitions" component={Competitions}/>
+                <Route path="/editCompetition/:id" component={EditCompetition}/>
+                <Route path="/editProject" component={EditProject}/>
                 <Route path="/legal" component={Legal}/>
                 <Route path="/privacy-policy" component={PrivacyPolicy}/>
-                <Route path="/auth" component={Auth}/>
                 <Route
                     path="/profile"
                     render={(): JSX.Element => <Profile user={this.state.currentUser}/>}
                 />
-                <Route path="/competitions" component={Competitions}/>
-                <Route path="/competition" component={Competition}/>
-                <Route path="/editProject" component={EditProject}/>
             </Switch>
             <Footer/>
         </Router>

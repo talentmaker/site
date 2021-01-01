@@ -58,45 +58,58 @@ body {
 }
 
 .btn {
-  border-radius: 0;
+  border-radius: 0; // Buttons are boxed
 }
 
 .material-icons {
-  display: inline-block;
-  vertical-align: middle;
+  display: inline-block;  // Display for aligning icon
+  vertical-align: middle; // Align icon in middle
 }
 
 // For Markdown Editor
-.token {
-  $shadow-size: 0.25px;
+.npm__react-simple-code-editor__textarea + pre {
+  .token {
+    $shadow-size: 0.25px;
 
-  &.important,
-  &.bold {
-    font-weight: normal !important; // Remove bold because it messes with cursor positioning
-  }
+    &.important,
+    &.bold {
+      font-weight: normal !important; // Remove bold because it messes with cursor positioning
+    }
 
-  &.bold {
-    text-shadow: -$shadow-size 0 #fff, $shadow-size 0 #fff; // Use text shadow to bold instead
-  }
+    &.bold {
+      text-shadow: -$shadow-size 0 #fff, $shadow-size 0 #fff; // Use text shadow to bold instead
+    }
 
-  &.important {
-    $color-important: #cc99cd;
+    &.important {
+      $color-important: #cc99cd;
 
-    text-shadow: -$shadow-size 0 $color-important, $shadow-size 0 $color-important; // Use text shadow to bold instead
-  }
+      text-shadow: -$shadow-size 0 $color-important, $shadow-size 0 $color-important; // Use text shadow to bold instead
+    }
 
-  &.strike {
-    text-decoration: line-through; // Strike missing strikethrough
-  }
+    &.strike {
+      text-decoration: line-through; // Strike missing strikethrough
+    }
 
-  &.blockquote {
-    margin: 0;          // Margin HAS TO BE 0
-    font-size: inherit; // Font HAS TO BE the same as the textarea
-    color: #e2777a;   // Blockquote punctuation should have a colour b/c colours are cool
-  }
+    &.blockquote {
+      margin: 0;          // Margin HAS TO BE 0
+      font-size: inherit; // Font HAS TO BE the same as the textarea
+      color: #e2777a;   // Blockquote punctuation should have a colour b/c colours are cool
+    }
 
-  &.list {
-    color: #6196cc; // List bullet should have colour
+    &.list {
+      color: #6196cc; // List bullet should have colour
+    }
+
+    &.table .table-data {
+      color: #999; // Table data is black by default and can't be read
+    }
+
+    &.code {
+      .punctuation,
+      .code-language {
+        color: #999; // Mute code ticks and language
+      }
+    }
   }
 }
 
@@ -147,5 +160,46 @@ body {
 
   &.show {
     animation: toast-entrance 0.25s ease-out;
+  }
+}
+
+.react-datepicker-wrapper { // Make date picker act like form control
+  position: relative;
+  flex: 1 1 auto;
+  width: 1%;
+  min-width: 0;
+}
+
+.react-datepicker {
+  border-radius: 0 !important;         // Remove border radius from calendar
+  background-color: $light !important; // Make the background one colour
+  border: none !important;             // Remove borders
+
+  .react-datepicker__header {
+    background-color: $dark !important; // Make header dark
+    color: $light !important;           // Change text colour too
+    border-radius: 0 !important;        // Remove border radius
+
+    .react-datepicker__current-month,
+    .react-datepicker__day-name,
+    .react-datepicker__navigation {
+      color: $light !important;
+    }
+  }
+
+  .react-datepicker__triangle {
+    color: $dark !important;               // Make the triangle dark too
+    border-bottom-color: $dark !important; // But border-bottom is really important
+
+    &::before {
+      border-bottom-color: $dark !important; // Get rid of top border
+    }
+  }
+
+  .react-datepicker__day--selected,
+  .react-datepicker__day--keyboard-selected,
+  .react-datepicker__day--today {
+    border-radius: 0 !important; // Remove border radius from selected date
+    background-color: $primary;  // Change its bg colour
   }
 }

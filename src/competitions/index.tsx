@@ -9,10 +9,12 @@
  * @license BSD-3-Clause
  */
 import "./index.scss"
+import type {CognitoUser} from "../cognito-utils"
 import type {Competition} from "../competition/baseComponent"
 import DatePlus from "@luke-zhang-04/dateplus"
 import {Link} from "react-router-dom"
 import React from "react"
+import UserContext from "../userContext"
 import dateUtils from "../date-utils"
 import notify from "../notify"
 import {url} from "../globals"
@@ -32,6 +34,10 @@ interface State {
     competitions: Competition[],
 }
 
+interface Props {
+    user?: CognitoUser,
+}
+
 /**
  * Splits an array into chunks
  * @param arr - array to split
@@ -47,7 +53,7 @@ const arrayToChunks = <T extends any>(arr: T[], chunkSize = 3): T[][] => {
     return chunks
 }
 
-export default class Competitions extends React.Component<{}, State> {
+class CompetitionsComponent extends React.Component<Props, State> {
 
     public constructor (props: {}) {
         super(props)
@@ -139,12 +145,30 @@ export default class Competitions extends React.Component<{}, State> {
     }
 
     /**
+     * Renders interface for creating new competitions
+     */
+    private _newCompetition = (): JSX.Element => <>
+        <h1>Create a Competition</h1>
+        <p>As an organization, you can create a new competition</p>
+        <Link
+            to="/editCompetition/new"
+            className="btn btn-outline-primary"
+        >New Competition</Link>
+    </>
+
+    /**
      * Renders competitions
      */
     private _competitions = (): JSX.Element => {
         const competitions = this._getSortedComponents()
 
         return <>
+            {
+                this.props.user?.isOrg === true
+                    ? <this._newCompetition/>
+                    : undefined
+            }
+
             <h1>Upcoming Competitions</h1>
             {competitions[0].map((row, index) => <div key={`comp-row-${index}`} className="row">
                 {row.map((comp) => this._competition(comp, index))}
@@ -162,3 +186,14 @@ export default class Competitions extends React.Component<{}, State> {
     </div>
 
 }
+
+/**
+ * Wrapper for the competitions component that passes in the user
+ */
+export const Competitions: React.FC<{}> = () => <UserContext.Consumer>
+    {({currentUser: user}): JSX.Element => <CompetitionsComponent
+        user={user ?? undefined}
+    />}
+</UserContext.Consumer>
+
+export default Competitions

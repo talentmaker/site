@@ -21,6 +21,7 @@ export type CognitoUser = {
     email: string,
     sub: string,
     username: string,
+    isOrg: boolean,
 }
 
 export const isCognitoUser = (
@@ -31,5 +32,6 @@ export const isCognitoUser = (
     typeof obj.accessToken === "string" &&
     typeof obj.email === "string" &&
     typeof obj.sub === "string" &&
-    typeof obj.username === "string"
+    typeof obj.username === "string" &&
+    typeof obj.isOrg === "boolean"
 )

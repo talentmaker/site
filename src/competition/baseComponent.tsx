@@ -44,7 +44,7 @@ export type Competition = {
     inComp: boolean,
 }
 
-const isCompetition = (
+export const isCompetition = (
     obj: {[key: string]: unknown},
 ): obj is Competition => (
     typeof obj.id === "number" &&
