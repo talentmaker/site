@@ -7,6 +7,7 @@
  * @author Luke Zhang
  *
  * @license BSD-3-Clause
+ * @file entry point for this react application including the app component
  */
 // Load Prismjs languages
 import "prismjs"
@@ -40,24 +41,45 @@ import {url} from "./globals"
 
 export const appRef = React.createRef<App>()
 
+/**
+ * Typedefs for app
+ */
 export declare namespace AppTypes {
     export interface Props {}
 
     export interface State {
         isAuthenticated: boolean,
         currentUser?: CognitoUser,
+
+        /**
+         * Current notification to show
+         */
         notification?: JSX.Element,
     }
 
+    /**
+     * React user context type
+     */
     export interface Context {
         currentUser: undefined | CognitoUser | null,
+
+        /**
+         * Set the current loggedin user
+         */
         setUser: (user: Context["currentUser"])=> Promise<void>,
+
+        /**
+         * Set the current loggedin user from an unknown object that is validated
+         */
         setUserFromUnknown: (
             user?: {[key: string]: unknown} | null,
         )=> Promise<void>,
     }
 }
 
+/**
+ * Main App component with Router and such
+ */
 class App extends React.Component<AppTypes.Props, AppTypes.State> {
 
     public constructor (props: AppTypes.Props) {
@@ -70,6 +92,9 @@ class App extends React.Component<AppTypes.Props, AppTypes.State> {
         }
     }
 
+    /**
+     * User HTTPonly cookie refresh token and try to get an idToken
+     */
     public componentDidMount = async (): Promise<void> => {
         if (localStorage.getItem("loggedin") === "true") {
             const user = await (await fetch(
@@ -100,6 +125,11 @@ class App extends React.Component<AppTypes.Props, AppTypes.State> {
         this.setState({})
     }
 
+    /**
+     * Sets the user to state
+     * @param user - unknown object that will go through validation OR
+     * `undefined | null` for logout
+     */
     public setUserFromUnknown = async (
         user?: {[key: string]: unknown} | null,
     ): Promise<void> => {
@@ -108,6 +138,10 @@ class App extends React.Component<AppTypes.Props, AppTypes.State> {
         }
     }
 
+    /**
+     * Sets the user to state
+     * @param user - object with user info OR `undefined | null` to logout
+     */
     public setUser = async (user?: CognitoUser | null): Promise<void> => {
         const isloggedin = localStorage.getItem("loggedin") === "true"
 
