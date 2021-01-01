@@ -33,10 +33,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "sass": "npx sass public/scss:public/css --style compressed",
-    "sass:watch": "npx sass public/scss:public/css --watch",
-    "sass:dev": "npx sass public/scss:public/css",
-    "build": "npx sass public/scss:public/css --style compressed && npx react-scripts build",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "lint": "bash lint.sh",
     "lint:fix": "bash lint.sh --fix",
