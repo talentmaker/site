@@ -8,15 +8,15 @@
  *
  * @license BSD-3-Clause
  */
+
+import {Link, useParams} from "react-router-dom"
 import BaseComponent from "./baseComponent"
 import DatePlus from "@luke-zhang-04/dateplus"
 import DefaultPFP from "../images/profile.svg"
-import {Link} from "react-router-dom"
 import Markdown from "../markdown"
 import React from "react"
 import UserContext from "../userContext"
 import join from "./join"
-import queryString from "query-string"
 
 class CompetitionComponent extends BaseComponent {
 
@@ -56,7 +56,7 @@ class CompetitionComponent extends BaseComponent {
         this.state.competition?.inComp
             ? <Link
                 className="btn btn-outline-primary mx-2"
-                to={`editProject?compId=${this.state.competition.id}`}
+                to={`editProject/${this.state.competition.id}`}
             >Create Submission</Link>
             : <></>
     )
@@ -193,12 +193,12 @@ class CompetitionComponent extends BaseComponent {
 }
 
 export const Competition = (): JSX.Element => {
-    const query = queryString.parse(window.location.search)
+    const {id} = useParams<{id?: string}>()
 
-    if ("id" in query && typeof query.id === "string") {
+    if (id) {
         return <UserContext.Consumer>
             {({currentUser: user}): JSX.Element => <CompetitionComponent
-                id={query.id as string}
+                id={id}
                 user={user ?? undefined}
             />}
         </UserContext.Consumer>

@@ -12,15 +12,15 @@
 import EditProjectComponent from "./component"
 import React from "react"
 import UserContext from "../userContext"
-import queryString from "query-string"
+import {useParams} from "react-router-dom"
 
-export const EditProject = (): JSX.Element => {
-    const query = queryString.parse(window.location.search)
+export const EditProject: React.FC<{}> = () => {
+    const {id} = useParams<{id?: string}>()
 
-    if ("compId" in query && typeof query.compId === "string") {
+    if (id) {
         return <UserContext.Consumer>
             {({currentUser: user}): JSX.Element => <EditProjectComponent
-                id={query.compId as string}
+                id={id}
                 user={user ?? undefined}
             />}
         </UserContext.Consumer>

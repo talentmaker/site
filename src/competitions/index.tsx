@@ -135,7 +135,7 @@ class CompetitionsComponent extends React.Component<Props, State> {
                         <h1>{comp.name ?? `${comp.orgName}'s Competition`}</h1>
                         <p className="text-primary">{comp.shortDesc}</p>
                         <Link
-                            to={`/competition?id=${comp.id}`}
+                            to={`/competition/${comp.id}`}
                             className="btn btn-outline-primary"
                         >More</Link>
                     </div>
