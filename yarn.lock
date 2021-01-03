@@ -1419,10 +1419,10 @@
   resolved "https://registry.yarnpkg.com/@luke-zhang-04/dateplus/-/dateplus-2.0.3.tgz#da9c17b6c8a4503aeafbd8c9371d913dc34b248e"
   integrity sha512-NLZY4NzcQKsOsbgz4kWtq4v02ltE27Xd8lEcol5+rgSWK7bOH49JturJTjpnqu6e6VFNz57p3Ah72oCuazEG1Q==
 
-"@luke-zhang-04/react-simple-markdown-editor@^1.0.5":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@luke-zhang-04/react-simple-markdown-editor/-/react-simple-markdown-editor-1.0.5.tgz#6cc5aad69bacfbbb4d902e901aa81645b456b24e"
-  integrity sha512-N+NsGmkP167VTPpeqPIy2SBEzvn5PBFtzZMJLb3c0cVH4ezxxpgws3vsAXH3z+4lvqSKTzbj+vDAT43rTOrlRw==
+"@luke-zhang-04/react-simple-markdown-editor@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@luke-zhang-04/react-simple-markdown-editor/-/react-simple-markdown-editor-1.1.0.tgz#92fa5b76c61efc6e7fbf16eea414389e7ba0b259"
+  integrity sha512-CBIvysoPw4eikZ0KUrgxAPESyyCNoBzbGH+Vy8OvESKVJLlXTDDhB0E6otIhEXVkJrIzg0BBVXXstDziTkYo1A==
 
 "@nodelib/fs.scandir@2.1.3":
   version "2.1.3"
