@@ -151,7 +151,7 @@ export default class BaseComponent extends React.Component<Props, State> {
             .max(128),
         videoURL: yup.string()
             .url()
-            .matches(/youtu\.be|youtube/gu, "Video must be a YouTube Link")
+            .matches(/youtu\.be|youtube/u, "Video must be a YouTube Link")
             .max(256),
         website: yup.string()
             .url()

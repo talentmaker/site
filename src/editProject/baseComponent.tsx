@@ -168,10 +168,18 @@ export default class BaseComponent extends React.Component<Props, State> {
         name: yup.string()
             .required("Title is required") // eslint-disable-next-line
             .max(64),
-        srcURL: yup.string().url(),
-        demoURL: yup.string().url(),
-        license: yup.string(),
-        videoURL: yup.string().url(),
+        srcURL: yup.string()
+            .url()
+            .max(256),
+        demoURL: yup.string()
+            .url()
+            .max(256),
+        license: yup.string()
+            .max(256),
+        videoURL: yup.string()
+            .url()
+            .matches(/youtu\.be|youtube/u, "Video must be a YouTube Link")
+            .max(256),
     })
 
 }
