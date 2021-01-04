@@ -100,6 +100,10 @@ class CompetitionsComponent extends React.Component<Props, State> {
         }
     }
 
+    public componentDidUpdate = async (): Promise<void> => {
+        (await import("../bootstrap/tooltip")).initTooltips()
+    }
+
     /**
      * Sort competitions into "chunks"
      */
@@ -137,7 +141,18 @@ class CompetitionsComponent extends React.Component<Props, State> {
                         <Link
                             to={`/competition/${comp.id}`}
                             className="btn btn-outline-primary"
-                        >More</Link>
+                        >Details</Link>
+                        {
+                            this.props.user?.sub === comp.orgId
+                                ? <Link
+                                    to={`/editCompetition/${comp.id}`}
+                                    className="btn btn-outline-light d-inline-block float-right"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="left"
+                                    title="Edit"
+                                ><span className="material-icons">create</span></Link>
+                                : undefined
+                        }
                     </div>
                 </div>
             </div>

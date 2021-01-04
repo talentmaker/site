@@ -10,6 +10,7 @@
  */
 
 import {CognitoUser} from "../cognito-utils"
+import handleError from "../errorHandler"
 import {url} from "../globals"
 
 export const join = async (
@@ -32,6 +33,12 @@ export const join = async (
                 }),
             },
         )
+
+    if (!data.ok) {
+        const error = await data.json()
+
+        handleError(error)
+    }
 
     return data.ok
 }

@@ -12,6 +12,7 @@ import "./index.scss"
 import type {CognitoUser} from "../cognito-utils"
 import Prism from "prismjs"
 import React from "react"
+import initTooltips from "../bootstrap/tooltip"
 import notify from "../notify"
 import {url} from "../globals"
 
@@ -119,6 +120,8 @@ export default abstract class BaseComponent
             this.setState({hasuser: this.props.user !== undefined})
             this.componentDidMount()
         }
+
+        initTooltips()
     }
 
 }

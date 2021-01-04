@@ -36,10 +36,28 @@ class CompetitionComponent extends BaseComponent {
     }
 
     /**
-     * Button to join the competition
+     * Button to join the competition or edit if the user is an organizaton
      */
-    private _joinBtn = (): JSX.Element => (
-        this.state.competition?.inComp
+    private _joinBtn = (): JSX.Element | void => {
+        if (
+            this.props.user?.isOrg && // User is organization
+            this.state.competition // Competition exists
+        ) {
+            return this.props.user.sub === this.state.competition.orgId // Organization owns competition
+                ? <Link
+                    to={`/editCompetition/${this.state.competition.id}`}
+                    className="btn btn-outline-light mr-3"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="left"
+                    title="Edit"
+                ><span className="material-icons">create</span> Edit</Link>
+                : undefined
+        } else if (!this.state.competition) {
+            return undefined
+        }
+
+        // User is not an organization
+        return this.state.competition?.inComp
             ? <div className="border border-1 border-success text-success p-2 mr-3">
                 <span className="material-icons">done</span> Joined
             </div>
@@ -47,7 +65,7 @@ class CompetitionComponent extends BaseComponent {
                 className="btn btn-outline-primary btn-lg mr-3"
                 onClick={this._join}
             >Join</button>
-    )
+    }
 
     /**
      * Button to create a new submission
@@ -83,7 +101,7 @@ class CompetitionComponent extends BaseComponent {
             {
                 this.props.user === undefined
                     ? <p className="mr-3"><Link to="auth">Sign up</Link> to participate in competitions.</p>
-                    : <this._joinBtn/>
+                    : this._joinBtn()
             }
         </div>
     </div>
