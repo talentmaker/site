@@ -43,6 +43,7 @@ export type Competition = {
     topics: string[],
     shortDesc: string,
     inComp: boolean,
+    hasProject: boolean,
 }
 
 export const isCompetition = (

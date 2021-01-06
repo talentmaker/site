@@ -65,14 +65,21 @@ class CompetitionComponent extends BaseComponent {
     /**
      * Button to create a new submission
      */
-    private _submissionBtn = (): JSX.Element => (
-        this.state.competition?.inComp
-            ? <Link
+    private _submissionBtn = (): JSX.Element => {
+        if (this.state.competition?.hasProject) {
+            return <Link
+                className="btn btn-outline-light mx-2"
+                to={`/editProject/${this.state.competition.id}`}
+            ><span className="material-icons">create</span> Edit Submission</Link>
+        } else if (this.state.competition?.inComp) {
+            return <Link
                 className="btn btn-outline-primary mx-2"
                 to={`/editProject/${this.state.competition.id}`}
-            >Create Submission</Link>
-            : <></>
-    )
+            ><span className="material-icons">add</span> Create Submission</Link>
+        }
+
+        return <></>
+    }
 
     /**
      * Banner with organization information
