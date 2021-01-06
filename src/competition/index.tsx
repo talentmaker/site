@@ -55,9 +55,7 @@ class CompetitionComponent extends BaseComponent {
 
         // User is not an organization
         return this.state.competition?.inComp
-            ? <div className="border border-1 border-success text-success p-2 mr-3">
-                <span className="material-icons">done</span> Joined
-            </div>
+            ? undefined
             : <button
                 className="btn btn-outline-primary btn-lg mr-3"
                 onClick={this._join}
@@ -71,7 +69,7 @@ class CompetitionComponent extends BaseComponent {
         this.state.competition?.inComp
             ? <Link
                 className="btn btn-outline-primary mx-2"
-                to={`editProject/${this.state.competition.id}`}
+                to={`/editProject/${this.state.competition.id}`}
             >Create Submission</Link>
             : <></>
     )
