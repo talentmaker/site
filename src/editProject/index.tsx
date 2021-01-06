@@ -15,12 +15,12 @@ import UserContext from "../userContext"
 import {useParams} from "react-router-dom"
 
 export const EditProject: React.FC<{}> = () => {
-    const {id} = useParams<{id?: string}>()
+    const {compId} = useParams<{compId?: string}>()
 
-    if (id) {
+    if (compId) {
         return <UserContext.Consumer>
             {({currentUser: user}): JSX.Element => <EditProjectComponent
-                id={id}
+                id={compId}
                 user={user ?? undefined}
             />}
         </UserContext.Consumer>

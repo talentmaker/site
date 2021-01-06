@@ -34,6 +34,7 @@ import Legal from "./legal/Legal"
 import Nav from "./nav"
 import PrivacyPolicy from "./legal/PrivacyPolicy"
 import Profile from "./profile"
+import Projects from "./projects"
 import React from "react"
 import ReactDOM from "react-dom"
 import UserContext from "./userContext"
@@ -184,13 +185,14 @@ class App extends React.Component<AppTypes.Props, AppTypes.State> {
                 <Route path="/competition/:id" component={Competition}/>
                 <Route path="/competitions" component={Competitions}/>
                 <Route path="/editCompetition/:id" component={EditCompetition}/>
-                <Route path="/editProject/:id" component={EditProject}/>
+                <Route path="/editProject/:compId" component={EditProject}/>
                 <Route path="/legal" component={Legal}/>
                 <Route path="/privacy-policy" component={PrivacyPolicy}/>
                 <Route
                     path="/profile"
                     render={(): JSX.Element => <Profile user={this.state.currentUser}/>}
                 />
+                <Route path="/projects/:compId" component={Projects}/>
             </Switch>
             <Footer/>
         </Router>

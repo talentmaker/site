@@ -203,3 +203,7 @@ body {
     background-color: $primary;  // Change its bg colour
   }
 }
+
+.container {
+  max-width: none !important; // Bootstrap containers
+}

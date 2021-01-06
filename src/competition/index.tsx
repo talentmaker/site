@@ -47,9 +47,6 @@ class CompetitionComponent extends BaseComponent {
                 ? <Link
                     to={`/editCompetition/${this.state.competition.id}`}
                     className="btn btn-outline-light mr-3"
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="left"
-                    title="Edit"
                 ><span className="material-icons">create</span> Edit</Link>
                 : undefined
         } else if (!this.state.competition) {
@@ -98,6 +95,14 @@ class CompetitionComponent extends BaseComponent {
         </div>
         <div className="col-lg-4 d-flex flex-row align-items-center justify-content-end">
             <this._submissionBtn/>
+            {
+                this.state.competition
+                    ? <Link
+                        to={`/projects/${this.state.competition.id}`}
+                        className="btn btn-outline-success mr-3"
+                    ><span className="material-icons">visibility</span> Submissions</Link>
+                    : undefined
+            }
             {
                 this.props.user === undefined
                     ? <p className="mr-3"><Link to="auth">Sign up</Link> to participate in competitions.</p>

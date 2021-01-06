@@ -10,7 +10,7 @@
  */
 @use "./../scss/variables" as variables;
 
-.comp-card {
+.project-card {
   height: 33.33vw;
   position: relative;
   margin-bottom: 2vw;
@@ -21,7 +21,7 @@
     object-fit: cover;
   }
 
-  .comp-info {
+  .project-info {
     width: 100%;
     position: absolute;
     bottom: 0;
@@ -35,7 +35,7 @@
       top: 0;
     }
 
-    .comp-details {
+    .project-details {
       background-color: #272727;
       width: 100%;
       position: relative;

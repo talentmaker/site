@@ -12,9 +12,11 @@ import "./index.scss"
 import type {CognitoUser} from "../cognito-utils"
 import type {Competition} from "../competition/baseComponent"
 import DatePlus from "@luke-zhang-04/dateplus"
+import DefaultPhoto from "../images/default.svg"
 import {Link} from "react-router-dom"
 import React from "react"
 import UserContext from "../userContext"
+import {arrayToChunks} from "../utils"
 import dateUtils from "../date-utils"
 import notify from "../notify"
 import {url} from "../globals"
@@ -27,7 +29,10 @@ const isCompetition = (
     obj instanceof Array &&
     typeof (obj as UnknownArray)[0]?.id === "number" &&
     typeof (obj as UnknownArray)[0]?.deadline === "string" &&
-    typeof (obj as UnknownArray)[0]?.coverImageURL === "string"
+    (
+        (obj as UnknownArray)[0]?.coverImageURL === undefined ||
+        typeof (obj as UnknownArray)[0]?.coverImageURL === "string"
+    )
 )
 
 interface State {
@@ -36,21 +41,6 @@ interface State {
 
 interface Props {
     user?: CognitoUser,
-}
-
-/**
- * Splits an array into chunks
- * @param arr - array to split
- * @param chunkSize - size of array chunks
- */
-const arrayToChunks = <T extends any>(arr: T[], chunkSize = 3): T[][] => {
-    const chunks: T[][] = []
-
-    for (let index = 0; index < arr.length; index += chunkSize) {
-        chunks.push(arr.slice(index, index + chunkSize))
-    }
-
-    return chunks
 }
 
 class CompetitionsComponent extends React.Component<Props, State> {
@@ -130,7 +120,7 @@ class CompetitionsComponent extends React.Component<Props, State> {
 
         return <div key={`comp-col-${index}-${comp.id}`} className="col-lg-4 my-3">
             <div className="comp-card">
-                <img src={comp.coverImageURL} alt="cover"/>
+                <img src={comp.coverImageURL ?? DefaultPhoto} alt="cover"/>
                 <div className="comp-info">
                     <div className="deadline">
                         {`${deadline.getWordMonth()} ${deadline.getDate()}, ${deadline.getFullYear()}`}
@@ -142,7 +132,7 @@ class CompetitionsComponent extends React.Component<Props, State> {
                             to={`/competition/${comp.id}`}
                             className="btn btn-outline-primary"
                         >Details</Link>
-                        {
+                        { // This competition belongs to this organization
                             this.props.user?.sub === comp.orgId
                                 ? <Link
                                     to={`/editCompetition/${comp.id}`}

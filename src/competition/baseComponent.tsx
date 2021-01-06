@@ -38,7 +38,7 @@ export type Competition = {
     website: string | null,
     email: string,
     orgId: string,
-    coverImageURL: string,
+    coverImageURL: string | null,
     orgName: string,
     topics: string[],
     shortDesc: string,
@@ -49,8 +49,7 @@ export const isCompetition = (
     obj: {[key: string]: unknown},
 ): obj is Competition => (
     typeof obj.id === "number" &&
-    typeof obj.deadline === "string" &&
-    typeof obj.coverImageURL === "string"
+    typeof obj.deadline === "string"
 )
 
 type State = {
