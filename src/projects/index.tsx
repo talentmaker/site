@@ -14,6 +14,7 @@ import {Link, useParams} from "react-router-dom"
 import {Project, isProject} from "../project/baseComponent"
 import type {CognitoUser} from "../cognito-utils"
 import DefaultPhoto from "../images/default.svg"
+import Img from "../image"
 import React from "react"
 import UserContext from "../userContext"
 import {arrayToChunks} from "../utils"
@@ -96,7 +97,7 @@ class ProjectsComponent extends React.Component<Props, State> {
     private _project = (project: Project, index: number): JSX.Element => (
         <div key={`comp-col-${index}-${project.id}`} className="col-lg-4 my-3">
             <div className="project-card">
-                <img src={project.coverImageURL ?? DefaultPhoto} alt="cover"/>
+                <Img src={project.coverImageURL ?? DefaultPhoto} alt="cover"/>
                 <div className="project-info">
                     <div className="container project-details">
                         <h1>{project.name.slice(0, 32)}</h1>

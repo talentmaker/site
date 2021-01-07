@@ -13,6 +13,7 @@ import {Link, useParams} from "react-router-dom"
 import BaseComponent from "./baseComponent"
 import DatePlus from "@luke-zhang-04/dateplus"
 import DefaultPFP from "../images/profile.svg"
+import Img from "../image"
 import Markdown from "../markdown"
 import React from "react"
 import UserContext from "../userContext"
@@ -87,7 +88,7 @@ class CompetitionComponent extends BaseComponent {
     private _orgInfo = (): JSX.Element => <div className="row">
         <div className="col-lg-2">
             <div className="px-4 my-3">
-                <img src={DefaultPFP} className="pfp" alt="Profile"/>
+                <Img src={DefaultPFP} className="pfp" alt="Profile"/>
             </div>
         </div>
         <div className="col-lg-6 d-flex flex-column justify-content-center">

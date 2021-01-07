@@ -13,6 +13,7 @@ import type {CognitoUser} from "../cognito-utils"
 import type {Competition} from "../competition/baseComponent"
 import DatePlus from "@luke-zhang-04/dateplus"
 import DefaultPhoto from "../images/default.svg"
+import Img from "../image"
 import {Link} from "react-router-dom"
 import React from "react"
 import UserContext from "../userContext"
@@ -120,7 +121,7 @@ class CompetitionsComponent extends React.Component<Props, State> {
 
         return <div key={`comp-col-${index}-${comp.id}`} className="col-lg-4 my-3">
             <div className="comp-card">
-                <img src={comp.coverImageURL ?? DefaultPhoto} alt="cover"/>
+                <Img src={comp.coverImageURL ?? DefaultPhoto} alt="cover"/>
                 <div className="comp-info">
                     <div className="deadline">
                         {`${deadline.getWordMonth()} ${deadline.getDate()}, ${deadline.getFullYear()}`}
