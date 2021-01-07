@@ -40,7 +40,12 @@ export interface Props {
     /**
      * Project id
      */
-    id: string,
+    id?: string,
+
+    /**
+     * Competition id
+     */
+    compId?: string,
 
     /**
      * Current user

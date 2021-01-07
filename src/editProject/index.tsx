@@ -12,15 +12,24 @@
 import EditProjectComponent from "./component"
 import React from "react"
 import UserContext from "../userContext"
+import queryString from "query-string"
 import {useParams} from "react-router-dom"
 
 export const EditProject: React.FC<{}> = () => {
-    const {compId} = useParams<{compId?: string}>()
+    const {id} = useParams<{id?: string}>(),
+        {competition: compId} = queryString.parse(window.location.search)
 
-    if (compId) {
+    if (id) {
         return <UserContext.Consumer>
             {({currentUser: user}): JSX.Element => <EditProjectComponent
-                id={compId}
+                id={id}
+                user={user ?? undefined}
+            />}
+        </UserContext.Consumer>
+    } else if (typeof compId === "string" && compId) {
+        return <UserContext.Consumer>
+            {({currentUser: user}): JSX.Element => <EditProjectComponent
+                compId={compId}
                 user={user ?? undefined}
             />}
         </UserContext.Consumer>
@@ -28,7 +37,7 @@ export const EditProject: React.FC<{}> = () => {
 
     return <>
         <h1>Error:</h1>
-        <p>No competition ID specified</p>
+        <p>No competition or project ID specified</p>
     </>
 }
 
