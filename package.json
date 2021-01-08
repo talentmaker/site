@@ -15,11 +15,13 @@
     "@animated-burgers/burger-squeeze": "^1.1.2",
     "@luke-zhang-04/dateplus": "^2.0.3",
     "@luke-zhang-04/react-simple-markdown-editor": "^1.1.0",
+    "@types/react-select": "^3.1.2",
     "amazon-cognito-identity-js": "^4.5.5",
     "bootstrap": "^5.0.0-alpha3",
     "dompurify": "^2.2.2",
     "formik": "^2.1.5",
     "normalize.css": "^8.0.1",
+    "osi-licenses": "^0.1.1",
     "prismjs": "^1.22.0",
     "query-string": "^6.13.1",
     "react": "^16.13.1",
@@ -28,7 +30,9 @@
     "react-markdown": "^5.0.3",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
+    "react-select": "^3.1.1",
     "remark-gfm": "^1.0.0",
+    "spdx-license-ids": "^3.0.7",
     "yup": "^0.29.3"
   },
   "scripts": {

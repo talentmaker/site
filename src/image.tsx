@@ -44,7 +44,7 @@ const Img: React.FC<Props> = (props) => {
         /**
          * Handle an image error
          */
-        onError = () => {
+        onError = (): void => {
             if (images.length > currentIndex + 1) {
                 setIndex(currentIndex + 1)
             }
@@ -55,7 +55,7 @@ const Img: React.FC<Props> = (props) => {
     }
 
     return <img
-        alt="All image backups failed"
+        alt="All backups failed"
         {...props}
         src={images[currentIndex]}
         onError={onError}

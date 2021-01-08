@@ -58,8 +58,7 @@ type State = {
     hasuser: boolean,
 }
 
-export default abstract class BaseComponent
-    extends React.Component<Props, State> {
+export default class BaseComponent extends React.Component<Props, State> {
 
     public constructor (props: Props) {
         super(props)

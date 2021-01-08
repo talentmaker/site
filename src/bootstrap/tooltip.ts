@@ -57,8 +57,6 @@ export const initTooltips = (): void => {
             )
 
             element.addEventListener("click", () => {
-                console.log(tooltip)
-
                 tooltip.hide()
             })
         })

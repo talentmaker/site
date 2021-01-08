@@ -48,7 +48,9 @@ export class EditProjectComponent extends BaseComponent {
         const {user} = this.props
 
         if (user) {
-            const queryString = `?sub=${user.sub}&competitionId=${this.props.id}`
+            const queryString = this.props.id
+                ? `?id=${this.props.id}`
+                : `?sub=${user.sub}&competitionId=${this.props.compId}`
 
             try {
                 const data = await (await fetch(

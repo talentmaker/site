@@ -429,7 +429,7 @@
             "files": ["*.tsx", "*.jsx"],
             "rules": {
                 "max-len": "off",
-                "react/prop-types": [2, { "ignore": ["children"] }],
+                "react/prop-types": "off",
                 "react/sort-comp": "error"
             }
         },

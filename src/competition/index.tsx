@@ -68,14 +68,20 @@ class CompetitionComponent extends BaseComponent {
      */
     private _submissionBtn = (): JSX.Element => {
         if (this.state.competition?.hasProject) {
-            return <Link
-                className="btn btn-outline-light mx-2"
-                to={`/editProject/${this.state.competition.id}`}
-            ><span className="material-icons">create</span> Edit Submission</Link>
+            return <div className="d-flex flex-column align-items-center justify-content-end">
+                <Link
+                    className="btn btn-outline-light mr-2 mb-2"
+                    to={`/editProject?competition=${this.state.competition.id}`}
+                ><span className="material-icons">create</span> Edit Submission</Link>
+                <Link
+                    className="btn btn-outline-primary mr-2"
+                    to={`/project?competition=${this.state.competition.id}`}
+                ><span className="material-icons">visibility</span> View Submission</Link>
+            </div>
         } else if (this.state.competition?.inComp) {
             return <Link
                 className="btn btn-outline-primary mx-2"
-                to={`/editProject/${this.state.competition.id}`}
+                to={`/editProject?competition=${this.state.competition.id}`}
             ><span className="material-icons">add</span> Create Submission</Link>
         }
 
@@ -91,7 +97,7 @@ class CompetitionComponent extends BaseComponent {
                 <Img src={DefaultPFP} className="pfp" alt="Profile"/>
             </div>
         </div>
-        <div className="col-lg-6 d-flex flex-column justify-content-center">
+        <div className="col-lg-5 d-flex flex-column justify-content-center">
             <p className="username">
                 {this.state.competition?.name ?? `${this.state.competition?.orgName || ""}'s Competition`}
             </p>
@@ -99,7 +105,7 @@ class CompetitionComponent extends BaseComponent {
                 {this.state.competition?.shortDesc || ""}
             </p>
         </div>
-        <div className="col-lg-4 d-flex flex-row align-items-center justify-content-end">
+        <div className="col-lg-5 d-flex flex-row align-items-center justify-content-end">
             <this._submissionBtn/>
             {
                 this.state.competition
