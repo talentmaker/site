@@ -47,7 +47,7 @@ class CompetitionComponent extends BaseComponent {
             return this.props.user.sub === this.state.competition.orgId // Organization owns competition
                 ? <Link
                     to={`/editCompetition/${this.state.competition.id}`}
-                    className="btn btn-outline-light mr-3"
+                    className="btn btn-outline-dark mr-3"
                 ><span className="material-icons">create</span> Edit</Link>
                 : undefined
         } else if (!this.state.competition) {
@@ -70,7 +70,7 @@ class CompetitionComponent extends BaseComponent {
         if (this.state.competition?.hasProject) {
             return <div className="d-flex flex-column align-items-center justify-content-end">
                 <Link
-                    className="btn btn-outline-light mr-2 mb-2"
+                    className="btn btn-outline-dark mr-2 mb-2"
                     to={`/editProject?competition=${this.state.competition.id}`}
                 ><span className="material-icons">create</span> Edit Submission</Link>
                 <Link
@@ -136,10 +136,10 @@ class CompetitionComponent extends BaseComponent {
                 deadline.getMinutes() - deadline.getTimezoneOffset(),
             )
 
-            return <div className="col-lg-3 bg-darker">
+            return <div className="col-lg-3 bg-lighter">
                 <div className="container">
                     <h1>About</h1>
-                    <ul className="list-unstyled text-light">
+                    <ul className="list-unstyled text-dark">
                         <p>
                             <b>Deadline: </b>
                             {deadline.getWordMonth()} {deadline.getDate()}, {deadline.getFullYear()}
@@ -177,7 +177,7 @@ class CompetitionComponent extends BaseComponent {
      */
     private _renderDescription = (): JSX.Element => (
         <div className="markdown-container p-3">
-            <div className="container py-2 bg-darker">
+            <div className="container py-2 bg-lighter">
                 <Markdown>
                     {this.state.competition?.desc ?? "# No description provided"}
                 </Markdown>

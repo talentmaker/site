@@ -99,7 +99,7 @@ export default class BaseComponent extends React.Component<Props, State> {
                     type={props.type}
                     {...field}
                     placeholder={props.placeholder || props.label}
-                    className={`form-control bg-darker text-light ${errorClass ?? ""}`}
+                    className={`form-control bg-lighter text-dark ${errorClass ?? ""}`}
                 />
                 {feedback}
             </div>

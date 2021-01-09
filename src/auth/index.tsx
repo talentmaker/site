@@ -79,7 +79,7 @@ export default class Auth extends React.Component<{}, AuthState> {
                         className="w-75 flex-center"
                     />
                 </div>
-                <div className="col-6 text-center bg-darker p-5 align-items-center justify-content-center d-flex">
+                <div className="col-6 text-center bg-lighter p-5 align-items-center justify-content-center d-flex">
                     {this.state.mode === "login" ? <Login/> : <Reg/>}
                 </div>
             </div>

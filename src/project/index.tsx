@@ -54,7 +54,7 @@ class ProjectComponent extends BaseComponent {
      * The edit button
      */
     private _editBtn = (): JSX.Element => <Link
-        className="btn btn-outline-light mx-2"
+        className="btn btn-outline-dark mx-2"
         to={`/editProject/${this.state.project?.id ?? ""}`}
     ><span className="material-icons">create</span> Edit Submission</Link>
 
@@ -143,10 +143,10 @@ class ProjectComponent extends BaseComponent {
         const {project} = this.state
 
         if (project) {
-            return <div className="col-lg-3 bg-darker">
+            return <div className="col-lg-3 bg-lighter">
                 <div className="container">
                     <h1>About</h1>
-                    <ul className="list-unstyled text-light">
+                    <ul className="list-unstyled text-dark">
                         <p>
                             <b>Competition: </b>
                             <Link to={`/competition/${this.state.project?.competitionId}`}>
@@ -171,7 +171,7 @@ class ProjectComponent extends BaseComponent {
      */
     private _renderDescription = (): JSX.Element => (
         <div className="markdown-container p-3">
-            <div className="container py-2 bg-darker">
+            <div className="container py-2 bg-lighter">
                 <Markdown>
                     {this.state.project?.desc ?? "# No description provided"}
                 </Markdown>

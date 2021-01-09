@@ -109,7 +109,7 @@ class ProjectsComponent extends React.Component<Props, State> {
                             this.props.user?.sub === project.creator
                                 ? <Link
                                     to={`/editProject/${project.id}`}
-                                    className="btn btn-outline-light d-inline-block float-right"
+                                    className="btn btn-outline-dark d-inline-block float-right"
                                     data-bs-toggle="tooltip"
                                     data-bs-placement="left"
                                     title="Edit"

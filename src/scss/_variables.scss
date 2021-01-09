@@ -13,7 +13,9 @@
 $none: rgba(0, 0, 0, 0);
 $primary: #3f88c5;
 $secondary: #032b43;
-$light: #f4f4f4;
+$light: #eee;
+$lighter: #fff;
+$light-grey: mix($light, black, 90%);
 $dark: #373737;
 $darker: #272727;
 $dark-grey: mix($dark, white, 90%);
@@ -32,6 +34,8 @@ $theme-colors: map-merge(
     primary: $primary,
     secondary: $secondary,
     light: $light,
+    lighter: $lighter,
+    light-grey: $light-grey,
     dark: $dark,
     accent: $accent,
     darker: $darker,

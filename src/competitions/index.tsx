@@ -137,7 +137,7 @@ class CompetitionsComponent extends React.Component<Props, State> {
                             this.props.user?.sub === comp.orgId
                                 ? <Link
                                     to={`/editCompetition/${comp.id}`}
-                                    className="btn btn-outline-light d-inline-block float-right"
+                                    className="btn btn-outline-dark d-inline-block float-right"
                                     data-bs-toggle="tooltip"
                                     data-bs-placement="left"
                                     title="Edit"

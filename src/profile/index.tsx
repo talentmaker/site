@@ -133,8 +133,8 @@ class UserDisplay extends React.Component<Types.Props> {
         {user}: Types.SubComponentProps,
     ): JSX.Element => (
         <div className="row">
-            <div className="col-3 bg-darker">
-                <ul className="list-unstyled text-light px-4 py-5">
+            <div className="col-3 bg-lighter">
+                <ul className="list-unstyled text-dark px-4 py-5">
                     <li>Email: {user.email}</li>
                     <br/>
                     <li>Username: {user.username}</li>

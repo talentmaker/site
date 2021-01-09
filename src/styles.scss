@@ -20,13 +20,13 @@
  * License: BSD-3-Clause
  */
 body {
-  background-color: $dark;
-  color: $light;
+  background-color: $light;
+  color: $dark;
   overflow: hidden !important;
 }
 
 .form-control {
-  background-color: variables.$dark;
+  background-color: variables.$light;
 
   &:focus {
     background-color: variables.$dark-grey;
@@ -40,11 +40,11 @@ body {
 
 .form-control::placeholder,
 .form-control {
-  color: variables.$light;
+  color: variables.$dark;
 }
 
-.input-group-text {
-  background-color: variables.$dark-grey;
+.input-group-text { // The icons before an input field and thier colour
+  background-color: variables.$light-grey;
 }
 
 html,

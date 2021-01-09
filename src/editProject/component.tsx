@@ -159,30 +159,30 @@ export class EditProjectComponent extends BaseComponent {
      * Buttons for the markdown editor
      */
     private _markdownButtons = (): JSX.Element => (
-        <div className="row bg-darker mx-0">
+        <div className="row bg-lighter mx-0">
             <div className="col-12 d-flex m-0 p-0">
                 {
                     this.state.mode === "edit"
                         ? <>
                             <button
                                 type="button"
-                                className="btn py-1 disabled btn-darker"
+                                className="btn py-1 disabled btn-lighter"
                             >Edit</button>
                             <button
                                 type="button"
-                                className="btn py-1 btn-dark-grey"
+                                className="btn py-1 btn-light-grey"
                                 onClick={(): void => this.setState({mode: "preview"})}
                             >Preview</button>
                         </>
                         : <>
                             <button
                                 type="button"
-                                className="btn py-1 btn-dark-grey"
+                                className="btn py-1 btn-light-grey"
                                 onClick={(): void => this.setState({mode: "edit"})}
                             >Edit</button>
                             <button
                                 type="button"
-                                className="btn py-1 disabled btn-darker border-right-1"
+                                className="btn py-1 disabled btn-lighter border-right-1"
                             >Preview</button>
                         </>
                 }
@@ -194,7 +194,7 @@ export class EditProjectComponent extends BaseComponent {
      * Render the markdown preview
      */
     private _markdownPreview = (): JSX.Element => <div className="markdown-container p-0">
-        <div className="bg-darker p-1">
+        <div className="bg-lighter p-1">
             <Markdown>{this.state.desc}</Markdown>
         </div>
     </div>
@@ -224,7 +224,7 @@ export class EditProjectComponent extends BaseComponent {
                         value={this.state.desc}
                         onValueChange={(code: string): void => this.setState({desc: code})}
                         highlight={(code): string => highlight(code, languages.markdown, "markdown")}
-                        className="form-control bg-darker"
+                        className="form-control bg-lighter"
                         padding={3}
                     />
                     : <this._markdownPreview/>

@@ -11,7 +11,7 @@
 @use "./../scss/variables" as variables;
 
 blockquote {
-  border-left: solid mix(variables.$darker, white, 80%) 0.5rem;
+  border-left: solid mix(variables.$lighter, black, 80%) 0.5rem;
 
   p {
     margin: 0;

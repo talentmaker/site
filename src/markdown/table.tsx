@@ -16,7 +16,7 @@ type Props = {
 }
 
 export const Table: React.FC<Props> = (props) => (
-    <table className="table table-bordered text-light">
+    <table className="table table-bordered text-dark">
         {props.children}
     </table>
 )

@@ -114,12 +114,12 @@ export class Toast extends React.PureComponent<Props, State> {
      * Bootstrap toast
      */
     private _toast = (): JSX.Element => <div
-        className={`toast ${this.state.shouldShow ? "show" : "hide"} bg-darker toast-fixed`}
+        className={`toast ${this.state.shouldShow ? "show" : "hide"} bg-lighter toast-fixed`}
         aria-live={this.props.assertive ? "assertive" : "polite"}
         aria-atomic="true"
         ref={this.props.reference}
     >
-        <div className="toast-header text-darker bg-light">
+        <div className="toast-header text-lighter bg-light">
             <span className={`material-icons mr-2 ${this.props.iconClassName ?? ""}`}>
                 {this.props.icon ?? "error"}
             </span>
@@ -131,7 +131,7 @@ export class Toast extends React.PureComponent<Props, State> {
             }</small>
             <button
                 type="button"
-                className="btn-close text-darker"
+                className="btn-close text-lighter"
                 data-bs-dismiss="toast"
                 aria-label="Close"
                 onClick={(event): void => {
