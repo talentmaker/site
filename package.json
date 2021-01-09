@@ -31,6 +31,7 @@
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-select": "^3.1.1",
+    "react-tag-input": "^6.5.2",
     "remark-gfm": "^1.0.0",
     "spdx-license-ids": "^3.0.7",
     "yup": "^0.29.3"
@@ -72,6 +73,7 @@
     "@types/react-dom": "^16.9.0",
     "@types/react-router": "^5.1.8",
     "@types/react-router-dom": "^5.1.5",
+    "@types/react-tag-input": "^6.1.2",
     "@types/yup": "^0.29.6",
     "@typescript-eslint/eslint-plugin": "^4.9.0",
     "@typescript-eslint/parser": "^4.9.0",

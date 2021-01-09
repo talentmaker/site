@@ -17,6 +17,7 @@ import Markdown from "../markdown"
 import React from "react"
 import UserContext from "../userContext"
 import osiLicenses from "osi-licenses"
+import queryString from "query-string"
 import spdxLicenses from "spdx-license-ids"
 
 class ProjectComponent extends BaseComponent {
@@ -68,10 +69,10 @@ class ProjectComponent extends BaseComponent {
         </div>
         <div className="col-lg-6 d-flex flex-column justify-content-center">
             <p className="username">
-                {this.state.project?.name ?? "Error"}
+                {this.state.project?.name ?? "Submission"}
             </p>
             <p className="sub text-muted">
-                {/* Submission for project ... */}
+                Submission for {this.state.project?.name ?? "Submission"}
             </p>
         </div>
         <div className="col-lg-4 d-flex flex-row align-items-center justify-content-end">
@@ -147,10 +148,14 @@ class ProjectComponent extends BaseComponent {
                     <h1>About</h1>
                     <ul className="list-unstyled text-light">
                         <p>
-                            <b>Competition:</b>
+                            <b>Competition: </b>
+                            <Link to={`/competition/${this.state.project?.competitionId}`}>
+                                {this.state.project?.competitionName}
+                            </Link>
                         </p>
                         <p>
-                            <b>Author:</b>
+                            <b>Author: </b>
+                            {this.state.project?.creatorUsername}
                         </p>
                         <this._projectURLs/>
                     </ul>
@@ -217,12 +222,20 @@ class ProjectComponent extends BaseComponent {
 }
 
 export const Project = (): JSX.Element => {
-    const {id} = useParams<{id?: string}>()
+    const {id} = useParams<{id?: string}>(),
+        {competition: compId} = queryString.parse(window.location.search)
 
     if (id) {
         return <UserContext.Consumer>
             {({currentUser: user}): JSX.Element => <ProjectComponent
                 id={id}
+                user={user ?? undefined}
+            />}
+        </UserContext.Consumer>
+    } else if (typeof compId === "string") {
+        return <UserContext.Consumer>
+            {({currentUser: user}): JSX.Element => <ProjectComponent
+                compId={compId}
                 user={user ?? undefined}
             />}
         </UserContext.Consumer>

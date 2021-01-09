@@ -194,6 +194,7 @@ class App extends React.Component<AppTypes.Props, AppTypes.State> {
                     render={(): JSX.Element => <Profile user={this.state.currentUser}/>}
                 />
                 <Route path="/project/:id" component={Project}/>
+                <Route path="/project" component={Project}/>
                 <Route path="/projects/:compId" component={Projects}/>
             </Switch>
             <Footer/>

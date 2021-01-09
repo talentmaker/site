@@ -117,7 +117,7 @@ class CompetitionComponent extends BaseComponent {
             }
             {
                 this.props.user === undefined
-                    ? <p className="mr-3"><Link to="auth">Sign up</Link> to participate in competitions.</p>
+                    ? <p className="mr-3"><Link to="/auth">Sign up</Link> to participate in competitions.</p>
                     : this._joinBtn()
             }
         </div>

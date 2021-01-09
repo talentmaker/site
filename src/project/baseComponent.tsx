@@ -13,6 +13,7 @@ import "./index.scss"
 import type {CognitoUser} from "../cognito-utils"
 import Prism from "prismjs"
 import React from "react"
+import {handleError} from "../errorHandler"
 import initTooltips from "../bootstrap/tooltip"
 import notify from "../notify"
 import {url} from "../globals"
@@ -27,9 +28,12 @@ export type Project = {
     license?: string,
     videoURL?: string,
     coverImageURL?: string,
+    competitionId: string,
     topics?: string[],
     projectId: number,
     name: string,
+    creatorUsername: string,
+    competitionName: string,
 }
 
 export const isProject = (obj: {[key: string]: unknown}): obj is Project => (
@@ -44,7 +48,12 @@ type Props = {
     /**
      * Project id
      */
-    id: string,
+    id?: string,
+
+    /**
+     * Competition id
+     */
+    compId?: string,
 
     /**
      * Current user
@@ -68,13 +77,19 @@ export default class BaseComponent extends React.Component<Props, State> {
     }
 
     public componentDidMount = async (): Promise<void> => {
-        const userQS = this.props.user
-            ? `&idToken=${this.props.user.idToken}&idTokenChecksum=${this.props.user.idTokenChecksum}`
-            : ""
-
         try {
+            let queryString
+
+            if (this.props.id) {
+                queryString = `?id=${this.props.id}`
+            } else if (this.props.compId && this.props.user) {
+                queryString = `?sub=${this.props.user.sub}&competitionId=${this.props.compId}`
+            } else {
+                throw new Error("No ID's were specified")
+            }
+
             const data = await (await fetch(
-                `${url}/projects/getOne?id=${this.props.id}${userQS}`,
+                `${url}/projects/getOne${queryString}`,
                 {
                     method: "GET",
                     headers: {
@@ -98,14 +113,7 @@ export default class BaseComponent extends React.Component<Props, State> {
 
             this.setState({project: data})
         } catch (err) {
-            notify({
-                title: "Error",
-                icon: "report_problem",
-                iconClassName: "text-danger",
-                content: `${err}`,
-            })
-
-            console.error(err)
+            handleError(err)
         }
 
         Prism.highlightAll()
