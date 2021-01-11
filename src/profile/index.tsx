@@ -155,23 +155,21 @@ class UserDisplay extends React.Component<Types.Props> {
         </div>
     )
 
-    protected profilePage = (): JSX.Element => {
+    public render = (): JSX.Element => {
         if (this.props.user === undefined) {
             return <div className="container">It looks like you&apos;ve been signed out</div>
         }
 
         return <>
-            <this.userInfo user={this.props.user}/>
+            {this.userInfo({user: this.props.user})}
 
             <div className="row bg-primary bar">
                 <div className="col-sm-12"></div>
             </div>
 
-            <this.statsAndProjects user={this.props.user}/>
+            {this.statsAndProjects({user: this.props.user})}
         </>
     }
-
-    public render = (): JSX.Element => <this.profilePage/>
 
 }
 
