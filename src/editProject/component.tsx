@@ -212,7 +212,7 @@ export class EditProjectComponent extends BaseComponent {
                 label="Submission Title"
                 placeholder="Submission Title"
             ><span className="material-icons">sort</span></EditProjectComponent.input>
-            <this._markdownButtons/>
+            {this._markdownButtons()}
             <div className="form-group">{
 
                 /**
@@ -227,7 +227,7 @@ export class EditProjectComponent extends BaseComponent {
                         className="form-control bg-lighter"
                         padding={3}
                     />
-                    : <this._markdownPreview/>
+                    : this._markdownPreview()
 
             }</div>
             <EditProjectComponent.otherFields/>

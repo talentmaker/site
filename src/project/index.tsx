@@ -78,7 +78,7 @@ class ProjectComponent extends BaseComponent {
         <div className="col-lg-4 d-flex flex-row align-items-center justify-content-end">
             {
                 (this.props.user?.sub ?? "") === this.state.project?.creator
-                    ? <this._editBtn/>
+                    ? this._editBtn()
                     : undefined
             }
         </div>
@@ -157,7 +157,7 @@ class ProjectComponent extends BaseComponent {
                             <b>Author: </b>
                             {this.state.project?.creatorUsername}
                         </p>
-                        <this._projectURLs/>
+                        {this._projectURLs()}
                     </ul>
                 </div>
             </div>
@@ -187,7 +187,7 @@ class ProjectComponent extends BaseComponent {
         .replace("https://youtu.be", "https://www.youtube.com/embed") ?? ""
 
     public render = (): JSX.Element => <>
-        <this._userInfo/>
+        {this._userInfo()}
         <div className="row bg-primary bar">
             <div className="col-sm-12 topics"> {/* Blue bar with topics */}
                 {this.state.project?.topics?.map((topic, index): JSX.Element => (
@@ -199,7 +199,7 @@ class ProjectComponent extends BaseComponent {
             </div>
         </div>
         <div className="row">
-            <this._projectInfo/>
+            {this._projectInfo()}
             <div className="col-lg-9">
                 {
                     this.state.project?.videoURL

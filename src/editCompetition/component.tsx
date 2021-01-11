@@ -246,8 +246,8 @@ export default class EditCompetitionComponent extends BaseComponent {
                 label="Short Description"
                 placeholder="Short Description"
             ><span className="material-icons">description</span></EditCompetitionComponent.input>
-            <this._datePicker/>
-            <this._markdownButtons/>
+            {this._datePicker()}
+            {this._markdownButtons()}
             <div className="form-group">{
 
                 /**
@@ -262,7 +262,7 @@ export default class EditCompetitionComponent extends BaseComponent {
                         className="form-control bg-lighter"
                         padding={3}
                     />
-                    : <this._markdownPreview/>
+                    : this._markdownPreview()
 
             }</div>
             <EditCompetitionComponent.otherFields/>

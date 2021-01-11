@@ -106,7 +106,7 @@ class CompetitionComponent extends BaseComponent {
             </p>
         </div>
         <div className="col-lg-5 d-flex flex-row align-items-center justify-content-end">
-            <this._submissionBtn/>
+            {this._submissionBtn()}
             {
                 this.state.competition
                     ? <Link
@@ -193,7 +193,7 @@ class CompetitionComponent extends BaseComponent {
         .replace("https://youtu.be", "https://www.youtube.com/embed") ?? ""
 
     public render = (): JSX.Element => <>
-        <this._orgInfo/>
+        {this._orgInfo()}
         <div className="row bg-primary bar">
             <div className="col-sm-12 topics"> {/* Blue bar with competitions */}
                 {this.state.competition?.topics.map((topic, index): JSX.Element => (
@@ -205,7 +205,7 @@ class CompetitionComponent extends BaseComponent {
             </div>
         </div>
         <div className="row">
-            <this._compInfo/>
+            {this._compInfo()}
             <div className="col-lg-9">
                 {
                     this.state.competition?.videoURL

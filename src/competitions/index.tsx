@@ -171,7 +171,7 @@ class CompetitionsComponent extends React.Component<Props, State> {
         return <>
             {
                 this.props.user?.isOrg === true
-                    ? <this._newCompetition/>
+                    ? this._newCompetition()
                     : undefined
             }
 

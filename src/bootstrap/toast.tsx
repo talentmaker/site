@@ -119,7 +119,7 @@ export class Toast extends React.PureComponent<Props, State> {
         aria-atomic="true"
         ref={this.props.reference}
     >
-        <div className="toast-header text-lighter bg-light">
+        <div className="toast-header text-dark bg-light">
             <span className={`material-icons mr-2 ${this.props.iconClassName ?? ""}`}>
                 {this.props.icon ?? "error"}
             </span>
@@ -148,7 +148,7 @@ export class Toast extends React.PureComponent<Props, State> {
 
     public render = (): JSX.Element => (
         this.state.shouldShow
-            ? <this._toast/>
+            ? this._toast()
             : <></>
     )
 

@@ -145,7 +145,7 @@ class ProjectsComponent extends React.Component<Props, State> {
     }
 
     public render = (): JSX.Element => <div className="container">
-        <this._projects/>
+        {this._projects()}
     </div>
 
 }
