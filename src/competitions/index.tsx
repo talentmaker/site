@@ -28,11 +28,14 @@ const isCompetition = (
     obj: unknown,
 ): obj is Competition[] => (
     obj instanceof Array &&
-    typeof (obj as UnknownArray)[0]?.id === "number" &&
-    typeof (obj as UnknownArray)[0]?.deadline === "string" &&
     (
-        (obj as UnknownArray)[0]?.coverImageURL === undefined ||
-        typeof (obj as UnknownArray)[0]?.coverImageURL === "string"
+        obj.length === 0 ||
+        typeof (obj as UnknownArray)[0]?.id === "number" &&
+        typeof (obj as UnknownArray)[0]?.deadline === "string" &&
+        (
+            (obj as UnknownArray)[0]?.coverImageURL === undefined ||
+            typeof (obj as UnknownArray)[0]?.coverImageURL === "string"
+        )
     )
 )
 
