@@ -15,34 +15,12 @@ import {highlight, languages} from "prismjs"
 import Editor from "@luke-zhang-04/react-simple-markdown-editor"
 import Markdown from "../markdown"
 import React from "react"
+import {Spinner} from "../bootstrap"
+import handleError from "../errorHandler"
 import notify from "../notify"
 import {url} from "../globals"
 
 export class EditProjectComponent extends BaseComponent {
-
-    private _handleError = (err: unknown): void => {
-        console.error(err)
-
-        if (
-            err instanceof Error ||
-                typeof err === "object" &&
-                typeof (err as {[key: string]: unknown}).message === "string"
-        ) {
-            notify({
-                title: "Error",
-                icon: "report_problem",
-                iconClassName: "text-danger",
-                content: `ERROR: ${(err as {[key: string]: unknown}).message as string}`,
-            })
-        } else {
-            notify({
-                title: "Error",
-                icon: "report_problem",
-                iconClassName: "text-danger",
-                content: `ERROR: ${JSON.stringify(err)}`,
-            })
-        }
-    }
 
     public componentDidMount = async (): Promise<void> => {
         const {user} = this.props
@@ -64,6 +42,8 @@ export class EditProjectComponent extends BaseComponent {
                 )).json() as {[key: string]: unknown}
 
                 if (isProject(data)) { // Set project ot state
+                    this._didSetData = true
+
                     this.setState({project: data})
 
                     if (data.desc) { // Update description
@@ -71,7 +51,7 @@ export class EditProjectComponent extends BaseComponent {
                     }
                 }
             } catch (err: unknown) {
-                this._handleError(err)
+                handleError(err)
             }
         }
     }
@@ -85,6 +65,8 @@ export class EditProjectComponent extends BaseComponent {
     }
 
     private _hasUser = this.props.user !== undefined
+
+    private _didSetData = this.props.compId === undefined || false
 
     /* eslint-disable max-lines-per-function */ // Unavoidable
     private _submit = async (
@@ -128,7 +110,7 @@ export class EditProjectComponent extends BaseComponent {
                     throw data
                 }
             } catch (err) {
-                this._handleError(err)
+                handleError(err)
             }
         } else {
             notify({
@@ -199,7 +181,7 @@ export class EditProjectComponent extends BaseComponent {
         </div>
     </div>
 
-    public render = (): JSX.Element => <Formik
+    protected content = (): JSX.Element => <Formik
         enableReinitialize
         initialValues={this._initialValues()}
         onSubmit={this._submit}
@@ -238,6 +220,12 @@ export class EditProjectComponent extends BaseComponent {
             >Submit</button>
         </Form>}
     </Formik>
+
+    public render = (): JSX.Element => (
+        this._didSetData
+            ? this.content()
+            : <Spinner color="primary" size="25vw" className="my-5" centered/>
+    )
 
 }
 

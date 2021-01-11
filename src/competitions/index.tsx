@@ -16,6 +16,7 @@ import DefaultPhoto from "../images/default.svg"
 import Img from "../image"
 import {Link} from "react-router-dom"
 import React from "react"
+import Spinner from "../bootstrap/spinner"
 import UserContext from "../userContext"
 import {arrayToChunks} from "../utils"
 import dateUtils from "../date-utils"
@@ -40,7 +41,7 @@ const isCompetition = (
 )
 
 interface State {
-    competitions: Competition[],
+    competitions?: Competition[],
 }
 
 interface Props {
@@ -53,7 +54,7 @@ class CompetitionsComponent extends React.Component<Props, State> {
         super(props)
 
         this.state = {
-            competitions: [],
+            competitions: undefined,
         }
     }
 
@@ -104,12 +105,12 @@ class CompetitionsComponent extends React.Component<Props, State> {
     private _getSortedComponents = (): Competition[][][] => {
 
         // Competitions due in the future and past
-        const future: Competition[] = this.state.competitions.filter((val) => (
+        const future: Competition[] = this.state.competitions?.filter((val) => (
             new Date(val.deadline).getTime() >= dateUtils.getUtcTime()
-        )),
-            past: Competition[] = this.state.competitions.filter((val) => (
+        )) ?? [],
+            past: Competition[] = this.state.competitions?.filter((val) => (
                 new Date(val.deadline).getTime() < dateUtils.getUtcTime()
-            ))
+            )) ?? []
 
         return [arrayToChunks(future), arrayToChunks(past)]
     }
@@ -124,7 +125,9 @@ class CompetitionsComponent extends React.Component<Props, State> {
 
         return <div key={`comp-col-${index}-${comp.id}`} className="col-lg-4 my-3">
             <div className="comp-card">
-                <Img src={comp.coverImageURL ?? DefaultPhoto} alt="cover"/>
+                <Img src={comp.coverImageURL ?? DefaultPhoto} alt="cover">
+                    <Spinner color="primary" size="6rem" centered/>
+                </Img>
                 <div className="comp-info">
                     <div className="deadline">
                         {`${deadline.getWordMonth()} ${deadline.getDate()}, ${deadline.getFullYear()}`}
@@ -190,9 +193,13 @@ class CompetitionsComponent extends React.Component<Props, State> {
         </>
     }
 
-    public render = (): JSX.Element => <div className="container">
-        {this._competitions()}
-    </div>
+    public render = (): JSX.Element => (
+        this.state.competitions
+            ? <div className="container">
+                {this._competitions()}
+            </div>
+            : <Spinner color="primary" size="25vw" className="my-5" centered/>
+    )
 
 }
 

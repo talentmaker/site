@@ -17,6 +17,7 @@ import DatePicker from "react-datepicker"
 import Editor from "@luke-zhang-04/react-simple-markdown-editor"
 import Markdown from "../markdown"
 import React from "react"
+import {Spinner} from "../bootstrap"
 import handleError from "../errorHandler"
 import {isCompetition} from "../competition/baseComponent"
 import notify from "../notify"
@@ -46,6 +47,8 @@ export default class EditCompetitionComponent extends BaseComponent {
                 }
 
                 if (this.props.user?.sub === data.orgId) {
+                    this._didSetData = true
+
                     this.setState({
                         competition: data,
                         deadline: new Date(data.deadline),
@@ -77,6 +80,8 @@ export default class EditCompetitionComponent extends BaseComponent {
     }
 
     private _hasUser = this.props.user !== undefined
+
+    private _didSetData = this.props.id === undefined || false
 
     /* eslint-disable max-lines-per-function, max-statements */ // Unavoidable
     private _submit = async (
@@ -227,7 +232,7 @@ export default class EditCompetitionComponent extends BaseComponent {
         </div>
     </div>
 
-    public render = (): JSX.Element => <Formik
+    protected content = (): JSX.Element => <Formik
         enableReinitialize
         initialValues={this._initialValues()}
         onSubmit={this._submit}
@@ -273,5 +278,11 @@ export default class EditCompetitionComponent extends BaseComponent {
             >Submit</button>
         </Form>}
     </Formik>
+
+    public render = (): JSX.Element => (
+        this._didSetData
+            ? this.content()
+            : <Spinner color="primary" size="25vw" className="my-5" centered/>
+    )
 
 }

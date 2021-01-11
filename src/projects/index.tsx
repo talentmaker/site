@@ -16,6 +16,7 @@ import type {CognitoUser} from "../cognito-utils"
 import DefaultPhoto from "../images/default.svg"
 import Img from "../image"
 import React from "react"
+import {Spinner} from "../bootstrap";
 import UserContext from "../userContext"
 import {arrayToChunks} from "../utils"
 import handleError from "../errorHandler"
@@ -30,7 +31,7 @@ const isProjects = (
 )
 
 interface State {
-    projects: Project[],
+    projects?: Project[],
 }
 
 interface Props {
@@ -44,7 +45,7 @@ class ProjectsComponent extends React.Component<Props, State> {
         super(props)
 
         this.state = {
-            projects: [],
+            projects: undefined,
         }
     }
 
@@ -89,7 +90,7 @@ class ProjectsComponent extends React.Component<Props, State> {
 
         // Projects due in the future and past
         const advancing: Project[] = [],
-            submitted = this.state.projects
+            submitted = this.state.projects ?? []
 
         return [arrayToChunks(advancing), arrayToChunks(submitted)]
     }
@@ -144,9 +145,14 @@ class ProjectsComponent extends React.Component<Props, State> {
         </>
     }
 
-    public render = (): JSX.Element => <div className="container">
-        {this._projects()}
-    </div>
+    public render = (): JSX.Element => (
+        this.state.projects
+            ? <div className="container">
+                {this._projects()}
+            </div>
+            : <Spinner color="primary" size="25vw" className="my-5" centered/>
+    )
+
 
 }
 

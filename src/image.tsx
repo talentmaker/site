@@ -31,6 +31,26 @@ type Props = ImgProps & {
      * Image source, either from
      */
     src: string | string[],
+
+    /**
+     * If the image should use a spinner until the image is loader
+     */
+    shouldIncludeSpinner?: boolean,
+
+    /**
+     * Extra image classname
+     */
+    className?: string,
+
+    /**
+     * Extra styling
+     */
+    style?: React.CSSProperties,
+
+    /**
+     * Spinner component to show before the image loads
+     */
+    children?: React.ReactNode,
 }
 
 const Img: React.FC<Props> = (props) => {
@@ -40,6 +60,9 @@ const Img: React.FC<Props> = (props) => {
 
         // Current image index to use
         [currentIndex, setIndex] = React.useState(0),
+
+        // If the image has loaded
+        [didload, setLoad] = React.useState(false),
 
         /**
          * Handle an image error
@@ -54,12 +77,21 @@ const Img: React.FC<Props> = (props) => {
         images.push(DefaultImage)
     }
 
-    return <img
-        alt="All backups failed"
-        {...props}
-        src={images[currentIndex]}
-        onError={onError}
-    />
+    return <>
+        {didload ? undefined : props.children}
+        <img
+            alt="All backups failed"
+            {...{
+                ...props,
+                children: undefined,
+            }}
+            src={images[currentIndex]}
+            onError={onError}
+            onLoad={(): void => setLoad(true)}
+            style={props.style}
+            className={`${didload ? "d-block" : "d-none"} ${props.className}`}
+        />
+    </>
 }
 
 /**

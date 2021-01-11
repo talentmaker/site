@@ -15,6 +15,7 @@ import DefaultPFP from "../images/profile.svg"
 import Img from "../image"
 import Markdown from "../markdown"
 import React from "react"
+import {Spinner} from "../bootstrap"
 import UserContext from "../userContext"
 import osiLicenses from "osi-licenses"
 import queryString from "query-string"
@@ -186,7 +187,7 @@ class ProjectComponent extends BaseComponent {
         ?.replace("watch?v=", "embed/")
         .replace("https://youtu.be", "https://www.youtube.com/embed") ?? ""
 
-    public render = (): JSX.Element => <>
+    protected content = (): JSX.Element => <>
         {this._userInfo()}
         <div className="row bg-primary bar">
             <div className="col-sm-12 topics"> {/* Blue bar with topics */}
@@ -218,6 +219,12 @@ class ProjectComponent extends BaseComponent {
             </div>
         </div>
     </>
+
+    public render = (): JSX.Element => (
+        this.state.project
+            ? this.content()
+            : <Spinner color="primary" size="25vw" className="my-5" centered/>
+    )
 
 }
 

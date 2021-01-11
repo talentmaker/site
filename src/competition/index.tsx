@@ -16,6 +16,7 @@ import DefaultPFP from "../images/profile.svg"
 import Img from "../image"
 import Markdown from "../markdown"
 import React from "react"
+import {Spinner} from "../bootstrap"
 import UserContext from "../userContext"
 import join from "./join"
 
@@ -192,7 +193,7 @@ class CompetitionComponent extends BaseComponent {
         ?.replace("watch?v=", "embed/")
         .replace("https://youtu.be", "https://www.youtube.com/embed") ?? ""
 
-    public render = (): JSX.Element => <>
+    protected content = (): JSX.Element => <>
         {this._orgInfo()}
         <div className="row bg-primary bar">
             <div className="col-sm-12 topics"> {/* Blue bar with competitions */}
@@ -224,6 +225,12 @@ class CompetitionComponent extends BaseComponent {
             </div>
         </div>
     </>
+
+    public render = (): JSX.Element => (
+        this.state.competition
+            ? this.content()
+            : <Spinner color="primary" size="25vw" className="my-5" centered/>
+    )
 
 }
 
