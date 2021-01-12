@@ -29,11 +29,9 @@ export default class EditCompetitionComponent extends BaseComponent {
         const {user, id: compId} = this.props
 
         if (user && compId) {
-            const queryString = `?id=${compId}`
-
             try {
                 const data = await (await fetch(
-                    `${url}/competitions/getOne${queryString}`,
+                    `${url}/competitions/getOne?id=${compId}`,
                     {
                         method: "GET",
                         headers: {
@@ -68,6 +66,11 @@ export default class EditCompetitionComponent extends BaseComponent {
             } catch (err: unknown) {
                 handleError(err)
             }
+        } else {
+            handleError({
+                name: "Not authorized",
+                message: "User is not authorized to modify this. You may be logged out.",
+            })
         }
     }
 

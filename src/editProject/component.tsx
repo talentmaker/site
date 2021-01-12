@@ -53,6 +53,11 @@ export class EditProjectComponent extends BaseComponent {
             } catch (err: unknown) {
                 handleError(err)
             }
+        } else {
+            handleError({
+                name: "Unauthenticated error",
+                message: "User is not authenticated",
+            })
         }
     }
 
