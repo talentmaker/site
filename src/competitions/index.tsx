@@ -19,6 +19,7 @@ import React from "react"
 import Spinner from "../bootstrap/spinner"
 import UserContext from "../userContext"
 import {arrayToChunks} from "../utils"
+import cache from "../cache"
 import dateUtils from "../date-utils"
 import notify from "../notify"
 import {url} from "../globals"
@@ -60,6 +61,8 @@ class CompetitionsComponent extends React.Component<Props, State> {
 
     public componentDidMount = async (): Promise<void> => {
         try {
+            this._handleCache()
+
             // Get a competition
             const data = await (await fetch(`${url}/competitions/get`,
                 {
@@ -83,6 +86,8 @@ class CompetitionsComponent extends React.Component<Props, State> {
             }
 
             this.setState({competitions: data})
+
+            cache.write("talentmakerCache_competitions", data)
         } catch (err: unknown) {
             notify({
                 title: "Error",
@@ -97,6 +102,14 @@ class CompetitionsComponent extends React.Component<Props, State> {
 
     public componentDidUpdate = async (): Promise<void> => {
         (await import("../bootstrap/tooltip")).initTooltips()
+    }
+
+    private _handleCache = async (): Promise<void> => {
+        const data = await cache.read("talentmakerCache_competitions")
+
+        if (isCompetition(data)) { // Check the fetched data
+            this.setState({competitions: data})
+        }
     }
 
     /**
