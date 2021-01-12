@@ -21,6 +21,27 @@ type CacheEntry = {
 }
 
 /**
+ * Cache configuration
+ */
+enum Config {
+
+    /**
+     * The max string length for a single cache item; saves space in the cache
+     */
+    MaxLen = 512,
+
+    /**
+     * The max array length for a single cache item; saves space
+     */
+    MaxArrayLen = 16,
+
+    /**
+     * Amount of cache to clear if full
+     */
+    AmountToClear = 1 / 8,
+}
+
+/**
  * Typegaurd to make sure obj is a cache entry
  */
 const isCacheEntry = (obj: unknown): obj is CacheEntry => (
@@ -63,13 +84,41 @@ const isCacheEntry = (obj: unknown): obj is CacheEntry => (
 
             const sortedEntries = entries
                 .sort((first, second) => second[0] - first[0]) // Sort from oldest to newest
-                .slice(entries.length - entries.length / 8) // Include 1/8 of the storage
+                .slice((entries.length - entries.length) * Config.AmountToClear)
 
             for (const [_, key] of sortedEntries) {
                 localStorage.removeItem(key) // Remove storage items
             }
         })
     ),
+
+    /**
+     * Truncates long strings as they take a lot of cache space
+     */
+    formatData = (data: unknown): unknown => {
+        if (typeof data === "string" && data.length > Config.MaxLen) { // Truncate the long strings
+
+            return `${data.slice(0, Config.MaxLen)} . . .\n\nData was truncated for storage purposes`
+        } else if (data instanceof Array) { // Truncate long arrays and truncate array contents
+            const newData: unknown[] = []
+
+            for (const entry of data.slice(0, Config.MaxArrayLen)) {
+                newData.push(formatData(entry)) // Call recursively
+            }
+
+            return newData
+        } else if (typeof data === "object" && data !== null) { // Truncate object contents
+            const newData: {[key: string]: unknown} = {}
+
+            for (const [key, value] of Object.entries(data)) {
+                newData[key] = formatData(value) // Call recursively
+            }
+
+            return newData
+        }
+
+        return data
+    },
 
     /**
      * If localstorage is enabled
@@ -104,7 +153,9 @@ export const writeCache = async (key: string, data: unknown): Promise<void> => {
                 key,
                 JSON.stringify({
                     lastUsed: Date.now(),
-                    data: lzString.compressToUTF16(JSON.stringify(data)),
+                    data: lzString.compressToUTF16(
+                        JSON.stringify(formatData(data)),
+                    ),
                 }),
             )
         } catch {
