@@ -66,9 +66,17 @@ export const Footer = (): JSX.Element => <footer className="page-footer font-sma
         </div>
     </div>
 
-    <div className="footer-copyright text-center py-3">Copyright © 2020:{" "}
-        <a href="https://luke-zhang-04.github.io/">Luke Zhang</a>,{" "}
-        <a href="https://github.com/ethanlim04">Ethan Lim</a>,
+    <div className="footer-copyright text-center py-3">Copyright © 2020 - 2021:{" "}
+        <a
+            href="https://luke-zhang-04.github.io"
+            target="_blank"
+            rel="noopener noreferrer"
+        >Luke Zhang</a>,{" "}
+        <a
+            href="https://github.com/ethanlim04"
+            target="_blank"
+            rel="noopener noreferrer"
+        >Ethan Lim</a>,
     </div>
 
 </footer>
