@@ -11,7 +11,7 @@
 
 import {Link, withRouter} from "react-router-dom"
 import AuthImage from "./authimage.svg"
-import Img from "../image"
+import {Img} from "../elements"
 import Login from "./login"
 import React from "react"
 import Reg from "./register"

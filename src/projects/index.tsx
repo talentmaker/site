@@ -14,7 +14,7 @@ import {Link, useParams} from "react-router-dom"
 import {Project, isProject} from "../project/baseComponent"
 import type {CognitoUser} from "../cognito-utils"
 import DefaultPhoto from "../images/default.svg"
-import Img from "../image"
+import {Img} from "../elements"
 import React from "react"
 import {Spinner} from "../bootstrap";
 import UserContext from "../userContext"

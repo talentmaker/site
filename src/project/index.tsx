@@ -9,10 +9,10 @@
  * @license BSD-3-Clause
  */
 
+import {IFrame, Img} from "../elements"
 import {Link, useParams} from "react-router-dom"
 import BaseComponent from "./baseComponent"
 import DefaultPFP from "../images/profile.svg"
-import Img from "../image"
 import Markdown from "../markdown"
 import React from "react"
 import {Spinner} from "../bootstrap"
@@ -205,15 +205,19 @@ class ProjectComponent extends BaseComponent {
                 {
                     this.state.project?.videoURL
                         ? <div className="mx-3 mt-3">
-                            <div className="video-container">
-                                <iframe
+                            <div className={`video-container ${this.state.videodidLoad ? "" : "p-0"}`}>
+                                <IFrame
                                     title="project video"
                                     className="video"
                                     src={this._getSrc()}
-                                ></iframe>
+                                    onLoad={(): void => this.setState({videodidLoad: true})} // Change state to add padding
+                                    onError={(): void => this.setState({videodidLoad: true})}
+                                >
+                                    <Spinner color="danger" size="25vw" className="my-5" centered/>
+                                </IFrame>
                             </div>
                         </div>
-                        : <></>
+                        : undefined
                 }
                 {this._renderDescription()}
             </div>

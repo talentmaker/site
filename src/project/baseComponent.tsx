@@ -65,6 +65,7 @@ type Props = {
 type State = {
     project?: Project,
     hasuser: boolean,
+    videodidLoad: boolean,
 }
 
 export default class BaseComponent extends React.Component<Props, State> {
@@ -74,6 +75,7 @@ export default class BaseComponent extends React.Component<Props, State> {
 
         this.state = {
             hasuser: props.user !== undefined,
+            videodidLoad: false,
         }
     }
 
