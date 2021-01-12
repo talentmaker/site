@@ -16,8 +16,10 @@ import type {CognitoUser} from "../cognito-utils"
 import DefaultPhoto from "../images/default.svg"
 import Img from "../image"
 import React from "react"
+import {Spinner} from "../bootstrap";
 import UserContext from "../userContext"
 import {arrayToChunks} from "../utils"
+import cache from "../cache"
 import handleError from "../errorHandler"
 import notify from "../notify"
 import {url} from "../globals"
@@ -30,7 +32,7 @@ const isProjects = (
 )
 
 interface State {
-    projects: Project[],
+    projects?: Project[],
 }
 
 interface Props {
@@ -44,12 +46,14 @@ class ProjectsComponent extends React.Component<Props, State> {
         super(props)
 
         this.state = {
-            projects: [],
+            projects: undefined,
         }
     }
 
     public componentDidMount = async (): Promise<void> => {
         try {
+            this._handleCache()
+
             const data = await (await fetch(
                 `${url}/projects/get?column=competitionId&value=${this.props.compId}`,
                 {
@@ -73,6 +77,7 @@ class ProjectsComponent extends React.Component<Props, State> {
             }
 
             this.setState({projects: data})
+            cache.write("talentmakerCache_projects", data)
         } catch (err: unknown) {
             handleError(err)
         }
@@ -82,6 +87,16 @@ class ProjectsComponent extends React.Component<Props, State> {
         (await import("../bootstrap/tooltip")).initTooltips()
     }
 
+    private _handleCache = async (): Promise<void> => {
+        const data = await cache.read(
+            "talentmakerCache_projects",
+        ) as {[key: string]: unknown}
+
+        if (isProjects(data)) {
+            this.setState({projects: data})
+        }
+    }
+
     /**
      * Sort projects into "chunks"
      */
@@ -89,7 +104,7 @@ class ProjectsComponent extends React.Component<Props, State> {
 
         // Projects due in the future and past
         const advancing: Project[] = [],
-            submitted = this.state.projects
+            submitted = this.state.projects ?? []
 
         return [arrayToChunks(advancing), arrayToChunks(submitted)]
     }
@@ -97,7 +112,9 @@ class ProjectsComponent extends React.Component<Props, State> {
     private _project = (project: Project, index: number): JSX.Element => (
         <div key={`comp-col-${index}-${project.id}`} className="col-lg-4 my-3">
             <div className="project-card">
-                <Img src={project.coverImageURL ?? DefaultPhoto} alt="cover"/>
+                <Img src={project.coverImageURL ?? DefaultPhoto} alt="cover">
+                    <Spinner color="primary" size="6rem" centered/>
+                </Img>
                 <div className="project-info">
                     <div className="container project-details">
                         <h1>{project.name.slice(0, 32)}</h1>
@@ -144,9 +161,14 @@ class ProjectsComponent extends React.Component<Props, State> {
         </>
     }
 
-    public render = (): JSX.Element => <div className="container">
-        {this._projects()}
-    </div>
+    public render = (): JSX.Element => (
+        this.state.projects
+            ? <div className="container">
+                {this._projects()}
+            </div>
+            : <Spinner color="primary" size="25vw" className="my-5" centered/>
+    )
+
 
 }
 

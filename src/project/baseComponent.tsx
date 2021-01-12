@@ -13,6 +13,7 @@ import "./index.scss"
 import type {CognitoUser} from "../cognito-utils"
 import Prism from "prismjs"
 import React from "react"
+import cache from "../cache"
 import {handleError} from "../errorHandler"
 import initTooltips from "../bootstrap/tooltip"
 import notify from "../notify"
@@ -78,6 +79,8 @@ export default class BaseComponent extends React.Component<Props, State> {
 
     public componentDidMount = async (): Promise<void> => {
         try {
+            this._handleCache()
+
             let queryString
 
             if (this.props.id) {
@@ -106,12 +109,12 @@ export default class BaseComponent extends React.Component<Props, State> {
                     content: "The data from the server did not match",
                 })
 
-                console.error(`The data ${Object.entries(data)} is not the correct structure.`)
-
-                return
+                throw new Error(`The data ${Object.entries(data)} is not the correct structure.`)
             }
 
             this.setState({project: data})
+
+            cache.write(`talentmakerCache_project-${this.props.id}`, data)
         } catch (err) {
             handleError(err)
         }
@@ -128,6 +131,16 @@ export default class BaseComponent extends React.Component<Props, State> {
         }
 
         initTooltips()
+    }
+
+    private _handleCache = async (): Promise<void> => {
+        const data = await cache.read(
+            `talentmakerCache_project-${this.props.id}`,
+        ) as {[key: string]: unknown}
+
+        if (isProject(data)) {
+            this.setState({project: data})
+        }
     }
 
 }

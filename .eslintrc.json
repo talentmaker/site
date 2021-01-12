@@ -157,6 +157,7 @@
         "no-dupe-class-members": "error",
         "no-else-return": "error",
         "no-empty-function": "error",
+        "no-empty": ["error", {"allowEmptyCatch": true}],
         "no-eq-null": "error",
         "no-eval": "error",
         "no-extend-native": "error",

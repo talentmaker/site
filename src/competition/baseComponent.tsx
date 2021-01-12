@@ -12,6 +12,7 @@ import "./index.scss"
 import type {CognitoUser} from "../cognito-utils"
 import Prism from "prismjs"
 import React from "react"
+import cache from "../cache"
 import initTooltips from "../bootstrap/tooltip"
 import notify from "../notify"
 import {url} from "../globals"
@@ -49,7 +50,7 @@ export type Competition = {
 export const isCompetition = (
     obj: {[key: string]: unknown},
 ): obj is Competition => (
-    typeof obj.id === "number" &&
+    typeof obj?.id === "number" &&
     typeof obj.deadline === "string"
 )
 
@@ -69,6 +70,8 @@ export default class BaseComponent extends React.Component<Props, State> {
     }
 
     public componentDidMount = async (): Promise<void> => {
+        this._handleCache()
+
         const userQS = this.props.user
             ? `&idToken=${this.props.user.idToken}&idTokenChecksum=${this.props.user.idTokenChecksum}`
             : ""
@@ -98,6 +101,10 @@ export default class BaseComponent extends React.Component<Props, State> {
             }
 
             this.setState({competition: data})
+            cache.write(
+                `talentmakerCache_competition-${this.props.id}`,
+                data,
+            )
         } catch (err) {
             notify({
                 title: "Error",
@@ -121,6 +128,16 @@ export default class BaseComponent extends React.Component<Props, State> {
         }
 
         initTooltips()
+    }
+
+    private _handleCache = async (): Promise<void> => {
+        const data = await cache.read(
+            `talentmakerCache_competition-${this.props.id}`,
+        ) as {[key: string]: unknown}
+
+        if (isCompetition(data)) {
+            this.setState({competition: data})
+        }
     }
 
 }
