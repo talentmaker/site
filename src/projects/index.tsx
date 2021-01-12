@@ -77,7 +77,14 @@ class ProjectsComponent extends React.Component<Props, State> {
             }
 
             this.setState({projects: data})
-            cache.write("talentmakerCache_projects", data)
+
+            cache.write(
+                "talentmakerCache_projects",
+                data.map((project) => ({
+                    ...project,
+                    desc: undefined, // Remove descriptions; They're long and aren't used in this context
+                }))
+            )
         } catch (err: unknown) {
             handleError(err)
         }

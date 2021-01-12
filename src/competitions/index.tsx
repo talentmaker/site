@@ -87,7 +87,13 @@ class CompetitionsComponent extends React.Component<Props, State> {
 
             this.setState({competitions: data})
 
-            cache.write("talentmakerCache_competitions", data)
+            cache.write(
+                "talentmakerCache_competitions",
+                data.map((competition) => ({
+                    ...competition,
+                    desc: undefined, // Remove descriptions; They're long and aren't used in this context
+                }))
+            )
         } catch (err: unknown) {
             notify({
                 title: "Error",
