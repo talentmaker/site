@@ -19,6 +19,7 @@ import React from "react"
 import {Spinner} from "../bootstrap";
 import UserContext from "../userContext"
 import {arrayToChunks} from "../utils"
+import cache from "../cache"
 import handleError from "../errorHandler"
 import notify from "../notify"
 import {url} from "../globals"
@@ -51,6 +52,8 @@ class ProjectsComponent extends React.Component<Props, State> {
 
     public componentDidMount = async (): Promise<void> => {
         try {
+            this._handleCache()
+
             const data = await (await fetch(
                 `${url}/projects/get?column=competitionId&value=${this.props.compId}`,
                 {
@@ -74,6 +77,7 @@ class ProjectsComponent extends React.Component<Props, State> {
             }
 
             this.setState({projects: data})
+            cache.write("talentmakerCache_projects", data)
         } catch (err: unknown) {
             handleError(err)
         }
@@ -81,6 +85,16 @@ class ProjectsComponent extends React.Component<Props, State> {
 
     public componentDidUpdate = async (): Promise<void> => {
         (await import("../bootstrap/tooltip")).initTooltips()
+    }
+
+    private _handleCache = async (): Promise<void> => {
+        const data = await cache.read(
+            "talentmakerCache_projects",
+        ) as {[key: string]: unknown}
+
+        if (isProjects(data)) {
+            this.setState({projects: data})
+        }
     }
 
     /**
@@ -98,7 +112,9 @@ class ProjectsComponent extends React.Component<Props, State> {
     private _project = (project: Project, index: number): JSX.Element => (
         <div key={`comp-col-${index}-${project.id}`} className="col-lg-4 my-3">
             <div className="project-card">
-                <Img src={project.coverImageURL ?? DefaultPhoto} alt="cover"/>
+                <Img src={project.coverImageURL ?? DefaultPhoto} alt="cover">
+                    <Spinner color="primary" size="6rem" centered/>
+                </Img>
                 <div className="project-info">
                     <div className="container project-details">
                         <h1>{project.name.slice(0, 32)}</h1>
