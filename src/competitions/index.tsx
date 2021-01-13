@@ -13,7 +13,7 @@ import type {CognitoUser} from "../cognito-utils"
 import type {Competition} from "../competition/baseComponent"
 import DatePlus from "@luke-zhang-04/dateplus"
 import DefaultPhoto from "../images/default.svg"
-import Img from "../image"
+import {Img} from "../elements"
 import {Link} from "react-router-dom"
 import React from "react"
 import Spinner from "../bootstrap/spinner"
@@ -71,7 +71,7 @@ class CompetitionsComponent extends React.Component<Props, State> {
                         "Content-Type": "application/json",
                     },
                 },
-            )).json()
+            )).json() as {[key: string]: unknown} 
 
             if (!isCompetition(data)) { // Check the fetched data
                 notify({
@@ -87,7 +87,13 @@ class CompetitionsComponent extends React.Component<Props, State> {
 
             this.setState({competitions: data})
 
-            cache.write("talentmakerCache_competitions", data)
+            cache.write(
+                "talentmakerCache_competitions",
+                data.map((competition) => ({
+                    ...competition,
+                    desc: undefined, // Remove descriptions; They're long and aren't used in this context
+                })),
+            )
         } catch (err: unknown) {
             notify({
                 title: "Error",

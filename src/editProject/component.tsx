@@ -9,7 +9,7 @@
  * @license BSD-3-Clause
  */
 
-import BaseComponent, {FormValues, isProject} from "./baseComponent"
+import BaseComponent, {FormValues} from "./baseComponent"
 import {Form, Formik, FormikHelpers} from "formik"
 import {highlight, languages} from "prismjs"
 import Editor from "@luke-zhang-04/react-simple-markdown-editor"
@@ -17,61 +17,23 @@ import Markdown from "../markdown"
 import React from "react"
 import {Spinner} from "../bootstrap"
 import handleError from "../errorHandler"
+import {hash} from "../crypto-utils"
 import notify from "../notify"
 import {url} from "../globals"
 
 export class EditProjectComponent extends BaseComponent {
 
-    public componentDidMount = async (): Promise<void> => {
-        const {user} = this.props
+    /**
+     * Checks if data has been changed
+     */
+    private _shouldSubmit = async (): Promise<boolean> => {
+        const newDataHash = await hash("SHA-256", {
+            ...this.initialValues(),
+            desc: this.state.desc,
+        })
 
-        if (user) {
-            const queryString = this.props.id
-                ? `?id=${this.props.id}`
-                : `?sub=${user.sub}&competitionId=${this.props.compId}`
-
-            try {
-                const data = await (await fetch(
-                    `${url}/projects/getOne${queryString}`,
-                    {
-                        method: "GET",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                    },
-                )).json() as {[key: string]: unknown}
-
-                if (isProject(data)) { // Set project ot state
-                    this._didSetData = true
-
-                    this.setState({project: data})
-
-                    if (data.desc) { // Update description
-                        this.setState({desc: data.desc})
-                    }
-                }
-            } catch (err: unknown) {
-                handleError(err)
-            }
-        } else {
-            handleError({
-                name: "Unauthenticated error",
-                message: "User is not authenticated",
-            })
-        }
+        return newDataHash !== this.initialDataHash // If data has been changed
     }
-
-    public componentDidUpdate = (): void => {
-        if (!this._hasUser && this.props.user) {
-            this.componentDidMount()
-
-            this._hasUser = true
-        }
-    }
-
-    private _hasUser = this.props.user !== undefined
-
-    private _didSetData = this.props.compId === undefined || false
 
     /* eslint-disable max-lines-per-function */ // Unavoidable
     private _submit = async (
@@ -80,7 +42,16 @@ export class EditProjectComponent extends BaseComponent {
     ): Promise<void> => {
         setSubmitting(true)
 
-        if (this.props.user) {
+        const shouldSubmit = await this._shouldSubmit()
+
+        if (!shouldSubmit) {
+            notify({
+                title: "Success!",
+                content: "Successfully edited your project!",
+                icon: "done_all",
+                iconClassName: "text-success",
+            })
+        } else if (this.props.user) {
             try {
                 const response = await fetch(
                         `${url}/projects/write`,
@@ -92,7 +63,8 @@ export class EditProjectComponent extends BaseComponent {
                             body: JSON.stringify({
                                 idToken: this.props.user.idToken,
                                 idTokenChecksum: this.props.user.idTokenChecksum,
-                                compId: this.props.id,
+                                projectId: this.props.id,
+                                compId: this.props.compId,
                                 title: values.name,
                                 desc: this.state.desc,
                                 srcURL: values.srcURL,
@@ -129,18 +101,6 @@ export class EditProjectComponent extends BaseComponent {
         setSubmitting(false)
     }
     /* eslint-enable max-lines-per-function */
-
-    private _initialValues = (): FormValues => {
-        const {project} = this.state
-
-        return {
-            name: project?.name ?? `${this.props.user?.username ?? ""}'s Submission`,
-            srcURL: project?.srcURL ?? "",
-            demoURL: project?.demoURL ?? "",
-            license: project?.license ?? "",
-            videoURL: project?.videoURL ?? "",
-        }
-    }
 
     /**
      * Buttons for the markdown editor
@@ -188,7 +148,7 @@ export class EditProjectComponent extends BaseComponent {
 
     protected content = (): JSX.Element => <Formik
         enableReinitialize
-        initialValues={this._initialValues()}
+        initialValues={this.initialValues()}
         onSubmit={this._submit}
         validationSchema={EditProjectComponent.validationSchema}
     >
@@ -222,12 +182,19 @@ export class EditProjectComponent extends BaseComponent {
                 className="btn btn-success"
                 type="submit"
                 disabled={isSubmitting}
-            >Submit</button>
+            >
+                {
+                    isSubmitting
+                        ? <Spinner inline> </Spinner>
+                        : undefined
+                }
+                Submit
+            </button>
         </Form>}
     </Formik>
 
     public render = (): JSX.Element => (
-        this._didSetData
+        this.didSetData
             ? this.content()
             : <Spinner color="primary" size="25vw" className="my-5" centered/>
     )

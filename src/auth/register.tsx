@@ -13,6 +13,7 @@ import * as yup from "yup"
 import {Field, Form, Formik, FormikHelpers, useField} from "formik"
 import {Link} from "react-router-dom"
 import React from "react"
+import {Spinner} from "../bootstrap"
 import notify from "../notify"
 import {url} from "../globals"
 
@@ -224,7 +225,12 @@ export default class Reg extends React.Component {
                 <Reg._checkbox name="didagree" type="checkbox"/>
 
                 <button className="btn btn-primary" type="submit" disabled={isSubmitting}>
-                            Register
+                    {
+                        isSubmitting
+                            ? <Spinner inline> </Spinner>
+                            : undefined
+                    }
+                    Register
                 </button>
             </Form>
         )}

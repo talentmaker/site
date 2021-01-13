@@ -12,6 +12,9 @@
 import DatePlus from "@luke-zhang-04/dateplus"
 import React from "react"
 
+enum Time {
+    Second = 1000,
+}
 
 export interface Props {
 
@@ -98,7 +101,7 @@ export class Toast extends React.PureComponent<Props, State> {
                 if (typeof time === "number") {
                     this.setState({time: time + 1})
                 }
-            }, 1000)
+            }, Time.Second)
 
             this._intervalId = Number(`${interval}`)
         }

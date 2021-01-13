@@ -35,7 +35,7 @@ export const join = async (
         )
 
     if (!data.ok) {
-        const error = await data.json()
+        const error: unknown = await data.json()
 
         handleError(error)
     }

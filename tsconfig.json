@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES6",
+    "target": "ES2018",
     "module": "ESNEXT",
     "lib": [
       "dom",
@@ -31,9 +31,10 @@
     "experimentalDecorators": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "importHelpers": true,
   },
   "include": [
     "src"
-  ]
+  ],
 }

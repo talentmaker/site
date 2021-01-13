@@ -9,11 +9,11 @@
  * @license BSD-3-Clause
  */
 
+import {IFrame, Img} from "../elements"
 import {Link, useParams} from "react-router-dom"
 import BaseComponent from "./baseComponent"
 import DatePlus from "@luke-zhang-04/dateplus"
 import DefaultPFP from "../images/profile.svg"
-import Img from "../image"
 import Markdown from "../markdown"
 import React from "react"
 import {Spinner} from "../bootstrap"
@@ -29,9 +29,9 @@ class CompetitionComponent extends BaseComponent {
         const {user, id} = this.props
 
         if (user !== undefined && user !== null) {
-            const issuccessful = await join(user, Number(id))
+            const isSuccessful = await join(user, Number(id))
 
-            if (issuccessful) {
+            if (isSuccessful) {
                 await this.componentDidMount()
             }
         }
@@ -209,17 +209,21 @@ class CompetitionComponent extends BaseComponent {
             {this._compInfo()}
             <div className="col-lg-9">
                 {
-                    this.state.competition?.videoURL
+                    this.state.competition?.videoURL // Video
                         ? <div className="mx-3 mt-3">
-                            <div className="video-container">
-                                <iframe
+                            <div className={`video-container ${this.state.videodidLoad ? "" : "p-0"}`}>
+                                <IFrame
                                     title="competition video"
                                     className="video"
                                     src={this._getSrc()}
-                                ></iframe>
+                                    onLoad={(): void => this.setState({videodidLoad: true})} // Change state to add padding
+                                    onError={(): void => this.setState({videodidLoad: true})}
+                                >
+                                    <Spinner color="danger" size="25vw" className="my-5" centered/>
+                                </IFrame>
                             </div>
                         </div>
-                        : <></>
+                        : undefined
                 }
                 {this._renderDescription()}
             </div>

@@ -13,6 +13,9 @@ import * as yup from "yup"
 import {Field, useField} from "formik"
 import type {CognitoUser} from "../cognito-utils"
 import React from "react"
+import handleError from "../errorHandler"
+import {hash} from "../crypto-utils"
+import {url} from "../globals"
 
 export type Project = {
     id: number,
@@ -169,6 +172,71 @@ export default class BaseComponent extends React.Component<Props, State> {
         }
     }
 
+    public componentDidMount = async (): Promise<void> => {
+        const {user} = this.props
+
+        if (user) {
+            const queryString = this.props.id
+                ? `?id=${this.props.id}`
+                : `?sub=${user.sub}&competitionId=${this.props.compId}`
+
+            try {
+                const data = await (await fetch(
+                    `${url}/projects/getOne${queryString}`,
+                    {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    },
+                )).json() as {[key: string]: unknown}
+
+                if (isProject(data)) { // Set project ot state
+                    this.didSetData = true
+
+                    this.setState({project: data})
+
+                    if (data.desc) { // Update description
+                        this.setState({desc: data.desc})
+                    }
+
+                    this.initialDataHash = await hash("SHA-256", {
+                        ...this.initialValues(),
+                        desc: this.state.desc,
+                    })
+                }
+            } catch (err: unknown) {
+                handleError(err)
+            }
+        } else {
+            handleError({
+                name: "Unauthenticated error",
+                message: "User is not authenticated",
+            })
+        }
+    }
+
+    public componentDidUpdate = (): void => {
+        if (!this.hasUser && this.props.user) {
+            this.componentDidMount()
+
+            this.hasUser = true
+        }
+    }
+
+
+    protected initialValues = (): FormValues => {
+        const {project} = this.state
+
+        return {
+            name: project?.name ?? `${this.props.user?.username ?? ""}'s Submission`,
+            srcURL: project?.srcURL ?? "",
+            demoURL: project?.demoURL ?? "",
+            license: project?.license ?? "",
+            videoURL: project?.videoURL ?? "",
+        }
+    }
+
     protected static validationSchema = yup.object({
         name: yup.string()
             .required("Title is required") // eslint-disable-next-line
@@ -186,5 +254,11 @@ export default class BaseComponent extends React.Component<Props, State> {
             .matches(/youtu\.be|youtube/u, "Video must be a YouTube Link")
             .max(256),
     })
+
+    protected hasUser = this.props.user !== undefined
+
+    protected didSetData = this.props.compId === undefined || false
+
+    protected initialDataHash: string | undefined
 
 }

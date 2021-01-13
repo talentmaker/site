@@ -15,6 +15,10 @@ import {Toast} from "./bootstrap"
 import {appRef} from "."
 import {unmountComponentAtNode} from "react-dom"
 
+enum Time {
+    Second = 1000,
+}
+
 interface Params {
 
     /**
@@ -82,7 +86,7 @@ export const notify = (params: Params, timeout = 5): void => {
             notification: React.createElement(Toast, props, params.content),
         })
 
-        setTimeout(removeNotification, timeout * 1000)
+        setTimeout(removeNotification, timeout * Time.Second)
     }
 }
 

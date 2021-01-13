@@ -13,6 +13,7 @@ import "./auth.scss"
 import {Field, Form, Formik, FormikHelpers, useField} from "formik"
 import {History} from "history"
 import React from "react"
+import {Spinner} from "../bootstrap"
 import UserContext from "../userContext"
 import notify from "../notify"
 import {url} from "../globals"
@@ -147,7 +148,12 @@ class Login extends React.Component<LoginProps> {
                     </Login._input>
 
                     <button className="btn btn-primary" type="submit" disabled={isSubmitting}>
-                            Login
+                        {
+                            isSubmitting
+                                ? <Spinner inline> </Spinner>
+                                : undefined
+                        }
+                        Login
                     </button>
                 </Form>
             )}
