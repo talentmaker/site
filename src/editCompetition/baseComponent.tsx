@@ -170,7 +170,12 @@ export default class BaseComponent extends React.Component<Props, State> {
     public componentDidMount = async (): Promise<void> => {
         const {user, id: compId} = this.props
 
-        if (user && compId) {
+        if (!user) {
+            return handleError({
+                name: "Not authorized",
+                message: "User is not authorized to modify this. You may be logged out.",
+            })
+        } else if (compId) {
             try {
                 const data = await (await fetch(
                     `${url}/competitions/getOne?id=${compId}`,
@@ -212,11 +217,6 @@ export default class BaseComponent extends React.Component<Props, State> {
             } catch (err: unknown) {
                 handleError(err)
             }
-        } else {
-            handleError({
-                name: "Not authorized",
-                message: "User is not authorized to modify this. You may be logged out.",
-            })
         }
     }
 

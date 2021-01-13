@@ -3,13 +3,14 @@
  * Includes Normalize.css, Bootstrap SASS, and other styles that apply to all pages
  */
 
+@use "../node_modules/normalize.css/normalize";
 @use "./scss/variables";
+@use "./scss/markdown";
 
 @import "./scss/bootstrap";
 @import "../node_modules/@animated-burgers/burger-squeeze/styles.scss";
 @import "../node_modules/@animated-burgers/burger/styles.scss";
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400&display=swap');
-@import "../node_modules/normalize.css/normalize";
 
 /*!
  * Talentmaker website
@@ -64,69 +65,6 @@ body {
 .material-icons {
   display: inline-block;  // Display for aligning icon
   vertical-align: middle; // Align icon in middle
-}
-
-// For Markdown Editor
-.npm__react-simple-code-editor__textarea + pre {
-  .token {
-    $shadow-size: 0.25px;
-
-    &.important,
-    &.bold {
-      font-weight: normal !important; // Remove bold because it messes with cursor positioning
-    }
-
-    &.bold {
-      text-shadow: -$shadow-size 0 #fff, $shadow-size 0 #fff; // Use text shadow to bold instead
-    }
-
-    &.important {
-      $color-important: #cc99cd;
-
-      text-shadow: -$shadow-size 0 $color-important, $shadow-size 0 $color-important; // Use text shadow to bold instead
-    }
-
-    &.strike {
-      text-decoration: line-through; // Strike missing strikethrough
-    }
-
-    &.blockquote {
-      margin: 0;          // Margin HAS TO BE 0
-      font-size: inherit; // Font HAS TO BE the same as the textarea
-      color: #e2777a;   // Blockquote punctuation should have a colour b/c colours are cool
-    }
-
-    &.list {
-      color: #6196cc; // List bullet should have colour
-    }
-
-    &.table .table-data {
-      color: #999; // Table data is black by default and can't be read
-    }
-
-    &.code {
-      .punctuation,
-      .code-language {
-        color: #999; // Mute code ticks and language
-      }
-    }
-  }
-}
-
-// For markdown preview
-.markdown-container {
-  word-wrap: break-word;
-  margin: 0;
-  padding: 0;
-
-  li {
-    display: list-item;
-  }
-
-  h1 {
-    margin-top: 0;
-    margin-bottom: 1rem;
-  }
 }
 
 // Fix toasts

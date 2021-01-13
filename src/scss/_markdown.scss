@@ -1,0 +1,113 @@
+/*!
+ * Talentmaker website
+ *
+ * Copyright (C) 2020 - 2021 Luke Zhang, Ethan Lim
+ * Author: Luke Zhang - luke-zhang-04.github.io
+ *
+ * License: BSD-3-Clause
+ */
+
+@use "variables";
+
+@mixin minor-headings {
+  h3,
+  h4,
+  h5,
+  h6 {
+    @content;
+  }
+}
+
+// For Markdown Editor
+.npm__react-simple-code-editor__textarea + pre {
+  .token {
+    $shadow-size: 0.25px;
+
+    &.important,
+    &.bold {
+      font-weight: normal !important; // Remove bold because it messes with cursor positioning
+    }
+
+    &.bold {
+      text-shadow: -$shadow-size 0 #fff, $shadow-size 0 #fff; // Use text shadow to bold instead
+    }
+
+    &.important {
+      $color-important: #cc99cd;
+
+      text-shadow: -$shadow-size 0 $color-important, $shadow-size 0 $color-important; // Use text shadow to bold instead
+    }
+
+    &.strike {
+      text-decoration: line-through; // Strike missing strikethrough
+    }
+
+    &.blockquote {
+      margin: 0;          // Margin HAS TO BE 0
+      font-size: inherit; // Font HAS TO BE the same as the textarea
+      color: #e2777a;   // Blockquote punctuation should have a colour b/c colours are cool
+    }
+
+    &.list {
+      color: #6196cc; // List bullet should have colour
+    }
+
+    &.table .table-data {
+      color: #999; // Table data is black by default and can't be read
+    }
+
+    &.code {
+      .punctuation,
+      .code-language {
+        color: #999; // Mute code ticks and language
+      }
+    }
+  }
+}
+
+// For markdown preview
+.markdown-container {
+  word-wrap: break-word;
+  margin: 0;
+  padding: 0;
+
+  & .container > :first-child { // First element has no margin
+    margin-top: 0 !important;
+  }
+
+  li {
+    display: list-item;
+  }
+
+  @include minor-headings() {
+    font-weight: 600;
+  }
+
+  h1,
+  h2 {
+    $total-spacing: 1.5rem;
+    $line-distance: 0.7rem;
+
+    margin-top: $total-spacing;
+    margin-bottom: $total-spacing - $line-distance;
+    padding-bottom: $line-distance;
+    border-bottom: 1px solid variables.$light-grey;
+    font-weight: bold;
+  }
+
+  h3 {
+    font-size: calc(1.1rem + 0.6vw);
+  }
+
+  h4 {
+    font-size: calc(1rem + 0.3vw);
+  }
+
+  h5 {
+    font-size: 1rem
+  }
+
+  h6 {
+    font-size: 0.8rem;
+  }
+}
