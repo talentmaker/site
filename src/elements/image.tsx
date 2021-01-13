@@ -7,8 +7,7 @@
  * @author Luke Zhang
  *
  * @license BSD-3-Clause
- *
-@file image component which allows for backup a image(s) to be specified
+ * @file image component which allows for backup a image(s) to be specified
  */
 
 import DefaultImage from "../images/default.svg"
