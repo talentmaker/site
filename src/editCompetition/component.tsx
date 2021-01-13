@@ -19,72 +19,10 @@ import Markdown from "../markdown"
 import React from "react"
 import {Spinner} from "../bootstrap"
 import handleError from "../errorHandler"
-import {isCompetition} from "../competition/baseComponent"
 import notify from "../notify"
 import {url} from "../globals"
 
 export default class EditCompetitionComponent extends BaseComponent {
-
-    public componentDidMount = async (): Promise<void> => {
-        const {user, id: compId} = this.props
-
-        if (user && compId) {
-            try {
-                const data = await (await fetch(
-                    `${url}/competitions/getOne?id=${compId}`,
-                    {
-                        method: "GET",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                    },
-                )).json() as {[key: string]: unknown}
-
-                if (!isCompetition(data)) {
-                    return
-                }
-
-                if (this.props.user?.sub === data.orgId) {
-                    this._didSetData = true
-
-                    this.setState({
-                        competition: data,
-                        deadline: new Date(data.deadline),
-                    })
-
-                    if (data.desc) { // Update description
-                        this.setState({desc: data.desc})
-                    }
-                } else {
-                    notify({
-                        title: "Unauthorized",
-                        icon: "report_problem",
-                        iconClassName: "text-danger",
-                        content: `You can't modify this competition.`,
-                    })
-                }
-            } catch (err: unknown) {
-                handleError(err)
-            }
-        } else {
-            handleError({
-                name: "Not authorized",
-                message: "User is not authorized to modify this. You may be logged out.",
-            })
-        }
-    }
-
-    public componentDidUpdate = (): void => {
-        if (!this._hasUser && this.props.user) {
-            this.componentDidMount()
-
-            this._hasUser = true
-        }
-    }
-
-    private _hasUser = this.props.user !== undefined
-
-    private _didSetData = this.props.id === undefined || false
 
     /* eslint-disable max-lines-per-function, max-statements */ // Unavoidable
     private _submit = async (
@@ -242,18 +180,7 @@ export default class EditCompetitionComponent extends BaseComponent {
         validationSchema={EditCompetitionComponent.validationSchema}
     >
         {({isSubmitting}): JSX.Element => <Form className="px-4 py-3">
-            <EditCompetitionComponent.input
-                name="name"
-                type="text"
-                label="Submission Title"
-                placeholder="Submission Title"
-            ><span className="material-icons">sort</span></EditCompetitionComponent.input>
-            <EditCompetitionComponent.input
-                name="shortDesc"
-                type="text"
-                label="Short Description"
-                placeholder="Short Description"
-            ><span className="material-icons">description</span></EditCompetitionComponent.input>
+            <EditCompetitionComponent.topFields/>
             {this._datePicker()}
             {this._markdownButtons()}
             <div className="form-group">{
@@ -278,12 +205,19 @@ export default class EditCompetitionComponent extends BaseComponent {
                 className="btn btn-success"
                 type="submit"
                 disabled={isSubmitting}
-            >Submit</button>
+            >
+                {
+                    isSubmitting
+                        ? <Spinner inline> </Spinner>
+                        : undefined
+                }
+                Submit
+            </button>
         </Form>}
     </Formik>
 
     public render = (): JSX.Element => (
-        this._didSetData
+        this.didSetData
             ? this.content()
             : <Spinner color="primary" size="25vw" className="my-5" centered/>
     )

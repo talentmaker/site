@@ -10,10 +10,13 @@
  */
 
 import * as yup from "yup"
+import {Competition, isCompetition} from "../competition/baseComponent"
 import {Field, useField} from "formik"
 import type {CognitoUser} from "../cognito-utils"
-import type {Competition} from "../competition/baseComponent"
 import React from "react"
+import handleError from "../errorHandler"
+import notify from "../notify"
+import {url} from "../globals"
 
 export interface Props {
 
@@ -108,6 +111,26 @@ export default class BaseComponent extends React.Component<Props, State> {
 
     /**
      * Fields for:
+     * - name
+     * - shortDesc
+     */
+    protected static topFields = (): JSX.Element => <>
+        <BaseComponent.input
+            name="name"
+            type="text"
+            label="Submission Title"
+            placeholder="Submission Title"
+        ><span className="material-icons">sort</span></BaseComponent.input>
+        <BaseComponent.input
+            name="shortDesc"
+            type="text"
+            label="Short Description"
+            placeholder="Short Description"
+        ><span className="material-icons">description</span></BaseComponent.input>
+    </>
+
+    /**
+     * Fields for:
      * - videoURL
      * - website
      * - coverImageURL
@@ -143,8 +166,64 @@ export default class BaseComponent extends React.Component<Props, State> {
         }
     }
 
+    public componentDidMount = async (): Promise<void> => {
+        const {user, id: compId} = this.props
+
+        if (user && compId) {
+            try {
+                const data = await (await fetch(
+                    `${url}/competitions/getOne?id=${compId}`,
+                    {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    },
+                )).json() as {[key: string]: unknown}
+
+                if (!isCompetition(data)) {
+                    return
+                }
+
+                if (this.props.user?.sub === data.orgId) {
+                    this.didSetData = true
+                    this.setState({
+                        competition: data,
+                        deadline: new Date(data.deadline),
+                    })
+
+                    if (data.desc) { // Update description
+                        this.setState({desc: data.desc})
+                    }
+                } else {
+                    notify({
+                        title: "Unauthorized",
+                        icon: "report_problem",
+                        iconClassName: "text-danger",
+                        content: `You can't modify this competition.`,
+                    })
+                }
+            } catch (err: unknown) {
+                handleError(err)
+            }
+        } else {
+            handleError({
+                name: "Not authorized",
+                message: "User is not authorized to modify this. You may be logged out.",
+            })
+        }
+    }
+
+    public componentDidUpdate = (): void => {
+        if (!this.hasUser && this.props.user) {
+            this.componentDidMount()
+
+            this.hasUser = true
+        }
+    }
+
     protected static validationSchema = yup.object({
-        name: yup.string() // eslint-disable-next-line
+        name: yup.string()
             .max(64),
         shortDesc: yup.string()
             .required("Short description is required")
@@ -160,5 +239,9 @@ export default class BaseComponent extends React.Component<Props, State> {
             .url()
             .max(256),
     })
+
+    protected didSetData = this.props.id === undefined || false
+
+    protected hasUser = this.props.user !== undefined
 
 }

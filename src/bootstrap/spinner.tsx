@@ -49,6 +49,17 @@ interface Props {
      * The width of the spinner with a CSS unit
      */
     size?: string,
+
+    /**
+     * If spinner should be inline. Makes the parent a `span`, and allows for
+     * spinners inside buttons, etc
+     */
+    inline?: boolean,
+
+    /**
+     * If the spinner should be preceded with anything
+     */
+    children?: React.ReactNode,
 }
 
 /**
@@ -63,8 +74,8 @@ export const Spinner: React.FC<Props> = (props) => {
             : "",
 
         // Classname for a small spinner
-        size = props.small
-            ? "-sm"
+        size = props.small || props.inline
+            ? `spinner-${props.type ?? "border"}-sm`
             : "",
 
         // Style object
@@ -75,23 +86,33 @@ export const Spinner: React.FC<Props> = (props) => {
         style.height = props.size
     }
 
-    if (props.centered) {
+    if (props.inline) {
+        const className = `spinner-${props.type ?? "border"} ${size} ${color} ${props.className ?? ""}`
+
+        return <>
+            <span className={className} role="status" aria-hidden="true"/>
+            <span className="visually-hidden">Loading...</span>
+            {props.children}
+        </>
+    } else if (props.centered) {
+        const className = `spinner-${props.type ?? "border"} ${size} ${color} ${props.className ?? ""}`
+
         return <div className="d-flex justify-content-center h-100 align-items-center">
-            <div
-                className={`spinner-${props.type ?? "border"}${size} ${color} ${props.className ?? ""}`}
-                style={style}
-            >
+            <div className={className} style={style}>
                 <span className="visually-hidden">Loading...</span>
             </div>
+            {props.children}
         </div>
     }
 
-    return <div
-        className={`spinner-${props.type ?? "border"}${size} ${color} ${props.className ?? ""}`}
-        style={style}
-    >
-        <span className="visually-hidden">Loading...</span>
-    </div>
+    const className = `spinner-${props.type ?? "border"} ${size} ${color} ${props.className ?? ""}`
+
+    return <>
+        <div className={className} style={style}>
+            <span className="visually-hidden">Loading...</span>
+        </div>
+        {props.children}
+    </>
 }
 
 export default Spinner

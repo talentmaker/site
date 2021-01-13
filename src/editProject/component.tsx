@@ -9,7 +9,7 @@
  * @license BSD-3-Clause
  */
 
-import BaseComponent, {FormValues, isProject} from "./baseComponent"
+import BaseComponent, {FormValues} from "./baseComponent"
 import {Form, Formik, FormikHelpers} from "formik"
 import {highlight, languages} from "prismjs"
 import Editor from "@luke-zhang-04/react-simple-markdown-editor"
@@ -21,57 +21,6 @@ import notify from "../notify"
 import {url} from "../globals"
 
 export class EditProjectComponent extends BaseComponent {
-
-    public componentDidMount = async (): Promise<void> => {
-        const {user} = this.props
-
-        if (user) {
-            const queryString = this.props.id
-                ? `?id=${this.props.id}`
-                : `?sub=${user.sub}&competitionId=${this.props.compId}`
-
-            try {
-                const data = await (await fetch(
-                    `${url}/projects/getOne${queryString}`,
-                    {
-                        method: "GET",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                    },
-                )).json() as {[key: string]: unknown}
-
-                if (isProject(data)) { // Set project ot state
-                    this._didSetData = true
-
-                    this.setState({project: data})
-
-                    if (data.desc) { // Update description
-                        this.setState({desc: data.desc})
-                    }
-                }
-            } catch (err: unknown) {
-                handleError(err)
-            }
-        } else {
-            handleError({
-                name: "Unauthenticated error",
-                message: "User is not authenticated",
-            })
-        }
-    }
-
-    public componentDidUpdate = (): void => {
-        if (!this._hasUser && this.props.user) {
-            this.componentDidMount()
-
-            this._hasUser = true
-        }
-    }
-
-    private _hasUser = this.props.user !== undefined
-
-    private _didSetData = this.props.compId === undefined || false
 
     /* eslint-disable max-lines-per-function */ // Unavoidable
     private _submit = async (
@@ -92,7 +41,8 @@ export class EditProjectComponent extends BaseComponent {
                             body: JSON.stringify({
                                 idToken: this.props.user.idToken,
                                 idTokenChecksum: this.props.user.idTokenChecksum,
-                                compId: this.props.id,
+                                projectId: this.props.id,
+                                compId: this.props.compId,
                                 title: values.name,
                                 desc: this.state.desc,
                                 srcURL: values.srcURL,
@@ -222,12 +172,19 @@ export class EditProjectComponent extends BaseComponent {
                 className="btn btn-success"
                 type="submit"
                 disabled={isSubmitting}
-            >Submit</button>
+            >
+                {
+                    isSubmitting
+                        ? <Spinner inline> </Spinner>
+                        : undefined
+                }
+                Submit
+            </button>
         </Form>}
     </Formik>
 
     public render = (): JSX.Element => (
-        this._didSetData
+        this.didSetData
             ? this.content()
             : <Spinner color="primary" size="25vw" className="my-5" centered/>
     )
