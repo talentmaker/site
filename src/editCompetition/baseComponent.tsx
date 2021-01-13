@@ -15,6 +15,7 @@ import {Field, useField} from "formik"
 import type {CognitoUser} from "../cognito-utils"
 import React from "react"
 import handleError from "../errorHandler"
+import {hash} from "../crypto-utils"
 import notify from "../notify"
 import {url} from "../globals"
 
@@ -195,6 +196,11 @@ export default class BaseComponent extends React.Component<Props, State> {
                     if (data.desc) { // Update description
                         this.setState({desc: data.desc})
                     }
+
+                    this.initialDataHash = await hash("SHA-256", {
+                        ...this.initialValues(),
+                        desc: this.state.desc,
+                    })
                 } else {
                     notify({
                         title: "Unauthorized",
@@ -222,6 +228,18 @@ export default class BaseComponent extends React.Component<Props, State> {
         }
     }
 
+    protected initialValues = (): FormValues => {
+        const {competition} = this.state
+
+        return {
+            name: competition?.name ?? "",
+            shortDesc: competition?.shortDesc ?? "",
+            videoURL: competition?.videoURL ?? "",
+            website: competition?.website ?? "",
+            coverImageURL: competition?.coverImageURL ?? "",
+        }
+    }
+
     protected static validationSchema = yup.object({
         name: yup.string()
             .max(64),
@@ -243,5 +261,7 @@ export default class BaseComponent extends React.Component<Props, State> {
     protected didSetData = this.props.id === undefined || false
 
     protected hasUser = this.props.user !== undefined
+
+    protected initialDataHash: string | undefined
 
 }

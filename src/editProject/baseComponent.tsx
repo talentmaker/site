@@ -14,6 +14,7 @@ import {Field, useField} from "formik"
 import type {CognitoUser} from "../cognito-utils"
 import React from "react"
 import handleError from "../errorHandler"
+import {hash} from "../crypto-utils"
 import {url} from "../globals"
 
 export type Project = {
@@ -198,6 +199,11 @@ export default class BaseComponent extends React.Component<Props, State> {
                     if (data.desc) { // Update description
                         this.setState({desc: data.desc})
                     }
+
+                    this.initialDataHash = await hash("SHA-256", {
+                        ...this.initialValues(),
+                        desc: this.state.desc,
+                    })
                 }
             } catch (err: unknown) {
                 handleError(err)
@@ -215,6 +221,19 @@ export default class BaseComponent extends React.Component<Props, State> {
             this.componentDidMount()
 
             this.hasUser = true
+        }
+    }
+
+
+    protected initialValues = (): FormValues => {
+        const {project} = this.state
+
+        return {
+            name: project?.name ?? `${this.props.user?.username ?? ""}'s Submission`,
+            srcURL: project?.srcURL ?? "",
+            demoURL: project?.demoURL ?? "",
+            license: project?.license ?? "",
+            videoURL: project?.videoURL ?? "",
         }
     }
 
@@ -239,5 +258,7 @@ export default class BaseComponent extends React.Component<Props, State> {
     protected hasUser = this.props.user !== undefined
 
     protected didSetData = this.props.compId === undefined || false
+
+    protected initialDataHash: string | undefined
 
 }

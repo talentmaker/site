@@ -19,10 +19,23 @@ import Markdown from "../markdown"
 import React from "react"
 import {Spinner} from "../bootstrap"
 import handleError from "../errorHandler"
+import {hash} from "../crypto-utils"
 import notify from "../notify"
 import {url} from "../globals"
 
 export default class EditCompetitionComponent extends BaseComponent {
+
+    /**
+     * Checks if data has been changed
+     */
+    private _shouldSubmit = async (): Promise<boolean> => {
+        const newDataHash = await hash("SHA-256", {
+            ...this.initialValues(),
+            desc: this.state.desc,
+        })
+
+        return newDataHash !== this.initialDataHash // If data has been changed
+    }
 
     /* eslint-disable max-lines-per-function, max-statements */ // Unavoidable
     private _submit = async (
@@ -32,6 +45,8 @@ export default class EditCompetitionComponent extends BaseComponent {
         setSubmitting(true)
 
         if (this.state.deadline === null || this.state.deadline === undefined) {
+            setSubmitting(false)
+
             return notify({
                 title: "Unauthorized",
                 icon: "report_problem",
@@ -40,7 +55,16 @@ export default class EditCompetitionComponent extends BaseComponent {
             })
         }
 
-        if (this.props.user) {
+        const shouldsubmit = await this._shouldSubmit()
+
+        if (!shouldsubmit) {
+            notify({
+                title: "Success!",
+                content: "Successfully edited your project!",
+                icon: "done_all",
+                iconClassName: "text-success",
+            })
+        } else if (this.props.user) {
             try {
                 const response = await fetch(
                         `${url}/competitions/write`,
@@ -90,18 +114,6 @@ export default class EditCompetitionComponent extends BaseComponent {
         setSubmitting(false)
     }
     /* eslint-enable max-lines-per-function, max-statements */ // Unavoidable
-
-    private _initialValues = (): FormValues => {
-        const {competition} = this.state
-
-        return {
-            name: competition?.name ?? "",
-            shortDesc: competition?.shortDesc ?? "",
-            videoURL: competition?.videoURL ?? "",
-            website: competition?.website ?? "",
-            coverImageURL: competition?.coverImageURL ?? "",
-        }
-    }
 
     /**
      * Buttons for the markdown editor
@@ -175,7 +187,7 @@ export default class EditCompetitionComponent extends BaseComponent {
 
     protected content = (): JSX.Element => <Formik
         enableReinitialize
-        initialValues={this._initialValues()}
+        initialValues={this.initialValues()}
         onSubmit={this._submit}
         validationSchema={EditCompetitionComponent.validationSchema}
     >

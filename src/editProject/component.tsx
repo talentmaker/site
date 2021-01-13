@@ -17,10 +17,23 @@ import Markdown from "../markdown"
 import React from "react"
 import {Spinner} from "../bootstrap"
 import handleError from "../errorHandler"
+import {hash} from "../crypto-utils"
 import notify from "../notify"
 import {url} from "../globals"
 
 export class EditProjectComponent extends BaseComponent {
+
+    /**
+     * Checks if data has been changed
+     */
+    private _shouldSubmit = async (): Promise<boolean> => {
+        const newDataHash = await hash("SHA-256", {
+            ...this.initialValues(),
+            desc: this.state.desc,
+        })
+
+        return newDataHash !== this.initialDataHash // If data has been changed
+    }
 
     /* eslint-disable max-lines-per-function */ // Unavoidable
     private _submit = async (
@@ -29,7 +42,16 @@ export class EditProjectComponent extends BaseComponent {
     ): Promise<void> => {
         setSubmitting(true)
 
-        if (this.props.user) {
+        const shouldsubmit = await this._shouldSubmit()
+
+        if (!shouldsubmit) {
+            notify({
+                title: "Success!",
+                content: "Successfully edited your project!",
+                icon: "done_all",
+                iconClassName: "text-success",
+            })
+        } else if (this.props.user) {
             try {
                 const response = await fetch(
                         `${url}/projects/write`,
@@ -80,18 +102,6 @@ export class EditProjectComponent extends BaseComponent {
     }
     /* eslint-enable max-lines-per-function */
 
-    private _initialValues = (): FormValues => {
-        const {project} = this.state
-
-        return {
-            name: project?.name ?? `${this.props.user?.username ?? ""}'s Submission`,
-            srcURL: project?.srcURL ?? "",
-            demoURL: project?.demoURL ?? "",
-            license: project?.license ?? "",
-            videoURL: project?.videoURL ?? "",
-        }
-    }
-
     /**
      * Buttons for the markdown editor
      */
@@ -138,7 +148,7 @@ export class EditProjectComponent extends BaseComponent {
 
     protected content = (): JSX.Element => <Formik
         enableReinitialize
-        initialValues={this._initialValues()}
+        initialValues={this.initialValues()}
         onSubmit={this._submit}
         validationSchema={EditProjectComponent.validationSchema}
     >
