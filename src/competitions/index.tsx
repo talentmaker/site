@@ -92,7 +92,7 @@ class CompetitionsComponent extends React.Component<Props, State> {
                 data.map((competition) => ({
                     ...competition,
                     desc: undefined, // Remove descriptions; They're long and aren't used in this context
-                }))
+                })),
             )
         } catch (err: unknown) {
             notify({

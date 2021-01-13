@@ -16,7 +16,7 @@ import type {CognitoUser} from "../cognito-utils"
 import DefaultPhoto from "../images/default.svg"
 import {Img} from "../elements"
 import React from "react"
-import {Spinner} from "../bootstrap";
+import {Spinner} from "../bootstrap"
 import UserContext from "../userContext"
 import {arrayToChunks} from "../utils"
 import cache from "../cache"
@@ -83,7 +83,7 @@ class ProjectsComponent extends React.Component<Props, State> {
                 data.map((project) => ({
                     ...project,
                     desc: undefined, // Remove descriptions; They're long and aren't used in this context
-                }))
+                })),
             )
         } catch (err: unknown) {
             handleError(err)

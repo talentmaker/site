@@ -129,7 +129,7 @@
         "max-depth": "error",
         "max-len": ["error", {"code": 81, "ignoreComments": true, "ignoreTemplateLiterals": true, "ignoreUrls": true}],
         "max-lines": "error",
-        "max-lines-per-function": "error",
+        "max-lines-per-function": ["error", {"max": 55}],
         "max-nested-callbacks": "error",
         "max-params": ["error", {"max": 6}],
         "max-statements": ["error", {"max": 15}],

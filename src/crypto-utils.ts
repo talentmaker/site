@@ -22,7 +22,7 @@ export const hash = async (
         hashBuffer = await crypto.subtle.digest(algo, encodedData),
         hashArray = Array.from(new Uint8Array(hashBuffer))
 
-    return hashArray.map(bite => bite.toString(16).padStart(2, "0")).join("") // Hex string
+    return hashArray.map((bite) => bite.toString(16).padStart(2, "0")).join("") // Hex string
 }
 
 export default {
