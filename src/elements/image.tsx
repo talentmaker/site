@@ -47,14 +47,14 @@ const Img: React.FC<Props> = (props) => {
         [currentIndex, setIndex] = React.useState(0),
 
         // If the image has loaded
-        [didload, setLoad] = React.useState(false)
+        [didLoad, setLoad] = React.useState(false)
 
     if (props.shouldUseDefault !== false) { // If shouldUseDefault is undefined or true, append the default image
         images.push(DefaultImage)
     }
 
     return <>
-        {didload ? undefined : props.children}
+        {didLoad ? undefined : props.children}
         <img
             alt="All backups failed"
 
@@ -79,7 +79,7 @@ const Img: React.FC<Props> = (props) => {
                 return props.onLoad?.(event)
             }}
 
-            className={`${didload ? "d-block" : "d-none"} ${props.className}`}
+            className={`${didLoad ? "d-block" : "d-none"} ${props.className}`}
         />
     </>
 }

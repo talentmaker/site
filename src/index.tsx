@@ -145,9 +145,9 @@ class App extends React.Component<AppTypes.Props, AppTypes.State> {
      * @param user - object with user info OR `undefined | null` to logout
      */
     public setUser = async (user?: CognitoUser | null): Promise<void> => {
-        const isloggedin = localStorage.getItem("loggedin") === "true"
+        const isLoggedin = localStorage.getItem("loggedin") === "true"
 
-        if (isloggedin && (user === undefined || user === null)) {
+        if (isLoggedin && (user === undefined || user === null)) {
             await fetch(
                 `${url}/auth/logout`,
                 {

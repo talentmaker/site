@@ -79,7 +79,7 @@ class UserDisplay extends React.Component<Types.Props> {
                         idTokenChecksum: user.idTokenChecksum,
                     }),
                 }),
-                data = await response.json()
+                data = await response.json() as {[key: string]: unknown}
 
             if (response.status === 200) {
                 notify({

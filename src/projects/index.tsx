@@ -62,7 +62,7 @@ class ProjectsComponent extends React.Component<Props, State> {
                         "Content-Type": "application/json",
                     },
                 },
-            )).json()
+            )).json() as {[key: string]: unknown}
 
             if (!isProjects(data)) { // Check the fetched data
                 notify({

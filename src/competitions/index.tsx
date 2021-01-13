@@ -71,7 +71,7 @@ class CompetitionsComponent extends React.Component<Props, State> {
                         "Content-Type": "application/json",
                     },
                 },
-            )).json()
+            )).json() as {[key: string]: unknown} 
 
             if (!isCompetition(data)) { // Check the fetched data
                 notify({

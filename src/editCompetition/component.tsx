@@ -55,9 +55,9 @@ export default class EditCompetitionComponent extends BaseComponent {
             })
         }
 
-        const shouldsubmit = await this._shouldSubmit()
+        const shouldSubmit = await this._shouldSubmit()
 
-        if (!shouldsubmit) {
+        if (!shouldSubmit) {
             notify({
                 title: "Success!",
                 content: "Successfully edited your project!",

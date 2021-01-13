@@ -29,9 +29,9 @@ class CompetitionComponent extends BaseComponent {
         const {user, id} = this.props
 
         if (user !== undefined && user !== null) {
-            const issuccessful = await join(user, Number(id))
+            const isSuccessful = await join(user, Number(id))
 
-            if (issuccessful) {
+            if (isSuccessful) {
                 await this.componentDidMount()
             }
         }

@@ -33,10 +33,10 @@ type Props = IframeProps & {
 }
 
 export const IFrameComponent: React.FC<Props> = (props) => {
-    const [didload, setLoad] = React.useState(false)
+    const [didLoad, setLoad] = React.useState(false)
 
     return <>
-        {didload ? undefined : props.children}
+        {didLoad ? undefined : props.children}
         <iframe
             {...{
                 ...props,
@@ -55,7 +55,7 @@ export const IFrameComponent: React.FC<Props> = (props) => {
                 return props.onError?.(event)
             }}
 
-            className={`${didload ? "d-block" : "d-none"} ${props.className}`}
+            className={`${didLoad ? "d-block" : "d-none"} ${props.className}`}
             title={props.title ?? `YouTube video from ${props.src}`}
         />
     </>
