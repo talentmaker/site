@@ -9,7 +9,7 @@
  * @license BSD-3-Clause
  */
 import "./index.scss"
-import type {CognitoUser} from "../cognito-utils"
+import type {CognitoUser} from "../utils/cognito"
 import Prism from "prismjs"
 import React from "react"
 import cache from "../cache"

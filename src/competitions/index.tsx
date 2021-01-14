@@ -9,7 +9,7 @@
  * @license BSD-3-Clause
  */
 import "./index.scss"
-import type {CognitoUser} from "../cognito-utils"
+import type {CognitoUser} from "../utils/cognito"
 import type {Competition} from "../competition/baseComponent"
 import DatePlus from "@luke-zhang-04/dateplus"
 import DefaultPhoto from "../images/default.svg"
@@ -18,9 +18,9 @@ import {Link} from "react-router-dom"
 import React from "react"
 import Spinner from "../bootstrap/spinner"
 import UserContext from "../userContext"
-import {arrayToChunks} from "../utils"
+import {arrayToChunks} from "../utils/misc"
 import cache from "../cache"
-import dateUtils from "../date-utils"
+import dateUtils from "../utils/date"
 import notify from "../notify"
 import {url} from "../globals"
 

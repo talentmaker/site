@@ -19,7 +19,7 @@ import Markdown from "../markdown"
 import React from "react"
 import {Spinner} from "../bootstrap"
 import handleError from "../errorHandler"
-import {hash} from "../crypto-utils"
+import {hash} from "../utils/crypto"
 import notify from "../notify"
 import {url} from "../globals"
 

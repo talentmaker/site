@@ -21,7 +21,7 @@ import "prismjs/components/prism-python"
 import "./styles.scss"
 
 import * as serviceWorker from "./serviceWorker"
-import {CognitoUser, isCognitoUser} from "./cognito-utils"
+import {CognitoUser, isCognitoUser} from "./utils/cognito"
 import {Route, BrowserRouter as Router, Switch} from "react-router-dom"
 import Auth from "./auth"
 import Competition from "./competition"

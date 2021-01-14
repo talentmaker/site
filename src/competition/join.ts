@@ -9,7 +9,7 @@
  * @license BSD-3-Clause
  */
 
-import {CognitoUser} from "../cognito-utils"
+import {CognitoUser} from "../utils/cognito"
 import handleError from "../errorHandler"
 import {url} from "../globals"
 

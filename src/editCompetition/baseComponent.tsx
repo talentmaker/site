@@ -12,10 +12,10 @@
 import * as yup from "yup"
 import {Competition, isCompetition} from "../competition/baseComponent"
 import {Field, useField} from "formik"
-import type {CognitoUser} from "../cognito-utils"
+import type {CognitoUser} from "../utils/cognito"
 import React from "react"
 import handleError from "../errorHandler"
-import {hash} from "../crypto-utils"
+import {hash} from "../utils/crypto"
 import notify from "../notify"
 import {url} from "../globals"
 
