@@ -26,6 +26,8 @@ class CompetitionComponent extends BaseComponent {
      * Join a competition
      */
     private _join = async (): Promise<void> => {
+        this.setState({joining: true})
+
         const {user, id} = this.props
 
         if (user !== undefined && user !== null) {
@@ -35,6 +37,8 @@ class CompetitionComponent extends BaseComponent {
                 await this.componentDidMount()
             }
         }
+
+        this.setState({joining: false})
     }
 
     /**
@@ -61,7 +65,15 @@ class CompetitionComponent extends BaseComponent {
             : <button
                 className="btn btn-outline-primary btn-lg mr-3"
                 onClick={this._join}
-            >Join</button>
+                disabled={this.state.joining}
+            >
+                {
+                    this.state.joining
+                        ? <Spinner inline> </Spinner>
+                        : undefined
+                }
+                Join
+            </button>
     }
 
     /**
