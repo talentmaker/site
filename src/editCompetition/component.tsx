@@ -181,7 +181,7 @@ export default class EditCompetitionComponent extends BaseComponent {
      */
     private _markdownPreview = (): JSX.Element => <div className="markdown-container p-0">
         <div className="bg-lighter p-1">
-            <Markdown>{this.state.desc}</Markdown>
+            <Markdown plainHeadings>{this.state.desc}</Markdown>
         </div>
     </div>
 

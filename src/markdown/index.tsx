@@ -36,23 +36,34 @@ interface Props {
      * Markdown to render
      */
     children: string,
+
+    /**
+     * If headings should include a link button
+     */
+    plainHeadings?: boolean,
 }
 
-export const RenderMarkdown: React.FC<Props> = (props) => (
-    <ReactMarkdown
+export const RenderMarkdown: React.FC<Props> = (props) => {
+    const renderers = {
+        blockquote: BlockQuote,
+        code: CodeBlock,
+        heading: Heading,
+        link: Anchor,
+        table: Table,
+        tableCell: TableCell,
+    }
+
+    if (props.plainHeadings === true) {
+        Reflect.deleteProperty(renderers, "heading")
+    }
+
+    return <ReactMarkdown
         plugins={[[gfm]]}
-        renderers={{
-            blockquote: BlockQuote,
-            code: CodeBlock,
-            heading: Heading,
-            link: Anchor,
-            table: Table,
-            tableCell: TableCell,
-        }}
+        renderers={renderers}
         allowDangerousHtml
     >
         {purifyMarkdown(props.children)}
     </ReactMarkdown>
-)
+}
 
 export default RenderMarkdown
