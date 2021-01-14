@@ -15,6 +15,7 @@ import {Anchor} from "./anchor"
 import {BlockQuote} from "./blockquote"
 import {CodeBlock} from "./syntaxHighlighter"
 import DOMPurify from "dompurify"
+import {Heading} from "./heading"
 import React from "react"
 import ReactMarkdown from "react-markdown"
 import gfm from "remark-gfm" // Github Flavoured Markdown
@@ -43,6 +44,7 @@ export const RenderMarkdown: React.FC<Props> = (props) => (
         renderers={{
             blockquote: BlockQuote,
             code: CodeBlock,
+            heading: Heading,
             link: Anchor,
             table: Table,
             tableCell: TableCell,

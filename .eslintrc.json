@@ -325,6 +325,7 @@
                 "project": ["./tsconfig.json"]
             },
             "rules": {
+                "react/prop-types": "off",
                 "@typescript-eslint/array-type": "error",
 
                 "brace-style": "off",
