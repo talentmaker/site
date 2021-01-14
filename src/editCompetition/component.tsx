@@ -185,6 +185,14 @@ export default class EditCompetitionComponent extends BaseComponent {
         </div>
     </div>
 
+    private _markdownEditor = (): JSX.Element => <Editor
+        value={this.state.desc}
+        onValueChange={(code: string): void => this.setState({desc: code})}
+        highlight={(code): string => highlight(code, languages.markdown, "markdown")}
+        className="form-control bg-none"
+        padding={3}
+    />
+
     protected content = (): JSX.Element => <Formik
         enableReinitialize
         initialValues={this.initialValues()}
@@ -195,20 +203,14 @@ export default class EditCompetitionComponent extends BaseComponent {
             <EditCompetitionComponent.topFields/>
             {this._datePicker()}
             {this._markdownButtons()}
-            <div className="form-group">{
+            <div className="form-group markdown-editor-container bg-lighter px-3">{
 
                 /**
                  * If edit mode, show markdown editor
                  * Otherwise, show the preview
                  */
                 this.state.mode === "edit"
-                    ? <Editor
-                        value={this.state.desc}
-                        onValueChange={(code: string): void => this.setState({desc: code})}
-                        highlight={(code): string => highlight(code, languages.markdown, "markdown")}
-                        className="form-control bg-lighter"
-                        padding={3}
-                    />
+                    ? this._markdownEditor()
                     : this._markdownPreview()
 
             }</div>

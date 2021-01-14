@@ -20,47 +20,55 @@
 }
 
 // For Markdown Editor
-.npm__react-simple-code-editor__textarea + pre {
-  .token {
-    $shadow-size: 0.25px;
+.markdown-editor-container {
+  max-height: 80vh;   // Limit editor size
+  overflow-y: scroll; // Scroll for extra
+}
 
-    &.important,
-    &.bold {
-      font-weight: normal !important; // Remove bold because it messes with cursor positioning
-    }
+// For Markdown Editor too
+.npm__react-simple-code-editor__textarea {
+  & + pre {
+    .token {
+      $shadow-size: 0.25px;
 
-    &.bold {
-      text-shadow: -$shadow-size 0 #fff, $shadow-size 0 #fff; // Use text shadow to bold instead
-    }
+      &.important,
+      &.bold {
+        font-weight: normal !important; // Remove bold because it messes with cursor positioning
+      }
 
-    &.important {
-      $color-important: #cc99cd;
+      &.bold {
+        text-shadow: -$shadow-size 0 #fff, $shadow-size 0 #fff; // Use text shadow to bold instead
+      }
 
-      text-shadow: -$shadow-size 0 $color-important, $shadow-size 0 $color-important; // Use text shadow to bold instead
-    }
+      &.important {
+        $color-important: #cc99cd;
 
-    &.strike {
-      text-decoration: line-through; // Strike missing strikethrough
-    }
+        text-shadow: -$shadow-size 0 $color-important, $shadow-size 0 $color-important; // Use text shadow to bold instead
+      }
 
-    &.blockquote {
-      margin: 0;          // Margin HAS TO BE 0
-      font-size: inherit; // Font HAS TO BE the same as the textarea
-      color: #e2777a;   // Blockquote punctuation should have a colour b/c colours are cool
-    }
+      &.strike {
+        text-decoration: line-through; // Strike missing strikethrough
+      }
 
-    &.list {
-      color: #6196cc; // List bullet should have colour
-    }
+      &.blockquote {
+        margin: 0;          // Margin HAS TO BE 0
+        font-size: inherit; // Font HAS TO BE the same as the textarea
+        color: #e2777a;   // Blockquote punctuation should have a colour b/c colours are cool
+      }
 
-    &.table .table-data {
-      color: #999; // Table data is black by default and can't be read
-    }
+      &.list {
+        color: #6196cc; // List bullet should have colour
+      }
 
-    &.code {
-      .punctuation,
-      .code-language {
-        color: #999; // Mute code ticks and language
+      &.table .table-data {
+        color: #999; // Table data is black by default and can't be read
+      }
+
+      &.code {
+        .punctuation,
+        .code-language {
+          color: #999; // Mute code ticks and language
+        }
       }
     }
   }
