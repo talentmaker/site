@@ -124,7 +124,7 @@ class ProjectsComponent extends React.Component<Props, State> {
                 </Img>
                 <div className="project-info">
                     <div className="container project-details">
-                        <h1>{project.name.slice(0, 32)}</h1>
+                        <h3>{project.name}</h3>
                         <Link
                             to={`/project/${project.id}`}
                             className="btn btn-outline-primary"

@@ -71,7 +71,7 @@ class CompetitionsComponent extends React.Component<Props, State> {
                         "Content-Type": "application/json",
                     },
                 },
-            )).json() as {[key: string]: unknown} 
+            )).json() as {[key: string]: unknown}
 
             if (!isCompetition(data)) { // Check the fetched data
                 notify({
@@ -152,7 +152,7 @@ class CompetitionsComponent extends React.Component<Props, State> {
                         {`${deadline.getWordMonth()} ${deadline.getDate()}, ${deadline.getFullYear()}`}
                     </div>
                     <div className="container comp-details">
-                        <h1>{comp.name ?? `${comp.orgName}'s Competition`}</h1>
+                        <h3>{comp.name ?? `${comp.orgName}'s Competition`}</h3>
                         <p className="text-primary">{comp.shortDesc}</p>
                         <Link
                             to={`/competition/${comp.id}`}

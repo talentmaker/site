@@ -1,6 +1,7 @@
 /*!
  * Talentmaker website
  *
+
  * Copyright (C) 2020 - 2021 Luke Zhang, Ethan Lim
  * Author: Luke Zhang - luke-zhang-04.github.io
  *
@@ -80,21 +81,23 @@
   }
 
   @include minor-headings() {
-    font-weight: 600;
+    font-weight: 400;
   }
 
+  // Modify spacing for headers
   h1,
   h2 {
-    $total-spacing: 1.5rem;
-    $line-distance: 0.7rem;
+    $total-spacing: 1.5rem; // Total margin or padding
+    $line-distance: 0.7rem; // Distance from underline to text
 
     margin-top: $total-spacing;
     margin-bottom: $total-spacing - $line-distance;
     padding-bottom: $line-distance;
-    border-bottom: 1px solid variables.$light-grey;
-    font-weight: bold;
+    border-bottom: 1px solid variables.$light-grey; // Add grey underline
+    font-weight: 500;
   }
 
+  // Change font sizes to make headers more distinguishable
   h3 {
     font-size: calc(1.1rem + 0.6vw);
   }
