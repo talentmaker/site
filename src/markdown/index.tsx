@@ -11,6 +11,7 @@
  */
 
 import {Table, TableCell} from "./table"
+import {Anchor} from "./anchor"
 import {BlockQuote} from "./blockquote"
 import {CodeBlock} from "./syntaxHighlighter"
 import DOMPurify from "dompurify"
@@ -42,6 +43,7 @@ export const RenderMarkdown: React.FC<Props> = (props) => (
         renderers={{
             blockquote: BlockQuote,
             code: CodeBlock,
+            link: Anchor,
             table: Table,
             tableCell: TableCell,
         }}
