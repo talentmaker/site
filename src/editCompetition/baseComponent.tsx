@@ -12,10 +12,10 @@
 import * as yup from "yup"
 import {Competition, isCompetition} from "../competition/baseComponent"
 import {Field, useField} from "formik"
-import type {CognitoUser} from "../cognito-utils"
+import type {CognitoUser} from "../utils/cognito"
 import React from "react"
 import handleError from "../errorHandler"
-import {hash} from "../crypto-utils"
+import {hash} from "../utils/crypto"
 import notify from "../notify"
 import {url} from "../globals"
 
@@ -170,7 +170,12 @@ export default class BaseComponent extends React.Component<Props, State> {
     public componentDidMount = async (): Promise<void> => {
         const {user, id: compId} = this.props
 
-        if (user && compId) {
+        if (!user) {
+            return handleError({
+                name: "Not authorized",
+                message: "User is not authorized to modify this. You may be logged out.",
+            })
+        } else if (compId) {
             try {
                 const data = await (await fetch(
                     `${url}/competitions/getOne?id=${compId}`,
@@ -212,11 +217,6 @@ export default class BaseComponent extends React.Component<Props, State> {
             } catch (err: unknown) {
                 handleError(err)
             }
-        } else {
-            handleError({
-                name: "Not authorized",
-                message: "User is not authorized to modify this. You may be logged out.",
-            })
         }
     }
 

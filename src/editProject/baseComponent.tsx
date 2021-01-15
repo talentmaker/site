@@ -11,10 +11,10 @@
 
 import * as yup from "yup"
 import {Field, useField} from "formik"
-import type {CognitoUser} from "../cognito-utils"
+import type {CognitoUser} from "../utils/cognito"
 import React from "react"
 import handleError from "../errorHandler"
-import {hash} from "../crypto-utils"
+import {hash} from "../utils/crypto"
 import {url} from "../globals"
 
 export type Project = {

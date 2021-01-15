@@ -10,7 +10,7 @@
  */
 
 import "./index.scss"
-import type {CognitoUser} from "../cognito-utils"
+import type {CognitoUser} from "../utils/cognito"
 import DefaultPFP from "../images/profile.svg"
 import type {History} from "history"
 import React from "react"

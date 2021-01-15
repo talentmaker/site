@@ -26,6 +26,8 @@ class CompetitionComponent extends BaseComponent {
      * Join a competition
      */
     private _join = async (): Promise<void> => {
+        this.setState({joining: true})
+
         const {user, id} = this.props
 
         if (user !== undefined && user !== null) {
@@ -35,6 +37,8 @@ class CompetitionComponent extends BaseComponent {
                 await this.componentDidMount()
             }
         }
+
+        this.setState({joining: false})
     }
 
     /**
@@ -61,7 +65,15 @@ class CompetitionComponent extends BaseComponent {
             : <button
                 className="btn btn-outline-primary btn-lg mr-3"
                 onClick={this._join}
-            >Join</button>
+                disabled={this.state.joining}
+            >
+                {
+                    this.state.joining
+                        ? <Spinner inline> </Spinner>
+                        : undefined
+                }
+                Join
+            </button>
     }
 
     /**
@@ -124,53 +136,68 @@ class CompetitionComponent extends BaseComponent {
         </div>
     </div>
 
+    private _compInfo = (
+        competition: import("./baseComponent").Competition,
+        deadline: DatePlus,
+    ): JSX.Element => {
+        const linkProps = {
+            target: "_blank",
+            rel: "noopener noreferrer",
+            className: "text-decoration-none mb-3 d-block",
+        }
+
+        return <div className="p-3 position-sticky top-0">
+            <button
+                className="btn-circle"
+                onClick={(): void => {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: "smooth",
+                    })
+                }}
+            ><span className="material-icons">expand_less</span></button>
+            <h1>About</h1>
+            <ul className="list-unstyled text-dark">
+                <p>
+                    <b>Talentmaker: </b>
+                    {competition.orgName}<span className="text-muted">#{competition.orgId.slice(0, 7)}</span>
+                </p>
+                {
+                    competition.website
+                        ? <>
+                            <a href={competition.website} {...linkProps}>
+                                <span className="material-icons">language</span> {competition.website}
+                            </a>
+                        </>
+                        : undefined
+                }
+                <a href={`mailto:${competition.email}`} {...linkProps}>
+                    <span className="material-icons">mail</span> {competition.email}
+                </a>
+                <span className="material-icons">event</span>{" "}
+                {deadline.getWordMonth()} {deadline.getDate()}, {deadline.getFullYear()}
+                @{deadline.getHours() < 10 ? `0${deadline.getHours()}` : deadline.getHours()}:{deadline.getMinutes()}
+            </ul>
+        </div>
+    }
+
     /**
      * Sidebar with competition information
      */
-    private _compInfo = (): JSX.Element => {
+    private _sidebar = (): JSX.Element => {
         const {competition} = this.state
 
-        if (competition) {
-            const deadline = new DatePlus(competition.deadline)
-
-            deadline.setMinutes( // Offset from UTC Time
-                deadline.getMinutes() - deadline.getTimezoneOffset(),
-            )
-
-            return <div className="col-lg-3 bg-lighter">
-                <div className="container">
-                    <h1>About</h1>
-                    <ul className="list-unstyled text-dark">
-                        <p>
-                            <b>Deadline: </b>
-                            {deadline.getWordMonth()} {deadline.getDate()}, {deadline.getFullYear()}
-                            @{deadline.getHours() < 10 ? `0${deadline.getHours()}` : deadline.getHours()}:{deadline.getMinutes()}
-                        </p>
-                        <p>
-                            <b>Company: </b>
-                            {competition.orgName}<span className="text-muted">#{competition.orgId.slice(0, 7)}</span>
-                        </p>
-                        <p>
-                            <b>Company website: </b>{
-                                competition.website
-                                    ? <a href={competition.website} target="_blank" rel="noopener noreferrer">{
-                                        competition.website
-                                    }</a>
-                                    : "None"
-                            }
-                        </p>
-                        <p>
-                            <b>Company email: </b>
-                            <a href={`mailto:${competition.email}`} target="_blank" rel="noopener noreferrer">
-                                {competition.email}
-                            </a>
-                        </p>
-                    </ul>
-                </div>
-            </div>
+        if (!competition) {
+            return <></>
         }
 
-        return <></>
+        const deadline = new DatePlus(competition.deadline)
+
+        deadline.setMinutes( // Offset from UTC Time
+            deadline.getMinutes() - deadline.getTimezoneOffset(),
+        )
+
+        return this._compInfo(competition, deadline)
     }
 
     /**
@@ -178,7 +205,7 @@ class CompetitionComponent extends BaseComponent {
      */
     private _renderDescription = (): JSX.Element => (
         <div className="markdown-container p-3">
-            <div className="container py-2 bg-lighter">
+            <div className="container p-4 bg-lighter">
                 <Markdown>
                     {this.state.competition?.desc ?? "# No description provided"}
                 </Markdown>
@@ -206,7 +233,6 @@ class CompetitionComponent extends BaseComponent {
             </div>
         </div>
         <div className="row">
-            {this._compInfo()}
             <div className="col-lg-9">
                 {
                     this.state.competition?.videoURL // Video
@@ -227,6 +253,7 @@ class CompetitionComponent extends BaseComponent {
                 }
                 {this._renderDescription()}
             </div>
+            <div className="col-lg-3 bg-lighter">{this._sidebar()}</div>
         </div>
     </>
 

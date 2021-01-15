@@ -47,6 +47,7 @@ $spacer: 1rem;
 
 $spacers: ();
 
+// Add extra spacers
 $spacers: map-merge(
   (
     0: 0,
@@ -60,3 +61,5 @@ $spacers: map-merge(
   ),
   $spacers
 );
+
+$grid-gutter-width: 0; // Set gutter width to 0

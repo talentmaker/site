@@ -19,7 +19,7 @@ import Markdown from "../markdown"
 import React from "react"
 import {Spinner} from "../bootstrap"
 import handleError from "../errorHandler"
-import {hash} from "../crypto-utils"
+import {hash} from "../utils/crypto"
 import notify from "../notify"
 import {url} from "../globals"
 
@@ -181,9 +181,17 @@ export default class EditCompetitionComponent extends BaseComponent {
      */
     private _markdownPreview = (): JSX.Element => <div className="markdown-container p-0">
         <div className="bg-lighter p-1">
-            <Markdown>{this.state.desc}</Markdown>
+            <Markdown plainHeadings>{this.state.desc}</Markdown>
         </div>
     </div>
+
+    private _markdownEditor = (): JSX.Element => <Editor
+        value={this.state.desc}
+        onValueChange={(code: string): void => this.setState({desc: code})}
+        highlight={(code): string => highlight(code, languages.markdown, "markdown")}
+        className="form-control bg-none"
+        padding={3}
+    />
 
     protected content = (): JSX.Element => <Formik
         enableReinitialize
@@ -195,20 +203,14 @@ export default class EditCompetitionComponent extends BaseComponent {
             <EditCompetitionComponent.topFields/>
             {this._datePicker()}
             {this._markdownButtons()}
-            <div className="form-group">{
+            <div className="form-group markdown-editor-container bg-lighter px-3">{
 
                 /**
                  * If edit mode, show markdown editor
                  * Otherwise, show the preview
                  */
                 this.state.mode === "edit"
-                    ? <Editor
-                        value={this.state.desc}
-                        onValueChange={(code: string): void => this.setState({desc: code})}
-                        highlight={(code): string => highlight(code, languages.markdown, "markdown")}
-                        className="form-control bg-lighter"
-                        padding={3}
-                    />
+                    ? this._markdownEditor()
                     : this._markdownPreview()
 
             }</div>

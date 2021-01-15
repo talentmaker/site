@@ -10,13 +10,14 @@
  */
 
 import "./index.scss"
-import type {CognitoUser} from "../cognito-utils"
+import type {CognitoUser} from "../utils/cognito"
 import Prism from "prismjs"
 import React from "react"
 import cache from "../cache"
 import {handleError} from "../errorHandler"
 import initTooltips from "../bootstrap/tooltip"
 import notify from "../notify"
+import {scrollToHeader} from "../markdown/scrollToHeader"
 import {url} from "../globals"
 
 export type Project = {
@@ -122,6 +123,10 @@ export default class BaseComponent extends React.Component<Props, State> {
         }
 
         Prism.highlightAll()
+
+        if (window.location.hash) {
+            scrollToHeader(window.location.hash)
+        }
     }
 
     public componentDidUpdate = (): void => {

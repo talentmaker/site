@@ -9,12 +9,13 @@
  * @license BSD-3-Clause
  */
 import "./index.scss"
-import type {CognitoUser} from "../cognito-utils"
+import type {CognitoUser} from "../utils/cognito"
 import Prism from "prismjs"
 import React from "react"
 import cache from "../cache"
 import initTooltips from "../bootstrap/tooltip"
 import notify from "../notify"
+import scrollToHeader from "../markdown/scrollToHeader"
 import {url} from "../globals"
 
 type Props = {
@@ -58,6 +59,7 @@ type State = {
     competition?: Competition,
     hasuser: boolean,
     videodidLoad: boolean,
+    joining: boolean,
 }
 
 export default class BaseComponent extends React.Component<Props, State> {
@@ -68,6 +70,7 @@ export default class BaseComponent extends React.Component<Props, State> {
         this.state = {
             hasuser: props.user !== undefined,
             videodidLoad: false,
+            joining: false,
         }
     }
 
@@ -119,6 +122,10 @@ export default class BaseComponent extends React.Component<Props, State> {
         }
 
         Prism.highlightAll()
+
+        if (window.location.hash) {
+            scrollToHeader(window.location.hash)
+        }
     }
 
     public componentDidUpdate = (): void => {

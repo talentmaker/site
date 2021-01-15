@@ -9,7 +9,7 @@
  * @license BSD-3-Clause
  */
 import "./index.scss"
-import type {CognitoUser} from "../cognito-utils"
+import type {CognitoUser} from "../utils/cognito"
 import type {Competition} from "../competition/baseComponent"
 import DatePlus from "@luke-zhang-04/dateplus"
 import DefaultPhoto from "../images/default.svg"
@@ -18,9 +18,9 @@ import {Link} from "react-router-dom"
 import React from "react"
 import Spinner from "../bootstrap/spinner"
 import UserContext from "../userContext"
-import {arrayToChunks} from "../utils"
+import {arrayToChunks} from "../utils/misc"
 import cache from "../cache"
-import dateUtils from "../date-utils"
+import dateUtils from "../utils/date"
 import notify from "../notify"
 import {url} from "../globals"
 
@@ -71,7 +71,7 @@ class CompetitionsComponent extends React.Component<Props, State> {
                         "Content-Type": "application/json",
                     },
                 },
-            )).json() as {[key: string]: unknown} 
+            )).json() as {[key: string]: unknown}
 
             if (!isCompetition(data)) { // Check the fetched data
                 notify({
@@ -152,7 +152,7 @@ class CompetitionsComponent extends React.Component<Props, State> {
                         {`${deadline.getWordMonth()} ${deadline.getDate()}, ${deadline.getFullYear()}`}
                     </div>
                     <div className="container comp-details">
-                        <h1>{comp.name ?? `${comp.orgName}'s Competition`}</h1>
+                        <h3>{comp.name ?? `${comp.orgName}'s Competition`}</h3>
                         <p className="text-primary">{comp.shortDesc}</p>
                         <Link
                             to={`/competition/${comp.id}`}
@@ -200,13 +200,13 @@ class CompetitionsComponent extends React.Component<Props, State> {
                     : undefined
             }
 
-            <h1>Upcoming Competitions</h1>
-            {competitions[0].map((row, index) => <div key={`comp-row-${index}`} className="row">
+            <h1 className="my-3">Upcoming Competitions</h1>
+            {competitions[0].map((row, index) => <div key={`comp-row-${index}`} className="row g-3">
                 {row.map((comp) => this._competition(comp, index))}
             </div>)}
 
-            <h1>Past Competitions</h1>
-            {competitions[1]?.map((row, index) => <div key={`comp-row-${index}`} className="row">
+            <h1 className="mb-3">Past Competitions</h1>
+            {competitions[1]?.map((row, index) => <div key={`comp-row-${index}`} className="row g-3">
                 {row.map((comp) => this._competition(comp, index))}
             </div>)}
         </>
