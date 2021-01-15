@@ -33,22 +33,28 @@ class ProjectComponent extends BaseComponent {
                 href={`https://opensource.org/licenses/${license}`}
                 target="_blank"
                 rel="noopener noreferrer"
-            >{osiLicenses[license]}</a>
+                className="text-decoration-none mb-3 d-block"
+            ><span className="material-icons">gavel</span> {osiLicenses[license]}</a>
         } else if (spdxLicenses.includes(license)) {
             return <a
                 href={`https://spdx.org/licenses/${license}`}
                 target="_blank"
                 rel="noopener noreferrer"
-            >{license}</a>
+                className="text-decoration-none mb-3 d-block"
+            ><span className="material-icons">gavel</span> {license}</a>
         } else if ((/^http/u).test(license)) {
             return <a
                 href={license}
                 target="_blank"
                 rel="noopener noreferrer"
-            >{license}</a>
+                className="text-decoration-none mb-3 d-block"
+            ><span className="material-icons">gavel</span> {license}</a>
         }
 
-        return license
+        return <>
+            <span className="material-icons">gavel</span>{" "}
+            {license}
+        </>
     }
 
     /**
@@ -88,79 +94,76 @@ class ProjectComponent extends BaseComponent {
     /**
      * Disaply the urls for the project sidebar
      */
-    private _projectURLs = (): JSX.Element => {
-        const {project} = this.state
-
-        if (project) {
-            return <>
-                {
-                    project?.srcURL
-                        ? <p>
-                            <b>Source Code: </b>
-                            <a href={project.srcURL} target="_blank" rel="noopener noreferrer">{
-                                project.srcURL
-                            }</a>
-                        </p>
-                        : undefined
-                }
-                {
-                    project?.demoURL
-                        ? <p>
-                            <b>Demo: </b>
-                            <a href={project.demoURL} target="_blank" rel="noopener noreferrer">{
-                                project.demoURL
-                            }</a>
-                        </p>
-                        : undefined
-                }
-                {
-                    project?.videoURL
-                        ? <p>
-                            <b>Video: </b>
-                            <a href={project.videoURL} target="_blank" rel="noopener noreferrer">{
-                                project.videoURL
-                            }</a>
-                        </p>
-                        : undefined
-                }
-                {
-                    project?.license
-                        ? <p>
-                            <b>License: </b>
-                            {ProjectComponent._projectLicense(project.license)}
-                        </p>
-                        : undefined
-                }
-            </>
+    private _projectURLs = (
+        project: import("./baseComponent").Project,
+    ): JSX.Element => {
+        const linkProps = {
+            target: "_blank",
+            rel: "noopener noreferrer",
+            className: "text-decoration-none mb-3 d-block",
         }
 
-        return <></>
+        return <>
+            {
+                project?.srcURL
+                    ? <a href={project.srcURL} {...linkProps}>
+                        <span className="material-icons">code</span> {project.srcURL}
+                    </a>
+                    : undefined
+            }
+            {
+                project?.demoURL
+                    ? <a href={project.demoURL} {...linkProps}>
+                        <span className="material-icons">preview</span> {project.demoURL}
+                    </a>
+                    : undefined
+            }
+            {
+                project?.videoURL
+                    ? <a href={project.videoURL} {...linkProps}>
+                        <span className="material-icons">video_library</span> {project.videoURL}
+                    </a>
+                    : undefined
+            }
+            {
+                project?.license
+                    ? ProjectComponent._projectLicense(project.license)
+                    : undefined
+            }
+        </>
     }
 
     /**
      * The sidebar with the project info
      */
-    private _projectInfo = (): JSX.Element => {
+    private _sidebar = (): JSX.Element => {
         const {project} = this.state
 
         if (project) {
-            return <div className="col-lg-3 bg-lighter">
-                <div className="container">
-                    <h1>About</h1>
-                    <ul className="list-unstyled text-dark">
-                        <p>
-                            <b>Competition: </b>
-                            <Link to={`/competition/${this.state.project?.competitionId}`}>
-                                {this.state.project?.competitionName}
-                            </Link>
-                        </p>
-                        <p>
-                            <b>Author: </b>
-                            {this.state.project?.creatorUsername}
-                        </p>
-                        {this._projectURLs()}
-                    </ul>
-                </div>
+            return <div className="p-3 position-sticky top-0">
+                <button
+                    className="btn-circle"
+                    onClick={(): void => {
+                        window.scrollTo({
+                            top: 0,
+                            behavior: "smooth",
+                        })
+                    }}
+                ><span className="material-icons">expand_less</span></button>
+                <h1>About</h1>
+                <ul className="list-unstyled text-dark">
+                    <p>
+                        <b>Competition: </b>
+                        <Link to={`/competition/${this.state.project?.competitionId}`}>
+                            {this.state.project?.competitionName}
+                        </Link>
+                    </p>
+                    <p>
+                        <span className="material-icons">account_circle</span>{" "}
+                        {this.state.project?.creatorUsername}
+                    </p>
+                    {this._projectURLs(project)}
+                </ul>
             </div>
         }
 
@@ -200,7 +203,6 @@ class ProjectComponent extends BaseComponent {
             </div>
         </div>
         <div className="row">
-            {this._projectInfo()}
             <div className="col-lg-9">
                 {
                     this.state.project?.videoURL
@@ -221,6 +223,7 @@ class ProjectComponent extends BaseComponent {
                 }
                 {this._renderDescription()}
             </div>
+            <div className="col-lg-3 bg-lighter">{this._sidebar()}</div>
         </div>
     </>
 

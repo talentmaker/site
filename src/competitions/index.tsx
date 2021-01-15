@@ -200,13 +200,13 @@ class CompetitionsComponent extends React.Component<Props, State> {
                     : undefined
             }
 
-            <h1>Upcoming Competitions</h1>
-            {competitions[0].map((row, index) => <div key={`comp-row-${index}`} className="row">
+            <h1 className="my-3">Upcoming Competitions</h1>
+            {competitions[0].map((row, index) => <div key={`comp-row-${index}`} className="row g-3">
                 {row.map((comp) => this._competition(comp, index))}
             </div>)}
 
-            <h1>Past Competitions</h1>
-            {competitions[1]?.map((row, index) => <div key={`comp-row-${index}`} className="row">
+            <h1 className="mb-3">Past Competitions</h1>
+            {competitions[1]?.map((row, index) => <div key={`comp-row-${index}`} className="row g-3">
                 {row.map((comp) => this._competition(comp, index))}
             </div>)}
         </>

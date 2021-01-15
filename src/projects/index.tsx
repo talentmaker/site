@@ -150,19 +150,19 @@ class ProjectsComponent extends React.Component<Props, State> {
         const projects = this._getSortedComponents()
 
         return <>
-            <h1>Advancing</h1>
+            <h1 className="my-3">Advancing</h1>
             {
                 (projects[0]?.length ?? 0) > 0
                     ? projects[0].map((row, index) => (
-                        <div key={`project-row-${index}`} className="row">
+                        <div key={`project-row-${index}`} className="row g-3">
                             {row.map((project) => this._project(project, index))}
                         </div>
                     ))
                     : <p>None</p>
             }
 
-            <h1>Submitted</h1>
-            {projects[1]?.map((row, index) => <div key={`project-row-${index}`} className="row">
+            <h1 className="mb-3">Submitted</h1>
+            {projects[1]?.map((row, index) => <div key={`project-row-${index}`} className="row g-3">
                 {row.map((project) => this._project(project, index))}
             </div>)}
         </>

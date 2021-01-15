@@ -23,7 +23,11 @@
 body {
   background-color: $light;
   color: $dark;
-  overflow: hidden !important;
+}
+
+html,
+body {
+  max-width: 100% !important;
 }
 
 .form-control {
@@ -46,12 +50,6 @@ body {
 
 .input-group-text { // The icons before an input field and thier colour
   background-color: variables.$light-grey;
-}
-
-html,
-body {
-  max-width: 100% !important;
-  overflow-x: hidden !important;
 }
 
 .project-row {
@@ -152,4 +150,29 @@ h4,
 h5,
 h6 {
   font-weight: 400
+}
+
+// Button for going back to top
+.btn-circle {
+  background-color: variables.$none; // Transparent
+
+  border: none;       // Remove borders
+  border-radius: 50%; // Rounded
+
+  padding: 0; // Even out padding from x and y
+
+  &:focus {
+    outline: none; // Remove ugly outline after click
+  }
+
+  & > * {
+    transition: transform 0.125s ease-in; // Transition for inner content
+    font-size: variables.$spacer * 2;
+  }
+
+  &:hover {
+    & > * {
+      transform: translateY(-0.5rem); // Move the content upwards
+    }
+  }
 }
