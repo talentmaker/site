@@ -32,6 +32,7 @@ import Footer from "./footer"
 import Home from "./home"
 import Legal from "./legal/Legal"
 import Nav from "./nav"
+import NotFound from "./404"
 import PrivacyPolicy from "./legal/PrivacyPolicy"
 import Profile from "./profile"
 import Project from "./project"
@@ -196,8 +197,11 @@ class App extends React.Component<AppTypes.Props, AppTypes.State> {
                 <Route path="/project/:id" component={Project}/>
                 <Route path="/project" component={Project}/>
                 <Route path="/projects/:compId" component={Projects}/>
+
+                {/* 404 */}
+                <Route component={NotFound}/>
             </Switch>
-            <Footer/>
+            <Footer user={this.state.currentUser}/>
         </Router>
     </UserContext.Provider>
 

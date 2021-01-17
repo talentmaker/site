@@ -12,31 +12,30 @@
 
 @media (min-width: map-get(variables.$grid-breakpoints, lg)) {
   .navbar {
-    $logo-width: 10vw;
+    .nav-link {
+      font-size: 2vw;
+      padding-left: 1vw !important;
+      padding-right: 1vw !important;
+    }
 
-    padding-left: 5vw;
+    .nav-links {
+      display: flex;
+      flex-direction: row;
+      align-items: center;    // Vertically centred
+      justify-content: right; // Horizontally to the right
 
-    .navbar-brand {
-      font-size: 3vw;
-      margin-right: 3vw;
-      margin-left: $logo-width;
-
-      img[alt="logo"] {
-        width: $logo-width;
-        position: absolute;
-        left: 3vw;
+      #navbarNav {
+        max-width: fit-content; // Fix navbar sizing
       }
     }
 
-    .nav-link {
-      $mx: 1vw;
+    .navbar-brand {
+      margin: 0; // Remove margins b/c they were making the navbar taller
 
-      font-size: 2.5vw;
-      margin-left: $mx;
-      margin-right: $mx;
-      padding-right: 0 !important;
-      padding-left: 0 !important;
-      font-weight: 400;
+      img { // Logo
+        display: block;
+        width: 100%;
+      }
     }
   }
 }

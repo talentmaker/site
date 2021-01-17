@@ -209,7 +209,7 @@ export default class Reg extends React.Component {
         validationSchema={Reg._validationSchema}
     >
         {({isSubmitting}): JSX.Element => (
-            <Form className="container">
+            <Form className="container-fluid">
                 <Reg._input name="username" type="username" label="Username">
                     <span className="material-icons">person</span>
                 </Reg._input>

@@ -151,7 +151,7 @@ class CompetitionsComponent extends React.Component<Props, State> {
                     <div className="deadline">
                         {`${deadline.getWordMonth()} ${deadline.getDate()}, ${deadline.getFullYear()}`}
                     </div>
-                    <div className="container comp-details">
+                    <div className="container-fluid comp-details">
                         <h3>{comp.name ?? `${comp.orgName}'s Competition`}</h3>
                         <p className="text-primary">{comp.shortDesc}</p>
                         <Link
@@ -214,7 +214,7 @@ class CompetitionsComponent extends React.Component<Props, State> {
 
     public render = (): JSX.Element => (
         this.state.competitions
-            ? <div className="container">
+            ? <div className="container-fluid">
                 {this._competitions()}
             </div>
             : <Spinner color="primary" size="25vw" className="my-5" centered/>

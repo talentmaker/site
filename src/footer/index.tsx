@@ -9,76 +9,82 @@
  * @license BSD-3-Clause
  */
 
-import Logo from "../images/logo.svg"
+import "./index.scss"
+import type {CognitoUser} from "../utils/cognito"
+import {Link} from "react-router-dom"
 import React from "react"
 
-interface FooterProps {
-    title: string,
-    links: [string, string][],
-}
 
 /**
  * Footer links
  * @param param0 - props for footer
  */
-const FooterLinks = ({title, links}: FooterProps): JSX.Element => (
-    <div className="col-md-4 mb-md-0 mb-3">
-        <h5 className="text-uppercase">{title}</h5>
-        <ul className="list-unstyled">
-            {links.map((link, index) => (
-                <li key={`footer-link-${title}-${index}`}>
-                    <a href={link[0]}>{link[1]}</a>
-                </li>
-            ))}
-        </ul>
-    </div>
-)
+const FooterLinks = ({links}: {links: [dest: string, name: string][]}): JSX.Element => <>
+    {links.map((link, index) => <>
+        <a
+            key={`footer-link-${index}`}
+            href={link[0]}
+        >{link[1]}</a>
+        {
+            index + 1 < links.length
+                ? <p className="my-0 mx-3">&#x2022;</p>
+                : undefined
+        }
+    </>)}
+</>
 
-export const Footer = (): JSX.Element => <footer className="page-footer font-small bg-lighter text-dark pt-4">
-    <div className="container-fluid text-center text-md-left">
-        <div className="row">
-            <div className="col-md-4 mt-md-0 mt-3">
-                <h5 className="text-uppercase">Talentmaker</h5>
-                <img src={Logo} alt="logo" className="w-100"/>
-            </div>
+type User = CognitoUser | null | undefined
 
-            <hr className="clearfix w-100 d-md-none pb-0"/>
+const linkProps = {
+    target: "_blank",
+    rel: "noopener noreferred",
+}
 
+/* eslint-disable jsx-a11y/anchor-has-content */
+export const Footer: React.FC<{user: User}> = (props): JSX.Element => (
+    <footer className="page-footer font-small bg-lighter text-dark pt-4 pb-3">
+        <div className="row social-media-icons">
+            <a {...linkProps} href="https://www.youtube.com/channel/UCltJw7oSTdHDio806LztCzQ" className="bi-youtube"></a>
+            <a {...linkProps} href="https://www.linkedin.com/in/talent-maker-group/" className="bi-linkedin"></a>
+        </div>
+
+        <div className="row pages">
             <FooterLinks
-                title="Links"
                 links={[
-                    ["#", "Link A"],
-                    ["#", "Link B"],
-                    ["#", "Link C"],
-                    ["#", "Link D"],
-                ]}
-            />
-
-            <FooterLinks
-                title="Links"
-                links={[
-                    ["#", "Link A"],
-                    ["#", "Link B"],
-                    ["#", "Link C"],
-                    ["#", "Link D"],
+                    ["/competitions", "Competitions"],
+                    ["/talents", "Talents"],
+                    ["/talentmakers", "Talentmakers"],
+                    props.user ? ["/profile", "Your Profile"] : ["/auth", "Sign Up"],
                 ]}
             />
         </div>
-    </div>
 
-    <div className="footer-copyright text-center py-3">Copyright © 2020 - 2021:{" "}
-        <a
-            href="https://luke-zhang-04.github.io"
-            target="_blank"
-            rel="noopener noreferrer"
-        >Luke Zhang</a>,{" "}
-        <a
-            href="https://github.com/ethanlim04"
-            target="_blank"
-            rel="noopener noreferrer"
-        >Ethan Lim</a>,
-    </div>
+        <div className="text-center">
+            <Link to="/legal">Terms and conditions</Link>
+            <span className="my-0 mx-3">&#x2022;</span>
+            <Link to="/privacy-policy">Privacy Policy</Link>
+        </div>
 
-</footer>
+        <div className="text-center mt-3">
+            <a href="https://github.com/Luke-zhang-04/talentmaker-site" {...linkProps}>Repository</a>
+        </div>
+
+        <div className="footer-copyright text-center">Copyright © 2020 - 2021:{" "}
+            <a
+                href="https://luke-zhang-04.github.io"
+                target="_blank"
+                rel="noopener noreferrer"
+            >Luke Zhang</a>,{" "}
+            <a
+                href="https://github.com/ethanlim04"
+                target="_blank"
+                rel="noopener noreferrer"
+            >Ethan Lim</a>.
+        </div>
+
+    </footer>
+)
+/* eslint-enable jsx-a11y/anchor-has-content */
+
 
 export default Footer

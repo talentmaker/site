@@ -70,7 +70,7 @@ export default class Auth extends React.Component<{}, AuthState> {
     }
 
     public render = (): JSX.Element => (
-        <div className="container my-5">
+        <div className="container-fluid my-5">
             <div className="row py-5">
                 <div className="col-6 bg-primary align-items-center justify-content-center d-flex py-5">
                     <Img

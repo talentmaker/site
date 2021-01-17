@@ -52,12 +52,12 @@
   .landing-page {
     .row {
       .text {
-        padding-left: 5vw;
+        padding-left: 3vw;
         padding-right: 0;
 
         h1 {
           font-size: 4.5vw;
-          margin-right: 5vw;
+          margin-right: 3vw;
           font-weight: normal;
         }
 
@@ -69,8 +69,7 @@
 
       .image {
         img {
-          width: 125% !important;
-          transform: translateX(-15%);
+          transform: translateX(-9%);
         }
       }
     }
@@ -89,15 +88,8 @@
 
         p {
           font-size: 2vw;
-          margin-right: 7vw;
+          margin-right: 3vw;
           font-weight: 350;
-        }
-      }
-
-      .image {
-        img {
-          width: 115% !important;
-          transform: translateX(-15%);
         }
       }
     }
