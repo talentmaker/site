@@ -10,6 +10,7 @@
  */
 
 import "./auth.scss"
+import * as yup from "yup"
 import {Field, Form, Formik, FormikHelpers, useField} from "formik"
 import {History} from "history"
 import React from "react"
@@ -43,22 +44,43 @@ class Login extends React.Component<LoginProps> {
      * @param props - props for form
      */
     private static _input = (props: FormProps): JSX.Element => {
-        const [field] = useField<FormProps>(props)
+        const [field, meta] = useField<FormProps>(props),
+            errorText = meta.error && meta.touched ? meta.error : ""
+
+        let errorClass: string | undefined,
+            feedback: JSX.Element | undefined
+
+        if (errorText) {
+            errorClass = "is-invalid"
+            feedback = <div className="invalid-feedback">
+                {errorText}
+            </div>
+        } else if (meta.touched) {
+            errorClass = "is-valid"
+        }
 
         return (
-            <div className="input-group">
+            <div className="input-group border-none br-0">
                 <div className="input-group-prepend">
                     <span className="input-group-text">{props.children ?? ""}</span>
                 </div>
                 <Field
                     type={props.type}
                     {...field}
-                    placeholder={props.placeholder || props.label}
-                    className="form-control"
+                    placeholder={props.label}
+                    className={`form-control ${errorClass ?? ""}`}
                 />
+                {feedback}
             </div>
         )
     }
+
+    private static _validationSchema = yup.object({
+        email: yup.string()
+            .required("Email is required")
+            .email("Email must be a valid email"),
+        password: yup.string().required("Password is required"),
+    })
 
     private _initialValues: FormValues = {
         email: "",
@@ -137,9 +159,11 @@ class Login extends React.Component<LoginProps> {
             onSubmit={(values, helpers): Promise<void> => (
                 this._submit(values, helpers, setUser)
             )}
+            validationSchema={Login._validationSchema}
+            validateOnMount
         >
             {({isSubmitting}): JSX.Element => (
-                <Form className="container">
+                <Form className="container-fluid">
                     <Login._input name="email" type="Email" label="Email" placeholder="Email">
                         <span className="material-icons">person</span>
                     </Login._input>

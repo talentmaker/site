@@ -34,8 +34,8 @@ body {
   background-color: variables.$light;
 
   &:focus {
-    background-color: variables.$dark-grey;
-    color: variables.$light;
+    background-color: variables.$light-grey;
+    color: variables.$darker;
   }
 
   &::placeholder {
@@ -138,10 +138,6 @@ body {
     border-radius: 0 !important; // Remove border radius from selected date
     background-color: $primary;  // Change its bg colour
   }
-}
-
-.container {
-  max-width: none !important; // Bootstrap containers
 }
 
 // Header font weights

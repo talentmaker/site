@@ -89,14 +89,22 @@ export default class Nav extends React.Component<Partial<RouteComponentProps>, N
 
         return <UserContext.Consumer>
             {({currentUser}): JSX.Element => <nav className="navbar navbar-expand-lg navbar-light bg-none">
-                <Link className="navbar-brand" to="/">
-                    <img src={Logo} alt="logo"/> talentmaker
-                </Link>
-                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span className="navbar-toggler-icon"></span>
-                </button>
-                <div className="collapse navbar-collapse" id="navbarNav">
-                    <NavLinks isloggedin={currentUser !== null && currentUser !== undefined}/>
+                <div className="container-fluid">
+                    <div className="row w-100">
+                        <div className="col-lg-1">
+                            <Link className="navbar-brand" to="/">
+                                <img src={Logo} alt="Talentmaker logo" title="Talentmaker"/>
+                            </Link>
+                        </div>
+                        <div className="col-lg-11 nav-links">
+                            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                                <span className="navbar-toggler-icon"></span>
+                            </button>
+                            <div className="collapse navbar-collapse" id="navbarNav">
+                                <NavLinks isloggedin={currentUser !== null && currentUser !== undefined}/>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </nav>}
         </UserContext.Consumer>

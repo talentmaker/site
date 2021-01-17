@@ -123,7 +123,7 @@ class ProjectsComponent extends React.Component<Props, State> {
                     <Spinner color="primary" size="6rem" centered/>
                 </Img>
                 <div className="project-info">
-                    <div className="container project-details">
+                    <div className="container-fluid project-details">
                         <h3>{project.name}</h3>
                         <Link
                             to={`/project/${project.id}`}
@@ -170,7 +170,7 @@ class ProjectsComponent extends React.Component<Props, State> {
 
     public render = (): JSX.Element => (
         this.state.projects
-            ? <div className="container">
+            ? <div className="container-fluid">
                 {this._projects()}
             </div>
             : <Spinner color="primary" size="25vw" className="my-5" centered/>

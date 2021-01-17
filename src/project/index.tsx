@@ -175,7 +175,7 @@ class ProjectComponent extends BaseComponent {
      */
     private _renderDescription = (): JSX.Element => (
         <div className="markdown-container p-3">
-            <div className="container p-4 bg-lighter">
+            <div className="container-fluid p-4 bg-lighter">
                 <Markdown>
                     {this.state.project?.desc ?? "# No description provided"}
                 </Markdown>

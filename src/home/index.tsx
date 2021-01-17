@@ -9,20 +9,33 @@
  * @license BSD-3-Clause
  */
 import "./home.scss"
+import type {CognitoUser} from "../utils/cognito"
+import {Link} from "react-router-dom"
 import ProblemSolvingSvg from "./problemSolving.svg"
 import React from "react"
+import UserContext from "../userContext"
 
-interface HomeState {
-    viewport: [number, number],
+interface Props {
+    user?: CognitoUser,
 }
 
-export default class Home extends React.Component<{}, HomeState> {
+class HomeComponent extends React.Component<Props> {
 
-    private static _landingPage = (): JSX.Element => <div className="landing-page">
+    private _landingPage = (): JSX.Element => <div className="landing-page">
         <div className="row">
             <div className="col-md-6 text">
-                <h1>A student project community and technology consulting company</h1>
-                <p>Encouraging and empowering students for their future adventures, gaining real project experience, and building career asprirations.</p>
+                <h1>Talentmaker</h1>
+                <p>Encouraging and empowering students to pursure their future endeavours and career asprirations with real, hands on, and rewarding project experience.</p>
+                <Link to="/competitions" className="btn btn-primary">
+                    <span className="material-icons">developer_board</span> Competitions
+                </Link>
+                {
+                    this.props.user
+                        ? undefined
+                        : <Link to="/auth" className="btn btn-accent ml-3">
+                            <span className="material-icons">person</span> Make an account!
+                        </Link>
+                }
             </div>
             <div className="col-md-6 image">
                 <img className="w-100" src={ProblemSolvingSvg} alt="problem solving"/>
@@ -30,21 +43,16 @@ export default class Home extends React.Component<{}, HomeState> {
         </div>
     </div>
 
-    public constructor (props: {}) {
-        super(props)
-
-        this.state = {
-            viewport: [window.innerWidth, window.innerHeight],
-        }
-
-        window.onresize = (): void => this.setState({
-            viewport: [window.innerWidth, window.innerHeight],
-        })
-
-    }
-
     public render = (): JSX.Element => <>
-        <Home._landingPage/>
+        {this._landingPage()}
     </>
 
 }
+
+export const Home = (): JSX.Element => <UserContext.Consumer>
+    {({currentUser: user}): JSX.Element => <HomeComponent
+        user={user ?? undefined}
+    />}
+</UserContext.Consumer>
+
+export default Home
