@@ -3,14 +3,9 @@
   "name": "Talentmaker Site",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "150x150",
-      "type": "image/x-icon"
-    },
-    {
-      "src": "images/isometric1.svg",
-      "type": "image/svg",
-      "sizes": "1006x774"
+      "src": "favicon.png",
+      "sizes": "32x32",
+      "type": "image/png"
     }
   ],
   "start_url": ".",
