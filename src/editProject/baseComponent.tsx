@@ -181,7 +181,7 @@ export default class BaseComponent extends React.Component<Props, State> {
                 : `?sub=${user.sub}&competitionId=${this.props.compId}`
 
             try {
-                const data = await (await fetch(
+                const response = await fetch(
                     `${url}/projects/getOne${queryString}`,
                     {
                         method: "GET",
@@ -189,7 +189,15 @@ export default class BaseComponent extends React.Component<Props, State> {
                             "Content-Type": "application/json",
                         },
                     },
-                )).json() as {[key: string]: unknown}
+                )
+
+                if (response.status === 404) {
+                    this.didSetData = true
+
+                    this.setState({})
+                }
+
+                const data = await (response).json() as {[key: string]: unknown}
 
                 if (isProject(data)) { // Set project ot state
                     this.didSetData = true
