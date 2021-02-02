@@ -11,8 +11,7 @@
     "checkJs": true,
     "jsx": "react-jsx",
     "noEmit": true,
-    "downlevelIteration": true,
-    "isolatedModules": true,
+    "importHelpers": true,
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
@@ -25,6 +24,7 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
@@ -32,9 +32,10 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "importHelpers": true,
+    "noEmitOnError": false,
+    "isolatedModules": true
   },
   "include": [
-    "src"
-  ],
+    "src/"
+  ]
 }
