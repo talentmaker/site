@@ -12,6 +12,8 @@
 @use "./searchbar" as searchbar;
 
 .landing-page {
+  min-height: 100vh;
+
   .row {
     .text {
       $px: 10vw;

@@ -13,6 +13,16 @@ export const url = process.env.NODE_ENV === "development"
     ? "http://localhost:3333"
     : "https://g5a50u6z60.execute-api.us-east-1.amazonaws.com/prod"
 
+export enum BreakPoints {
+    xs = 0,
+    sm = 576,
+    md = 768,
+    lg = 992,
+    xl = 1200,
+    xxl = 140,
+}
+
 export default Object.freeze({
+    BreakPoints,
     url,
 })

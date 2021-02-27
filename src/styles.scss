@@ -60,7 +60,8 @@ body {
   border-radius: 0; // Buttons are boxed
 }
 
-.material-icons {
+.material-icons,
+.material-icons-outlined {
   display: inline-block;  // Display for aligning icon
   vertical-align: middle; // Align icon in middle
 }

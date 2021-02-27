@@ -21,7 +21,7 @@ interface Props {
 
 class HomeComponent extends React.Component<Props> {
 
-    private _landingPage = (): JSX.Element => <div className="landing-page">
+    private _landingPage = (): JSX.Element => <div className="landing-page pt-4 pt-md-0">
         <div className="row">
             <div className="col-md-6 text">
                 <h1>Talentmaker</h1>
