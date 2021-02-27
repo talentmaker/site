@@ -22,9 +22,9 @@
 footer {
   background-color: variables.$none;
 
-  @media (min-width: map-get(variables.$grid-breakpoints, "md")) {
+  // @media (min-width: map-get(variables.$grid-breakpoints, "md")) {
     background-color: variables.$lighter;
-  }
+  // }
 
   .text-center {
     p {
