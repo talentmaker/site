@@ -25,7 +25,7 @@ class HomeComponent extends React.Component<Props> {
     private _landingPage = (): JSX.Element => <div className="landing-page pt-4 pt-md-0">
         <div className="row">
             <div className="col-12 col-md-6 text">
-                <img src={Logo} alt="talentmaker logo" className="w-25"/>
+                <img src={Logo} alt="talentmaker logo" className="w-25 d-block d-md-none"/>
                 <h1>Talentmaker</h1>
                 <p>Encouraging and empowering students to pursure their future endeavours and career asprirations with real, hands on, and rewarding project experience.</p>
                 <Link to="/competitions" className="btn btn-primary mb-3 mb-md-0">
@@ -34,7 +34,7 @@ class HomeComponent extends React.Component<Props> {
                 {
                     this.props.user
                         ? undefined
-                        : <Link to="/auth" className="btn btn-accent ml-0 ml-md-3 d-none d-md-block">
+                        : <Link to="/auth" className="btn btn-accent ml-0 ml-md-3 d-none d-md-inline-block">
                             <span className="material-icons">person</span> Make an account!
                         </Link>
                 }
