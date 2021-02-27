@@ -20,9 +20,12 @@ import Logo from "../images/logo.svg"
 import React from "react"
 import UserContext from "../userContext"
 
+const navLinkCount = 5
+
 interface NavState {
     location?: string,
     dimensions: [width: number, height: number],
+    currentPageCount: number,
 }
 
 interface NavLinkProps {
@@ -44,6 +47,7 @@ export default class Nav extends React.PureComponent<Partial<RouteComponentProps
         this.state = {
             location: this.props.location?.pathname,
             dimensions: [window.innerWidth, window.innerHeight],
+            currentPageCount: 0,
         }
     }
 
@@ -80,14 +84,26 @@ export default class Nav extends React.PureComponent<Partial<RouteComponentProps
         const _location = this.state.location
 
         return <Link
-            className="mobile-nav-link"
+            className={`mobile-nav-link ${_location === location ? "active" : ""}`}
             to={location}
         >
             <span
                 className={_location === location ? "material-icons" : "material-icons-outlined"}
             >{iconName}</span>
-            <p className={_location === location ? "fw-bold" : ""}>{displayName}</p>
+            <p>{displayName}</p>
         </Link>
+    }
+
+    private _setCurrentPage = (links: string[][]): void => {
+        for (const [index, [location]] of links.entries()) {
+            if (this.state.location === location) {
+                if (this.state.currentPageCount !== index) {
+                    this.setState({currentPageCount: index})
+                }
+
+                break
+            }
+        }
     }
 
     private _navLinks = ({isloggedin, ismobile}: NavLinkShowProps): JSX.Element => {
@@ -101,6 +117,8 @@ export default class Nav extends React.PureComponent<Partial<RouteComponentProps
                 ["/talentmakers", "cases", "Talentmakers"],
                 isloggedin ? ["/profile", "account_circle", "Profile"] : ["/auth", "account_circle", "Sign Up"],
             ]
+
+            this._setCurrentPage(navValues)
 
             return <>
                 {navValues.map((properties) => <div
@@ -119,6 +137,8 @@ export default class Nav extends React.PureComponent<Partial<RouteComponentProps
             ["/talentmakers", "Talentmakers"],
             isloggedin ? ["/profile", "Profile"] : ["/auth", "Sign Up"],
         ]
+
+        this._setCurrentPage(navValues)
 
         return <ul className="navbar-nav">
             {navValues.map((val) => <NavLink
@@ -163,6 +183,12 @@ export default class Nav extends React.PureComponent<Partial<RouteComponentProps
                 <NavLinks
                     ismobile={true}
                     isloggedin={currentUser !== null && currentUser !== undefined}
+                />
+                <span
+                    className="mobile-nav-underline"
+                    style={{
+                        left: this.state.currentPageCount * (this.state.dimensions[0] / navLinkCount),
+                    }}
                 />
             </div>
         )
