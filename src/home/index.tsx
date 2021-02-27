@@ -11,6 +11,7 @@
 import "./home.scss"
 import type {CognitoUser} from "../utils/cognito"
 import {Link} from "react-router-dom"
+import Logo from "../images/logo.svg"
 import ProblemSolvingSvg from "./problemSolving.svg"
 import React from "react"
 import UserContext from "../userContext"
@@ -23,7 +24,8 @@ class HomeComponent extends React.Component<Props> {
 
     private _landingPage = (): JSX.Element => <div className="landing-page pt-4 pt-md-0">
         <div className="row">
-            <div className="col-md-6 text">
+            <div className="col-12 col-md-6 text">
+                <img src={Logo} alt="talentmaker logo" className="w-25"/>
                 <h1>Talentmaker</h1>
                 <p>Encouraging and empowering students to pursure their future endeavours and career asprirations with real, hands on, and rewarding project experience.</p>
                 <Link to="/competitions" className="btn btn-primary mb-3 mb-md-0">
