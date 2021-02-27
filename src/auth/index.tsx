@@ -26,9 +26,15 @@ interface AuthState {
 @(withRouter as any)
 export default class Auth extends React.Component<{}, AuthState> {
 
-    private static _toReg = (): JSX.Element => <Link to="/auth?mode=register" className="text-center px-5 mt-3 ml-auto mr-auto d-block">Don&apos;t Have an Account? Register!</Link>
+    private static _toReg = (): JSX.Element => <Link
+        to="/auth?mode=register"
+        className="text-center px-5 mt-3 ml-auto mr-auto d-block"
+    >Don&apos;t Have an Account? Register!</Link>
 
-    private static _toLogin = (): JSX.Element => <Link to="/auth?mode=login" className="text-center px-5 mt-3 ml-auto mr-auto d-block">Already Have an Account? Login!</Link>
+    private static _toLogin = (): JSX.Element => <Link
+        to="/auth?mode=login"
+        className="text-center px-5 mt-3 ml-auto mr-auto d-block"
+    >Already Have an Account? Login!</Link>
 
     public constructor (props: {}) {
         super(props)
@@ -70,16 +76,34 @@ export default class Auth extends React.Component<{}, AuthState> {
     }
 
     public render = (): JSX.Element => (
-        <div className="container-fluid my-5">
-            <div className="row py-5">
-                <div className="col-6 bg-primary align-items-center justify-content-center d-flex py-5">
+        <div className="container-fluid my-3 my-md-5">
+            <div className="row py-md-5">
+                <div
+                    className="col-12
+                        col-md-6
+                        bg-primary
+                        align-items-center
+                        justify-content-center
+                        d-flex
+                        py-5"
+                >
                     <Img
                         src={AuthImage}
                         alt="auth images"
                         className="w-75 flex-center"
                     />
                 </div>
-                <div className="col-6 text-center bg-lighter p-5 align-items-center justify-content-center d-flex">
+                <div
+                    className="col-12
+                        col-md-6
+                        text-center
+                        bg-lighter
+                        p-3
+                        p-md-5
+                        align-items-center
+                        justify-content-center
+                        d-flex"
+                >
                     {this.state.mode === "login" ? <Login/> : <Reg/>}
                 </div>
             </div>

@@ -179,7 +179,7 @@ export default class Nav extends React.PureComponent<Partial<RouteComponentProps
         const NavLinks = this._navLinks
 
         return (
-            <div className="mobile-nav bg-primary">
+            <div className="mobile-nav bg-lighter">
                 <NavLinks
                     ismobile={true}
                     isloggedin={currentUser !== null && currentUser !== undefined}
