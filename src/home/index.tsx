@@ -26,13 +26,13 @@ class HomeComponent extends React.Component<Props> {
             <div className="col-md-6 text">
                 <h1>Talentmaker</h1>
                 <p>Encouraging and empowering students to pursure their future endeavours and career asprirations with real, hands on, and rewarding project experience.</p>
-                <Link to="/competitions" className="btn btn-primary">
-                    <span className="material-icons">developer_board</span> Competitions
+                <Link to="/competitions" className="btn btn-primary mb-3 mb-md-0">
+                    <span className="material-icons-outlined">view_list</span> Competitions
                 </Link>
                 {
                     this.props.user
                         ? undefined
-                        : <Link to="/auth" className="btn btn-accent ml-3">
+                        : <Link to="/auth" className="btn btn-accent ml-0 ml-md-3 d-none d-md-block">
                             <span className="material-icons">person</span> Make an account!
                         </Link>
                 }
