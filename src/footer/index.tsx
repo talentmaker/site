@@ -10,6 +10,7 @@
  */
 
 import "./index.scss"
+import {BreakPoints} from "../globals"
 import type {CognitoUser} from "../utils/cognito"
 import {Link} from "react-router-dom"
 import React from "react"
@@ -41,8 +42,18 @@ const linkProps = {
 }
 
 /* eslint-disable jsx-a11y/anchor-has-content */
-export const Footer: React.FC<{user: User}> = (props): JSX.Element => (
-    <footer className="page-footer font-small text-dark pt-4 pb-3">
+export const Footer: React.FC<{user: User}> = (props) => {
+    const [isMobile, setMobile] = React.useState(window.innerWidth <= BreakPoints.Md)
+
+    window.addEventListener("resize", () => {
+        if (isMobile && window.innerWidth > BreakPoints.Md) {
+            setMobile(false)
+        } else if (!isMobile && window.innerWidth <= BreakPoints.Md) {
+            setMobile(true)
+        }
+    })
+
+    return <footer className="page-footer font-small text-dark pt-4 pb-3 mb-5 mb-md-0">
         <div className="row social-media-icons">
             <a {...linkProps} href="https://www.youtube.com/channel/UCltJw7oSTdHDio806LztCzQ" className="bi-youtube"></a>
             <a {...linkProps} href="https://www.linkedin.com/in/talent-maker-group/" className="bi-linkedin"></a>
@@ -83,7 +94,7 @@ export const Footer: React.FC<{user: User}> = (props): JSX.Element => (
         </div>
 
     </footer>
-)
+}
 /* eslint-enable jsx-a11y/anchor-has-content */
 
 

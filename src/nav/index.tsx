@@ -169,7 +169,7 @@ export default class Nav extends React.PureComponent<Partial<RouteComponentProps
     }
 
     public render = (): JSX.Element => <UserContext.Consumer>
-        {this.state.dimensions[0] <= BreakPoints.md ? this._mobileNav : this._desktopNav}
+        {this.state.dimensions[0] <= BreakPoints.Md ? this._mobileNav : this._desktopNav}
     </UserContext.Consumer>
 
 }
