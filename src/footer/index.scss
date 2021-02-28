@@ -20,6 +20,8 @@
 }
 
 footer {
+  background-color: variables.$lighter;
+
   .text-center {
     p {
       width: auto; // Remove width 100%
@@ -46,15 +48,20 @@ footer {
       font-size: 2rem;
       margin: 0 1vw;
       padding: 0.75rem;
-      border: none; // Add border
-      border-radius: 50%;     // Make circular
+      border: none;       // Add border
+      border-radius: 50%; // Make circular
       color: variables.$dark;
-      background-color: variables.$lighter;
+      background-color: variables.$none;
+
+      @media (min-width: map-get(variables.$grid-breakpoints, "md")) {
+        background-color: variables.$lighter;
+      }
 
       $transition-time: 0.25s;
       $transition-timing: ease;
+
       transition: // Transition for
-        color $transition-time $transition-timing
+        color $transition-time $transition-timing;
     }
 
     .bi-youtube {

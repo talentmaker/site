@@ -13,6 +13,7 @@ import * as yup from "yup"
 import {Field, useField} from "formik"
 import type {CognitoUser} from "../utils/cognito"
 import React from "react"
+import Statuses from "../statuses"
 import handleError from "../errorHandler"
 import {hash} from "../utils/crypto"
 import {url} from "../globals"
@@ -191,7 +192,7 @@ export default class BaseComponent extends React.Component<Props, State> {
                     },
                 )
 
-                if (response.status === 404) {
+                if (response.status === Statuses.NotFound) {
                     this.didSetData = true
 
                     this.setState({})

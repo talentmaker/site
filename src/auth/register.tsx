@@ -89,7 +89,7 @@ export default class Reg extends React.Component {
                 {/* eslint-disable-next-line */}
                 <label className="form-check-label">
                     <Field type={type} className={`form-check-input ${errorText ? "is-invalid" : "is-valid"}`} {...field}/>
-                    By Signing up, you agree to our <Link to="/legal">terms and conditions</Link> and <Link to="/privacy-policy">Privacy Policy</Link>.
+                    By Signing up, you agree to our <Link to="/legal">terms of use</Link> and <Link to="/privacy-policy">Privacy Policy</Link>.
                     <div className={errorText ? "invalid-feedback" : "valid-feedback"}>
                         {errorText ? errorText : "Looks Good!"}
                     </div>
@@ -133,7 +133,7 @@ export default class Reg extends React.Component {
         const errors: {[key: string]: string} = {}
 
         if (!values.didagree) {
-            errors.didagree = "Make sure you have read and agree to the terms and conditions, and privacy policy."
+            errors.didagree = "Make sure you have read and agree to the terms of use, and privacy policy."
         }
 
         return errors

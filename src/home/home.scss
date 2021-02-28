@@ -12,6 +12,12 @@
 @use "./searchbar" as searchbar;
 
 .landing-page {
+  min-height: 100vh;
+
+  .btn {
+    font-size: 4vw;
+  }
+
   .row {
     .text {
       $px: 10vw;
@@ -50,6 +56,10 @@
 
 @media (min-width: map-get(variables.$grid-breakpoints, md)) {
   .landing-page {
+    .btn {
+      font-size: 1rem;
+    }
+
     .row {
       .text {
         padding-left: 3vw;

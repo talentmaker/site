@@ -8,8 +8,6 @@
 @use "./scss/markdown";
 
 @import "./scss/bootstrap";
-@import "../node_modules/@animated-burgers/burger-squeeze/styles.scss";
-@import "../node_modules/@animated-burgers/burger/styles.scss";
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700;900&display=swap");
 
 /*!
@@ -30,6 +28,11 @@ body {
   max-width: 100% !important;
 }
 
+.form-control::placeholder,
+.form-control {
+  color: variables.$dark;
+}
+
 .form-control {
   background-color: variables.$light;
 
@@ -41,11 +44,6 @@ body {
   &::placeholder {
     opacity: 0.75; // Mute placeholder text
   }
-}
-
-.form-control::placeholder,
-.form-control {
-  color: variables.$dark;
 }
 
 .input-group-text { // The icons before an input field and thier colour
@@ -60,7 +58,8 @@ body {
   border-radius: 0; // Buttons are boxed
 }
 
-.material-icons {
+.material-icons,
+.material-icons-outlined {
   display: inline-block;  // Display for aligning icon
   vertical-align: middle; // Align icon in middle
 }
@@ -145,16 +144,14 @@ h3,
 h4,
 h5,
 h6 {
-  font-weight: 400
+  font-weight: 400;
 }
 
 // Button for going back to top
 .btn-circle {
   background-color: variables.$none; // Transparent
-
   border: none;       // Remove borders
   border-radius: 50%; // Rounded
-
   padding: 0; // Even out padding from x and y
 
   &:focus {

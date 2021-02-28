@@ -63,7 +63,7 @@ const isCacheEntry = (obj: unknown): obj is CacheEntry => (
                     const item = localStorage.getItem(key)
 
                     if (item === null) {
-                        // eslint-disable-next-line
+                    // eslint-disable-next-line
                         continue
                     }
 
@@ -72,7 +72,7 @@ const isCacheEntry = (obj: unknown): obj is CacheEntry => (
                     if (isCacheEntry(parsedItem)) {
                         entries.push([parsedItem.lastUsed, key])
                     } else {
-                        // eslint-disable-next-line
+                    // eslint-disable-next-line
                         throw undefined
                     }
                 } catch {

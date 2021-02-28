@@ -72,7 +72,7 @@ export const notify = (params: Params, timeout = 5): void => {
 
                     try {
                         unmountComponentAtNode(currentNotification.current)
-                        // eslint-disable-next-line
+                    // eslint-disable-next-line
                     } catch {}
                 }
             },

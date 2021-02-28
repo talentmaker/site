@@ -142,7 +142,7 @@ class CompetitionsComponent extends React.Component<Props, State> {
     private _competition = (comp: Competition, index: number): JSX.Element => {
         const deadline = new DatePlus(comp.deadline)
 
-        return <div key={`comp-col-${index}-${comp.id}`} className="col-lg-4 my-3">
+        return <div key={`comp-col-${index}-${comp.id}`} className="col-md-4 my-3">
             <div className="comp-card">
                 <Img src={comp.coverImageURL ?? DefaultPhoto} alt="cover">
                     <Spinner color="primary" size="6rem" centered/>
@@ -151,7 +151,7 @@ class CompetitionsComponent extends React.Component<Props, State> {
                     <div className="deadline">
                         {`${deadline.getWordMonth()} ${deadline.getDate()}, ${deadline.getFullYear()}`}
                     </div>
-                    <div className="container-fluid comp-details">
+                    <div className="container-fluid pb-3 comp-details">
                         <h3>{comp.name ?? `${comp.orgName}'s Competition`}</h3>
                         <p className="text-primary">{comp.shortDesc}</p>
                         <Link
