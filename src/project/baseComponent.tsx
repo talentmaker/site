@@ -21,21 +21,21 @@ import {scrollToHeader} from "../markdown/scrollToHeader"
 import {url} from "../globals"
 
 export type Project = {
-    id: number,
-    creator: string,
-    createdAt: Date,
-    desc?: string,
-    srcURL?: string,
-    demoURL?: string,
-    license?: string,
-    videoURL?: string,
-    coverImageURL?: string,
-    competitionId: string,
-    topics?: string[],
-    projectId: number,
-    name: string,
-    creatorUsername: string,
-    competitionName: string,
+    id: number
+    creator: string
+    createdAt: Date
+    desc?: string
+    srcURL?: string
+    demoURL?: string
+    license?: string
+    videoURL?: string
+    coverImageURL?: string
+    competitionId: string
+    topics?: string[]
+    projectId: number
+    name: string
+    creatorUsername: string
+    competitionName: string
 }
 
 export const isProject = (obj: {[key: string]: unknown}): obj is Project => (
@@ -50,23 +50,23 @@ type Props = {
     /**
      * Project id
      */
-    id?: string,
+    id?: string
 
     /**
      * Competition id
      */
-    compId?: string,
+    compId?: string
 
     /**
      * Current user
      */
-    user?: CognitoUser,
+    user?: CognitoUser
 }
 
 type State = {
-    project?: Project,
-    hasuser: boolean,
-    videodidLoad: boolean,
+    project?: Project
+    hasuser: boolean
+    videodidLoad: boolean
 }
 
 export default class BaseComponent extends React.Component<Props, State> {

@@ -35,12 +35,12 @@ interface Props {
     /**
      * Markdown to render
      */
-    children: string,
+    children: string
 
     /**
      * If headings should include a link button
      */
-    plainHeadings?: boolean,
+    plainHeadings?: boolean
 }
 
 export const RenderMarkdown: React.FC<Props> = (props) => {

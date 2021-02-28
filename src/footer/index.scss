@@ -51,7 +51,6 @@ footer {
       border: none;       // Add border
       border-radius: 50%; // Make circular
       color: variables.$dark;
-
       background-color: variables.$none;
 
       @media (min-width: map-get(variables.$grid-breakpoints, "md")) {
@@ -60,8 +59,9 @@ footer {
 
       $transition-time: 0.25s;
       $transition-timing: ease;
+
       transition: // Transition for
-        color $transition-time $transition-timing
+        color $transition-time $transition-timing;
     }
 
     .bi-youtube {

@@ -25,29 +25,29 @@ type Props = ImgProps & {
      *
      * @default true
      */
-    shouldUseDefault?: boolean,
+    shouldUseDefault?: boolean
 
     /**
      * Image source, either from
      */
-    src: string | string[],
+    src: string | string[]
 
     /**
      * Spinner component to show before the image loads
      */
-    children?: React.ReactNode,
+    children?: React.ReactNode
 }
 
 const Img: React.FC<Props> = (props) => {
     const images: string[] = typeof props.src === "string"
         ? [props.src]
-        : props.src,
+        : props.src
 
-        // Current image index to use
-        [currentIndex, setIndex] = React.useState(0),
+    // Current image index to use
+    const [currentIndex, setIndex] = React.useState(0)
 
-        // If the image has loaded
-        [didLoad, setLoad] = React.useState(false)
+    // If the image has loaded
+    const [didLoad, setLoad] = React.useState(false)
 
     if (props.shouldUseDefault !== false) { // If shouldUseDefault is undefined or true, append the default image
         images.push(DefaultImage)

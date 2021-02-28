@@ -248,8 +248,8 @@ class ProjectComponent extends BaseComponent {
 }
 
 export const Project = (): JSX.Element => {
-    const {id} = useParams<{id?: string}>(),
-        {competition: compId} = queryString.parse(window.location.search)
+    const {id} = useParams<{id?: string}>()
+    const {competition: compId} = queryString.parse(window.location.search)
 
     if (id) {
         return <UserContext.Consumer>

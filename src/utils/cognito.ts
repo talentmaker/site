@@ -10,9 +10,9 @@
  */
 
 export type AwsErrorObject = {
-    code: string,
-    name: string,
-    message: string,
+    code: string
+    name: string
+    message: string
 }
 
 export const isAwsErrorObject = (
@@ -25,14 +25,14 @@ export const isAwsErrorObject = (
 )
 
 export type CognitoUser = {
-    idToken: string,
-    idTokenChecksum: string,
-    refreshToken: string,
-    accessToken: string,
-    email: string,
-    sub: string,
-    username: string,
-    isOrg: boolean,
+    idToken: string
+    idTokenChecksum: string
+    refreshToken: string
+    accessToken: string
+    email: string
+    sub: string
+    username: string
+    isOrg: boolean
 }
 
 export const isCognitoUser = (

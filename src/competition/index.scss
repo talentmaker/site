@@ -31,10 +31,9 @@
   font-size: 1rem;
 
   @media (min-width: map-get(variables.$grid-breakpoints, "lg")) {
-    font-size:  1.25vw;
+    font-size: 1.25vw;
   }
 }
-
 
 .bar {
   height: 10vh;

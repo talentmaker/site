@@ -24,12 +24,12 @@ type Props = IframeProps & {
      *
      *
      */
-    shouldIncludeSpinner?: boolean,
+    shouldIncludeSpinner?: boolean
 
     /**
      * Spinner component to show before the iframe loads
      */
-    children?: React.ReactNode,
+    children?: React.ReactNode
 }
 
 export const IFrameComponent: React.FC<Props> = (props) => {

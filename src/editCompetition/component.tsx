@@ -67,27 +67,27 @@ export default class EditCompetitionComponent extends BaseComponent {
         } else if (this.props.user) {
             try {
                 const response = await fetch(
-                        `${url}/competitions/write`,
-                        {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                            },
-                            body: JSON.stringify({
-                                idToken: this.props.user.idToken,
-                                idTokenChecksum: this.props.user.idTokenChecksum,
-                                id: this.props.id?.toString(),
-                                title: values.name,
-                                desc: this.state.desc,
-                                shortDesc: values.shortDesc,
-                                videoURL: values.videoURL,
-                                deadline: this.state.deadline,
-                                website: values.website,
-                                coverImageURL: values.coverImageURL,
-                            }),
+                    `${url}/competitions/write`,
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
                         },
-                    ),
-                    data = await response.json() as {[key: string]: unknown}
+                        body: JSON.stringify({
+                            idToken: this.props.user.idToken,
+                            idTokenChecksum: this.props.user.idTokenChecksum,
+                            id: this.props.id?.toString(),
+                            title: values.name,
+                            desc: this.state.desc,
+                            shortDesc: values.shortDesc,
+                            videoURL: values.videoURL,
+                            deadline: this.state.deadline,
+                            website: values.website,
+                            coverImageURL: values.coverImageURL,
+                        }),
+                    },
+                )
+                const data = await response.json() as {[key: string]: unknown}
 
                 if (response.status === 200) {
                     notify({

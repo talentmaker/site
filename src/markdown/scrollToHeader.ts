@@ -27,10 +27,10 @@ export const scrollToHeader = (
         for (const header of container.querySelectorAll(headers)) {
             if (header instanceof HTMLElement) {
                 const content = header.innerText
-                        .trim()
-                        .replace(/ /gu, "-")
-                        .toLowerCase(),
-                    wantedContent = hash.slice(1)
+                    .trim()
+                    .replace(/ /gu, "-")
+                    .toLowerCase()
+                const wantedContent = hash.slice(1)
 
                 if (content === wantedContent) {
                     return header.scrollIntoView({

@@ -12,7 +12,7 @@
 import React from "react"
 
 type Props = {
-    children: JSX.Element,
+    children: JSX.Element
 }
 
 export const Table: React.FC<Props> = (props) => (

@@ -23,19 +23,19 @@ import UserContext from "../userContext"
 const navLinkCount = 5
 
 interface NavState {
-    location?: string,
-    dimensions: [width: number, height: number],
-    currentPageCount: number,
+    location?: string
+    dimensions: [width: number, height: number]
+    currentPageCount: number
 }
 
 interface NavLinkProps {
-    location: string,
-    name: string,
+    location: string
+    name: string
 }
 
 interface NavLinkShowProps {
-    isloggedin: boolean,
-    ismobile?: boolean,
+    isloggedin: boolean
+    ismobile?: boolean
 }
 
 @(withRouter as any)
@@ -70,8 +70,8 @@ export default class Nav extends React.PureComponent<Partial<RouteComponentProps
     private _srOnly = (): JSX.Element => <span className="visually-hidden">(current)</span>
 
     private _navLink = ({location, name}: NavLinkProps): JSX.Element => {
-        const _location = this.state.location,
-            SrOnly = this._srOnly
+        const _location = this.state.location
+        const SrOnly = this._srOnly
 
         return <li className="nav-item">
             <Link className={`nav-link ${_location === location ? "active" : ""}`} to={location}>
