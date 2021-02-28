@@ -23,6 +23,8 @@ import spdxLicenses from "spdx-license-ids"
 
 class ProjectComponent extends BaseComponent {
 
+    private _videoRef = React.createRef<HTMLDivElement>()
+
     /**
      * With a license, return a either a link to a unknown licnese, link to
      * license, or just the text
@@ -61,20 +63,23 @@ class ProjectComponent extends BaseComponent {
      * The edit button
      */
     private _editBtn = (): JSX.Element => <Link
-        className="btn btn-outline-dark mx-2"
+        className="btn btn-outline-dark mx-0 mx-lg-3"
         to={`/editProject/${this.state.project?.id ?? ""}`}
     ><span className="material-icons">create</span> Edit Submission</Link>
 
     /**
      * Display the user's info
      */
-    private _userInfo = (): JSX.Element => <div className="row">
-        <div className="col-lg-2">
-            <div className="px-4 my-3">
+    private _userInfo = (): JSX.Element => <div className="row p-3 p-lg-0">
+        <div className="col-12 col-lg-2">
+            <div className="px-lg-4 my-lg-3 d-flex flex-row align-items-center">
                 <Img src={DefaultPFP} className="pfp" alt="Profile"/>
+                <p className="d-lg-none my-0 ms-1">
+                    {this.state.project?.creatorUsername || ""}
+                </p>
             </div>
         </div>
-        <div className="col-lg-6 d-flex flex-column justify-content-center">
+        <div className="col-lg-5 d-flex flex-column justify-content-center pt-3 pt-lg-0">
             <p className="username">
                 {this.state.project?.name ?? "Submission"}
             </p>
@@ -82,7 +87,7 @@ class ProjectComponent extends BaseComponent {
                 Submission for {this.state.project?.name ?? "Submission"}
             </p>
         </div>
-        <div className="col-lg-4 d-flex flex-row align-items-center justify-content-end">
+        <div className="col-lg-5 d-flex flex-row align-items-center justify-content-start justify-content-lg-end">
             {
                 (this.props.user?.sub ?? "") === this.state.project?.creator
                     ? this._editBtn()
@@ -142,7 +147,7 @@ class ProjectComponent extends BaseComponent {
         if (project) {
             return <div className="p-3 position-sticky top-0">
                 <button
-                    className="btn-circle"
+                    className="btn-circle  d-none d-lg-block"
                     onClick={(): void => {
                         window.scrollTo({
                             top: 0,
@@ -154,16 +159,20 @@ class ProjectComponent extends BaseComponent {
                 <ul className="list-unstyled text-dark">
                     <p>
                         <b>Competition: </b>
-                        <Link to={`/competition/${this.state.project?.competitionId}`}>
-                            {this.state.project?.competitionName}
+                        <Link to={`/competition/${project.competitionId}`}>
+                            {project.competitionName}
                         </Link>
                     </p>
                     <p>
                         <span className="material-icons">account_circle</span>{" "}
-                        {this.state.project?.creatorUsername}
+                        {project.creatorUsername}
                     </p>
                     {this._projectURLs(project)}
                 </ul>
+                <button
+                    className="btn-circle d-block d-lg-none"
+                    onClick={(): void => this._videoRef.current?.scrollIntoView(true)}
+                ><span className="material-icons">expand_more</span></button>
             </div>
         }
 
@@ -192,22 +201,25 @@ class ProjectComponent extends BaseComponent {
 
     protected content = (): JSX.Element => <>
         {this._userInfo()}
-        <div className="row bg-primary bar">
-            <div className="col-sm-12 topics"> {/* Blue bar with topics */}
+        <div className="row topics bg-primary d-flex align-items-center bar">
+            <div className="col-sm-12 topics-container mx-auto"> {/* Blue bar with topics */}
                 {this.state.project?.topics?.map((topic, index): JSX.Element => (
                     <p
-                        className="bg-primary mx-1 my-0 py-1 px-2 d-flex"
+                        className="bg-primary mx-1 my-0 py-1 px-2"
                         key={`topic-${topic}-${index}`}
                     >{topic}</p>
                 ))}
             </div>
         </div>
-        <div className="row">
+        <div className="row flex-column-reverse flex-lg-row">
             <div className="col-lg-9">
                 {
                     this.state.project?.videoURL
                         ? <div className="mx-3 mt-3">
-                            <div className={`video-container ${this.state.videodidLoad ? "" : "p-0"}`}>
+                            <div
+                                className={`video-container ${this.state.videodidLoad ? "" : "p-0"}`}
+                                ref={this._videoRef}
+                            >
                                 <IFrame
                                     title="project video"
                                     className="video"
@@ -248,10 +260,14 @@ export const Project = (): JSX.Element => {
         </UserContext.Consumer>
     } else if (typeof compId === "string") {
         return <UserContext.Consumer>
-            {({currentUser: user}): JSX.Element => <ProjectComponent
-                compId={compId}
-                user={user ?? undefined}
-            />}
+            {({currentUser: user}): JSX.Element => (
+                user
+                    ? <ProjectComponent
+                        compId={compId}
+                        user={user ?? undefined}
+                    />
+                    : <Spinner color="primary" size="25vw" className="my-5" centered/>
+            )}
         </UserContext.Consumer>
     }
 

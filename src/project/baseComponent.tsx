@@ -91,7 +91,7 @@ export default class BaseComponent extends React.Component<Props, State> {
             } else if (this.props.compId && this.props.user) {
                 queryString = `?sub=${this.props.user.sub}&competitionId=${this.props.compId}`
             } else {
-                throw new Error("No ID's were specified")
+                return
             }
 
             const data = await (await fetch(
@@ -117,7 +117,7 @@ export default class BaseComponent extends React.Component<Props, State> {
 
             this.setState({project: data})
 
-            cache.write(`talentmakerCache_project-${this.props.id}`, data)
+            cache.write(`talentmakerCache_project-${this.props.id ?? data.id}`, data)
         } catch (err) {
             handleError(err)
         }
