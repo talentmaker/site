@@ -34,7 +34,7 @@ class HomeComponent extends React.Component<Props> {
                 {
                     this.props.user
                         ? undefined
-                        : <Link to="/auth" className="btn btn-accent ml-0 ml-md-3 d-none d-md-inline-block">
+                        : <Link to="/auth" className="btn btn-accent ms-0 ms-md-3 d-none d-md-inline-block">
                             <span className="material-icons">person</span> Make an account!
                         </Link>
                 }
