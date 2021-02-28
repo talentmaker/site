@@ -71,7 +71,7 @@ export const Footer: React.FC<{user: User}> = (props) => {
         </div>
 
         <div className="text-center">
-            <Link to="/legal">Terms and conditions</Link>
+            <Link to="/legal">Terms of use</Link>
             <span className="my-0 mx-3">&#x2022;</span>
             <Link to="/privacy-policy">Privacy Policy</Link>
         </div>
