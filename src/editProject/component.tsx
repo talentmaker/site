@@ -54,27 +54,27 @@ export class EditProjectComponent extends BaseComponent {
         } else if (this.props.user) {
             try {
                 const response = await fetch(
-                    `${url}/projects/write`,
-                    {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
+                        `${url}/projects/write`,
+                        {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                                idToken: this.props.user.idToken,
+                                idTokenChecksum: this.props.user.idTokenChecksum,
+                                projectId: this.props.id,
+                                compId: this.props.compId,
+                                title: values.name,
+                                desc: this.state.desc,
+                                srcURL: values.srcURL,
+                                demoURL: values.demoURL,
+                                license: values.license,
+                                videoURL: values.videoURL,
+                            }),
                         },
-                        body: JSON.stringify({
-                            idToken: this.props.user.idToken,
-                            idTokenChecksum: this.props.user.idTokenChecksum,
-                            projectId: this.props.id,
-                            compId: this.props.compId,
-                            title: values.name,
-                            desc: this.state.desc,
-                            srcURL: values.srcURL,
-                            demoURL: values.demoURL,
-                            license: values.license,
-                            videoURL: values.videoURL,
-                        }),
-                    },
-                )
-                const data = await response.json() as {[key: string]: unknown}
+                    ),
+                    data = await response.json() as {[key: string]: unknown}
 
                 if (response.status === 200) {
                     notify({

@@ -248,11 +248,15 @@
         "object-curly-spacing": "error",
         "object-property-newline": "error",
         "object-shorthand": "error",
-        "one-var": ["warn", "never"],
+        "one-var": ["warn", {"var": "always", "let": "always", "const": "consecutive"}],
         "one-var-declaration-per-line": "error",
         "operator-assignment": "error",
         "operator-linebreak": "error",
-        "padded-blocks": "off",
+        "padded-blocks": [
+            "warn", {
+                "classes": "always"
+            }
+        ],
         "padding-line-between-statements": "error",
         "prefer-arrow-callback": "error",
         "prefer-arrow/prefer-arrow-functions": [
@@ -345,7 +349,7 @@
 
                 "@typescript-eslint/member-delimiter-style": ["error", {
                     "multiline": {
-                        "delimiter": "none",
+                        "delimiter": "comma",
                         "requireLast": true
                     },
                     "singleline": {
@@ -449,7 +453,6 @@
             "files": ["*.tsx", "*.jsx"],
             "rules": {
                 "max-len": "off",
-                "max-lines": ["error", {"max": 350}],
                 "react/prop-types": "off",
                 "react/sort-comp": "error"
             }

@@ -13,7 +13,7 @@ import "./blockquote.scss"
 import React from "react"
 
 type Props = {
-    children: JSX.Element
+    children: JSX.Element,
 }
 
 export const BlockQuote: React.FC<Props> = (props) => (

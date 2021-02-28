@@ -21,20 +21,20 @@ import {url} from "../globals"
 import {useHistory} from "react-router-dom"
 
 interface FormValues {
-    email: string
-    password: string
+    email: string,
+    password: string,
 }
 
 interface FormProps {
-    label: string
-    name: string
-    type: string
-    placeholder?: string
-    children?: JSX.Element
+    label: string,
+    name: string,
+    type: string,
+    placeholder?: string,
+    children?: JSX.Element,
 }
 
 interface LoginProps {
-    history: History<unknown>["push"]
+    history: History<unknown>["push"],
 }
 
 class Login extends React.Component<LoginProps> {
@@ -44,11 +44,11 @@ class Login extends React.Component<LoginProps> {
      * @param props - props for form
      */
     private static _input = (props: FormProps): JSX.Element => {
-        const [field, meta] = useField<FormProps>(props)
-        const errorText = meta.error && meta.touched ? meta.error : ""
+        const [field, meta] = useField<FormProps>(props),
+            errorText = meta.error && meta.touched ? meta.error : ""
 
-        let errorClass: string | undefined
-        let feedback: JSX.Element | undefined
+        let errorClass: string | undefined,
+            feedback: JSX.Element | undefined
 
         if (errorText) {
             errorClass = "is-invalid"
@@ -122,20 +122,20 @@ class Login extends React.Component<LoginProps> {
 
         try {
             const response = await fetch(
-                `${url}/auth/login`,
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
+                    `${url}/auth/login`,
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        credentials: "include",
+                        body: JSON.stringify({
+                            email: values.email,
+                            password: values.password,
+                        }),
                     },
-                    credentials: "include",
-                    body: JSON.stringify({
-                        email: values.email,
-                        password: values.password,
-                    }),
-                },
-            )
-            const data = await response.json() as {[key: string]: unknown}
+                ),
+                data = await response.json() as {[key: string]: unknown}
 
             if (response.status === 200) {
                 await setUser(data)
@@ -187,8 +187,8 @@ class Login extends React.Component<LoginProps> {
 }
 
 const LoginWithHistory = (): JSX.Element => {
-    const history = useHistory()
-    const {push: changeHistory} = history
+    const history = useHistory(),
+        {push: changeHistory} = history
 
     return <Login history={changeHistory}/>
 }

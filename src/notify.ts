@@ -24,35 +24,35 @@ interface Params {
     /**
      * Contents of the toast body
      */
-    content?: React.ReactNode
+    content?: React.ReactNode,
 
     /**
      * Name of icon
      * @default "error"
      */
-    icon?: string
+    icon?: string,
 
     /**
      * `className` for icon
      */
-    iconClassName?: string
+    iconClassName?: string,
 
     /**
      * Toast title
      */
-    title?: string
+    title?: string,
 
     /**
      * Time to put on the side of the toast
      * E.g "now", "1 minute ago"
      */
-    time?: string | number
+    time?: string | number,
 
     /**
      * If aria-live should be assertive
      * @default false
      */
-    assertive?: boolean
+    assertive?: boolean,
 }
 
 const currentNotification = React.createRef<HTMLDivElement>()
@@ -67,20 +67,20 @@ export const notify = (params: Params, timeout = 5): void => {
 
     if (app !== null) {
         const removeNotification = (): void => {
-            if (currentNotification && currentNotification.current) {
-                app.setState({notification: undefined})
+                if (currentNotification && currentNotification.current) {
+                    app.setState({notification: undefined})
 
-                try {
-                    unmountComponentAtNode(currentNotification.current)
+                    try {
+                        unmountComponentAtNode(currentNotification.current)
                     // eslint-disable-next-line
                     } catch {}
+                }
+            },
+            props: Props = {
+                ...params,
+                reference: currentNotification,
+                onClick: removeNotification,
             }
-        }
-        const props: Props = {
-            ...params,
-            reference: currentNotification,
-            onClick: removeNotification,
-        }
 
         app.setState({
             notification: React.createElement(Toast, props, params.content),

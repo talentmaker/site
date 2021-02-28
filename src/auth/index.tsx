@@ -20,7 +20,7 @@ import queryString from "query-string"
 type StringObj<T> = {[key: string]: T}
 
 interface AuthState {
-    mode: string
+    mode: string,
 }
 
 @(withRouter as any)

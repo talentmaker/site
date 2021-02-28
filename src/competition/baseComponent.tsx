@@ -23,29 +23,29 @@ type Props = {
     /**
      * Project id
      */
-    id: string
+    id: string,
 
     /**
      * Current user
      */
-    user?: CognitoUser
+    user?: CognitoUser,
 }
 
 export type Competition = {
-    id: number
-    name: string | null
-    desc: string | null
-    videoURL: string | null
-    deadline: string
-    website: string | null
-    email: string
-    orgId: string
-    coverImageURL: string | null
-    orgName: string
-    topics: string[]
-    shortDesc: string
-    inComp: boolean
-    hasProject: boolean
+    id: number,
+    name: string | null,
+    desc: string | null,
+    videoURL: string | null,
+    deadline: string,
+    website: string | null,
+    email: string,
+    orgId: string,
+    coverImageURL: string | null,
+    orgName: string,
+    topics: string[],
+    shortDesc: string,
+    inComp: boolean,
+    hasProject: boolean,
 }
 
 export const isCompetition = (
@@ -56,10 +56,10 @@ export const isCompetition = (
 )
 
 type State = {
-    competition?: Competition
-    hasuser: boolean
-    videodidLoad: boolean
-    joining: boolean
+    competition?: Competition,
+    hasuser: boolean,
+    videodidLoad: boolean,
+    joining: boolean,
 }
 
 export default class BaseComponent extends React.Component<Props, State> {

@@ -15,13 +15,13 @@ import Anchor from "./anchor"
 import React from "react"
 
 type Props = {
-    level: number
+    level: number,
     children: string | {
         props: {
-            children: string
-            value: string
-        }
-    }[]
+            children: string,
+            value: string,
+        },
+    }[],
 }
 
 export const Heading = (props: Props): JSX.Element => {

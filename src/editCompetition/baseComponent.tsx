@@ -24,12 +24,12 @@ export interface Props {
     /**
      * Competition id
      */
-    id?: number
+    id?: number,
 
     /**
      * Current user
      */
-    user?: CognitoUser
+    user?: CognitoUser,
 }
 
 export interface State {
@@ -37,38 +37,38 @@ export interface State {
     /**
      * Markdown Description
      */
-    desc: string
+    desc: string,
 
     /**
      * Markdown editor state
      */
-    mode: "preview" | "edit"
+    mode: "preview" | "edit",
 
     /**
      * Already entered competition data if it exists
      */
-    competition?: Competition
+    competition?: Competition,
 
     /**
      * Deadline
      */
-    deadline: Date
+    deadline: Date,
 }
 
 export interface FormProps {
-    label: string
-    name: string
-    type: string
-    placeholder?: string
-    children?: JSX.Element
+    label: string,
+    name: string,
+    type: string,
+    placeholder?: string,
+    children?: JSX.Element,
 }
 
 export interface FormValues {
-    name?: string
-    shortDesc: string
-    videoURL?: string
-    website?: string
-    coverImageURL?: string
+    name?: string,
+    shortDesc: string,
+    videoURL?: string,
+    website?: string,
+    coverImageURL?: string,
 }
 
 export default class BaseComponent extends React.Component<Props, State> {
@@ -78,11 +78,11 @@ export default class BaseComponent extends React.Component<Props, State> {
      * @param props - props for form
      */
     protected static input = (props: FormProps): JSX.Element => {
-        const [field, meta] = useField<FormProps>(props)
-        const errorText = meta.error && meta.touched ? meta.error : ""
+        const [field, meta] = useField<FormProps>(props),
+            errorText = meta.error && meta.touched ? meta.error : ""
 
-        let errorClass: string | undefined
-        let feedback: JSX.Element | undefined
+        let errorClass: string | undefined,
+            feedback: JSX.Element | undefined
 
         if (errorText) {
             errorClass = "is-invalid"

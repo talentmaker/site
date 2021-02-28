@@ -21,18 +21,18 @@ export interface Props {
     /**
      * Contents of the toast body
      */
-    children?: React.ReactNode
+    children?: React.ReactNode,
 
     /**
      * Name of icon
      * @default "error"
      */
-    icon?: string
+    icon?: string,
 
     /**
      * `className` for icon
      */
-    iconClassName?: string
+    iconClassName?: string,
 
     /**
      * Reference to the toast div
@@ -40,34 +40,34 @@ export interface Props {
     reference?: string
         | ((instance: HTMLDivElement | null)=> void)
         | React.RefObject<HTMLDivElement>
-        | null
+        | null,
 
     /**
      * Toast title
      */
-    title?: string
+    title?: string,
 
     /**
      * Time to put on the side of the toast
      * E.g "now", "1 minute ago"
      */
-    time?: string | number
+    time?: string | number,
 
     /**
      * If aria-live should be assertive
      * @default false
      */
-    assertive?: boolean
+    assertive?: boolean,
 
     /**
      * Handle button click on close
      */
-    onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>)=> void
+    onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>)=> void,
 }
 
 interface State {
-    shouldShow: boolean
-    time: number | string
+    shouldShow: boolean,
+    time: number | string,
 }
 
 export class Toast extends React.PureComponent<Props, State> {

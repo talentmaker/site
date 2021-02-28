@@ -42,11 +42,11 @@ const isCompetition = (
 )
 
 interface State {
-    competitions?: Competition[]
+    competitions?: Competition[],
 }
 
 interface Props {
-    user?: CognitoUser
+    user?: CognitoUser,
 }
 
 class CompetitionsComponent extends React.Component<Props, State> {
@@ -126,10 +126,10 @@ class CompetitionsComponent extends React.Component<Props, State> {
         // Competitions due in the future and past
         const future: Competition[] = this.state.competitions?.filter((val) => (
             new Date(val.deadline).getTime() >= dateUtils.getUtcTime()
-        )) ?? []
-        const past: Competition[] = this.state.competitions?.filter((val) => (
-            new Date(val.deadline).getTime() < dateUtils.getUtcTime()
-        )) ?? []
+        )) ?? [],
+            past: Competition[] = this.state.competitions?.filter((val) => (
+                new Date(val.deadline).getTime() < dateUtils.getUtcTime()
+            )) ?? []
 
         return [arrayToChunks(future), arrayToChunks(past)]
     }

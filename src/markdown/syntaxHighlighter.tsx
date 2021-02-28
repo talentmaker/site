@@ -11,8 +11,8 @@
 import React from "react"
 
 type Props = {
-    value: string
-    language?: string
+    value: string,
+    language?: string,
 }
 
 /* eslint-disable react/prop-types */

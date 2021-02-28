@@ -18,18 +18,18 @@ import notify from "../notify"
 import {url} from "../globals"
 
 interface FormValues {
-    username: string
-    email: string
-    password: string
-    password2: string
-    didagree: boolean
+    username: string,
+    email: string,
+    password: string,
+    password2: string,
+    didagree: boolean,
 }
 
 interface FormProps {
-    name: string
-    type: string
-    children?: JSX.Element
-    label: string
+    name: string,
+    type: string,
+    children?: JSX.Element,
+    label: string,
 }
 
 export default class Reg extends React.Component {
@@ -39,11 +39,11 @@ export default class Reg extends React.Component {
      * @param props - props for form
      */
     private static _input = (props: FormProps): JSX.Element => {
-        const [field, meta] = useField<FormProps>(props)
-        const errorText = meta.error && meta.touched ? meta.error : ""
+        const [field, meta] = useField<FormProps>(props),
+            errorText = meta.error && meta.touched ? meta.error : ""
 
-        let errorClass: string | undefined
-        let feedback: JSX.Element | undefined
+        let errorClass: string | undefined,
+            feedback: JSX.Element | undefined
 
         if (errorText) {
             errorClass = "is-invalid"
@@ -81,8 +81,8 @@ export default class Reg extends React.Component {
         const [field, meta] = useField<{[key: string]: string}>({
             type,
             name,
-        })
-        const errorText = meta.error
+        }),
+            errorText = meta.error
 
         return (
             <div className="form-check">
@@ -170,20 +170,20 @@ export default class Reg extends React.Component {
         setSubmitting(true)
         try {
             const response = await fetch(
-                `${url}/auth/register`,
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
+                    `${url}/auth/register`,
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            username: values.username,
+                            email: values.email,
+                            password: values.password,
+                        }),
                     },
-                    body: JSON.stringify({
-                        username: values.username,
-                        email: values.email,
-                        password: values.password,
-                    }),
-                },
-            )
-            const data = await response.json() as {[key: string]: unknown}
+                ),
+                data = await response.json() as {[key: string]: unknown}
 
             if (response.status === 200) {
                 notify({

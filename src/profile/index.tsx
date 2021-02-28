@@ -22,15 +22,15 @@ import {useHistory} from "react-router-dom"
 declare namespace Types {
 
     export interface WrapperProps {
-        user?: CognitoUser
+        user?: CognitoUser,
     }
 
     export interface Props extends WrapperProps {
-        history: History<unknown>["push"]
+        history: History<unknown>["push"],
     }
 
     export interface SubComponentProps {
-        user: CognitoUser
+        user: CognitoUser,
     }
 
 }
@@ -69,17 +69,17 @@ class UserDisplay extends React.Component<Types.Props> {
     ): Promise<void> => {
         try {
             const response = await fetch(`${url}/organization/request`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                credentials: "include",
-                body: JSON.stringify({
-                    idToken: user.idToken,
-                    idTokenChecksum: user.idTokenChecksum,
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    credentials: "include",
+                    body: JSON.stringify({
+                        idToken: user.idToken,
+                        idTokenChecksum: user.idTokenChecksum,
+                    }),
                 }),
-            })
-            const data = await response.json() as {[key: string]: unknown}
+                data = await response.json() as {[key: string]: unknown}
 
             if (response.status === 200) {
                 notify({
@@ -174,8 +174,8 @@ class UserDisplay extends React.Component<Types.Props> {
 }
 
 export const UserDisplayWithHistory: React.FC<Types.WrapperProps> = (props) => {
-    const history = useHistory()
-    const {push: changeHistory} = history
+    const history = useHistory(),
+        {push: changeHistory} = history
 
     return <UserDisplay history={changeHistory} {...props}/>
 }

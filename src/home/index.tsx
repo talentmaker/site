@@ -17,7 +17,7 @@ import React from "react"
 import UserContext from "../userContext"
 
 interface Props {
-    user?: CognitoUser
+    user?: CognitoUser,
 }
 
 class HomeComponent extends React.Component<Props> {

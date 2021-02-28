@@ -51,32 +51,32 @@ export declare namespace AppTypes {
     export interface Props {}
 
     export interface State {
-        isAuthenticated: boolean
-        currentUser?: CognitoUser
+        isAuthenticated: boolean,
+        currentUser?: CognitoUser,
 
         /**
          * Current notification to show
          */
-        notification?: JSX.Element
+        notification?: JSX.Element,
     }
 
     /**
      * React user context type
      */
     export interface Context {
-        currentUser: undefined | CognitoUser | null
+        currentUser: undefined | CognitoUser | null,
 
         /**
          * Set the current loggedin user
          */
-        setUser: (user: Context["currentUser"])=> Promise<void>
+        setUser: (user: Context["currentUser"])=> Promise<void>,
 
         /**
          * Set the current loggedin user from an unknown object that is validated
          */
         setUserFromUnknown: (
             user?: {[key: string]: unknown} | null,
-        )=> Promise<void>
+        )=> Promise<void>,
     }
 }
 

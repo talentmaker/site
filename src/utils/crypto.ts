@@ -18,9 +18,9 @@ export const hash = async (
         return
     }
 
-    const encodedData = new TextEncoder().encode(JSON.stringify(data))
-    const hashBuffer = await crypto.subtle.digest(algo, encodedData)
-    const hashArray = Array.from(new Uint8Array(hashBuffer))
+    const encodedData = new TextEncoder().encode(JSON.stringify(data)),
+        hashBuffer = await crypto.subtle.digest(algo, encodedData),
+        hashArray = Array.from(new Uint8Array(hashBuffer))
 
     return hashArray.map((bite) => bite.toString(16).padStart(2, "0")).join("") // Hex string
 }
