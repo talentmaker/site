@@ -22,6 +22,8 @@ import join from "./join"
 
 class CompetitionComponent extends BaseComponent {
 
+    private _videoRef = React.createRef<HTMLDivElement>()
+
     /**
      * Join a competition
      */
@@ -104,13 +106,16 @@ class CompetitionComponent extends BaseComponent {
     /**
      * Banner with organization information
      */
-    private _orgInfo = (): JSX.Element => <div className="row">
-        <div className="col-lg-2">
-            <div className="px-4 my-3">
+    private _orgInfo = (): JSX.Element => <div className="row p-3 p-lg-0">
+        <div className="col-12 col-lg-2">
+            <div className="px-lg-4 my-lg-3 d-flex flex-row align-items-center">
                 <Img src={DefaultPFP} className="pfp" alt="Profile"/>
+                <p className="d-lg-none my-0 ms-1">
+                    {this.state.competition?.orgName || ""}
+                </p>
             </div>
         </div>
-        <div className="col-lg-5 d-flex flex-column justify-content-center">
+        <div className="col-lg-5 d-flex flex-column justify-content-center pt-3 pt-lg-0">
             <p className="username">
                 {this.state.competition?.name ?? `${this.state.competition?.orgName || ""}'s Competition`}
             </p>
@@ -118,7 +123,7 @@ class CompetitionComponent extends BaseComponent {
                 {this.state.competition?.shortDesc || ""}
             </p>
         </div>
-        <div className="col-lg-5 d-flex flex-row align-items-center justify-content-end">
+        <div className="col-lg-5 d-flex flex-row align-items-center justify-content-start justify-content-lg-end">
             {this._submissionBtn()}
             {
                 this.state.competition
@@ -130,7 +135,9 @@ class CompetitionComponent extends BaseComponent {
             }
             {
                 this.props.user === undefined
-                    ? <p className="mr-3"><Link to="/auth">Sign up</Link> to participate in competitions.</p>
+                    ? <p className="mr-3 d-none d-lg-block">
+                        <Link to="/auth">Sign up</Link> to participate in competitions.
+                    </p>
                     : this._joinBtn()
             }
         </div>
@@ -148,7 +155,7 @@ class CompetitionComponent extends BaseComponent {
 
         return <div className="p-3 position-sticky top-0">
             <button
-                className="btn-circle"
+                className="btn-circle d-none d-lg-block"
                 onClick={(): void => {
                     window.scrollTo({
                         top: 0,
@@ -178,6 +185,10 @@ class CompetitionComponent extends BaseComponent {
                 {deadline.getWordMonth()} {deadline.getDate()}, {deadline.getFullYear()}
                 @{deadline.getHours() < 10 ? `0${deadline.getHours()}` : deadline.getHours()}:{deadline.getMinutes()}
             </ul>
+            <button
+                className="btn-circle d-block d-lg-none"
+                onClick={(): void => this._videoRef.current?.scrollIntoView(true)}
+            ><span className="material-icons">expand_more</span></button>
         </div>
     }
 
@@ -222,22 +233,25 @@ class CompetitionComponent extends BaseComponent {
 
     protected content = (): JSX.Element => <>
         {this._orgInfo()}
-        <div className="row bg-primary bar">
-            <div className="col-sm-12 topics"> {/* Blue bar with competitions */}
+        <div className="row topics bg-primary d-flex align-items-center bar">
+            <div className="col-sm-12 topics-container mx-auto"> {/* Blue bar with competitions */}
                 {this.state.competition?.topics.map((topic, index): JSX.Element => (
                     <p
-                        className="bg-primary mx-1 my-0 py-1 px-2 d-flex"
+                        className="bg-primary mx-1 my-0 py-1 px-2"
                         key={`topic-${topic}-${index}`}
                     >{topic}</p>
                 ))}
             </div>
         </div>
-        <div className="row">
+        <div className="row flex-column-reverse flex-lg-row">
             <div className="col-lg-9">
                 {
                     this.state.competition?.videoURL // Video
                         ? <div className="mx-3 mt-3">
-                            <div className={`video-container ${this.state.videodidLoad ? "" : "p-0"}`}>
+                            <div
+                                className={`video-container ${this.state.videodidLoad ? "" : "p-0"}`}
+                                ref={this._videoRef}
+                            >
                                 <IFrame
                                     title="competition video"
                                     className="video"

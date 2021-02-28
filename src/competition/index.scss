@@ -11,13 +11,30 @@
 @use "./../scss/variables" as variables;
 
 .pfp {
-  width: 100%;
+  width: 1.5rem;
   clip-path: circle(at center);
+
+  @media (min-width: map-get(variables.$grid-breakpoints, "lg")) {
+    width: 100%;
+  }
 }
 
 .username {
-  font-size: 3vw;
+  font-size: 1.5rem;
+
+  @media (min-width: map-get(variables.$grid-breakpoints, "lg")) {
+    width: 3vw;
+  }
 }
+
+.sub {
+  font-size: 1rem;
+
+  @media (min-width: map-get(variables.$grid-breakpoints, "lg")) {
+    width:  1.25vw;
+  }
+}
+
 
 .bar {
   height: 10vh;
@@ -41,13 +58,24 @@
 }
 
 .topics {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
   color: variables.$light;
+  overflow-x: scroll;
+  white-space: nowrap;
+  text-align: center;
+  scrollbar-width: none;
 
-  p {
-    border: solid 0.125rem variables.$light;
+  .topics-container {
+    display: block;
+
+    p {
+      border: solid 0.125rem variables.$light;
+      font-size: 0.75rem;
+      max-width: max-content;
+      display: inline-block;
+
+      @media (min-width: map-get(variables.$grid-breakpoints, "md")) {
+        font-size: 1rem;
+      }
+    }
   }
 }
