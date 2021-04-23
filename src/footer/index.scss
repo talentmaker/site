@@ -47,14 +47,14 @@ footer {
       margin: 0 1vw;
       padding: 0.75rem;
       border: none; // Add border
-      border-radius: 50%;     // Make circular
+      border-radius: 50%; // Make circular
       color: variables.$dark;
       background-color: variables.$lighter;
 
       $transition-time: 0.25s;
       $transition-timing: ease;
       transition: // Transition for
-        color $transition-time $transition-timing
+        color $transition-time $transition-timing;
     }
 
     .bi-youtube {

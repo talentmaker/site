@@ -1,12 +1,11 @@
 /**
  * Talentmaker website
  *
+ * @license BSD-3-Clause
+ * @author Luke Zhang
  * @copyright (C) 2020 - 2021 Luke Zhang, Ethan Lim
  * https://Luke-zhang-04.github.io
  * https://github.com/ethanlim04
- * @author Luke Zhang
- *
- * @license BSD-3-Clause
  */
 import "./index.scss"
 import type {CognitoUser} from "../utils/cognito"
@@ -26,32 +25,24 @@ import {url} from "../globals"
 
 type UnknownArray = {[key: string]: unknown}[]
 
-const isCompetition = (
-    obj: unknown,
-): obj is Competition[] => (
+const isCompetition = (obj: unknown): obj is Competition[] =>
     obj instanceof Array &&
-    (
-        obj.length === 0 ||
-        typeof (obj as UnknownArray)[0]?.id === "number" &&
-        typeof (obj as UnknownArray)[0]?.deadline === "string" &&
-        (
-            (obj as UnknownArray)[0]?.coverImageURL === undefined ||
-            typeof (obj as UnknownArray)[0]?.coverImageURL === "string"
-        )
-    )
-)
+    (obj.length === 0 ||
+        (typeof (obj as UnknownArray)[0]?.id === "number" &&
+            typeof (obj as UnknownArray)[0]?.deadline === "string" &&
+            ((obj as UnknownArray)[0]?.coverImageURL === undefined ||
+                typeof (obj as UnknownArray)[0]?.coverImageURL === "string")))
 
 interface State {
-    competitions?: Competition[],
+    competitions?: Competition[]
 }
 
 interface Props {
-    user?: CognitoUser,
+    user?: CognitoUser
 }
 
 class CompetitionsComponent extends React.Component<Props, State> {
-
-    public constructor (props: {}) {
+    public constructor(props: {}) {
         super(props)
 
         this.state = {
@@ -64,16 +55,17 @@ class CompetitionsComponent extends React.Component<Props, State> {
             this._handleCache()
 
             // Get a competition
-            const data = await (await fetch(`${url}/competitions/get`,
-                {
+            const data = (await (
+                await fetch(`${url}/competitions/get`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
                     },
-                },
-            )).json() as {[key: string]: unknown}
+                })
+            ).json()) as {[key: string]: unknown}
 
-            if (!isCompetition(data)) { // Check the fetched data
+            if (!isCompetition(data)) {
+                // Check the fetched data
                 notify({
                     title: "Error",
                     icon: "report_problem",
@@ -107,13 +99,14 @@ class CompetitionsComponent extends React.Component<Props, State> {
     }
 
     public componentDidUpdate = async (): Promise<void> => {
-        (await import("../bootstrap/tooltip")).initTooltips()
+        ;(await import("../bootstrap/tooltip")).initTooltips()
     }
 
     private _handleCache = async (): Promise<void> => {
         const data = await cache.read("talentmakerCache_competitions")
 
-        if (isCompetition(data)) { // Check the fetched data
+        if (isCompetition(data)) {
+            // Check the fetched data
             this.setState({competitions: data})
         }
     }
@@ -122,70 +115,80 @@ class CompetitionsComponent extends React.Component<Props, State> {
      * Sort competitions into "chunks"
      */
     private _getSortedComponents = (): Competition[][][] => {
-
         // Competitions due in the future and past
-        const future: Competition[] = this.state.competitions?.filter((val) => (
-            new Date(val.deadline).getTime() >= dateUtils.getUtcTime()
-        )) ?? [],
-            past: Competition[] = this.state.competitions?.filter((val) => (
-                new Date(val.deadline).getTime() < dateUtils.getUtcTime()
-            )) ?? []
+        const future: Competition[] =
+                this.state.competitions?.filter(
+                    (val) => new Date(val.deadline).getTime() >= dateUtils.getUtcTime(),
+                ) ?? [];
+            const past: Competition[] =
+                this.state.competitions?.filter(
+                    (val) => new Date(val.deadline).getTime() < dateUtils.getUtcTime(),
+                ) ?? []
 
         return [arrayToChunks(future), arrayToChunks(past)]
     }
 
     /**
      * A single competition column
-     * @param comp - competition details
-     * @param index - index of competition (for the key prop)
+     *
+     * @param comp - Competition details
+     * @param index - Index of competition (for the key prop)
      */
     private _competition = (comp: Competition, index: number): JSX.Element => {
         const deadline = new DatePlus(comp.deadline)
 
-        return <div key={`comp-col-${index}-${comp.id}`} className="col-lg-4 my-3">
-            <div className="comp-card">
-                <Img src={comp.coverImageURL ?? DefaultPhoto} alt="cover">
-                    <Spinner color="primary" size="6rem" centered/>
-                </Img>
-                <div className="comp-info">
-                    <div className="deadline">
-                        {`${deadline.getWordMonth()} ${deadline.getDate()}, ${deadline.getFullYear()}`}
-                    </div>
-                    <div className="container-fluid comp-details">
-                        <h3>{comp.name ?? `${comp.orgName}'s Competition`}</h3>
-                        <p className="text-primary">{comp.shortDesc}</p>
-                        <Link
-                            to={`/competition/${comp.id}`}
-                            className="btn btn-outline-primary"
-                        >Details</Link>
-                        { // This competition belongs to this organization
-                            this.props.user?.sub === comp.orgId
-                                ? <Link
-                                    to={`/editCompetition/${comp.id}`}
-                                    className="btn btn-outline-dark d-inline-block float-right"
-                                    data-bs-toggle="tooltip"
-                                    data-bs-placement="left"
-                                    title="Edit"
-                                ><span className="material-icons">create</span></Link>
-                                : undefined
-                        }
+        return (
+            <div key={`comp-col-${index}-${comp.id}`} className="col-lg-4 my-3">
+                <div className="comp-card">
+                    <Img src={comp.coverImageURL ?? DefaultPhoto} alt="cover">
+                        <Spinner color="primary" size="6rem" centered />
+                    </Img>
+                    <div className="comp-info">
+                        <div className="deadline">
+                            {`${deadline.getWordMonth()} ${deadline.getDate()}, ${deadline.getFullYear()}`}
+                        </div>
+                        <div className="container-fluid comp-details">
+                            <h3>{comp.name ?? `${comp.orgName}'s Competition`}</h3>
+                            <p className="text-primary">{comp.shortDesc}</p>
+                            <Link
+                                to={`/competition/${comp.id}`}
+                                className="btn btn-outline-primary"
+                            >
+                                Details
+                            </Link>
+                            {
+                                // This competition belongs to this organization
+                                this.props.user?.sub === comp.orgId ? (
+                                    <Link
+                                        to={`/editCompetition/${comp.id}`}
+                                        className="btn btn-outline-dark d-inline-block float-right"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="left"
+                                        title="Edit"
+                                    >
+                                        <span className="material-icons">create</span>
+                                    </Link>
+                                ) : undefined
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        )
     }
 
     /**
      * Renders interface for creating new competitions
      */
-    private _newCompetition = (): JSX.Element => <>
-        <h1>Create a Competition</h1>
-        <p>As an organization, you can create a new competition</p>
-        <Link
-            to="/editCompetition/new"
-            className="btn btn-outline-primary"
-        >New Competition</Link>
-    </>
+    private _newCompetition = (): JSX.Element => (
+        <>
+            <h1>Create a Competition</h1>
+            <p>As an organization, you can create a new competition</p>
+            <Link to="/editCompetition/new" className="btn btn-outline-primary">
+                New Competition
+            </Link>
+        </>
+    )
 
     /**
      * Renders competitions
@@ -193,42 +196,42 @@ class CompetitionsComponent extends React.Component<Props, State> {
     private _competitions = (): JSX.Element => {
         const competitions = this._getSortedComponents()
 
-        return <>
-            {
-                this.props.user?.isOrg === true
-                    ? this._newCompetition()
-                    : undefined
-            }
+        return (
+            <>
+                {this.props.user?.isOrg === true ? this._newCompetition() : undefined}
 
-            <h1 className="my-3">Upcoming Competitions</h1>
-            {competitions[0].map((row, index) => <div key={`comp-row-${index}`} className="row g-3">
-                {row.map((comp) => this._competition(comp, index))}
-            </div>)}
+                <h1 className="my-3">Upcoming Competitions</h1>
+                {competitions[0].map((row, index) => (
+                    <div key={`comp-row-${index}`} className="row g-3">
+                        {row.map((comp) => this._competition(comp, index))}
+                    </div>
+                ))}
 
-            <h1 className="mb-3">Past Competitions</h1>
-            {competitions[1]?.map((row, index) => <div key={`comp-row-${index}`} className="row g-3">
-                {row.map((comp) => this._competition(comp, index))}
-            </div>)}
-        </>
+                <h1 className="mb-3">Past Competitions</h1>
+                {competitions[1]?.map((row, index) => (
+                    <div key={`comp-row-${index}`} className="row g-3">
+                        {row.map((comp) => this._competition(comp, index))}
+                    </div>
+                ))}
+            </>
+        )
     }
 
-    public render = (): JSX.Element => (
-        this.state.competitions
-            ? <div className="container-fluid">
-                {this._competitions()}
-            </div>
-            : <Spinner color="primary" size="25vw" className="my-5" centered/>
-    )
-
+    public render = (): JSX.Element =>
+        this.state.competitions ? (
+            <div className="container-fluid">{this._competitions()}</div>
+        ) : (
+            <Spinner color="primary" size="25vw" className="my-5" centered />
+        )
 }
 
 /**
  * Wrapper for the competitions component that passes in the user
  */
-export const Competitions: React.FC<{}> = () => <UserContext.Consumer>
-    {({currentUser: user}): JSX.Element => <CompetitionsComponent
-        user={user ?? undefined}
-    />}
-</UserContext.Consumer>
+export const Competitions: React.FC<{}> = () => (
+    <UserContext.Consumer>
+        {({currentUser: user}): JSX.Element => <CompetitionsComponent user={user ?? undefined} />}
+    </UserContext.Consumer>
+)
 
 export default Competitions

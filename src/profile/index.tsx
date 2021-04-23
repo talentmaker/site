@@ -1,12 +1,11 @@
 /**
  * Talentmaker website
  *
+ * @license BSD-3-Clause
+ * @author Luke Zhang
  * @copyright (C) 2020 - 2021 Luke Zhang, Ethan Lim
  * https://Luke-zhang-04.github.io
  * https://github.com/ethanlim04
- * @author Luke Zhang
- *
- * @license BSD-3-Clause
  */
 
 import "./index.scss"
@@ -20,30 +19,27 @@ import {url} from "../globals"
 import {useHistory} from "react-router-dom"
 
 declare namespace Types {
-
     export interface WrapperProps {
-        user?: CognitoUser,
+        user?: CognitoUser
     }
 
     export interface Props extends WrapperProps {
-        history: History<unknown>["push"],
+        history: History<unknown>["push"]
     }
 
     export interface SubComponentProps {
-        user: CognitoUser,
+        user: CognitoUser
     }
-
 }
 
 class UserDisplay extends React.Component<Types.Props> {
-
     private static _handleError = (err: unknown): void => {
         console.error(err)
 
         if (
             err instanceof Error ||
-                typeof err === "object" &&
-                typeof (err as {[key: string]: unknown}).message === "string"
+            (typeof err === "object" &&
+                typeof (err as {[key: string]: unknown}).message === "string")
         ) {
             notify({
                 title: "Error",
@@ -64,9 +60,7 @@ class UserDisplay extends React.Component<Types.Props> {
     /**
      * Request to become organization
      */
-    private _orgRequest = async (
-        {user}: Types.SubComponentProps,
-    ): Promise<void> => {
+    private _orgRequest = async ({user}: Types.SubComponentProps): Promise<void> => {
         try {
             const response = await fetch(`${url}/organization/request`, {
                     method: "POST",
@@ -78,10 +72,10 @@ class UserDisplay extends React.Component<Types.Props> {
                         idToken: user.idToken,
                         idTokenChecksum: user.idTokenChecksum,
                     }),
-                }),
-                data = await response.json() as {[key: string]: unknown}
+                });
+                const data = (await response.json()) as {[key: string]: unknown}
 
-            if (response.status === 200) {
+            if (response.ok) {
                 notify({
                     title: "Successfully Made Request!",
                     content: "Success! You have requested to become an organization!",
@@ -102,16 +96,15 @@ class UserDisplay extends React.Component<Types.Props> {
                 <div className="row">
                     <div className="col-lg-2">
                         <div className="px-4 my-3">
-                            <img src={DefaultPFP} className="pfp" alt="Profile"/>
+                            <img src={DefaultPFP} className="pfp" alt="Profile" />
                         </div>
                     </div>
                     <div className="col-lg-6 d-flex flex-column justify-content-center">
                         <p className="username">
-                            {user.username}<span className="text-muted">#{user.sub.slice(0, 8)}</span>
+                            {user.username}
+                            <span className="text-muted">#{user.sub.slice(0, 8)}</span>
                         </p>
-                        <p className="sub text-muted">
-                            {user.sub}
-                        </p>
+                        <p className="sub text-muted">{user.sub}</p>
                     </div>
                     <div className="col-lg-4 d-flex flex-row align-items-center justify-content-end">
                         <button className="btn btn-outline-primary btn-lg">Edit</button>
@@ -122,31 +115,33 @@ class UserDisplay extends React.Component<Types.Props> {
 
                                 return this.props.history("/")
                             }}
-                        >Logout</button>
+                        >
+                            Logout
+                        </button>
                     </div>
                 </div>
             )}
         </UserContext.Consumer>
     )
 
-    protected statsAndProjects = (
-        {user}: Types.SubComponentProps,
-    ): JSX.Element => (
+    protected statsAndProjects = ({user}: Types.SubComponentProps): JSX.Element => (
         <div className="row">
             <div className="col-3 bg-lighter">
                 <ul className="list-unstyled text-dark px-4 py-5">
                     <li>Email: {user.email}</li>
-                    <br/>
+                    <br />
                     <li>Username: {user.username}</li>
-                    <br/>
+                    <br />
                     <li>UID (short): {user.sub.slice(0, 8)}</li>
-                    <br/>
+                    <br />
                     An organization? Apply to become an organization!
-                    <br/>
+                    <br />
                     <button
                         className="btn btn-outline-primary"
                         onClick={(): Promise<void> => this._orgRequest({user})}
-                    >Apply</button>
+                    >
+                        Apply
+                    </button>
                 </ul>
             </div>
             <div className="col-9">
@@ -160,24 +155,25 @@ class UserDisplay extends React.Component<Types.Props> {
             return <div className="container">It looks like you&apos;ve been signed out</div>
         }
 
-        return <>
-            {this.userInfo({user: this.props.user})}
+        return (
+            <>
+                {this.userInfo({user: this.props.user})}
 
-            <div className="row bg-primary bar">
-                <div className="col-sm-12"></div>
-            </div>
+                <div className="row bg-primary bar">
+                    <div className="col-sm-12"></div>
+                </div>
 
-            {this.statsAndProjects({user: this.props.user})}
-        </>
+                {this.statsAndProjects({user: this.props.user})}
+            </>
+        )
     }
-
 }
 
 export const UserDisplayWithHistory: React.FC<Types.WrapperProps> = (props) => {
-    const history = useHistory(),
-        {push: changeHistory} = history
+    const history = useHistory();
+        const {push: changeHistory} = history
 
-    return <UserDisplay history={changeHistory} {...props}/>
+    return <UserDisplay history={changeHistory} {...props} />
 }
 
 export default UserDisplayWithHistory

@@ -1,12 +1,11 @@
 /**
  * Talentmaker website
  *
+ * @license BSD-3-Clause
+ * @author Luke Zhang
  * @copyright (C) 2020 - 2021 Luke Zhang, Ethan Lim
  * https://Luke-zhang-04.github.io
  * https://github.com/ethanlim04
- * @author Luke Zhang
- *
- * @license BSD-3-Clause
  */
 /* eslint-disable prefer-named-capture-group */
 import * as yup from "yup"
@@ -18,43 +17,38 @@ import notify from "../notify"
 import {url} from "../globals"
 
 interface FormValues {
-    username: string,
-    email: string,
-    password: string,
-    password2: string,
-    didagree: boolean,
+    username: string
+    email: string
+    password: string
+    password2: string
+    didagree: boolean
 }
 
 interface FormProps {
-    name: string,
-    type: string,
-    children?: JSX.Element,
-    label: string,
+    name: string
+    type: string
+    children?: JSX.Element
+    label: string
 }
 
 export default class Reg extends React.Component {
-
     /**
      * Input field component
-     * @param props - props for form
+     *
+     * @param props - Props for form
      */
     private static _input = (props: FormProps): JSX.Element => {
-        const [field, meta] = useField<FormProps>(props),
-            errorText = meta.error && meta.touched ? meta.error : ""
+        const [field, meta] = useField<FormProps>(props);
+            const errorText = meta.error && meta.touched ? meta.error : ""
 
-        let errorClass: string | undefined,
-            feedback: JSX.Element | undefined
+        let errorClass: string | undefined; let feedback: JSX.Element | undefined
 
         if (errorText) {
             errorClass = "is-invalid"
-            feedback = <div className="invalid-feedback">
-                {errorText}
-            </div>
+            feedback = <div className="invalid-feedback">{errorText}</div>
         } else if (meta.touched) {
             errorClass = "is-valid"
-            feedback = <div className="valid-feedback">
-                Looks Good!
-            </div>
+            feedback = <div className="valid-feedback">Looks Good!</div>
         }
 
         return (
@@ -75,21 +69,27 @@ export default class Reg extends React.Component {
 
     /**
      * Checkbox component
-     * @param param0 - typr and name of checkbox
+     *
+     * @param param0 - Typr and name of checkbox
      */
     private static _checkbox = ({type, name}: {[key: string]: string}): JSX.Element => {
         const [field, meta] = useField<{[key: string]: string}>({
-            type,
-            name,
-        }),
-            errorText = meta.error
+                type,
+                name,
+            });
+            const errorText = meta.error
 
         return (
             <div className="form-check">
                 {/* eslint-disable-next-line */}
                 <label className="form-check-label">
-                    <Field type={type} className={`form-check-input ${errorText ? "is-invalid" : "is-valid"}`} {...field}/>
-                    By Signing up, you agree to our <Link to="/legal">terms and conditions</Link> and <Link to="/privacy-policy">Privacy Policy</Link>.
+                    <Field
+                        type={type}
+                        className={`form-check-input ${errorText ? "is-invalid" : "is-valid"}`}
+                        {...field}
+                    />
+                    By Signing up, you agree to our <Link to="/legal">terms and conditions</Link>{" "}
+                    and <Link to="/privacy-policy">Privacy Policy</Link>.
                     <div className={errorText ? "invalid-feedback" : "valid-feedback"}>
                         {errorText ? errorText : "Looks Good!"}
                     </div>
@@ -112,19 +112,17 @@ export default class Reg extends React.Component {
      * Validation schema with yup
      */
     private static _validationSchema = yup.object({
-        username: yup.string()
-            .required(`Username ${Reg._isRequired}`)
-            .max(32),
-        email: yup.string()
-            .required(`Email ${Reg._isRequired}`)
-            .email(),
-        password: yup.string()
+        username: yup.string().required(`Username ${Reg._isRequired}`).max(32),
+        email: yup.string().required(`Email ${Reg._isRequired}`).email(),
+        password: yup
+            .string()
             .required()
             .min(8)
             .matches(/[0-9]/gu, "Password must include at least 1 number")
             .matches(/[a-z]/gu, "Password must include at least 1 lowercase letter")
             .matches(/[A-Z]/gu, "Password must include at least 1 uppercase letter"),
-        password2: yup.string()
+        password2: yup
+            .string()
             .oneOf([yup.ref("password"), undefined], "Passwords must match")
             .required(),
     })
@@ -133,7 +131,8 @@ export default class Reg extends React.Component {
         const errors: {[key: string]: string} = {}
 
         if (!values.didagree) {
-            errors.didagree = "Make sure you have read and agree to the terms and conditions, and privacy policy."
+            errors.didagree =
+                "Make sure you have read and agree to the terms and conditions, and privacy policy."
         }
 
         return errors
@@ -144,8 +143,8 @@ export default class Reg extends React.Component {
 
         if (
             err instanceof Error ||
-                typeof err === "object" &&
-                typeof (err as {[key: string]: unknown}).message === "string"
+            (typeof err === "object" &&
+                typeof (err as {[key: string]: unknown}).message === "string")
         ) {
             notify({
                 title: "Error",
@@ -169,23 +168,20 @@ export default class Reg extends React.Component {
     ): Promise<void> => {
         setSubmitting(true)
         try {
-            const response = await fetch(
-                    `${url}/auth/register`,
-                    {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                            username: values.username,
-                            email: values.email,
-                            password: values.password,
-                        }),
+            const response = await fetch(`${url}/auth/register`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
                     },
-                ),
-                data = await response.json() as {[key: string]: unknown}
+                    body: JSON.stringify({
+                        username: values.username,
+                        email: values.email,
+                        password: values.password,
+                    }),
+                });
+                const data = (await response.json()) as {[key: string]: unknown}
 
-            if (response.status === 200) {
+            if (response.ok) {
                 notify({
                     title: "Successfully Registered!",
                     content: "Success! You have been registered! Please confirm your email.",
@@ -202,38 +198,35 @@ export default class Reg extends React.Component {
         setSubmitting(false)
     }
 
-    public render = (): JSX.Element => <Formik
-        initialValues={this._initialValues}
-        onSubmit={this._submit}
-        validate={this._validate}
-        validationSchema={Reg._validationSchema}
-    >
-        {({isSubmitting}): JSX.Element => (
-            <Form className="container-fluid">
-                <Reg._input name="username" type="username" label="Username">
-                    <span className="material-icons">person</span>
-                </Reg._input>
-                <Reg._input name="email" type="email" label="Email">
-                    <span className="material-icons">alternate_email</span>
-                </Reg._input>
-                <Reg._input name="password" type="password" label="Password">
-                    <span className="material-icons">vpn_key</span>
-                </Reg._input>
-                <Reg._input name="password2" type="password" label="Confirm password">
-                    <span className="material-icons">vpn_key</span>
-                </Reg._input>
-                <Reg._checkbox name="didagree" type="checkbox"/>
+    public render = (): JSX.Element => (
+        <Formik
+            initialValues={this._initialValues}
+            onSubmit={this._submit}
+            validate={this._validate}
+            validationSchema={Reg._validationSchema}
+        >
+            {({isSubmitting}): JSX.Element => (
+                <Form className="container-fluid">
+                    <Reg._input name="username" type="username" label="Username">
+                        <span className="material-icons">person</span>
+                    </Reg._input>
+                    <Reg._input name="email" type="email" label="Email">
+                        <span className="material-icons">alternate_email</span>
+                    </Reg._input>
+                    <Reg._input name="password" type="password" label="Password">
+                        <span className="material-icons">vpn_key</span>
+                    </Reg._input>
+                    <Reg._input name="password2" type="password" label="Confirm password">
+                        <span className="material-icons">vpn_key</span>
+                    </Reg._input>
+                    <Reg._checkbox name="didagree" type="checkbox" />
 
-                <button className="btn btn-primary" type="submit" disabled={isSubmitting}>
-                    {
-                        isSubmitting
-                            ? <Spinner inline> </Spinner>
-                            : undefined
-                    }
-                    Register
-                </button>
-            </Form>
-        )}
-    </Formik>
-
+                    <button className="btn btn-primary" type="submit" disabled={isSubmitting}>
+                        {isSubmitting ? <Spinner inline> </Spinner> : undefined}
+                        Register
+                    </button>
+                </Form>
+            )}
+        </Formik>
+    )
 }

@@ -1,13 +1,12 @@
 /**
  * Talentmaker website
  *
+ * @license BSD-3-Clause
+ * @author Luke Zhang
+ * @file entry Point for this react application including the app component
  * @copyright (C) 2020 - 2021 Luke Zhang, Ethan Lim
  * https://Luke-zhang-04.github.io
  * https://github.com/ethanlim04
- * @author Luke Zhang
- *
- * @license BSD-3-Clause
- * @file entry point for this react application including the app component
  */
 // Load Prismjs languages
 import "prismjs"
@@ -51,32 +50,30 @@ export declare namespace AppTypes {
     export interface Props {}
 
     export interface State {
-        isAuthenticated: boolean,
-        currentUser?: CognitoUser,
+        isAuthenticated: boolean
+        currentUser?: CognitoUser
 
         /**
          * Current notification to show
          */
-        notification?: JSX.Element,
+        notification?: JSX.Element
     }
 
     /**
      * React user context type
      */
     export interface Context {
-        currentUser: undefined | CognitoUser | null,
+        currentUser: undefined | CognitoUser | null
 
         /**
          * Set the current loggedin user
          */
-        setUser: (user: Context["currentUser"])=> Promise<void>,
+        setUser: (user: Context["currentUser"]) => Promise<void>
 
         /**
          * Set the current loggedin user from an unknown object that is validated
          */
-        setUserFromUnknown: (
-            user?: {[key: string]: unknown} | null,
-        )=> Promise<void>,
+        setUserFromUnknown: (user?: {[key: string]: unknown} | null) => Promise<void>
     }
 }
 
@@ -84,8 +81,7 @@ export declare namespace AppTypes {
  * Main App component with Router and such
  */
 class App extends React.Component<AppTypes.Props, AppTypes.State> {
-
-    public constructor (props: AppTypes.Props) {
+    public constructor(props: AppTypes.Props) {
         super(props)
 
         this.state = {
@@ -100,16 +96,15 @@ class App extends React.Component<AppTypes.Props, AppTypes.State> {
      */
     public componentDidMount = async (): Promise<void> => {
         if (localStorage.getItem("loggedin") === "true") {
-            const user = await (await fetch(
-                `${url}/auth/tokens`,
-                {
+            const user = (await (
+                await fetch(`${url}/auth/tokens`, {
                     method: "GET",
                     credentials: "include",
                     headers: {
                         "Content-Type": "application/json",
                     },
-                },
-            )).json() as {[key: string]: unknown}
+                })
+            ).json()) as {[key: string]: unknown}
 
             if (isCognitoUser(user)) {
                 await this.setUser(user)
@@ -130,12 +125,10 @@ class App extends React.Component<AppTypes.Props, AppTypes.State> {
 
     /**
      * Sets the user to state
-     * @param user - unknown object that will go through validation OR
-     * `undefined | null` for logout
+     *
+     * @param user - Unknown object that will go through validation OR `undefined | null` for logout
      */
-    public setUserFromUnknown = async (
-        user?: {[key: string]: unknown} | null,
-    ): Promise<void> => {
+    public setUserFromUnknown = async (user?: {[key: string]: unknown} | null): Promise<void> => {
         if (user === undefined || user === null || isCognitoUser(user)) {
             return await this.setUser(user)
         }
@@ -143,22 +136,20 @@ class App extends React.Component<AppTypes.Props, AppTypes.State> {
 
     /**
      * Sets the user to state
-     * @param user - object with user info OR `undefined | null` to logout
+     *
+     * @param user - Object with user info OR `undefined | null` to logout
      */
     public setUser = async (user?: CognitoUser | null): Promise<void> => {
         const isLoggedin = localStorage.getItem("loggedin") === "true"
 
         if (isLoggedin && (user === undefined || user === null)) {
-            await fetch(
-                `${url}/auth/logout`,
-                {
-                    method: "POST",
-                    credentials: "include",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
+            await fetch(`${url}/auth/logout`, {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
                 },
-            )
+            })
 
             localStorage.setItem("loggedin", "false")
         } else {
@@ -171,45 +162,46 @@ class App extends React.Component<AppTypes.Props, AppTypes.State> {
         })
     }
 
-    public render = (): JSX.Element => <UserContext.Provider
-        value={{
-            currentUser: this.state.currentUser,
-            setUser: this.setUser,
-            setUserFromUnknown: this.setUserFromUnknown,
-        }}
-    >
-        {this.state.notification}
-        <Router>
-            <Nav/>
-            <Switch>
-                <Route path="/" exact component={Home}/>
-                <Route path="/auth" component={Auth}/>
-                <Route path="/competition/:id" component={Competition}/>
-                <Route path="/competitions" component={Competitions}/>
-                <Route path="/editCompetition/:id" component={EditCompetition}/>
-                <Route path="/editProject/:id?" component={EditProject}/>
-                <Route path="/legal" component={Legal}/>
-                <Route path="/privacy-policy" component={PrivacyPolicy}/>
-                <Route
-                    path="/profile"
-                    render={(): JSX.Element => <Profile user={this.state.currentUser}/>}
-                />
-                <Route path="/project/:id" component={Project}/>
-                <Route path="/project" component={Project}/>
-                <Route path="/projects/:compId" component={Projects}/>
+    public render = (): JSX.Element => (
+        <UserContext.Provider
+            value={{
+                currentUser: this.state.currentUser,
+                setUser: this.setUser,
+                setUserFromUnknown: this.setUserFromUnknown,
+            }}
+        >
+            {this.state.notification}
+            <Router>
+                <Nav />
+                <Switch>
+                    <Route path="/" exact component={Home} />
+                    <Route path="/auth" component={Auth} />
+                    <Route path="/competition/:id" component={Competition} />
+                    <Route path="/competitions" component={Competitions} />
+                    <Route path="/editCompetition/:id" component={EditCompetition} />
+                    <Route path="/editProject/:id?" component={EditProject} />
+                    <Route path="/legal" component={Legal} />
+                    <Route path="/privacy-policy" component={PrivacyPolicy} />
+                    <Route
+                        path="/profile"
+                        render={(): JSX.Element => <Profile user={this.state.currentUser} />}
+                    />
+                    <Route path="/project/:id" component={Project} />
+                    <Route path="/project" component={Project} />
+                    <Route path="/projects/:compId" component={Projects} />
 
-                {/* 404 */}
-                <Route component={NotFound}/>
-            </Switch>
-            <Footer user={this.state.currentUser}/>
-        </Router>
-    </UserContext.Provider>
-
+                    {/* 404 */}
+                    <Route component={NotFound} />
+                </Switch>
+                <Footer user={this.state.currentUser} />
+            </Router>
+        </UserContext.Provider>
+    )
 }
 
 ReactDOM.render(
     <React.StrictMode>
-        <App ref={appRef}/>
+        <App ref={appRef} />
     </React.StrictMode>,
     document.getElementById("root"),
 )

@@ -40,7 +40,7 @@
     "test": "react-scripts test",
     "lint": "bash lint.sh",
     "lint:fix": "bash lint.sh --fix",
-    "lint:watch": "./lint"
+    "eslint": "eslint src/\"{*,**/*}\".\"{js,jsx,ts,tsx}\""
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -80,6 +80,8 @@
     "eslint-plugin-prefer-arrow": "^1.2.3",
     "eslint-plugin-react": "^7.23.2",
     "eslint_d": "^10.0.4",
+    "prettier": "^2.2.1",
+    "prettier-plugin-jsdoc": "^0.3.19",
     "react-scripts": "4.0.3",
     "sass": "^1.32.11",
     "stylelint": "^13.12.0",

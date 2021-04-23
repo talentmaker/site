@@ -48,7 +48,8 @@ body {
   color: variables.$dark;
 }
 
-.input-group-text { // The icons before an input field and thier colour
+.input-group-text {
+  // The icons before an input field and thier colour
   background-color: variables.$light-grey;
 }
 
@@ -61,7 +62,7 @@ body {
 }
 
 .material-icons {
-  display: inline-block;  // Display for aligning icon
+  display: inline-block; // Display for aligning icon
   vertical-align: middle; // Align icon in middle
 }
 
@@ -69,7 +70,7 @@ body {
 .toast-fixed {
   position: fixed;
   top: 1%;
-  left: 50%;                   // Position left edge 50% from left
+  left: 50%; // Position left edge 50% from left
   transform: translateX(-50%); // Centre element by moving half its width over
   z-index: 1000;
 }
@@ -99,7 +100,8 @@ body {
   }
 }
 
-.react-datepicker-wrapper { // Make date picker act like form control
+.react-datepicker-wrapper {
+  // Make date picker act like form control
   position: relative;
   flex: 1 1 auto;
   width: 1%;
@@ -107,14 +109,14 @@ body {
 }
 
 .react-datepicker {
-  border-radius: 0 !important;         // Remove border radius from calendar
+  border-radius: 0 !important; // Remove border radius from calendar
   background-color: $light !important; // Make the background one colour
-  border: none !important;             // Remove borders
+  border: none !important; // Remove borders
 
   .react-datepicker__header {
     background-color: $dark !important; // Make header dark
-    color: $light !important;           // Change text colour too
-    border-radius: 0 !important;        // Remove border radius
+    color: $light !important; // Change text colour too
+    border-radius: 0 !important; // Remove border radius
 
     .react-datepicker__current-month,
     .react-datepicker__day-name,
@@ -124,7 +126,7 @@ body {
   }
 
   .react-datepicker__triangle {
-    color: $dark !important;               // Make the triangle dark too
+    color: $dark !important; // Make the triangle dark too
     border-bottom-color: $dark !important; // But border-bottom is really important
 
     &::before {
@@ -136,7 +138,7 @@ body {
   .react-datepicker__day--keyboard-selected,
   .react-datepicker__day--today {
     border-radius: 0 !important; // Remove border radius from selected date
-    background-color: $primary;  // Change its bg colour
+    background-color: $primary; // Change its bg colour
   }
 }
 
@@ -145,14 +147,14 @@ h3,
 h4,
 h5,
 h6 {
-  font-weight: 400
+  font-weight: 400;
 }
 
 // Button for going back to top
 .btn-circle {
   background-color: variables.$none; // Transparent
 
-  border: none;       // Remove borders
+  border: none; // Remove borders
   border-radius: 50%; // Rounded
 
   padding: 0; // Even out padding from x and y

@@ -1,12 +1,11 @@
 /**
  * Talentmaker website
  *
+ * @license BSD-3-Clause
+ * @author Luke Zhang
  * @copyright (C) 2020 - 2021 Luke Zhang, Ethan Lim
  * https://Luke-zhang-04.github.io
  * https://github.com/ethanlim04
- * @author Luke Zhang
- *
- * @license BSD-3-Clause
  */
 
 import "./auth.scss"
@@ -21,40 +20,37 @@ import {url} from "../globals"
 import {useHistory} from "react-router-dom"
 
 interface FormValues {
-    email: string,
-    password: string,
+    email: string
+    password: string
 }
 
 interface FormProps {
-    label: string,
-    name: string,
-    type: string,
-    placeholder?: string,
-    children?: JSX.Element,
+    label: string
+    name: string
+    type: string
+    placeholder?: string
+    children?: JSX.Element
 }
 
 interface LoginProps {
-    history: History<unknown>["push"],
+    history: History<unknown>["push"]
 }
 
 class Login extends React.Component<LoginProps> {
-
     /**
      * Input field component
-     * @param props - props for form
+     *
+     * @param props - Props for form
      */
     private static _input = (props: FormProps): JSX.Element => {
-        const [field, meta] = useField<FormProps>(props),
-            errorText = meta.error && meta.touched ? meta.error : ""
+        const [field, meta] = useField<FormProps>(props);
+            const errorText = meta.error && meta.touched ? meta.error : ""
 
-        let errorClass: string | undefined,
-            feedback: JSX.Element | undefined
+        let errorClass: string | undefined; let feedback: JSX.Element | undefined
 
         if (errorText) {
             errorClass = "is-invalid"
-            feedback = <div className="invalid-feedback">
-                {errorText}
-            </div>
+            feedback = <div className="invalid-feedback">{errorText}</div>
         } else if (meta.touched) {
             errorClass = "is-valid"
         }
@@ -76,9 +72,7 @@ class Login extends React.Component<LoginProps> {
     }
 
     private static _validationSchema = yup.object({
-        email: yup.string()
-            .required("Email is required")
-            .email("Email must be a valid email"),
+        email: yup.string().required("Email is required").email("Email must be a valid email"),
         password: yup.string().required("Password is required"),
     })
 
@@ -92,8 +86,8 @@ class Login extends React.Component<LoginProps> {
 
         if (
             err instanceof Error ||
-                typeof err === "object" &&
-                typeof (err as {[key: string]: unknown}).message === "string"
+            (typeof err === "object" &&
+                typeof (err as {[key: string]: unknown}).message === "string")
         ) {
             notify({
                 title: "Error",
@@ -114,30 +108,27 @@ class Login extends React.Component<LoginProps> {
     private _submit = async (
         values: FormValues,
         {setSubmitting}: FormikHelpers<FormValues>,
-        setUser: (user?: {[key: string]: unknown} | null)=> Promise<void>,
+        setUser: (user?: {[key: string]: unknown} | null) => Promise<void>,
     ): Promise<void> => {
         const {history} = this.props
 
         setSubmitting(true)
 
         try {
-            const response = await fetch(
-                    `${url}/auth/login`,
-                    {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        credentials: "include",
-                        body: JSON.stringify({
-                            email: values.email,
-                            password: values.password,
-                        }),
+            const response = await fetch(`${url}/auth/login`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
                     },
-                ),
-                data = await response.json() as {[key: string]: unknown}
+                    credentials: "include",
+                    body: JSON.stringify({
+                        email: values.email,
+                        password: values.password,
+                    }),
+                });
+                const data = (await response.json()) as {[key: string]: unknown}
 
-            if (response.status === 200) {
+            if (response.ok) {
                 await setUser(data)
 
                 setSubmitting(false)
@@ -145,7 +136,6 @@ class Login extends React.Component<LoginProps> {
                 return history("/")
             }
             throw data
-
         } catch (err: unknown) {
             this._handleError(err)
         }
@@ -153,44 +143,52 @@ class Login extends React.Component<LoginProps> {
         setSubmitting(false)
     }
 
-    public render = (): JSX.Element => <UserContext.Consumer>
-        {({setUserFromUnknown: setUser}): JSX.Element => <Formik
-            initialValues={this._initialValues}
-            onSubmit={(values, helpers): Promise<void> => (
-                this._submit(values, helpers, setUser)
-            )}
-            validationSchema={Login._validationSchema}
-            validateOnMount
-        >
-            {({isSubmitting}): JSX.Element => (
-                <Form className="container-fluid">
-                    <Login._input name="email" type="Email" label="Email" placeholder="Email">
-                        <span className="material-icons">person</span>
-                    </Login._input>
-                    <Login._input name="password" type="password" label="Password">
-                        <span className="material-icons">vpn_key</span>
-                    </Login._input>
+    public render = (): JSX.Element => (
+        <UserContext.Consumer>
+            {({setUserFromUnknown: setUser}): JSX.Element => (
+                <Formik
+                    initialValues={this._initialValues}
+                    onSubmit={(values, helpers): Promise<void> =>
+                        this._submit(values, helpers, setUser)
+                    }
+                    validationSchema={Login._validationSchema}
+                    validateOnMount
+                >
+                    {({isSubmitting}): JSX.Element => (
+                        <Form className="container-fluid">
+                            <Login._input
+                                name="email"
+                                type="Email"
+                                label="Email"
+                                placeholder="Email"
+                            >
+                                <span className="material-icons">person</span>
+                            </Login._input>
+                            <Login._input name="password" type="password" label="Password">
+                                <span className="material-icons">vpn_key</span>
+                            </Login._input>
 
-                    <button className="btn btn-primary" type="submit" disabled={isSubmitting}>
-                        {
-                            isSubmitting
-                                ? <Spinner inline> </Spinner>
-                                : undefined
-                        }
-                        Login
-                    </button>
-                </Form>
+                            <button
+                                className="btn btn-primary"
+                                type="submit"
+                                disabled={isSubmitting}
+                            >
+                                {isSubmitting ? <Spinner inline> </Spinner> : undefined}
+                                Login
+                            </button>
+                        </Form>
+                    )}
+                </Formik>
             )}
-        </Formik>}
-    </UserContext.Consumer>
-
+        </UserContext.Consumer>
+    )
 }
 
 const LoginWithHistory = (): JSX.Element => {
-    const history = useHistory(),
-        {push: changeHistory} = history
+    const history = useHistory();
+        const {push: changeHistory} = history
 
-    return <Login history={changeHistory}/>
+    return <Login history={changeHistory} />
 }
 
 export default LoginWithHistory

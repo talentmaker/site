@@ -1,12 +1,11 @@
 /**
  * Talentmaker website
  *
+ * @license BSD-3-Clause
+ * @author Luke Zhang
  * @copyright (C) 2020 - 2021 Luke Zhang, Ethan Lim
  * https://Luke-zhang-04.github.io
  * https://github.com/ethanlim04
- * @author Luke Zhang
- *
- * @license BSD-3-Clause
  */
 import "./index.scss"
 import type {CognitoUser} from "../utils/cognito"
@@ -19,52 +18,46 @@ import scrollToHeader from "../markdown/scrollToHeader"
 import {url} from "../globals"
 
 type Props = {
-
     /**
      * Project id
      */
-    id: string,
+    id: string
 
     /**
      * Current user
      */
-    user?: CognitoUser,
+    user?: CognitoUser
 }
 
 export type Competition = {
-    id: number,
-    name: string | null,
-    desc: string | null,
-    videoURL: string | null,
-    deadline: string,
-    website: string | null,
-    email: string,
-    orgId: string,
-    coverImageURL: string | null,
-    orgName: string,
-    topics: string[],
-    shortDesc: string,
-    inComp: boolean,
-    hasProject: boolean,
+    id: number
+    name: string | null
+    desc: string | null
+    videoURL: string | null
+    deadline: string
+    website: string | null
+    email: string
+    orgId: string
+    coverImageURL: string | null
+    orgName: string
+    topics: string[]
+    shortDesc: string
+    inComp: boolean
+    hasProject: boolean
 }
 
-export const isCompetition = (
-    obj: {[key: string]: unknown},
-): obj is Competition => (
-    typeof obj?.id === "number" &&
-    typeof obj.deadline === "string"
-)
+export const isCompetition = (obj: {[key: string]: unknown}): obj is Competition =>
+    typeof obj?.id === "number" && typeof obj.deadline === "string"
 
 type State = {
-    competition?: Competition,
-    hasuser: boolean,
-    videodidLoad: boolean,
-    joining: boolean,
+    competition?: Competition
+    hasuser: boolean
+    videodidLoad: boolean
+    joining: boolean
 }
 
 export default class BaseComponent extends React.Component<Props, State> {
-
-    public constructor (props: Props) {
+    public constructor(props: Props) {
         super(props)
 
         this.state = {
@@ -82,15 +75,14 @@ export default class BaseComponent extends React.Component<Props, State> {
             : ""
 
         try {
-            const data = await (await fetch(
-                `${url}/competitions/getOne?id=${this.props.id}${userQS}`,
-                {
+            const data = (await (
+                await fetch(`${url}/competitions/getOne?id=${this.props.id}${userQS}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
                     },
-                },
-            )).json() as {[key: string]: unknown}
+                })
+            ).json()) as {[key: string]: unknown}
 
             if (!isCompetition(data)) {
                 notify({
@@ -106,10 +98,7 @@ export default class BaseComponent extends React.Component<Props, State> {
             }
 
             this.setState({competition: data})
-            cache.write(
-                `talentmakerCache_competition-${this.props.id}`,
-                data,
-            )
+            cache.write(`talentmakerCache_competition-${this.props.id}`, data)
         } catch (err) {
             notify({
                 title: "Error",
@@ -140,13 +129,12 @@ export default class BaseComponent extends React.Component<Props, State> {
     }
 
     private _handleCache = async (): Promise<void> => {
-        const data = await cache.read(
-            `talentmakerCache_competition-${this.props.id}`,
-        ) as {[key: string]: unknown}
+        const data = (await cache.read(`talentmakerCache_competition-${this.props.id}`)) as {
+            [key: string]: unknown
+        }
 
         if (isCompetition(data)) {
             this.setState({competition: data})
         }
     }
-
 }

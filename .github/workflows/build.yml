@@ -7,15 +7,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: install deps
-      run: yarn --frozen-lockfile
+      - name: install deps
+        run: yarn --frozen-lockfile
 
-    - name: lint
-      run: yarn lint
+      - name: lint
+        run: yarn lint
 
-    - name: build
-      run: yarn build
-      env:
-        CI: false
+      - name: build
+        run: yarn build
+        env:
+          CI: false

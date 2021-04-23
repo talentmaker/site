@@ -21,7 +21,7 @@
 
 // For Markdown Editor
 .markdown-editor-container {
-  max-height: 80vh;   // Limit editor size
+  max-height: 80vh; // Limit editor size
   overflow-y: scroll; // Scroll for extra
 }
 
@@ -51,9 +51,9 @@
       }
 
       &.blockquote {
-        margin: 0;          // Margin HAS TO BE 0
+        margin: 0; // Margin HAS TO BE 0
         font-size: inherit; // Font HAS TO BE the same as the textarea
-        color: #e2777a;   // Blockquote punctuation should have a colour b/c colours are cool
+        color: #e2777a; // Blockquote punctuation should have a colour b/c colours are cool
       }
 
       &.list {
@@ -80,7 +80,8 @@
   margin: 0;
   padding: 0;
 
-  & .container > :first-child { // First element has no margin
+  & .container > :first-child {
+    // First element has no margin
     margin-top: 0 !important;
   }
 
@@ -115,7 +116,7 @@
   }
 
   h5 {
-    font-size: 1rem
+    font-size: 1rem;
   }
 
   h6 {

@@ -1,12 +1,11 @@
 /**
  * Talentmaker website
  *
+ * @license BSD-3-Clause
+ * @author Luke Zhang
  * @copyright (C) 2020 - 2021 Luke Zhang, Ethan Lim
  * https://Luke-zhang-04.github.io
  * https://github.com/ethanlim04
- * @author Luke Zhang
- *
- * @license BSD-3-Clause
  */
 
 import "./index.scss"
@@ -24,25 +23,20 @@ import handleError from "../errorHandler"
 import notify from "../notify"
 import {url} from "../globals"
 
-const isProjects = (
-    obj: unknown,
-): obj is Project[] => (
-    obj instanceof Array &&
-    (obj.length === 0 || isProject(obj[0]))
-)
+const isProjects = (obj: unknown): obj is Project[] =>
+    obj instanceof Array && (obj.length === 0 || isProject(obj[0]))
 
 interface State {
-    projects?: Project[],
+    projects?: Project[]
 }
 
 interface Props {
-    user?: CognitoUser,
-    compId: string,
+    user?: CognitoUser
+    compId: string
 }
 
 class ProjectsComponent extends React.Component<Props, State> {
-
-    public constructor (props: Props) {
+    public constructor(props: Props) {
         super(props)
 
         this.state = {
@@ -54,17 +48,20 @@ class ProjectsComponent extends React.Component<Props, State> {
         try {
             this._handleCache()
 
-            const data = await (await fetch(
-                `${url}/projects/get?column=competitionId&value=${this.props.compId}`,
-                {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
+            const data = (await (
+                await fetch(
+                    `${url}/projects/get?column=competitionId&value=${this.props.compId}`,
+                    {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
                     },
-                },
-            )).json() as {[key: string]: unknown}
+                )
+            ).json()) as {[key: string]: unknown}
 
-            if (!isProjects(data)) { // Check the fetched data
+            if (!isProjects(data)) {
+                // Check the fetched data
                 notify({
                     title: "Error",
                     icon: "report_problem",
@@ -91,13 +88,11 @@ class ProjectsComponent extends React.Component<Props, State> {
     }
 
     public componentDidUpdate = async (): Promise<void> => {
-        (await import("../bootstrap/tooltip")).initTooltips()
+        ;(await import("../bootstrap/tooltip")).initTooltips()
     }
 
     private _handleCache = async (): Promise<void> => {
-        const data = await cache.read(
-            "talentmakerCache_projects",
-        ) as {[key: string]: unknown}
+        const data = (await cache.read("talentmakerCache_projects")) as {[key: string]: unknown}
 
         if (isProjects(data)) {
             this.setState({projects: data})
@@ -108,10 +103,9 @@ class ProjectsComponent extends React.Component<Props, State> {
      * Sort projects into "chunks"
      */
     private _getSortedComponents = (): Project[][][] => {
-
         // Projects due in the future and past
-        const advancing: Project[] = [],
-            submitted = this.state.projects ?? []
+        const advancing: Project[] = [];
+            const submitted = this.state.projects ?? []
 
         return [arrayToChunks(advancing), arrayToChunks(submitted)]
     }
@@ -120,25 +114,27 @@ class ProjectsComponent extends React.Component<Props, State> {
         <div key={`comp-col-${index}-${project.id}`} className="col-lg-4 my-3">
             <div className="project-card">
                 <Img src={project.coverImageURL ?? DefaultPhoto} alt="cover">
-                    <Spinner color="primary" size="6rem" centered/>
+                    <Spinner color="primary" size="6rem" centered />
                 </Img>
                 <div className="project-info">
                     <div className="container-fluid project-details">
                         <h3>{project.name}</h3>
-                        <Link
-                            to={`/project/${project.id}`}
-                            className="btn btn-outline-primary"
-                        >Details</Link>
-                        { // This project belongs to this user
-                            this.props.user?.sub === project.creator
-                                ? <Link
+                        <Link to={`/project/${project.id}`} className="btn btn-outline-primary">
+                            Details
+                        </Link>
+                        {
+                            // This project belongs to this user
+                            this.props.user?.sub === project.creator ? (
+                                <Link
                                     to={`/editProject/${project.id}`}
                                     className="btn btn-outline-dark d-inline-block float-right"
                                     data-bs-toggle="tooltip"
                                     data-bs-placement="left"
                                     title="Edit"
-                                ><span className="material-icons">create</span></Link>
-                                : undefined
+                                >
+                                    <span className="material-icons">create</span>
+                                </Link>
+                            ) : undefined
                         }
                     </div>
                 </div>
@@ -149,34 +145,35 @@ class ProjectsComponent extends React.Component<Props, State> {
     private _projects = (): JSX.Element => {
         const projects = this._getSortedComponents()
 
-        return <>
-            <h1 className="my-3">Advancing</h1>
-            {
-                (projects[0]?.length ?? 0) > 0
-                    ? projects[0].map((row, index) => (
+        return (
+            <>
+                <h1 className="my-3">Advancing</h1>
+                {(projects[0]?.length ?? 0) > 0 ? (
+                    projects[0].map((row, index) => (
                         <div key={`project-row-${index}`} className="row g-3">
                             {row.map((project) => this._project(project, index))}
                         </div>
                     ))
-                    : <p>None</p>
-            }
+                ) : (
+                    <p>None</p>
+                )}
 
-            <h1 className="mb-3">Submitted</h1>
-            {projects[1]?.map((row, index) => <div key={`project-row-${index}`} className="row g-3">
-                {row.map((project) => this._project(project, index))}
-            </div>)}
-        </>
+                <h1 className="mb-3">Submitted</h1>
+                {projects[1]?.map((row, index) => (
+                    <div key={`project-row-${index}`} className="row g-3">
+                        {row.map((project) => this._project(project, index))}
+                    </div>
+                ))}
+            </>
+        )
     }
 
-    public render = (): JSX.Element => (
-        this.state.projects
-            ? <div className="container-fluid">
-                {this._projects()}
-            </div>
-            : <Spinner color="primary" size="25vw" className="my-5" centered/>
-    )
-
-
+    public render = (): JSX.Element =>
+        this.state.projects ? (
+            <div className="container-fluid">{this._projects()}</div>
+        ) : (
+            <Spinner color="primary" size="25vw" className="my-5" centered />
+        )
 }
 
 /**
@@ -186,18 +183,21 @@ export const Projects: React.FC<{}> = () => {
     const {compId} = useParams<{compId?: string}>()
 
     if (compId) {
-        return <UserContext.Consumer>
-            {({currentUser: user}): JSX.Element => <ProjectsComponent
-                user={user ?? undefined}
-                compId={compId}
-            />}
-        </UserContext.Consumer>
+        return (
+            <UserContext.Consumer>
+                {({currentUser: user}): JSX.Element => (
+                    <ProjectsComponent user={user ?? undefined} compId={compId} />
+                )}
+            </UserContext.Consumer>
+        )
     }
 
-    return <>
-        <h1>Error:</h1>
-        <p>No competition ID specified</p>
-    </>
+    return (
+        <>
+            <h1>Error:</h1>
+            <p>No competition ID specified</p>
+        </>
+    )
 }
 
 export default Projects

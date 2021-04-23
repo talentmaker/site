@@ -15,20 +15,21 @@ $full-range: ();
   $full-range: map-merge(
     $full-range,
     (
-      $width: percentage($width / 100)
-    ),
+      $width: percentage($width / 100),
+    )
   );
 }
 
 $utilities: map-merge(
   $utilities,
   (
-    "width": map-merge(
-      map-get($utilities, "width"),
-      (
-        responsive: true,
-        values: $full-range,
+    "width":
+      map-merge(
+        map-get($utilities, "width"),
+        (
+          responsive: true,
+          values: $full-range,
+        )
       ),
-    ),
   )
 );

@@ -1,24 +1,21 @@
 /**
  * Talentmaker website
  *
+ * @license BSD-3-Clause
+ * @author Luke Zhang
+ * @file allows Scrolling to header
  * @copyright (C) 2020 - 2021 Luke Zhang, Ethan Lim
  * https://Luke-zhang-04.github.io
  * https://github.com/ethanlim04
- * @author Luke Zhang
- *
- * @license BSD-3-Clause
- * @file allows scrolling to header
  */
 
 /**
  * Scrolls to a header with the same contents as a hash
- * @param hash - url hash such as #header-name
- * @param containerName - name of the container to search, query selector style
+ *
+ * @param hash - Url hash such as #header-name
+ * @param containerName - Name of the container to search, query selector style
  */
-export const scrollToHeader = (
-    hash: string,
-    containerName = ".markdown-container",
-): void => {
+export const scrollToHeader = (hash: string, containerName = ".markdown-container"): void => {
     const container = document.querySelector(containerName)
 
     if (container) {
@@ -26,11 +23,8 @@ export const scrollToHeader = (
 
         for (const header of container.querySelectorAll(headers)) {
             if (header instanceof HTMLElement) {
-                const content = header.innerText
-                        .trim()
-                        .replace(/ /gu, "-")
-                        .toLowerCase(),
-                    wantedContent = hash.slice(1)
+                const content = header.innerText.trim().replace(/ /gu, "-").toLowerCase();
+                    const wantedContent = hash.slice(1)
 
                 if (content === wantedContent) {
                     return header.scrollIntoView({

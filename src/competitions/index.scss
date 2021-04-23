@@ -48,8 +48,8 @@
 
       h3,
       p {
-        white-space: nowrap;     // Truncate title and description if needed
-        overflow: hidden;        // Hide overflow
+        white-space: nowrap; // Truncate title and description if needed
+        overflow: hidden; // Hide overflow
         text-overflow: ellipsis; // Add ellipsis after truncating
       }
     }

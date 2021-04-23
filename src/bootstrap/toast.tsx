@@ -1,12 +1,11 @@
 /**
  * Talentmaker website
  *
+ * @license BSD-3-Clause
+ * @author Luke Zhang
  * @copyright (C) 2020 - 2021 Luke Zhang, Ethan Lim
  * https://Luke-zhang-04.github.io
  * https://github.com/ethanlim04
- * @author Luke Zhang
- *
- * @license BSD-3-Clause
  */
 
 import DatePlus from "@luke-zhang-04/dateplus"
@@ -17,74 +16,78 @@ enum Time {
 }
 
 export interface Props {
-
     /**
      * Contents of the toast body
      */
-    children?: React.ReactNode,
+    children?: React.ReactNode
 
     /**
      * Name of icon
-     * @default "error"
+     *
+     * @default error
      */
-    icon?: string,
+    icon?: string
 
     /**
      * `className` for icon
      */
-    iconClassName?: string,
+    iconClassName?: string
 
     /**
      * Reference to the toast div
      */
-    reference?: string
-        | ((instance: HTMLDivElement | null)=> void)
+    reference?:
+        | string
+        | ((instance: HTMLDivElement | null) => void)
         | React.RefObject<HTMLDivElement>
-        | null,
+        | null
 
     /**
      * Toast title
      */
-    title?: string,
+    title?: string
 
     /**
-     * Time to put on the side of the toast
-     * E.g "now", "1 minute ago"
+     * Time to put on the side of the toast E.g "now", "1 minute ago"
      */
-    time?: string | number,
+    time?: string | number
 
     /**
      * If aria-live should be assertive
+     *
      * @default false
      */
-    assertive?: boolean,
+    assertive?: boolean
 
     /**
      * Handle button click on close
      */
-    onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>)=> void,
+    onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
 }
 
 interface State {
-    shouldShow: boolean,
-    time: number | string,
+    shouldShow: boolean
+    time: number | string
 }
 
 export class Toast extends React.PureComponent<Props, State> {
-
     private static _getTimeFromSeconds = (time: number): string => {
         const date = DatePlus.secondsToHours(time)
 
         if (date.hours > 0) {
-            return `${date.hours} hour${date.hours > 1 ? "s" : ""}, ${date.minutes} minute${date.minutes > 1 ? "s" : ""} ago`
+            return `${date.hours} hour${date.hours > 1 ? "s" : ""}, ${date.minutes} minute${
+                date.minutes > 1 ? "s" : ""
+            } ago`
         } else if (date.minutes > 0) {
-            return `${date.minutes} minute${date.minutes > 1 ? "s" : ""}, ${date.seconds} second${date.seconds > 1 ? "s" : ""} ago`
+            return `${date.minutes} minute${date.minutes > 1 ? "s" : ""}, ${date.seconds} second${
+                date.seconds > 1 ? "s" : ""
+            } ago`
         }
 
         return `${date.seconds} second${date.seconds > 1 ? "s" : ""} ago`
     }
 
-    public constructor (props: Props) {
+    public constructor(props: Props) {
         super(props)
 
         this.state = {
@@ -116,45 +119,40 @@ export class Toast extends React.PureComponent<Props, State> {
     /**
      * Bootstrap toast
      */
-    private _toast = (): JSX.Element => <div
-        className={`toast ${this.state.shouldShow ? "show" : "hide"} bg-lighter toast-fixed`}
-        aria-live={this.props.assertive ? "assertive" : "polite"}
-        aria-atomic="true"
-        ref={this.props.reference}
-    >
-        <div className="toast-header text-dark bg-light">
-            <span className={`material-icons mr-2 ${this.props.iconClassName ?? ""}`}>
-                {this.props.icon ?? "error"}
-            </span>
-            <strong className="mr-auto">{this.props.title}</strong>
-            <small className="text-muted">{
-                typeof this.state.time === "number"
-                    ? Toast._getTimeFromSeconds(this.state.time)
-                    : this.state.time
-            }</small>
-            <button
-                type="button"
-                className="btn-close text-lighter"
-                data-bs-dismiss="toast"
-                aria-label="Close"
-                onClick={(event): void => {
-                    this.setState({shouldShow: false})
+    private _toast = (): JSX.Element => (
+        <div
+            className={`toast ${this.state.shouldShow ? "show" : "hide"} bg-lighter toast-fixed`}
+            aria-live={this.props.assertive ? "assertive" : "polite"}
+            aria-atomic="true"
+            ref={this.props.reference}
+        >
+            <div className="toast-header text-dark bg-light">
+                <span className={`material-icons mr-2 ${this.props.iconClassName ?? ""}`}>
+                    {this.props.icon ?? "error"}
+                </span>
+                <strong className="mr-auto">{this.props.title}</strong>
+                <small className="text-muted">
+                    {typeof this.state.time === "number"
+                        ? Toast._getTimeFromSeconds(this.state.time)
+                        : this.state.time}
+                </small>
+                <button
+                    type="button"
+                    className="btn-close text-lighter"
+                    data-bs-dismiss="toast"
+                    aria-label="Close"
+                    onClick={(event): void => {
+                        this.setState({shouldShow: false})
 
-                    this.props.onClick?.(event)
-                }}
-            ></button>
+                        this.props.onClick?.(event)
+                    }}
+                ></button>
+            </div>
+            <div className="toast-body">{this.props.children}</div>
         </div>
-        <div className="toast-body">
-            {this.props.children}
-        </div>
-    </div>
-
-    public render = (): JSX.Element => (
-        this.state.shouldShow
-            ? this._toast()
-            : <></>
     )
 
+    public render = (): JSX.Element => (this.state.shouldShow ? this._toast() : <></>)
 }
 
 export default Toast

@@ -1,12 +1,11 @@
 /**
  * Talentmaker website
  *
+ * @license BSD-3-Clause
+ * @author Luke Zhang
  * @copyright (C) 2020 - 2021 Luke Zhang, Ethan Lim
  * https://Luke-zhang-04.github.io
  * https://github.com/ethanlim04
- * @author Luke Zhang
- *
- * @license BSD-3-Clause
  */
 
 import {Link, withRouter} from "react-router-dom"
@@ -20,17 +19,24 @@ import queryString from "query-string"
 type StringObj<T> = {[key: string]: T}
 
 interface AuthState {
-    mode: string,
+    mode: string
 }
 
 @(withRouter as any)
 export default class Auth extends React.Component<{}, AuthState> {
+    private static _toReg = (): JSX.Element => (
+        <Link to="/auth?mode=register" className="text-center px-5 mt-3 ml-auto mr-auto d-block">
+            Don&apos;t Have an Account? Register!
+        </Link>
+    )
 
-    private static _toReg = (): JSX.Element => <Link to="/auth?mode=register" className="text-center px-5 mt-3 ml-auto mr-auto d-block">Don&apos;t Have an Account? Register!</Link>
+    private static _toLogin = (): JSX.Element => (
+        <Link to="/auth?mode=login" className="text-center px-5 mt-3 ml-auto mr-auto d-block">
+            Already Have an Account? Login!
+        </Link>
+    )
 
-    private static _toLogin = (): JSX.Element => <Link to="/auth?mode=login" className="text-center px-5 mt-3 ml-auto mr-auto d-block">Already Have an Account? Login!</Link>
-
-    public constructor (props: {}) {
+    public constructor(props: {}) {
         super(props)
 
         this.state = {
@@ -40,7 +46,8 @@ export default class Auth extends React.Component<{}, AuthState> {
 
     /**
      * Gets current route and calls this._onRouteChanged
-     * @returns {void} void
+     *
+     * @returns {void} Void
      */
     public componentDidMount = (): void => {
         this._onRouteChanged(this.state.mode)
@@ -48,7 +55,8 @@ export default class Auth extends React.Component<{}, AuthState> {
 
     /**
      * Gets current route and calls this._onRouteChanged
-     * @returns {void} void
+     *
+     * @returns {void} Void
      */
     public componentDidUpdate = (): void => {
         this._onRouteChanged(this.state.mode)
@@ -56,8 +64,9 @@ export default class Auth extends React.Component<{}, AuthState> {
 
     /**
      * Changes state based to current pathname
-     * @param {string} prevMode - previous mode to avoid infinite updates
-     * @returns {void} void
+     *
+     * @param {string} prevMode - Previous mode to avoid infinite updates
+     * @returns {void} Void
      */
     private _onRouteChanged = (prevMode: string): void => {
         const mode = queryString.parse(
@@ -73,22 +82,13 @@ export default class Auth extends React.Component<{}, AuthState> {
         <div className="container-fluid my-5">
             <div className="row py-5">
                 <div className="col-6 bg-primary align-items-center justify-content-center d-flex py-5">
-                    <Img
-                        src={AuthImage}
-                        alt="auth images"
-                        className="w-75 flex-center"
-                    />
+                    <Img src={AuthImage} alt="auth images" className="w-75 flex-center" />
                 </div>
                 <div className="col-6 text-center bg-lighter p-5 align-items-center justify-content-center d-flex">
-                    {this.state.mode === "login" ? <Login/> : <Reg/>}
+                    {this.state.mode === "login" ? <Login /> : <Reg />}
                 </div>
             </div>
-            {
-                this.state.mode === "login"
-                    ? <Auth._toReg/>
-                    : <Auth._toLogin/>
-            }
+            {this.state.mode === "login" ? <Auth._toReg /> : <Auth._toLogin />}
         </div>
     )
-
 }

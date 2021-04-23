@@ -40,7 +40,7 @@ $theme-colors: map-merge(
     accent: $accent,
     darker: $darker,
     dark-grey: $dark-grey,
-  ),
+  )
 );
 
 $spacer: 1rem;
@@ -51,13 +51,25 @@ $spacers: ();
 $spacers: map-merge(
   (
     0: 0,
-    1: ($spacer * 0.25),
-    2: ($spacer * 0.5),
+    1: (
+      $spacer * 0.25,
+    ),
+    2: (
+      $spacer * 0.5,
+    ),
     3: $spacer,
-    4: ($spacer * 1.5),
-    5: ($spacer * 3),
-    6: ($spacer * 6),
-    7: ($spacer * 12),
+    4: (
+      $spacer * 1.5,
+    ),
+    5: (
+      $spacer * 3,
+    ),
+    6: (
+      $spacer * 6,
+    ),
+    7: (
+      $spacer * 12,
+    ),
   ),
   $spacers
 );

@@ -1,12 +1,11 @@
 /**
  * Talentmaker website
  *
+ * @license BSD-3-Clause
+ * @author Luke Zhang
  * @copyright (C) 2020 - 2021 Luke Zhang, Ethan Lim
  * https://Luke-zhang-04.github.io
  * https://github.com/ethanlim04
- * @author Luke Zhang
- *
- * @license BSD-3-Clause
  */
 
 import type {Props} from "./bootstrap/toast"
@@ -20,54 +19,55 @@ enum Time {
 }
 
 interface Params {
-
     /**
      * Contents of the toast body
      */
-    content?: React.ReactNode,
+    content?: React.ReactNode
 
     /**
      * Name of icon
-     * @default "error"
+     *
+     * @default error
      */
-    icon?: string,
+    icon?: string
 
     /**
      * `className` for icon
      */
-    iconClassName?: string,
+    iconClassName?: string
 
     /**
      * Toast title
      */
-    title?: string,
+    title?: string
 
     /**
-     * Time to put on the side of the toast
-     * E.g "now", "1 minute ago"
+     * Time to put on the side of the toast E.g "now", "1 minute ago"
      */
-    time?: string | number,
+    time?: string | number
 
     /**
      * If aria-live should be assertive
+     *
      * @default false
      */
-    assertive?: boolean,
+    assertive?: boolean
 }
 
 const currentNotification = React.createRef<HTMLDivElement>()
 
 /**
  * Create notification toast
- * @param params - parameters of notification
- * @param timeout - time the notification should stay on in seconds @default 5
+ *
+ * @param params - Parameters of notification
+ * @param timeout - Time the notification should stay on in seconds @default 5
  */
 export const notify = (params: Params, timeout = 5): void => {
     const {current: app} = appRef
 
     if (app !== null) {
         const removeNotification = (): void => {
-                if (currentNotification && currentNotification.current) {
+                if (currentNotification?.current) {
                     app.setState({notification: undefined})
 
                     try {
@@ -75,8 +75,8 @@ export const notify = (params: Params, timeout = 5): void => {
                         // eslint-disable-next-line
                     } catch {}
                 }
-            },
-            props: Props = {
+            };
+            const props: Props = {
                 ...params,
                 reference: currentNotification,
                 onClick: removeNotification,

@@ -1,12 +1,11 @@
 /**
  * Talentmaker website
  *
+ * @license BSD-3-Clause
+ * @author Luke Zhang
  * @copyright (C) 2020 - 2021 Luke Zhang, Ethan Lim
  * https://Luke-zhang-04.github.io
  * https://github.com/ethanlim04
- * @author Luke Zhang
- *
- * @license BSD-3-Clause
  */
 
 import "./index.scss"
@@ -21,57 +20,54 @@ import {scrollToHeader} from "../markdown/scrollToHeader"
 import {url} from "../globals"
 
 export type Project = {
-    id: number,
-    creator: string,
-    createdAt: Date,
-    desc?: string,
-    srcURL?: string,
-    demoURL?: string,
-    license?: string,
-    videoURL?: string,
-    coverImageURL?: string,
-    competitionId: string,
-    topics?: string[],
-    projectId: number,
-    name: string,
-    creatorUsername: string,
-    competitionName: string,
+    id: number
+    creator: string
+    createdAt: Date
+    desc?: string
+    srcURL?: string
+    demoURL?: string
+    license?: string
+    videoURL?: string
+    coverImageURL?: string
+    competitionId: string
+    topics?: string[]
+    projectId: number
+    name: string
+    creatorUsername: string
+    competitionName: string
 }
 
-export const isProject = (obj: {[key: string]: unknown}): obj is Project => (
+export const isProject = (obj: {[key: string]: unknown}): obj is Project =>
     typeof obj?.id === "number" &&
     typeof obj.creator === "string" &&
     typeof obj.competitionId === "number" &&
     typeof obj.name === "string"
-)
 
 type Props = {
-
     /**
      * Project id
      */
-    id?: string,
+    id?: string
 
     /**
      * Competition id
      */
-    compId?: string,
+    compId?: string
 
     /**
      * Current user
      */
-    user?: CognitoUser,
+    user?: CognitoUser
 }
 
 type State = {
-    project?: Project,
-    hasuser: boolean,
-    videodidLoad: boolean,
+    project?: Project
+    hasuser: boolean
+    videodidLoad: boolean
 }
 
 export default class BaseComponent extends React.Component<Props, State> {
-
-    public constructor (props: Props) {
+    public constructor(props: Props) {
         super(props)
 
         this.state = {
@@ -94,15 +90,14 @@ export default class BaseComponent extends React.Component<Props, State> {
                 throw new Error("No ID's were specified")
             }
 
-            const data = await (await fetch(
-                `${url}/projects/getOne${queryString}`,
-                {
+            const data = (await (
+                await fetch(`${url}/projects/getOne${queryString}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
                     },
-                },
-            )).json() as {[key: string]: unknown}
+                })
+            ).json()) as {[key: string]: unknown}
 
             if (!isProject(data)) {
                 notify({
@@ -141,13 +136,12 @@ export default class BaseComponent extends React.Component<Props, State> {
     }
 
     private _handleCache = async (): Promise<void> => {
-        const data = await cache.read(
-            `talentmakerCache_project-${this.props.id}`,
-        ) as {[key: string]: unknown}
+        const data = (await cache.read(`talentmakerCache_project-${this.props.id}`)) as {
+            [key: string]: unknown
+        }
 
         if (isProject(data)) {
             this.setState({project: data})
         }
     }
-
 }
