@@ -173,9 +173,16 @@ export default class BaseComponent extends React.Component<Props, State> {
     }
 
     public componentDidMount = async (): Promise<void> => {
-        const {user} = this.props
+        const {user, id} = this.props
 
         if (user) {
+            if (id === "new") {
+                this.didSetData = true
+                this.setState({})
+
+                return
+            }
+
             const queryString = this.props.id
                 ? `?id=${this.props.id}`
                 : `?sub=${user.sub}&competitionId=${this.props.compId}`

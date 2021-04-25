@@ -30,9 +30,9 @@ export class EditProjectComponent extends BaseComponent {
         })
 
         return newDataHash !== this.initialDataHash // If data has been changed
-    } // Unavoidable
+    }
 
-    /* eslint-disable max-lines-per-function */ private _submit = async (
+    private _submit = async (
         values: FormValues,
         {setSubmitting}: FormikHelpers<FormValues>,
     ): Promise<void> => {

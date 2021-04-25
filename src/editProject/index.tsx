@@ -16,7 +16,7 @@ import {useParams} from "react-router-dom"
 
 export const EditProject: React.FC<{}> = () => {
     const {id} = useParams<{id?: string}>()
-    const {competition: compId} = queryString.parse(window.location.search)
+    const {competition: compId, id: qId} = queryString.parse(window.location.search)
 
     if (id) {
         return (
@@ -30,7 +30,11 @@ export const EditProject: React.FC<{}> = () => {
         return (
             <UserContext.Consumer>
                 {({currentUser: user}): JSX.Element => (
-                    <EditProjectComponent compId={compId} user={user ?? undefined} />
+                    <EditProjectComponent
+                        compId={compId}
+                        id={typeof qId === "string" ? qId : undefined}
+                        user={user ?? undefined}
+                    />
                 )}
             </UserContext.Consumer>
         )
