@@ -28,6 +28,11 @@ body {
   max-width: 100% !important;
 }
 
+.form-control::placeholder,
+.form-control {
+  color: variables.$dark;
+}
+
 .form-control {
   background-color: variables.$light;
 
@@ -39,11 +44,6 @@ body {
   &::placeholder {
     opacity: 0.75; // Mute placeholder text
   }
-}
-
-.form-control::placeholder,
-.form-control {
-  color: variables.$dark;
 }
 
 .input-group-text {
@@ -151,10 +151,8 @@ h6 {
 // Button for going back to top
 .btn-circle {
   background-color: variables.$none; // Transparent
-
   border: none; // Remove borders
   border-radius: 50%; // Rounded
-
   padding: 0; // Even out padding from x and y
 
   &:focus {
