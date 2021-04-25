@@ -49,8 +49,8 @@ export default class Nav extends React.Component<Partial<RouteComponentProps>, N
     private _srOnly = (): JSX.Element => <span className="visually-hidden">(current)</span>
 
     private _navLink = ({location, name}: NavLinkProps): JSX.Element => {
-        const _location = this.state.location;
-            const SrOnly = this._srOnly
+        const _location = this.state.location
+        const SrOnly = this._srOnly
 
         return (
             <li className="nav-item">
@@ -65,14 +65,14 @@ export default class Nav extends React.Component<Partial<RouteComponentProps>, N
     }
 
     private _navLinks = ({isloggedin}: NavLinkShowProps): JSX.Element => {
-        const NavLink = this._navLink;
-            const navValues: string[][] = [
-                ["/", "Home"],
-                ["/competitions", "Competitions"],
-                ["/talents", "Talents"],
-                ["/talentmakers", "Talentmakers"],
-                isloggedin ? ["/profile", "Profile"] : ["/auth", "Sign Up"],
-            ]
+        const NavLink = this._navLink
+        const navValues: string[][] = [
+            ["/", "Home"],
+            ["/competitions", "Competitions"],
+            ["/talents", "Talents"],
+            ["/talentmakers", "Talentmakers"],
+            isloggedin ? ["/profile", "Profile"] : ["/auth", "Sign Up"],
+        ]
 
         return (
             <ul className="navbar-nav">

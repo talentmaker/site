@@ -43,98 +43,95 @@ enum Config {
  * Typegaurd to make sure obj is a cache entry
  */
 const isCacheEntry = (obj: unknown): obj is CacheEntry =>
-        typeof obj === "object" &&
-        typeof (obj as {[key: string]: unknown}).lastUsed === "number" &&
-        typeof (obj as {[key: string]: unknown}).data === "string";
-    /**
-     * Gets all localstorage cache entries, and removes the oldest ones Also removed problematic
-     * cache entries that cause errors
-     */
-    const cleanCache = async (): Promise<void> =>
-        await Promise.resolve().then(() => {
-            const entries: [lastUsed: number, key: string][] = []
+    typeof obj === "object" &&
+    typeof (obj as {[key: string]: unknown}).lastUsed === "number" &&
+    typeof (obj as {[key: string]: unknown}).data === "string"
+/**
+ * Gets all localstorage cache entries, and removes the oldest ones Also removed problematic
+ * cache entries that cause errors
+ */
+const cleanCache = async (): Promise<void> =>
+    await Promise.resolve().then(() => {
+        const entries: [lastUsed: number, key: string][] = []
 
-            for (const key of Object.keys(localStorage)) {
-                try {
-                    const item = localStorage.getItem(key)
+        for (const key of Object.keys(localStorage)) {
+            try {
+                const item = localStorage.getItem(key)
 
-                    if (item === null) {
-                        // eslint-disable-next-line
-                        continue
-                    }
+                if (item === null) {
+                    // eslint-disable-next-line
+                    continue
+                }
 
-                    const parsedItem: unknown = JSON.parse(item)
+                const parsedItem: unknown = JSON.parse(item)
 
-                    if (isCacheEntry(parsedItem)) {
-                        entries.push([parsedItem.lastUsed, key])
-                    } else {
-                        // eslint-disable-next-line
-                        throw undefined
-                    }
-                } catch {
-                    if (/^talentmakerCache.*/u.test(key)) {
-                        localStorage.removeItem(key) // Remove error-causing keys
-                    }
+                if (isCacheEntry(parsedItem)) {
+                    entries.push([parsedItem.lastUsed, key])
+                } else {
+                    // eslint-disable-next-line
+                    throw undefined
+                }
+            } catch {
+                if (/^talentmakerCache.*/u.test(key)) {
+                    localStorage.removeItem(key) // Remove error-causing keys
                 }
             }
-
-            const sortedEntries = entries
-                .sort((first, second) => second[0] - first[0]) // Sort from oldest to newest
-                .slice((entries.length - entries.length) * Config.AmountToClear)
-
-            for (const [_, key] of sortedEntries) {
-                localStorage.removeItem(key) // Remove storage items
-            }
-        });
-    /**
-     * Truncates long strings as they take a lot of cache space
-     */
-    const formatData = (data: unknown): unknown => {
-        if (typeof data === "string" && data.length > Config.MaxLen) {
-            // Truncate the long strings
-
-            return `${data.slice(
-                0,
-                Config.MaxLen,
-            )} . . .\n\nData was truncated for storage purposes`
-        } else if (data instanceof Array) {
-            // Truncate long arrays and truncate array contents
-            const newData: unknown[] = []
-
-            for (const entry of data.slice(0, Config.MaxArrayLen)) {
-                newData.push(formatData(entry)) // Call recursively
-            }
-
-            return newData
-        } else if (typeof data === "object" && data !== null) {
-            // Truncate object contents
-            const newData: {[key: string]: unknown} = {}
-
-            for (const [key, value] of Object.entries(data)) {
-                newData[key] = formatData(value) // Call recursively
-            }
-
-            return newData
         }
 
-        return data
-    };
-    /**
-     * If localstorage is enabled
-     */
-    const hasLocalStorage = ((): boolean => {
-        if (localStorage === undefined) {
-            return false
+        const sortedEntries = entries
+            .sort((first, second) => second[0] - first[0]) // Sort from oldest to newest
+            .slice((entries.length - entries.length) * Config.AmountToClear)
+
+        for (const [_, key] of sortedEntries) {
+            localStorage.removeItem(key) // Remove storage items
+        }
+    })
+/**
+ * Truncates long strings as they take a lot of cache space
+ */
+const formatData = (data: unknown): unknown => {
+    if (typeof data === "string" && data.length > Config.MaxLen) {
+        // Truncate the long strings
+
+        return `${data.slice(0, Config.MaxLen)} . . .\n\nData was truncated for storage purposes`
+    } else if (data instanceof Array) {
+        // Truncate long arrays and truncate array contents
+        const newData: unknown[] = []
+
+        for (const entry of data.slice(0, Config.MaxArrayLen)) {
+            newData.push(formatData(entry)) // Call recursively
         }
 
-        try {
-            localStorage.setItem("LSTest", "TEST")
+        return newData
+    } else if (typeof data === "object" && data !== null) {
+        // Truncate object contents
+        const newData: {[key: string]: unknown} = {}
 
-            return localStorage.getItem("LSTest") === "TEST"
-        } catch {
-            return false
+        for (const [key, value] of Object.entries(data)) {
+            newData[key] = formatData(value) // Call recursively
         }
-    })()
+
+        return newData
+    }
+
+    return data
+}
+/**
+ * If localstorage is enabled
+ */
+const hasLocalStorage = ((): boolean => {
+    if (localStorage === undefined) {
+        return false
+    }
+
+    try {
+        localStorage.setItem("LSTest", "TEST")
+
+        return localStorage.getItem("LSTest") === "TEST"
+    } catch {
+        return false
+    }
+})()
 
 /**
  * Writes to localstorage with key

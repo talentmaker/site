@@ -50,24 +50,23 @@ export class EditProjectComponent extends BaseComponent {
         } else if (this.props.user) {
             try {
                 const response = await fetch(`${url}/projects/write`, {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                            idToken: this.props.user.idToken,
-                            idTokenChecksum: this.props.user.idTokenChecksum,
-                            projectId: this.props.id,
-                            compId: this.props.compId,
-                            title: values.name,
-                            desc: this.state.desc,
-                            srcURL: values.srcURL,
-                            demoURL: values.demoURL,
-                            license: values.license,
-                            videoURL: values.videoURL,
-                        }),
-                    });
-                    const data = (await response.json()) as {[key: string]: unknown}
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        idToken: this.props.user.idToken,
+                        idTokenChecksum: this.props.user.idTokenChecksum,
+                        projectId: this.props.id,
+                        compId: this.props.compId,
+                        title: values.name,
+                        desc: this.state.desc,
+                        srcURL: values.srcURL,
+                        demoURL: values.demoURL,
+                        license: values.license,
+                        videoURL: values.videoURL,
+                    }),
+                })
 
                 if (response.ok) {
                     notify({
@@ -77,7 +76,7 @@ export class EditProjectComponent extends BaseComponent {
                         iconClassName: "text-success",
                     })
                 } else {
-                    throw data
+                    throw await response.json()
                 }
             } catch (err) {
                 handleError(err)

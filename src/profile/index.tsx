@@ -63,17 +63,17 @@ class UserDisplay extends React.Component<Types.Props> {
     private _orgRequest = async ({user}: Types.SubComponentProps): Promise<void> => {
         try {
             const response = await fetch(`${url}/organization/request`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    credentials: "include",
-                    body: JSON.stringify({
-                        idToken: user.idToken,
-                        idTokenChecksum: user.idTokenChecksum,
-                    }),
-                });
-                const data = (await response.json()) as {[key: string]: unknown}
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                credentials: "include",
+                body: JSON.stringify({
+                    idToken: user.idToken,
+                    idTokenChecksum: user.idTokenChecksum,
+                }),
+            })
+            const data = (await response.json()) as {[key: string]: unknown}
 
             if (response.ok) {
                 notify({
@@ -170,8 +170,8 @@ class UserDisplay extends React.Component<Types.Props> {
 }
 
 export const UserDisplayWithHistory: React.FC<Types.WrapperProps> = (props) => {
-    const history = useHistory();
-        const {push: changeHistory} = history
+    const history = useHistory()
+    const {push: changeHistory} = history
 
     return <UserDisplay history={changeHistory} {...props} />
 }

@@ -69,11 +69,11 @@ interface Props {
  */
 export const Spinner: React.FC<Props> = (props) => {
     // Spinner color
-    const color = props.color ? `text-${props.color}` : "";
-        // Classname for a small spinner
-        const size = props.small || props.inline ? `spinner-${props.type ?? "border"}-sm` : "";
-        // Style object
-        const style = props.style ?? {}
+    const color = props.color ? `text-${props.color}` : ""
+    // Classname for a small spinner
+    const size = props.small || props.inline ? `spinner-${props.type ?? "border"}-sm` : ""
+    // Style object
+    const style = props.style ?? {}
 
     if (props.size) {
         style.width = props.size

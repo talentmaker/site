@@ -98,8 +98,8 @@ class CompetitionsComponent extends React.Component<Props, State> {
         }
     }
 
-    public componentDidUpdate = async (): Promise<void> => {
-        ;(await import("../bootstrap/tooltip")).initTooltips()
+    public componentDidUpdate = (): void => {
+        import("../bootstrap/tooltip").then((mod) => mod.initTooltips())
     }
 
     private _handleCache = async (): Promise<void> => {
@@ -117,13 +117,13 @@ class CompetitionsComponent extends React.Component<Props, State> {
     private _getSortedComponents = (): Competition[][][] => {
         // Competitions due in the future and past
         const future: Competition[] =
-                this.state.competitions?.filter(
-                    (val) => new Date(val.deadline).getTime() >= dateUtils.getUtcTime(),
-                ) ?? [];
-            const past: Competition[] =
-                this.state.competitions?.filter(
-                    (val) => new Date(val.deadline).getTime() < dateUtils.getUtcTime(),
-                ) ?? []
+            this.state.competitions?.filter(
+                (val) => new Date(val.deadline).getTime() >= dateUtils.getUtcTime(),
+            ) ?? []
+        const past: Competition[] =
+            this.state.competitions?.filter(
+                (val) => new Date(val.deadline).getTime() < dateUtils.getUtcTime(),
+            ) ?? []
 
         return [arrayToChunks(future), arrayToChunks(past)]
     }

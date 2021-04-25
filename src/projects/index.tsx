@@ -104,8 +104,8 @@ class ProjectsComponent extends React.Component<Props, State> {
      */
     private _getSortedComponents = (): Project[][][] => {
         // Projects due in the future and past
-        const advancing: Project[] = [];
-            const submitted = this.state.projects ?? []
+        const advancing: Project[] = []
+        const submitted = this.state.projects ?? []
 
         return [arrayToChunks(advancing), arrayToChunks(submitted)]
     }

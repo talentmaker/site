@@ -15,8 +15,8 @@ import queryString from "query-string"
 import {useParams} from "react-router-dom"
 
 export const EditProject: React.FC<{}> = () => {
-    const {id} = useParams<{id?: string}>();
-        const {competition: compId} = queryString.parse(window.location.search)
+    const {id} = useParams<{id?: string}>()
+    const {competition: compId} = queryString.parse(window.location.search)
 
     if (id) {
         return (

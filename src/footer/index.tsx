@@ -21,12 +21,10 @@ import React from "react"
 const FooterLinks = ({links}: {links: [dest: string, name: string][]}): JSX.Element => (
     <>
         {links.map((link, index) => (
-            <>
-                <a key={`footer-link-${index}`} href={link[0]}>
-                    {link[1]}
-                </a>
+            <React.Fragment key={`footer-link-${index}`}>
+                <a href={link[0]}>{link[1]}</a>
                 {index + 1 < links.length ? <p className="my-0 mx-3">&#x2022;</p> : undefined}
-            </>
+            </React.Fragment>
         ))}
     </>
 )

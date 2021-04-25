@@ -37,11 +37,11 @@ type Props = ImgProps & {
 }
 
 const Img: React.FC<Props> = (props) => {
-    const images: string[] = typeof props.src === "string" ? [props.src] : props.src;
-        // Current image index to use
-        const [currentIndex, setIndex] = React.useState(0);
-        // If the image has loaded
-        const [didLoad, setLoad] = React.useState(false)
+    const images: string[] = typeof props.src === "string" ? [props.src] : props.src
+    // Current image index to use
+    const [currentIndex, setIndex] = React.useState(0)
+    // If the image has loaded
+    const [didLoad, setLoad] = React.useState(false)
 
     if (props.shouldUseDefault !== false) {
         // If shouldUseDefault is undefined or true, append the default image

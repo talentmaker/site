@@ -67,20 +67,20 @@ export const notify = (params: Params, timeout = 5): void => {
 
     if (app !== null) {
         const removeNotification = (): void => {
-                if (currentNotification?.current) {
-                    app.setState({notification: undefined})
+            if (currentNotification?.current) {
+                app.setState({notification: undefined})
 
-                    try {
-                        unmountComponentAtNode(currentNotification.current)
-                        // eslint-disable-next-line
-                    } catch {}
-                }
-            };
-            const props: Props = {
-                ...params,
-                reference: currentNotification,
-                onClick: removeNotification,
+                try {
+                    unmountComponentAtNode(currentNotification.current)
+                    // eslint-disable-next-line
+                } catch {}
             }
+        }
+        const props: Props = {
+            ...params,
+            reference: currentNotification,
+            onClick: removeNotification,
+        }
 
         app.setState({
             notification: React.createElement(Toast, props, params.content),

@@ -38,10 +38,11 @@ export default class Reg extends React.Component {
      * @param props - Props for form
      */
     private static _input = (props: FormProps): JSX.Element => {
-        const [field, meta] = useField<FormProps>(props);
-            const errorText = meta.error && meta.touched ? meta.error : ""
+        const [field, meta] = useField<FormProps>(props)
+        const errorText = meta.error && meta.touched ? meta.error : ""
 
-        let errorClass: string | undefined; let feedback: JSX.Element | undefined
+        let errorClass: string | undefined
+        let feedback: JSX.Element | undefined
 
         if (errorText) {
             errorClass = "is-invalid"
@@ -74,10 +75,10 @@ export default class Reg extends React.Component {
      */
     private static _checkbox = ({type, name}: {[key: string]: string}): JSX.Element => {
         const [field, meta] = useField<{[key: string]: string}>({
-                type,
-                name,
-            });
-            const errorText = meta.error
+            type,
+            name,
+        })
+        const errorText = meta.error
 
         return (
             <div className="form-check">
@@ -169,17 +170,17 @@ export default class Reg extends React.Component {
         setSubmitting(true)
         try {
             const response = await fetch(`${url}/auth/register`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        username: values.username,
-                        email: values.email,
-                        password: values.password,
-                    }),
-                });
-                const data = (await response.json()) as {[key: string]: unknown}
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    username: values.username,
+                    email: values.email,
+                    password: values.password,
+                }),
+            })
+            const data = (await response.json()) as {[key: string]: unknown}
 
             if (response.ok) {
                 notify({

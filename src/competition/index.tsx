@@ -96,7 +96,7 @@ class CompetitionComponent extends BaseComponent {
             return (
                 <Link
                     className="btn btn-outline-primary mx-2"
-                    to={`/editProject?competition=${this.state.competition.id}`}
+                    to={`/editProject?competition=${this.state.competition.id}&id=new`}
                 >
                     <span className="material-icons">add</span> Create Submission
                 </Link>

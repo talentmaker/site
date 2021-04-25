@@ -63,24 +63,23 @@ export default class EditCompetitionComponent extends BaseComponent {
         } else if (this.props.user) {
             try {
                 const response = await fetch(`${url}/competitions/write`, {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                            idToken: this.props.user.idToken,
-                            idTokenChecksum: this.props.user.idTokenChecksum,
-                            id: this.props.id?.toString(),
-                            title: values.name,
-                            desc: this.state.desc,
-                            shortDesc: values.shortDesc,
-                            videoURL: values.videoURL,
-                            deadline: this.state.deadline,
-                            website: values.website,
-                            coverImageURL: values.coverImageURL,
-                        }),
-                    });
-                    const data = (await response.json()) as {[key: string]: unknown}
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        idToken: this.props.user.idToken,
+                        idTokenChecksum: this.props.user.idTokenChecksum,
+                        id: this.props.id?.toString(),
+                        title: values.name,
+                        desc: this.state.desc,
+                        shortDesc: values.shortDesc,
+                        videoURL: values.videoURL,
+                        deadline: this.state.deadline,
+                        website: values.website,
+                        coverImageURL: values.coverImageURL,
+                    }),
+                })
 
                 if (response.ok) {
                     notify({
@@ -92,7 +91,7 @@ export default class EditCompetitionComponent extends BaseComponent {
                         iconClassName: "text-success",
                     })
                 } else {
-                    throw data
+                    throw await response.json()
                 }
             } catch (err: unknown) {
                 handleError(err)
@@ -108,11 +107,11 @@ export default class EditCompetitionComponent extends BaseComponent {
 
         setSubmitting(false)
     } // Unavoidable
-
-    /* eslint-enable max-lines-per-function, max-statements */ /**
+    /**
      * Buttons for the markdown editor
      */
-    private _markdownButtons = (): JSX.Element => (
+
+    /* eslint-enable max-lines-per-function, max-statements */ private _markdownButtons = (): JSX.Element => (
         <div className="row bg-lighter mx-0">
             <div className="col-12 d-flex m-0 p-0">
                 {this.state.mode === "edit" ? (

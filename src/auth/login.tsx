@@ -43,10 +43,11 @@ class Login extends React.Component<LoginProps> {
      * @param props - Props for form
      */
     private static _input = (props: FormProps): JSX.Element => {
-        const [field, meta] = useField<FormProps>(props);
-            const errorText = meta.error && meta.touched ? meta.error : ""
+        const [field, meta] = useField<FormProps>(props)
+        const errorText = meta.error && meta.touched ? meta.error : ""
 
-        let errorClass: string | undefined; let feedback: JSX.Element | undefined
+        let errorClass: string | undefined
+        let feedback: JSX.Element | undefined
 
         if (errorText) {
             errorClass = "is-invalid"
@@ -116,17 +117,17 @@ class Login extends React.Component<LoginProps> {
 
         try {
             const response = await fetch(`${url}/auth/login`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    credentials: "include",
-                    body: JSON.stringify({
-                        email: values.email,
-                        password: values.password,
-                    }),
-                });
-                const data = (await response.json()) as {[key: string]: unknown}
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                credentials: "include",
+                body: JSON.stringify({
+                    email: values.email,
+                    password: values.password,
+                }),
+            })
+            const data = (await response.json()) as {[key: string]: unknown}
 
             if (response.ok) {
                 await setUser(data)
@@ -185,8 +186,8 @@ class Login extends React.Component<LoginProps> {
 }
 
 const LoginWithHistory = (): JSX.Element => {
-    const history = useHistory();
-        const {push: changeHistory} = history
+    const history = useHistory()
+    const {push: changeHistory} = history
 
     return <Login history={changeHistory} />
 }

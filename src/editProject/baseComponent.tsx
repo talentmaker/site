@@ -93,10 +93,11 @@ export default class BaseComponent extends React.Component<Props, State> {
      * @param props - Props for form
      */
     protected static input = (props: FormProps): JSX.Element => {
-        const [field, meta] = useField<FormProps>(props);
-            const errorText = meta.error && meta.touched ? meta.error : ""
+        const [field, meta] = useField<FormProps>(props)
+        const errorText = meta.error && meta.touched ? meta.error : ""
 
-        let errorClass: string | undefined; let feedback: JSX.Element | undefined
+        let errorClass: string | undefined
+        let feedback: JSX.Element | undefined
 
         if (errorText) {
             errorClass = "is-invalid"
