@@ -111,13 +111,13 @@ class ProjectsComponent extends React.Component<Props, State> {
     }
 
     private _project = (project: Project, index: number): JSX.Element => (
-        <div key={`comp-col-${index}-${project.id}`} className="col-lg-4 my-3">
+        <div key={`comp-col-${index}-${project.id}`} className="col-md-4 my-3">
             <div className="project-card">
                 <Img src={project.coverImageURL ?? DefaultPhoto} alt="cover">
                     <Spinner color="primary" size="6rem" centered />
                 </Img>
                 <div className="project-info">
-                    <div className="container-fluid project-details">
+                    <div className="container-fluid pb-3 project-details">
                         <h3>{project.name}</h3>
                         <Link to={`/project/${project.id}`} className="btn btn-outline-primary">
                             Details

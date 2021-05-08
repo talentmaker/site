@@ -10,6 +10,7 @@
 import "./home.scss"
 import type {CognitoUser} from "../utils/cognito"
 import {Link} from "react-router-dom"
+import Logo from "../images/logo.svg"
 import ProblemSolvingSvg from "./problemSolving.svg"
 import React from "react"
 import UserContext from "../userContext"

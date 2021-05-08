@@ -13,6 +13,8 @@ import Logo from "../images/logo.svg"
 import React from "react"
 import UserContext from "../userContext"
 
+const navLinkCount = 5
+
 interface NavState {
     location?: string
 }
@@ -33,7 +35,15 @@ export default class Nav extends React.Component<Partial<RouteComponentProps>, N
 
         this.state = {
             location: this.props.location?.pathname,
+            dimensions: [window.innerWidth, window.innerHeight],
+            currentPageCount: 0,
         }
+    }
+
+    public componentDidMount = (): void => {
+        window.addEventListener("resize", () => {
+            this.setState({dimensions: [window.innerWidth, window.innerHeight]})
+        })
     }
 
     public componentDidUpdate = (prevProps: RouteComponentProps): void => {
@@ -83,7 +93,7 @@ export default class Nav extends React.Component<Partial<RouteComponentProps>, N
         )
     }
 
-    public render = (): JSX.Element => {
+    private _desktopNav = ({currentUser}: AppTypes.Context): JSX.Element => {
         const NavLinks = this._navLinks
 
         return (

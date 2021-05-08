@@ -9,6 +9,7 @@
  */
 
 import "./index.scss"
+import {BreakPoints} from "../globals"
 import type {CognitoUser} from "../utils/cognito"
 import {Link} from "react-router-dom"
 import React from "react"
@@ -37,8 +38,18 @@ const linkProps = {
 }
 
 /* eslint-disable jsx-a11y/anchor-has-content */
-export const Footer: React.FC<{user: User}> = (props): JSX.Element => (
-    <footer className="page-footer font-small bg-lighter text-dark pt-4 pb-3">
+export const Footer: React.FC<{user: User}> = (props) => {
+    const [isMobile, setMobile] = React.useState(window.innerWidth <= BreakPoints.Md)
+
+    window.addEventListener("resize", () => {
+        if (isMobile && window.innerWidth > BreakPoints.Md) {
+            setMobile(false)
+        } else if (!isMobile && window.innerWidth <= BreakPoints.Md) {
+            setMobile(true)
+        }
+    })
+
+    return <footer className="page-footer font-small text-dark pt-4 pb-3 mb-5 mb-md-0">
         <div className="row social-media-icons">
             <a
                 {...linkProps}
@@ -64,7 +75,7 @@ export const Footer: React.FC<{user: User}> = (props): JSX.Element => (
         </div>
 
         <div className="text-center">
-            <Link to="/legal">Terms and conditions</Link>
+            <Link to="/legal">Terms of use</Link>
             <span className="my-0 mx-3">&#x2022;</span>
             <Link to="/privacy-policy">Privacy Policy</Link>
         </div>
@@ -87,7 +98,7 @@ export const Footer: React.FC<{user: User}> = (props): JSX.Element => (
             .
         </div>
     </footer>
-)
+}
 /* eslint-enable jsx-a11y/anchor-has-content */
 
 export default Footer

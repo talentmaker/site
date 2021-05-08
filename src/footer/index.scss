@@ -20,6 +20,8 @@
 }
 
 footer {
+  background-color: variables.$lighter;
+
   .text-center {
     p {
       width: auto; // Remove width 100%
@@ -49,7 +51,11 @@ footer {
       border: none; // Add border
       border-radius: 50%; // Make circular
       color: variables.$dark;
-      background-color: variables.$lighter;
+      background-color: variables.$none;
+
+      @media (min-width: map-get(variables.$grid-breakpoints, "md")) {
+        background-color: variables.$lighter;
+      }
 
       $transition-time: 0.25s;
       $transition-timing: ease;

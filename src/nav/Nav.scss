@@ -10,7 +10,7 @@
  */
 @use "./../scss/variables" as variables;
 
-@media (min-width: map-get(variables.$grid-breakpoints, lg)) {
+@media (min-width: map-get(variables.$grid-breakpoints, md)) {
   .navbar {
     .nav-link {
       font-size: 2vw;
@@ -36,6 +36,61 @@
         // Logo
         display: block;
         width: 100%;
+      }
+    }
+  }
+}
+
+.mobile-nav {
+  $nav-item-count: 5;
+  $underline-height: 2.5px;
+  $transition-timing: cubic-bezier(0.645, 0.045, 0.355, 1);
+
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  display: flex;
+  flex-direction: row;
+
+  .mobile-nav-underline {
+    width: percentage((100 / $nav-item-count) / 100);
+    background-color: variables.$dark;
+    position: absolute;
+    height: $underline-height;
+    bottom: 0;
+    transition: left 0.5s $transition-timing;
+  }
+
+  .mobile-nav-item-container {
+    width: percentage((100 / $nav-item-count) / 100);
+    padding-top: 0.5rem;
+    padding-bottom: 0.25rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    .mobile-nav-link {
+      color: variables.$dark;
+      text-decoration: none;
+      text-align: center;
+      transition: transform 0.5s $transition-timing;
+
+      p {
+        transition: font-weight 0.5s $transition-timing;
+        font-size: 70%;
+        margin-bottom: 0;
+      }
+
+      &.active p {
+        font-weight: bold;
+      }
+
+      .material-icons,
+      .material-icons-outlined {
+        font-size: 150%;
       }
     }
   }
