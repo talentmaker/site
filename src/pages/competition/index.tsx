@@ -371,11 +371,9 @@ class CompetitionComponent extends React.Component<Props, State> {
 export const CompetitionWrapper = (): JSX.Element => {
     const {id} = useParams<{id?: string}>()
 
-    if (id) {
-        return <CompetitionComponent id={id} />
-    }
-
-    return (
+    return id ? (
+        <CompetitionComponent id={id} />
+    ) : (
         <>
             <h1>Error:</h1>
             <p>No competition ID specified</p>

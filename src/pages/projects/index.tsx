@@ -10,34 +10,29 @@
 
 import "./index.scss"
 import {Link, useParams} from "react-router-dom"
-import {Project, isProject} from "../project/baseComponent"
-import type {CognitoUser} from "../../utils/cognito"
+import {Projects, projectsSchema} from "../../schemas/projects"
+import {arrayToChunks, validate} from "../../utils"
 import DefaultPhoto from "../../images/default.svg"
 import {Img} from "../../components/elements"
 import React from "react"
 import {Spinner} from "../../components/bootstrap"
 import {UserContext} from "../../contexts/userContext"
-import {arrayToChunks} from "../../utils/misc"
 import cache from "../../utils/cache"
-import {handleError} from "../../utils/errorHandler"
-import notify from "../../utils/notify"
-import {url} from "../../globals"
-
-const isProjects = (obj: unknown): obj is Project[] =>
-    obj instanceof Array && (obj.length === 0 || isProject(obj[0]))
+import {projectsAdapter} from "../../adapters/projects"
 
 interface State {
-    projects?: Project[]
+    projects?: Projects
 }
 
 interface Props {
-    user?: CognitoUser
     compId: string
 }
 
-class ProjectsComponent extends React.Component<Props, State> {
-    public constructor(props: Props) {
+class ProjectsComponent extends React.PureComponent<Props, State> {
+    public constructor(props: Props, context: React.ContextType<typeof UserContext>) {
         super(props)
+
+        this.user = context.currentUser ?? undefined
 
         this.state = {
             projects: undefined,
@@ -45,45 +40,12 @@ class ProjectsComponent extends React.Component<Props, State> {
     }
 
     public componentDidMount = async (): Promise<void> => {
-        try {
-            this._handleCache()
+        this._handleCache()
 
-            const data = (await (
-                await fetch(
-                    `${url}/projects/get?column=competitionId&value=${this.props.compId}`,
-                    {
-                        method: "GET",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                    },
-                )
-            ).json()) as {[key: string]: unknown}
+        const projects = await projectsAdapter(this.props.compId)
 
-            if (!isProjects(data)) {
-                // Check the fetched data
-                notify({
-                    title: "Error",
-                    icon: "report_problem",
-                    iconClassName: "text-danger",
-                    content: `Data from server did not match the pre-determined structure`,
-                })
-                console.error(`${data} is not of type Project`)
-
-                return
-            }
-
-            this.setState({projects: data})
-
-            cache.write(
-                "talentmakerCache_projects",
-                data.map((project) => ({
-                    ...project,
-                    desc: undefined, // Remove descriptions; They're long and aren't used in this context
-                })),
-            )
-        } catch (err: unknown) {
-            handleError(err)
+        if (!(projects instanceof Error)) {
+            this.setState({projects})
         }
     }
 
@@ -91,10 +53,20 @@ class ProjectsComponent extends React.Component<Props, State> {
         ;(await import("../../components/bootstrap/tooltip")).initTooltips()
     }
 
-    private _handleCache = async (): Promise<void> => {
-        const data = (await cache.read("talentmakerCache_projects")) as {[key: string]: unknown}
+    public readonly user?: User
 
-        if (isProjects(data)) {
+    public static contextType = UserContext
+
+    context!: React.ContextType<typeof UserContext>
+
+    private _handleCache = async (): Promise<void> => {
+        const data = await validate(
+            projectsSchema,
+            await cache.read("talentmakerCache_projects"),
+            false,
+        )
+
+        if (data !== undefined) {
             this.setState({projects: data})
         }
     }
@@ -102,15 +74,15 @@ class ProjectsComponent extends React.Component<Props, State> {
     /**
      * Sort projects into "chunks"
      */
-    private _getSortedComponents = (): Project[][][] => {
+    private _getSortedComponents = (): Projects[][] => {
         // Projects due in the future and past
-        const advancing: Project[] = []
+        const advancing: Projects = []
         const submitted = this.state.projects ?? []
 
         return [arrayToChunks(advancing), arrayToChunks(submitted)]
     }
 
-    private _project = (project: Project, index: number): JSX.Element => (
+    private _project = (project: Projects[0], index: number): JSX.Element => (
         <div key={`comp-col-${index}-${project.id}`} className="col-lg-4 my-3">
             <div className="project-card">
                 <Img src={project.coverImageURL ?? DefaultPhoto} alt="cover">
@@ -124,7 +96,7 @@ class ProjectsComponent extends React.Component<Props, State> {
                         </Link>
                         {
                             // This project belongs to this user
-                            this.props.user?.sub === project.creator ? (
+                            this.user?.sub === project.creator ? (
                                 <Link
                                     to={`/editProject/${project.id}`}
                                     className="btn btn-outline-dark d-inline-block float-right"
@@ -179,20 +151,12 @@ class ProjectsComponent extends React.Component<Props, State> {
 /**
  * Wrapper for the projects component that passes in the user
  */
-export const Projects: React.FC<{}> = () => {
+export const ProjectsWrapper: React.FC<{}> = () => {
     const {compId} = useParams<{compId?: string}>()
 
-    if (compId) {
-        return (
-            <UserContext.Consumer>
-                {({currentUser: user}): JSX.Element => (
-                    <ProjectsComponent user={user ?? undefined} compId={compId} />
-                )}
-            </UserContext.Consumer>
-        )
-    }
-
-    return (
+    return compId ? (
+        <ProjectsComponent compId={compId} />
+    ) : (
         <>
             <h1>Error:</h1>
             <p>No competition ID specified</p>
@@ -200,4 +164,4 @@ export const Projects: React.FC<{}> = () => {
     )
 }
 
-export default Projects
+export default ProjectsWrapper

@@ -31,7 +31,7 @@ interface Props {
     user?: User
 }
 
-class CompetitionsComponent extends React.Component<Props, State> {
+class CompetitionsComponent extends React.PureComponent<Props, State> {
     public constructor(props: {}, context: React.ContextType<typeof UserContext>) {
         super(props)
 
