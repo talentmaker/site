@@ -11,3 +11,5 @@ declare module "osi-licenses" {
 
     export default licenses
 }
+
+type User = import("./utils/cognito").CognitoUser

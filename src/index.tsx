@@ -17,28 +17,30 @@ import "prismjs/components/prism-typescript"
 import "prismjs/components/prism-python"
 
 // Styles
-import "./styles.scss"
+import "./index.scss"
 
 import * as serviceWorker from "./serviceWorker"
+import {
+    Auth,
+    Competition,
+    Competitions,
+    EditCompetition,
+    EditProject,
+    Home,
+    Legal,
+    NotFound,
+    PrivacyPolicy,
+    Profile,
+    Project,
+    Projects,
+} from "./pages"
 import {CognitoUser, isCognitoUser} from "./utils/cognito"
 import {Route, BrowserRouter as Router, Switch} from "react-router-dom"
-import Auth from "./auth"
-import Competition from "./competition"
-import Competitions from "./competitions"
-import EditCompetition from "./editCompetition"
-import EditProject from "./editProject"
-import Footer from "./footer"
-import Home from "./home"
-import Legal from "./legal/Legal"
-import Nav from "./nav"
-import NotFound from "./404"
-import PrivacyPolicy from "./legal/PrivacyPolicy"
-import Profile from "./profile"
-import Project from "./project"
-import Projects from "./projects"
+import Footer from "./components/footer"
+import Nav from "./components/nav"
 import React from "react"
 import ReactDOM from "react-dom"
-import UserContext from "./userContext"
+import UserContext from "./contexts/userContext"
 import {url} from "./globals"
 
 export const appRef = React.createRef<App>()

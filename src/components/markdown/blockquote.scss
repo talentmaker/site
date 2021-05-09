@@ -1,0 +1,20 @@
+/*!
+ * Talentmaker website
+ *
+ * Copyright (C) 2020 - 2021 Luke Zhang, Ethan Lim
+ * https://Luke-zhang-04.github.io
+ * https://github.com/ethanlim04
+ * Author: Luke Zhang
+ *
+ * License: BSD-3-Clause
+ */
+
+@use "../variables" as variables;
+
+blockquote {
+  border-left: solid mix(variables.$lighter, black, 80%) 0.5rem;
+
+  p {
+    margin: 0;
+  }
+}
