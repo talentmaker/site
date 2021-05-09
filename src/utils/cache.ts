@@ -47,8 +47,8 @@ const isCacheEntry = (obj: unknown): obj is CacheEntry =>
     typeof (obj as {[key: string]: unknown}).lastUsed === "number" &&
     typeof (obj as {[key: string]: unknown}).data === "string"
 /**
- * Gets all localstorage cache entries, and removes the oldest ones Also removed problematic
- * cache entries that cause errors
+ * Gets all localstorage cache entries, and removes the oldest ones Also removed problematic cache
+ * entries that cause errors
  */
 const cleanCache = async (): Promise<void> =>
     await Promise.resolve().then(() => {
