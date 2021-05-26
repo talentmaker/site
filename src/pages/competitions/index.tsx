@@ -27,9 +27,7 @@ interface State {
     competitions?: Competitions
 }
 
-interface Props {
-    user?: User
-}
+interface Props {}
 
 class CompetitionsComponent extends React.PureComponent<Props, State> {
     public constructor(props: {}, context: React.ContextType<typeof UserContext>) {
@@ -115,10 +113,10 @@ class CompetitionsComponent extends React.PureComponent<Props, State> {
                             </Link>
                             {
                                 // This competition belongs to this organization
-                                this.props.user?.sub === comp.orgId ? (
+                                this.user?.sub === comp.orgId ? (
                                     <Link
                                         to={`/editCompetition/${comp.id}`}
-                                        className="btn btn-outline-dark d-inline-block float-right"
+                                        className="btn btn-outline-dark d-inline-block float-end"
                                         data-bs-toggle="tooltip"
                                         data-bs-placement="left"
                                         title="Edit"
@@ -155,7 +153,7 @@ class CompetitionsComponent extends React.PureComponent<Props, State> {
 
         return (
             <>
-                {this.props.user?.isOrg === true ? this._newCompetition() : undefined}
+                {this.user?.isOrg === true ? this._newCompetition() : undefined}
 
                 <h1 className="my-3">Upcoming Competitions</h1>
                 {competitions[0].map((row, index) => (

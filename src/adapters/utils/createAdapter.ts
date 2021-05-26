@@ -23,7 +23,6 @@ type AdapterCallback<ArgsType, Args extends ArgsType[], S extends yup.BaseSchema
     ...args: Args
 ) => Promise<S extends yup.BaseSchema ? S["__outputType"] : undefined>
 
-/* eslint-disable arrow-body-style */
 // I tried making another generic type, but kept getting type errors, so enjoy this atrocity
 
 /**
@@ -32,17 +31,14 @@ type AdapterCallback<ArgsType, Args extends ArgsType[], S extends yup.BaseSchema
  * @param func - Function to execute
  * @returns An adapter
  */
-export const createAdapter = <
-    ArgsType,
-    Args extends ArgsType[],
-    S extends yup.BaseSchema | undefined = undefined
->(
-    func: AdapterCallback<ArgsType, Args, S>,
-    schema?: S,
-): ((
-    ...args: Args
-) => Promise<(S extends yup.BaseSchema ? S["__outputType"] : undefined) | Error>) => {
-    return (...args: Args) =>
+export const createAdapter =
+    <ArgsType, Args extends ArgsType[], S extends yup.BaseSchema | undefined = undefined>(
+        func: AdapterCallback<ArgsType, Args, S>,
+        schema?: S,
+    ): ((
+        ...args: Args
+    ) => Promise<(S extends yup.BaseSchema ? S["__outputType"] : undefined) | Error>) =>
+    (...args: Args) =>
         utils.catcherPromise(
             async () =>
                 await func(
@@ -55,8 +51,5 @@ export const createAdapter = <
                     ...args,
                 ),
         )
-}
 
 export default createAdapter
-
-/* eslint-enable arrow-body-style */
