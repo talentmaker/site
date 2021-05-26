@@ -23,8 +23,11 @@ type AdapterCallback<ArgsType, Args extends ArgsType[], S extends yup.BaseSchema
     ...args: Args
 ) => Promise<S extends yup.BaseSchema ? S["__outputType"] : undefined>
 
-// I tried making another generic type, but kept getting type errors, so enjoy this atrocity
+type ReturnType<S extends yup.BaseSchema | undefined> =
+    | (S extends yup.BaseSchema ? S["__outputType"] : undefined)
+    | Error
 
+// I tried making another generic type, but kept getting type errors, so enjoy this atrocity
 /**
  * Creates an adapter
  *
@@ -35,9 +38,7 @@ export const createAdapter =
     <ArgsType, Args extends ArgsType[], S extends yup.BaseSchema | undefined = undefined>(
         func: AdapterCallback<ArgsType, Args, S>,
         schema?: S,
-    ): ((
-        ...args: Args
-    ) => Promise<(S extends yup.BaseSchema ? S["__outputType"] : undefined) | Error>) =>
+    ): ((...args: Args) => Promise<ReturnType<S>>) =>
     (...args: Args) =>
         utils.catcherPromise(
             async () =>
