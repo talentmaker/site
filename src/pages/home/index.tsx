@@ -32,7 +32,7 @@ class HomeComponent extends React.Component<Props> {
                         <span className="material-icons">developer_board</span> Competitions
                     </Link>
                     {this.props.user ? undefined : (
-                        <Link to="/auth" className="btn btn-accent ml-3">
+                        <Link to="/auth" className="btn btn-accent ms-3">
                             <span className="material-icons">person</span> Make an account!
                         </Link>
                     )}

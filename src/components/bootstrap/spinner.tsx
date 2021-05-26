@@ -8,7 +8,7 @@
  * https://github.com/ethanlim04
  */
 
-import React from "react"
+import type React from "react"
 
 interface Props {
     /**

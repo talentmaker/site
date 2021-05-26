@@ -15,7 +15,7 @@ import {BlockQuote} from "./blockquote"
 import {CodeBlock} from "./syntaxHighlighter"
 import DOMPurify from "dompurify"
 import {Heading} from "./heading"
-import React from "react"
+import type React from "react"
 import ReactMarkdown from "react-markdown"
 import gfm from "remark-gfm" // Github Flavoured Markdown
 

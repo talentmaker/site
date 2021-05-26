@@ -8,7 +8,7 @@
  * https://Luke-zhang-04.github.io
  * https://github.com/ethanlim04
  */
-import React from "react"
+import type React from "react"
 
 type Props = {
     children: JSX.Element

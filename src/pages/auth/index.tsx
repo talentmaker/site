@@ -25,13 +25,13 @@ interface AuthState {
 @(withRouter as any)
 export default class Auth extends React.Component<{}, AuthState> {
     private static _toReg = (): JSX.Element => (
-        <Link to="/auth?mode=register" className="text-center px-5 mt-3 ml-auto mr-auto d-block">
+        <Link to="/auth?mode=register" className="text-center px-5 mt-3 ms-auto me-auto d-block">
             Don&apos;t Have an Account? Register!
         </Link>
     )
 
     private static _toLogin = (): JSX.Element => (
-        <Link to="/auth?mode=login" className="text-center px-5 mt-3 ml-auto mr-auto d-block">
+        <Link to="/auth?mode=login" className="text-center px-5 mt-3 ms-auto me-auto d-block">
             Already Have an Account? Login!
         </Link>
     )

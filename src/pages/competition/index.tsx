@@ -33,8 +33,8 @@ type Props = {
 
 type State = {
     competition?: Competition
-    hasuser: boolean
-    videodidLoad: boolean
+    hasUser: boolean
+    videoDidLoad: boolean
     joining: boolean
 }
 
@@ -45,8 +45,8 @@ class CompetitionComponent extends React.Component<Props, State> {
         this.user = context.currentUser ?? undefined
 
         this.state = {
-            hasuser: this.user !== undefined,
-            videodidLoad: false,
+            hasUser: this.user !== undefined,
+            videoDidLoad: false,
             joining: false,
         }
     }
@@ -70,8 +70,8 @@ class CompetitionComponent extends React.Component<Props, State> {
     public componentDidUpdate = (): void => {
         Prism.highlightAll()
 
-        if (this.state.hasuser === (this.user === undefined)) {
-            this.setState({hasuser: this.user !== undefined})
+        if (this.state.hasUser === (this.user === undefined)) {
+            this.setState({hasUser: this.user !== undefined})
             this.componentDidMount()
         }
 
@@ -127,7 +127,7 @@ class CompetitionComponent extends React.Component<Props, State> {
             return this.user.sub === this.state.competition.orgId ? ( // Organization owns competition
                 <Link
                     to={`/editCompetition/${this.state.competition.id}`}
-                    className="btn btn-outline-dark mr-3"
+                    className="btn btn-outline-dark me-3"
                 >
                     <span className="material-icons">create</span> Edit
                 </Link>
@@ -139,7 +139,7 @@ class CompetitionComponent extends React.Component<Props, State> {
         // User is not an organization
         return this.state.competition?.inComp ? undefined : (
             <button
-                className="btn btn-outline-primary btn-lg mr-3"
+                className="btn btn-outline-primary btn-lg me-3"
                 onClick={this._join}
                 disabled={this.state.joining}
             >
@@ -157,13 +157,13 @@ class CompetitionComponent extends React.Component<Props, State> {
             return (
                 <div className="d-flex flex-column align-items-center justify-content-end">
                     <Link
-                        className="btn btn-outline-dark mr-2 mb-2"
+                        className="btn btn-outline-dark me-2 mb-2"
                         to={`/editProject?competition=${this.state.competition.id}`}
                     >
                         <span className="material-icons">create</span> Edit Submission
                     </Link>
                     <Link
-                        className="btn btn-outline-primary mr-2"
+                        className="btn btn-outline-primary me-2"
                         to={`/project?competition=${this.state.competition.id}`}
                     >
                         <span className="material-icons">visibility</span> View Submission
@@ -206,13 +206,13 @@ class CompetitionComponent extends React.Component<Props, State> {
                 {this.state.competition ? (
                     <Link
                         to={`/projects/${this.state.competition.id}`}
-                        className="btn btn-outline-success mr-3"
+                        className="btn btn-outline-success me-3"
                     >
                         <span className="material-icons">visibility</span> Submissions
                     </Link>
                 ) : undefined}
                 {this.user === undefined ? (
-                    <p className="mr-3">
+                    <p className="me-3">
                         <Link to="/auth">Sign up</Link> to participate in competitions.
                     </p>
                 ) : (
@@ -333,15 +333,15 @@ class CompetitionComponent extends React.Component<Props, State> {
                         <div className="mx-3 mt-3">
                             <div
                                 className={`video-container ${
-                                    this.state.videodidLoad ? "" : "p-0"
+                                    this.state.videoDidLoad ? "" : "p-0"
                                 }`}
                             >
                                 <IFrame
                                     title="competition video"
                                     className="video"
                                     src={this._getSrc()}
-                                    onLoad={(): void => this.setState({videodidLoad: true})} // Change state to add padding
-                                    onError={(): void => this.setState({videodidLoad: true})}
+                                    onLoad={(): void => this.setState({videoDidLoad: true})} // Change state to add padding
+                                    onError={(): void => this.setState({videoDidLoad: true})}
                                 >
                                     <Spinner
                                         color="danger"

@@ -9,39 +9,13 @@
  */
 
 import "./index.scss"
-import type {CognitoUser} from "../../utils/cognito"
 import Prism from "prismjs"
+import type {Project} from "../../schemas/project"
 import React from "react"
-import cache from "../../utils/cache"
-import {handleError} from "../../utils/errorHandler"
+import UserContext from "../../contexts/userContext"
 import initTooltips from "../../components/bootstrap/tooltip"
-import notify from "../../utils/notify"
+import projectAdapter from "../../adapters/project"
 import {scrollToHeader} from "../../components/markdown/scrollToHeader"
-import {url} from "../../globals"
-
-export type Project = {
-    id: number
-    creator: string
-    createdAt: Date
-    desc?: string
-    srcURL?: string
-    demoURL?: string
-    license?: string
-    videoURL?: string
-    coverImageURL?: string
-    competitionId: string
-    topics?: string[]
-    projectId: number
-    name: string
-    creatorUsername: string
-    competitionName: string
-}
-
-export const isProject = (obj: {[key: string]: unknown}): obj is Project =>
-    typeof obj?.id === "number" &&
-    typeof obj.creator === "string" &&
-    typeof obj.competitionId === "number" &&
-    typeof obj.name === "string"
 
 type Props = {
     /**
@@ -53,95 +27,56 @@ type Props = {
      * Competition id
      */
     compId?: string
-
-    /**
-     * Current user
-     */
-    user?: CognitoUser
 }
 
 type State = {
     project?: Project
-    hasuser: boolean
-    videodidLoad: boolean
+    hasUser: boolean
+    videoDidLoad: boolean
 }
 
 export default class BaseComponent extends React.Component<Props, State> {
-    public constructor(props: Props) {
+    public constructor(props: Props, context: React.ContextType<typeof UserContext>) {
         super(props)
 
+        this.user = context.currentUser ?? undefined
+
         this.state = {
-            hasuser: props.user !== undefined,
-            videodidLoad: false,
+            hasUser: this.user !== undefined,
+            videoDidLoad: false,
         }
     }
 
     public componentDidMount = async (): Promise<void> => {
-        try {
-            this._handleCache()
+        if (this.props.id) {
+            const project = await projectAdapter(this.user, this.props.id)
 
-            let queryString
-
-            if (this.props.id) {
-                queryString = `?id=${this.props.id}`
-            } else if (this.props.compId && this.props.user) {
-                queryString = `?sub=${this.props.user.sub}&competitionId=${this.props.compId}`
-            } else {
-                throw new Error("No ID's were specified")
+            if (!(project instanceof Error)) {
+                this.setState({project})
             }
 
-            const data = (await (
-                await fetch(`${url}/projects/getOne${queryString}`, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                })
-            ).json()) as {[key: string]: unknown}
+            Prism.highlightAll()
 
-            if (!isProject(data)) {
-                notify({
-                    title: "Error",
-                    icon: "report_problem",
-                    iconClassName: "text-danger",
-                    content: "The data from the server did not match",
-                })
-
-                throw new Error(`The data ${Object.entries(data)} is not the correct structure.`)
+            if (window.location.hash) {
+                scrollToHeader(window.location.hash)
             }
-
-            this.setState({project: data})
-
-            cache.write(`talentmakerCache_project-${this.props.id}`, data)
-        } catch (err) {
-            handleError(err)
-        }
-
-        Prism.highlightAll()
-
-        if (window.location.hash) {
-            scrollToHeader(window.location.hash)
         }
     }
 
     public componentDidUpdate = (): void => {
         Prism.highlightAll()
 
-        if (this.state.hasuser === (this.props.user === undefined)) {
-            this.setState({hasuser: this.props.user !== undefined})
+        if (this.state.hasUser === (this.user === undefined)) {
+            this.setState({hasUser: this.user !== undefined})
             this.componentDidMount()
         }
 
         initTooltips()
     }
 
-    private _handleCache = async (): Promise<void> => {
-        const data = (await cache.read(`talentmakerCache_project-${this.props.id}`)) as {
-            [key: string]: unknown
-        }
+    public readonly user?: User
 
-        if (isProject(data)) {
-            this.setState({project: data})
-        }
-    }
+    public static contextType = UserContext
+
+    context!: React.ContextType<typeof UserContext>
 }

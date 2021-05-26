@@ -13,8 +13,8 @@ import {Link, useParams} from "react-router-dom"
 import BaseComponent from "./baseComponent"
 import DefaultPFP from "../../images/profile.svg"
 import Markdown from "../../components/markdown"
+import type {Project as ProjectType} from "../../schemas/project"
 import {Spinner} from "../../components/bootstrap"
-import UserContext from "../../contexts/userContext"
 import osiLicenses from "osi-licenses"
 import queryString from "query-string"
 import spdxLicenses from "spdx-license-ids"
@@ -95,7 +95,7 @@ class ProjectComponent extends BaseComponent {
                 </p>
             </div>
             <div className="col-lg-4 d-flex flex-row align-items-center justify-content-end">
-                {(this.props.user?.sub ?? "") === this.state.project?.creator
+                {(this.context.currentUser?.sub ?? "") === this.state.project?.creator
                     ? this._editBtn()
                     : undefined}
             </div>
@@ -105,7 +105,7 @@ class ProjectComponent extends BaseComponent {
     /**
      * Disaply the urls for the project sidebar
      */
-    private _projectURLs = (project: import("./baseComponent").Project): JSX.Element => {
+    private _projectURLs = (project: ProjectType): JSX.Element => {
         const linkProps = {
             target: "_blank",
             rel: "noopener noreferrer",
@@ -219,15 +219,15 @@ class ProjectComponent extends BaseComponent {
                         <div className="mx-3 mt-3">
                             <div
                                 className={`video-container ${
-                                    this.state.videodidLoad ? "" : "p-0"
+                                    this.state.videoDidLoad ? "" : "p-0"
                                 }`}
                             >
                                 <IFrame
                                     title="project video"
                                     className="video"
                                     src={this._getSrc()}
-                                    onLoad={(): void => this.setState({videodidLoad: true})} // Change state to add padding
-                                    onError={(): void => this.setState({videodidLoad: true})}
+                                    onLoad={(): void => this.setState({videoDidLoad: true})} // Change state to add padding
+                                    onError={(): void => this.setState({videoDidLoad: true})}
                                 >
                                     <Spinner
                                         color="danger"
@@ -259,21 +259,9 @@ export const Project = (): JSX.Element => {
     const {competition: compId} = queryString.parse(window.location.search)
 
     if (id) {
-        return (
-            <UserContext.Consumer>
-                {({currentUser: user}): JSX.Element => (
-                    <ProjectComponent id={id} user={user ?? undefined} />
-                )}
-            </UserContext.Consumer>
-        )
+        return <ProjectComponent id={id} />
     } else if (typeof compId === "string") {
-        return (
-            <UserContext.Consumer>
-                {({currentUser: user}): JSX.Element => (
-                    <ProjectComponent compId={compId} user={user ?? undefined} />
-                )}
-            </UserContext.Consumer>
-        )
+        return <ProjectComponent compId={compId} />
     }
 
     return (

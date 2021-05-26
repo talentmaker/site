@@ -127,10 +127,10 @@ export class Toast extends React.PureComponent<Props, State> {
             ref={this.props.reference}
         >
             <div className="toast-header text-dark bg-light">
-                <span className={`material-icons mr-2 ${this.props.iconClassName ?? ""}`}>
+                <span className={`material-icons me-2 ${this.props.iconClassName ?? ""}`}>
                     {this.props.icon ?? "error"}
                 </span>
-                <strong className="mr-auto">{this.props.title}</strong>
+                <strong className="me-auto">{this.props.title}</strong>
                 <small className="text-muted">
                     {typeof this.state.time === "number"
                         ? Toast._getTimeFromSeconds(this.state.time)

@@ -10,6 +10,26 @@
 
 import notify from "./notify"
 
+export const isErrorLike = (obj: unknown): obj is {name: string; message: string} =>
+    obj instanceof Error ||
+    (typeof obj === "object" &&
+        typeof (obj as {[key: string]: unknown}).name === "string" &&
+        typeof (obj as {[key: string]: unknown}).message === "string")
+
+export const createError = (obj: unknown): Error => {
+    if (obj instanceof Error) {
+        return obj
+    } else if (isErrorLike(obj)) {
+        const error = new Error(obj.message)
+
+        error.name = obj.name
+
+        return error
+    }
+
+    return new Error(JSON.stringify(obj))
+}
+
 export const handleError = (err: unknown): void => {
     console.error(err)
 
@@ -20,12 +40,7 @@ export const handleError = (err: unknown): void => {
             title: "Error",
             icon: "report_problem",
             iconClassName: "text-danger",
-            content: `ERROR: ${
-                err instanceof Object &&
-                typeof (err as {[key: string]: string}).message === "string"
-                    ? (err as {[key: string]: string}).message
-                    : JSON.stringify(err)
-            }`,
+            content: `ERROR: ${createError(err)}`,
         })
     }
 }
@@ -36,7 +51,7 @@ export const catcherPromise = async <T>(func: () => Promise<T>): Promise<T | Err
     } catch (err) {
         handleError(err)
 
-        return err instanceof Error ? err : new Error(JSON.stringify(err))
+        return createError(err)
     }
 }
 

@@ -22,7 +22,6 @@ export const projectSchema = yup.object({
     coverImageURL: yup.string().nullable(),
     competitionId: yup.string().required(),
     topics: yup.array(yup.string()).nullable(),
-    projectId: yup.number().required(),
     name: yup.string().required(),
     creatorUsername: yup.string().required(),
     competitionName: yup.string().required(),
