@@ -1,6 +1,7 @@
 # Talentmaker Site
 
-[![Live Site](https://img.shields.io/badge/Site-talentmaker.ca-blue?style=flat-square&logo=AWS%20Amplify)](https://talentmaker.ca)
+[![Live Site](https://img.shields.io/badge/Site-talentmaker.ca-blue?style=for-the-badge&logo=AWS%20Amplify)](https://talentmaker.ca)
+
 [![GitHub](https://img.shields.io/github/license/Luke-zhang-04/talentmaker-site?style=flat-square)](https://github.com/Luke-zhang-04/talentmaker-site/blob/master/LICENSE)
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Luke-zhang-04/talentmaker-site/build?style=flat-square&logo=Github)](https://github.com/Luke-zhang-04/talentmaker-site/actions)
 

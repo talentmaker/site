@@ -65,7 +65,7 @@ export declare namespace AppTypes {
      * React user context type
      */
     export interface Context {
-        currentUser: undefined | User | null
+        currentUser: undefined | User
 
         /**
          * Set the current loggedin user

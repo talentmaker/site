@@ -8,9 +8,10 @@
  *
  * License: BSD-3-Clause
  */
+
 @use "../variables" as variables;
 
-.comp-card {
+.grid-card {
   height: 33.33vw;
   position: relative;
   margin-bottom: 2vw;
@@ -21,12 +22,12 @@
     object-fit: cover;
   }
 
-  .comp-info {
+  .card-info {
     width: 100%;
     position: absolute;
     bottom: 0;
 
-    .deadline {
+    .tag {
       position: relative;
       max-width: fit-content;
       background-color: variables.$primary;
@@ -35,7 +36,7 @@
       top: 0;
     }
 
-    .comp-details {
+    .card-details {
       background-color: variables.$lighter;
       width: 100%;
       position: relative;

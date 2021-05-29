@@ -48,7 +48,7 @@ class HomeComponent extends React.Component<Props> {
 
 export const Home = (): JSX.Element => (
     <UserContext.Consumer>
-        {({currentUser: user}): JSX.Element => <HomeComponent user={user ?? undefined} />}
+        {({currentUser: user}): JSX.Element => <HomeComponent user={user} />}
     </UserContext.Consumer>
 )
 

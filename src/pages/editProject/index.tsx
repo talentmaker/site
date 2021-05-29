@@ -22,7 +22,7 @@ export const EditProject: React.FC<{}> = () => {
         return (
             <UserContext.Consumer>
                 {({currentUser: user}): JSX.Element => (
-                    <EditProjectComponent id={id} user={user ?? undefined} />
+                    <EditProjectComponent id={id} user={user} />
                 )}
             </UserContext.Consumer>
         )
@@ -33,7 +33,7 @@ export const EditProject: React.FC<{}> = () => {
                     <EditProjectComponent
                         compId={compId}
                         id={typeof qId === "string" ? qId : undefined}
-                        user={user ?? undefined}
+                        user={user}
                     />
                 )}
             </UserContext.Consumer>

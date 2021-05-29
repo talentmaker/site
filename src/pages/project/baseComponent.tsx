@@ -39,7 +39,7 @@ export default class BaseComponent extends React.Component<Props, State> {
     public constructor(props: Props, context: React.ContextType<typeof UserContext>) {
         super(props)
 
-        this.user = context.currentUser ?? undefined
+        this.user = context.currentUser
 
         this.state = {
             hasUser: this.user !== undefined,
