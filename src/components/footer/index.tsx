@@ -9,7 +9,6 @@
  */
 
 import "./index.scss"
-import type {CognitoUser} from "../../utils/cognito"
 import {Link} from "react-router-dom"
 import React from "react"
 
@@ -29,15 +28,13 @@ const FooterLinks = ({links}: {links: [dest: string, name: string][]}): JSX.Elem
     </>
 )
 
-type User = CognitoUser | null | undefined
-
 const linkProps = {
     target: "_blank",
     rel: "noopener noreferred",
 }
 
 /* eslint-disable jsx-a11y/anchor-has-content */
-export const Footer: React.FC<{user: User}> = (props): JSX.Element => (
+export const Footer: React.FC<{user?: User}> = (props): JSX.Element => (
     <footer className="page-footer font-small bg-lighter text-dark pt-4 pb-3">
         <div className="row social-media-icons">
             <a

@@ -8,14 +8,13 @@
  * https://github.com/ethanlim04
  */
 import "./home.scss"
-import type {CognitoUser} from "../../utils/cognito"
 import {Link} from "react-router-dom"
 import ProblemSolvingSvg from "./problemSolving.svg"
 import React from "react"
 import UserContext from "../../contexts/userContext"
 
 interface Props {
-    user?: CognitoUser
+    user?: User
 }
 
 class HomeComponent extends React.Component<Props> {

@@ -34,13 +34,13 @@ import {
     Project,
     Projects,
 } from "./pages"
-import {CognitoUser, isCognitoUser} from "./utils/cognito"
 import {Route, BrowserRouter as Router, Switch} from "react-router-dom"
 import Footer from "./components/footer"
 import Nav from "./components/nav"
 import React from "react"
 import ReactDOM from "react-dom"
 import UserContext from "./contexts/userContext"
+import {isUser} from "./schemas/user"
 import {url} from "./globals"
 
 export const appRef = React.createRef<App>()
@@ -53,7 +53,7 @@ export declare namespace AppTypes {
 
     export interface State {
         isAuthenticated: boolean
-        currentUser?: CognitoUser
+        currentUser?: User
 
         /**
          * Current notification to show
@@ -65,7 +65,7 @@ export declare namespace AppTypes {
      * React user context type
      */
     export interface Context {
-        currentUser: undefined | CognitoUser | null
+        currentUser: undefined | User | null
 
         /**
          * Set the current loggedin user
@@ -108,7 +108,7 @@ class App extends React.Component<AppTypes.Props, AppTypes.State> {
                 })
             ).json()) as {[key: string]: unknown}
 
-            if (isCognitoUser(user)) {
+            if (isUser(user)) {
                 await this.setUser(user)
                 this.setState({})
 
@@ -131,7 +131,7 @@ class App extends React.Component<AppTypes.Props, AppTypes.State> {
      * @param user - Unknown object that will go through validation OR `undefined | null` for logout
      */
     public setUserFromUnknown = async (user?: {[key: string]: unknown} | null): Promise<void> => {
-        if (user === undefined || user === null || isCognitoUser(user)) {
+        if (user === undefined || user === null || isUser(user)) {
             return await this.setUser(user)
         }
     }
@@ -141,7 +141,7 @@ class App extends React.Component<AppTypes.Props, AppTypes.State> {
      *
      * @param user - Object with user info OR `undefined | null` to logout
      */
-    public setUser = async (user?: CognitoUser | null): Promise<void> => {
+    public setUser = async (user?: User | null): Promise<void> => {
         const isLoggedin = localStorage.getItem("loggedin") === "true"
 
         if (isLoggedin && (user === undefined || user === null)) {

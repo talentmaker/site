@@ -32,7 +32,7 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "noEmitOnError": false,
-    "isolatedModules": true
+    "isolatedModules": true,
   },
   "include": [
     "src/"

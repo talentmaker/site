@@ -9,7 +9,6 @@
  */
 
 import "./index.scss"
-import type {CognitoUser} from "../../utils/cognito"
 import DefaultPFP from "../../images/profile.svg"
 import type {History} from "history"
 import React from "react"
@@ -20,7 +19,7 @@ import {useHistory} from "react-router-dom"
 
 declare namespace Types {
     export interface WrapperProps {
-        user?: CognitoUser
+        user?: User
     }
 
     export interface Props extends WrapperProps {
@@ -28,7 +27,7 @@ declare namespace Types {
     }
 
     export interface SubComponentProps {
-        user: CognitoUser
+        user: User
     }
 }
 

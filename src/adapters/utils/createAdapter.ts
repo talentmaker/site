@@ -13,7 +13,7 @@ import cacheUtils from "../../utils/cache"
 import globals from "../../globals"
 import type yup from "yup"
 
-type AdapterCallback<ArgsType, Args extends ArgsType[], S extends yup.BaseSchema | undefined> = (
+type AdapterCallback<ArgsType, Args extends ArgsType[], S extends yup.BaseSchema | void> = (
     tools: {
         request: typeof utils.request
         url: typeof globals.url
@@ -21,10 +21,10 @@ type AdapterCallback<ArgsType, Args extends ArgsType[], S extends yup.BaseSchema
         schema: S
     },
     ...args: Args
-) => Promise<S extends yup.BaseSchema ? S["__outputType"] : undefined>
+) => Promise<S extends yup.BaseSchema ? S["__outputType"] : void>
 
-type ReturnType<S extends yup.BaseSchema | undefined> =
-    | (S extends yup.BaseSchema ? S["__outputType"] : undefined)
+type ReturnType<S extends yup.BaseSchema | void> =
+    | (S extends yup.BaseSchema ? S["__outputType"] : void)
     | Error
 
 // I tried making another generic type, but kept getting type errors, so enjoy this atrocity
@@ -35,7 +35,7 @@ type ReturnType<S extends yup.BaseSchema | undefined> =
  * @returns An adapter
  */
 export const createAdapter =
-    <ArgsType, Args extends ArgsType[], S extends yup.BaseSchema | undefined = undefined>(
+    <ArgsType, Args extends ArgsType[], S extends yup.BaseSchema | void = undefined>(
         func: AdapterCallback<ArgsType, Args, S>,
         schema?: S,
     ): ((...args: Args) => Promise<ReturnType<S>>) =>

@@ -103,11 +103,7 @@ export const register = (config?: Config): void => {
             return
         }
 
-        console.log("SW Working")
-
         window.addEventListener("load", () => {
-            console.log("LOAD")
-
             const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`
             /* eslint-enable no-process-env */
 

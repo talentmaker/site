@@ -10,7 +10,6 @@
 
 import * as yup from "yup"
 import {Field, useField} from "formik"
-import type {CognitoUser} from "../../utils/cognito"
 import React from "react"
 import {handleError} from "../../utils/errorHandler"
 import {hash} from "../../utils/crypto"
@@ -50,7 +49,7 @@ export interface Props {
     /**
      * Current user
      */
-    user?: CognitoUser
+    user?: User
 }
 
 export interface State {

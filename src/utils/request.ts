@@ -29,14 +29,42 @@ class HTTPError extends Error {
     }
 }
 
+type Config<T> = {
+    /**
+     * Method of request e.g `GET`, `POST`
+     */
+    method: Methods
+
+    /**
+     * What to convert the response to e.g `json`, `text`
+     */
+    conversion?: T
+
+    /**
+     * Request body
+     */
+    body?: {[key: string]: unknown}
+
+    /**
+     * Content type e.g `application/json`, `multipart/form-data`
+     */
+    contentType?: string
+
+    /**
+     * Other request params e.g `{headers: {credentials: "include"}}`
+     */
+    init?: RequestInit
+}
+
 /**
  * Wrapper for the fetch API that is hopefully a bit more intuitive
  *
  * @param url - Url of request
- * @param method - Method of request
- * @param conversion - What to convert the response to
- * @param contentType - Content type
- * @param init - Other request params
+ * @param method - Method of request e.g `GET`, `POST`
+ * @param conversion - What to convert the response to e.g `json`, `text`
+ * @param body - Request body
+ * @param contentType - Content type e.g `application/json`, `multipart/form-data`
+ * @param init - Other request params e.g `{headers: {credentials: "include"}}`
  * @returns The converted response
  */
 export async function request<T extends Conversions>(
@@ -52,11 +80,12 @@ export async function request<T extends Conversions>(
  * Wrapper for the fetch API that is hopefully a bit more intuitive
  *
  * @param url - Url of request
- * @param method - Method of request
- * @param conversion - What to convert the response to
- * @param contentType - Content type
- * @param init - Other request params
- * @returns The converted response
+ * @param method - Method of request e.g `GET`, `POST`
+ * @param conversion - What to convert the response to e.g `json`, `text`
+ * @param body - Request body
+ * @param contentType - Content type e.g `application/json`, `multipart/form-data`
+ * @param init - Other request params e.g `{headers: {credentials: "include"}}`
+ * @returns A raw response
  */
 export async function request(
     url: string,
@@ -71,24 +100,57 @@ export async function request(
  * Wrapper for the fetch API that is hopefully a bit more intuitive
  *
  * @param url - Url of request
- * @param method - Method of request
- * @param conversion - What to convert the response to
- * @param contentType - Content type
- * @param param4 - Other request params which haven't been specified
+ * @param config - Request config
+ * @returns The converted response
  */
 export async function request<T extends Conversions>(
     url: string,
-    method: Methods,
+    config: Config<T>,
+): Promise<ConversionTypes[T]>
+
+/**
+ * Wrapper for the fetch API that is hopefully a bit more intuitive
+ *
+ * @param url - Url of request
+ * @param config - Request config
+ * @returns A raw response
+ */
+export async function request(url: string, config: Config<undefined>): Promise<Response>
+
+/**
+ * Wrapper for the fetch API that is hopefully a bit more intuitive
+ */
+export async function request<T extends Conversions>(
+    url: string,
+    methodOrConfig: Methods | Config<T>,
     conversion?: T,
     body?: {[key: string]: unknown},
-    contentType = "application/json",
-    {headers, ...init}: RequestInit = {},
+    contentType?: string,
+    init: RequestInit = {},
 ): Promise<Response | ConversionTypes[T]> {
+    const config =
+        typeof methodOrConfig === "string"
+            ? {
+                  method: methodOrConfig,
+                  conversion,
+                  body,
+                  contentType,
+                  headers: init.headers,
+                  init,
+              }
+            : {
+                  ...methodOrConfig,
+                  headers: init.headers,
+              }
+
     const response = await fetch(url, {
-        ...init,
-        method,
-        headers: {...headers, "Content-Type": contentType},
-        body: body ? JSON.stringify(body) : undefined,
+        ...config.init,
+        method: config.method,
+        headers: {
+            ...config.headers,
+            "Content-Type": config.contentType ?? "application/json",
+        },
+        body: config.body ? JSON.stringify(config.body) : undefined,
     })
 
     if (!response.ok) {
@@ -104,8 +166,8 @@ export async function request<T extends Conversions>(
         throw new HTTPError(response.status, response.statusText)
     }
 
-    if (conversion) {
-        return await response[conversion]()
+    if (config.conversion) {
+        return await response[config.conversion]()
     }
 
     return response
