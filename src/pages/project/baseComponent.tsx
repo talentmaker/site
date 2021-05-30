@@ -48,18 +48,16 @@ export default class BaseComponent extends React.Component<Props, State> {
     }
 
     public componentDidMount = async (): Promise<void> => {
-        if (this.props.id) {
-            const project = await projectAdapter(this.user, this.props.id)
+        const project = await projectAdapter(this.user, this.props.id, this.props.compId)
 
-            if (!(project instanceof Error)) {
-                this.setState({project})
-            }
+        if (!(project instanceof Error)) {
+            this.setState({project})
+        }
 
-            Prism.highlightAll()
+        Prism.highlightAll()
 
-            if (window.location.hash) {
-                scrollToHeader(window.location.hash)
-            }
+        if (window.location.hash) {
+            scrollToHeader(window.location.hash)
         }
     }
 

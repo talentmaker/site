@@ -18,17 +18,12 @@ type IframeProps = React.DetailedHTMLProps<
 
 type Props = IframeProps & {
     /**
-     * If the iframe should use a spinner until the iframe is loaded
-     */
-    shouldIncludeSpinner?: boolean
-
-    /**
      * Spinner component to show before the iframe loads
      */
     children?: React.ReactNode
 }
 
-export const IFrameComponent: React.FC<Props> = (props) => {
+const IFrameComponent: React.FC<Props> = (props) => {
     const [didLoad, setLoad] = React.useState(false)
 
     return (

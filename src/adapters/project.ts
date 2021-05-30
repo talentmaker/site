@@ -12,11 +12,24 @@ import {createAdapter} from "./utils"
 import {projectSchema} from "../schemas/project"
 
 export const projectAdapter = createAdapter(
-    async ({request, url, cache, schema}, user: User | undefined, id: string) => {
-        const userQS = user
-            ? `&idToken=${user.idToken}&idTokenChecksum=${user.idTokenChecksum}`
-            : ""
-        const data = await request(`${url}/projects/getOne?id=${id}${userQS}`, "GET", "json")
+    async (
+        {adapterError, request, url, cache, schema, qs},
+        user: User | undefined,
+        id?: string,
+        compId?: string,
+    ) => {
+        let queryString
+
+        console.log({user, id, compId})
+
+        if (id) {
+            queryString = qs.stringify({id})
+        } else if (compId && user) {
+            queryString = qs.stringify({sub: user.sub, competitionId: compId})
+        } else {
+            throw adapterError("Invalid Params")
+        }
+        const data = await request(`${url}/projects/getOne?${queryString}`, "GET", "json")
         const project = await schema.validate(data)
 
         cache.write(`talentmakerCache_project-${id}`, data)

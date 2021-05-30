@@ -35,12 +35,12 @@ import {
     Projects,
 } from "./pages"
 import {Route, BrowserRouter as Router, Switch} from "react-router-dom"
+import {CognitoUser as User, isUser} from "./schemas/user"
 import Footer from "./components/footer"
 import Nav from "./components/nav"
 import React from "react"
 import ReactDOM from "react-dom"
 import UserContext from "./contexts/userContext"
-import {isUser} from "./schemas/user"
 import {url} from "./globals"
 
 export const appRef = React.createRef<App>()

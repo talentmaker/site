@@ -10,3 +10,4 @@
 
 export {Toast} from "./toast"
 export {Spinner} from "./spinner"
+export {initTooltips} from "./tooltip"
