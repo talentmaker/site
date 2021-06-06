@@ -52,6 +52,8 @@ export const SubmissionButton: React.FC<{competition: Competition}> = ({
 type JoinButtonProps = {competition: Competition; user?: User; onSuccess?: () => void}
 
 export const JoinButton: React.FC<JoinButtonProps> = ({competition, user, onSuccess}) => {
+    const [isJoining, setJoining] = React.useState(false)
+
     if (
         user?.isOrg && // User is organization
         competition // Competition exists
@@ -66,8 +68,6 @@ export const JoinButton: React.FC<JoinButtonProps> = ({competition, user, onSucc
     } else if (!competition) {
         return <></>
     }
-
-    const [isJoining, setJoining] = React.useState(false)
 
     const join = React.useCallback(async (): Promise<void> => {
         setJoining(true)

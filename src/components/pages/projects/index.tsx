@@ -9,11 +9,11 @@
  */
 
 import {Projects as ProjectsType, projectsSchema} from "../../../schemas/projects"
+import {Spinner, initTooltips} from "../../bootstrap"
 import {arrayToChunks, validate} from "../../../utils"
 import GridItem from "../../gridItem"
 import {Link} from "react-router-dom"
 import React from "react"
-import Spinner from "../../bootstrap/spinner"
 import UserContext from "../../../contexts/userContext"
 import cache from "../../../utils/cache"
 import projectsAdapter from "../../../adapters/projects"
@@ -29,7 +29,7 @@ const Project: React.FC<{project: ProjectsType[0]; user?: User}> = ({project, us
             user?.sub === project.creator ? (
                 <Link
                     to={`/editProject/${project.id}`}
-                    className="btn btn-outline-dark d-inline-block float-right"
+                    className="btn btn-outline-dark d-inline-block float-end"
                     data-bs-toggle="tooltip"
                     data-bs-placement="left"
                     title="Edit"
@@ -59,6 +59,10 @@ export const Projects: React.FC<{compId: string}> = ({compId}) => {
             }
         })()
     }, [])
+
+    React.useEffect(() => {
+        initTooltips()
+    })
 
     const getSortedProjects = React.useCallback((): ProjectsType[][] => {
         // Projects due in the future and past

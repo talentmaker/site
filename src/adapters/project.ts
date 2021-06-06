@@ -20,8 +20,6 @@ export const projectAdapter = createAdapter(
     ) => {
         let queryString
 
-        console.log({user, id, compId})
-
         if (id) {
             queryString = qs.stringify({id})
         } else if (compId && user) {

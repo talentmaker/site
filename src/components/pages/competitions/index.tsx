@@ -9,13 +9,13 @@
  */
 
 import {Competitions as CompetitionsType, competitionsSchema} from "../../../schemas/competitions"
+import {Spinner, initTooltips} from "../../bootstrap"
 import {arrayToChunks, getUtcTime, validate} from "../../../utils"
 import type {Competition as CompetitionType} from "../../../schemas/competition"
 import DatePlus from "@luke-zhang-04/dateplus"
 import GridItem from "../../gridItem"
 import {Link} from "react-router-dom"
 import React from "react"
-import Spinner from "../../bootstrap/spinner"
 import UserContext from "../../../contexts/userContext"
 import cache from "../../../utils/cache"
 import competitionsAdapter from "../../../adapters/competitions"
@@ -67,6 +67,10 @@ export const Competitions: React.FC = () => {
             }
         })()
     }, [])
+
+    React.useEffect(() => {
+        initTooltips()
+    })
 
     const getSortedCompetitions = React.useCallback((): CompetitionsType[][] => {
         // Competitions due in the future and past
