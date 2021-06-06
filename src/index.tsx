@@ -181,13 +181,10 @@ class App extends React.Component<AppTypes.Props, AppTypes.State> {
                     <Route path="/competition/:id" component={Competition} />
                     <Route path="/competitions" component={Competitions} />
                     <Route path="/editCompetition/:id" component={EditCompetition} />
-                    <Route path="/editProject/:id?" component={EditProject} />
+                    <Route path="/editProject/:id" component={EditProject} />
                     <Route path="/legal" component={Legal} />
                     <Route path="/privacy-policy" component={PrivacyPolicy} />
-                    <Route
-                        path="/profile"
-                        render={(): JSX.Element => <Profile user={this.state.currentUser} />}
-                    />
+                    <Route path="/profile" component={Profile} />
                     <Route path="/project/:id" component={Project} />
                     <Route path="/project" component={Project} />
                     <Route path="/projects/:compId" component={Projects} />

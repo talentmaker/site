@@ -11,14 +11,12 @@ import "./home.scss"
 import {Link} from "react-router-dom"
 import ProblemSolvingSvg from "./problemSolving.svg"
 import React from "react"
-import UserContext from "../../contexts/userContext"
+import UserContext from "../../../contexts/userContext"
 
-interface Props {
-    user?: User
-}
+export const Home: React.FC = () => {
+    const user = React.useContext(UserContext)
 
-class HomeComponent extends React.Component<Props> {
-    private _landingPage = (): JSX.Element => (
+    return (
         <div className="landing-page">
             <div className="row">
                 <div className="col-md-6 text">
@@ -30,7 +28,7 @@ class HomeComponent extends React.Component<Props> {
                     <Link to="/competitions" className="btn btn-primary">
                         <span className="material-icons">developer_board</span> Competitions
                     </Link>
-                    {this.props.user ? undefined : (
+                    {user ? undefined : (
                         <Link to="/auth" className="btn btn-accent ms-3">
                             <span className="material-icons">person</span> Make an account!
                         </Link>
@@ -42,14 +40,6 @@ class HomeComponent extends React.Component<Props> {
             </div>
         </div>
     )
-
-    public render = (): JSX.Element => <>{this._landingPage()}</>
 }
-
-export const Home = (): JSX.Element => (
-    <UserContext.Consumer>
-        {({currentUser: user}): JSX.Element => <HomeComponent user={user} />}
-    </UserContext.Consumer>
-)
 
 export default Home

@@ -8,7 +8,7 @@
  * https://github.com/ethanlim04
  */
 
-const PrivacyPolicy = () => (
+export const PrivacyPolicy = () => (
     <div className="container">
         <h2>Privacy Policy</h2>
         <p>

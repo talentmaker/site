@@ -9,9 +9,10 @@
  */
 
 import CompetitionComponent from "../components/pages/competition"
+import type React from "react"
 import {useParams} from "react-router-dom"
 
-export const Competition = (): JSX.Element => {
+export const Competition: React.FC = () => {
     const {id} = useParams<{id?: string}>()
 
     return id ? (

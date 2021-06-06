@@ -12,4 +12,4 @@ declare module "osi-licenses" {
     export default licenses
 }
 
-type User = import("./schemas/user").CognitoUser
+declare type User = import("./schemas/user").CognitoUser
