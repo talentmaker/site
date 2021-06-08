@@ -8,12 +8,12 @@
  * https://github.com/ethanlim04
  */
 
-import "./index.scss"
 import {IFrame, Img} from "../elements"
 import React, {ReactNode} from "react"
 import DefaultPFP from "~/images/profile.svg"
 import {Link} from "react-router-dom"
 import {Spinner} from "../bootstrap"
+import styles from "./index.module.scss"
 
 type UserInfoProps = {
     pfp?: string
@@ -25,11 +25,11 @@ export const UserInfo: React.FC<UserInfoProps> = ({pfp, username, desc, children
     <div className="row">
         <div className="col-lg-2">
             <div className="px-4 my-3">
-                <Img src={pfp ?? DefaultPFP} className="pfp" alt="Profile" />
+                <Img src={pfp ?? DefaultPFP} className={`${styles.pfp}`} alt="Profile" />
             </div>
         </div>
         <div className="col-lg-5 d-flex flex-column justify-content-center">
-            {username ? <p className="username">{username}</p> : undefined}
+            {username ? <p className={`${styles.username}`}>{username}</p> : undefined}
             {desc ? <p className="sub text-muted">{desc}</p> : undefined}
         </div>
         <div className="col-lg-5 d-flex flex-row align-items-center justify-content-end">
@@ -43,11 +43,11 @@ export const Video: React.FC<React.ComponentProps<typeof IFrame>> = (props) => {
 
     return (
         <div className="mx-3 mt-3">
-            <div className={`video-container ${didVideoLoad ? "" : "p-0"}`}>
+            <div className={`${styles.videoContainer} ${didVideoLoad ? "" : "p-0"}`}>
                 <IFrame
                     {...props}
                     title={props.title ?? "video"}
-                    className={`video ${props.className}`}
+                    className={`${styles.video} ${props.className}`}
                     onLoad={(event): void => {
                         setLoad(true)
 
@@ -152,5 +152,22 @@ export const Sidebar: React.FC<SidebarProps> = ({items}) => (
                 item ? <SidebarItem {...item} key={`sidebaritem-${index}`} /> : undefined,
             )}
         </ul>
+    </div>
+)
+
+export const Bar: React.FC<{topics?: (string | undefined)[] | null}> = ({topics}) => (
+    <div className={`row bg-primary ${styles.bar}`}>
+        <div className={`col-sm-12 ${styles.topics}`}>
+            {" "}
+            {/* Blue bar with competitions */}
+            {topics?.map((topic, index) => (
+                <p
+                    className="bg-primary mx-1 my-0 py-1 px-2 d-flex"
+                    key={`topic-${topic}-${index}`}
+                >
+                    {topic}
+                </p>
+            ))}
+        </div>
     </div>
 )

@@ -8,23 +8,23 @@
  * https://github.com/ethanlim04
  */
 
-import "./index.scss"
 import {Link} from "react-router-dom"
+import styles from "./index.module.scss"
 
 export const NotFound = (): JSX.Element => (
-    <div className="notFound d-flex align-items-center justify-content-center">
-        <section className="error-container">
-            <span className="four">
-                <span className="screen-reader-text">4</span>
+    <div className={`${styles.notFound} d-flex align-items-center justify-content-center`}>
+        <section className={`${styles.errorContainer}`}>
+            <span className={styles.four}>
+                <span className={styles.screenReaderText}>4</span>
             </span>
-            <span className="zero">
-                <span className="screen-reader-text">0</span>
+            <span className={styles.zero}>
+                <span className={styles.screenReaderText}>0</span>
             </span>
-            <span className="four">
-                <span className="screen-reader-text">4</span>
+            <span className={styles.four}>
+                <span className={styles.screenReaderText}>4</span>
             </span>
         </section>
-        <div className="link-container d-flex justify-content-center">
+        <div className={`${styles.linkContainer} d-flex justify-content-center`}>
             {history.length > 1 ? (
                 <button className="btn btn-dark d-block mx-5" onClick={(): void => history.back()}>
                     <span className="material-icons">arrow_left</span> Take me back!

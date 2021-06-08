@@ -13,24 +13,24 @@
 
 @media (min-width: map-get(variables.$grid-breakpoints, md)) {
   .navbar {
-    .nav-link {
+    .navLink {
       font-size: 2vw;
       padding-left: 1vw !important;
       padding-right: 1vw !important;
     }
 
-    .nav-links {
+    .navLinks {
       display: flex;
       flex-direction: row;
       align-items: center; // Vertically centred
       justify-content: right; // Horizontally to the right
 
-      #navbarNav {
+      .navbarNav {
         max-width: fit-content; // Fix navbar sizing
       }
     }
 
-    .navbar-brand {
+    .navbarBrand {
       margin: 0; // Remove margins b/c they were making the navbar taller
 
       img {
@@ -42,7 +42,7 @@
   }
 }
 
-.mobile-nav {
+.mobileNav {
   $nav-item-count: 5;
   $underline-height: 2.5px;
   $transition-timing: cubic-bezier(0.645, 0.045, 0.355, 1);
@@ -55,7 +55,7 @@
   display: flex;
   flex-direction: row;
 
-  .mobile-nav-underline {
+  .mobileNavUnderline {
     width: percentage((100 / $nav-item-count) / 100);
     background-color: variables.$dark;
     position: absolute;
@@ -64,7 +64,7 @@
     transition: left 0.5s $transition-timing;
   }
 
-  .mobile-nav-item-container {
+  .mobileNavItemContainer {
     width: percentage((100 / $nav-item-count) / 100);
     padding-top: 0.5rem;
     padding-bottom: 0.25rem;
@@ -73,7 +73,7 @@
     justify-content: center;
     align-items: center;
 
-    .mobile-nav-link {
+    .mobileNavLink {
       color: variables.$dark;
       text-decoration: none;
       text-align: center;

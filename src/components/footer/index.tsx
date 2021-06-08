@@ -8,9 +8,9 @@
  * https://github.com/ethanlim04
  */
 
-import "./index.scss"
 import {Link} from "react-router-dom"
 import React from "react"
+import styles from "./index.module.scss"
 
 /**
  * Footer links
@@ -36,7 +36,7 @@ const linkProps = {
 /* eslint-disable jsx-a11y/anchor-has-content */
 export const Footer: React.FC<{user?: User}> = (props): JSX.Element => (
     <footer className="page-footer font-small bg-lighter text-dark pt-4 pb-3">
-        <div className="row social-media-icons">
+        <div className={`row ${styles.row} ${styles.socialMediaIcons}`}>
             <a
                 {...linkProps}
                 href="https://www.youtube.com/channel/UCltJw7oSTdHDio806LztCzQ"
@@ -49,7 +49,7 @@ export const Footer: React.FC<{user?: User}> = (props): JSX.Element => (
             ></a>
         </div>
 
-        <div className="row pages">
+        <div className={`row ${styles.row} pages`}>
             <FooterLinks
                 links={[
                     ["/competitions", "Competitions"],
@@ -60,19 +60,19 @@ export const Footer: React.FC<{user?: User}> = (props): JSX.Element => (
             />
         </div>
 
-        <div className="text-center">
+        <div className={`text-center ${styles.textCenter}`}>
             <Link to="/legal">Terms and conditions</Link>
             <span className="my-0 mx-3">&#x2022;</span>
             <Link to="/privacy-policy">Privacy Policy</Link>
         </div>
 
-        <div className="text-center mt-3">
+        <div className={`text-center ${styles.textCenter} mt-3`}>
             <a href="https://github.com/Luke-zhang-04/talentmaker-site" {...linkProps}>
                 Repository
             </a>
         </div>
 
-        <div className="footer-copyright text-center">
+        <div className={`footer-copyright text-center ${styles.textCenter}`}>
             Copyright © 2020 - 2021:{" "}
             <a href="https://luke-zhang-04.github.io" target="_blank" rel="noopener noreferrer">
                 Luke Zhang

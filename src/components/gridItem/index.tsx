@@ -8,12 +8,12 @@
  * https://github.com/ethanlim04
  */
 
-import "./index.scss"
 import DefaultPhoto from "~/images/default.svg"
 import {Img} from "../elements"
 import {Link} from "react-router-dom"
 import React from "react"
 import {Spinner} from "../bootstrap"
+import styles from "./index.module.scss"
 
 type Props = {
     imageURL?: string
@@ -28,13 +28,13 @@ type Props = {
 
 export const GridItem: React.FC<Props> = ({children, desc, imageURL, link, tag, title}) => (
     <div className="col-lg-4 my-3">
-        <div className="grid-card">
+        <div className={`${styles.gridCard}`}>
             <Img src={imageURL ?? DefaultPhoto} alt="cover">
                 <Spinner color="primary" size="6rem" centered />
             </Img>
-            <div className="card-info">
-                {tag ? <div className="tag">{tag}</div> : undefined}
-                <div className="container-fluid card-details">
+            <div className={`${styles.cardInfo}`}>
+                {tag ? <div className={`${styles.tag}`}>{tag}</div> : undefined}
+                <div className={`container-fluid ${styles.cardDetails}`}>
                     {title ? <h3>{title}</h3> : undefined}
                     {desc ? <p className="text-primary">{desc}</p> : undefined}
                     {link ? (

@@ -103,7 +103,7 @@ const formatData = (data: unknown): unknown => {
         }
 
         return newData
-    } else if (typeof data === "object" && data !== null) {
+    } else if (typeof data === "object" && data !== null && !(data instanceof Date)) {
         // Truncate object contents
         const newData: {[key: string]: unknown} = {}
 

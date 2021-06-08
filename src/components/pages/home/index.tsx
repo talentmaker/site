@@ -7,19 +7,20 @@
  * https://Luke-zhang-04.github.io
  * https://github.com/ethanlim04
  */
-import "./home.scss"
+
 import {Link} from "react-router-dom"
 import ProblemSolvingSvg from "./problemSolving.svg"
 import React from "react"
 import UserContext from "~/contexts/userContext"
+import styles from "./home.module.scss"
 
 export const Home: React.FC = () => {
     const {currentUser: user} = React.useContext(UserContext)
 
     return (
-        <div className="landing-page">
-            <div className="row">
-                <div className="col-md-6 text">
+        <div className={styles.landingPage}>
+            <div className={`row ${styles.row}`}>
+                <div className={`col-md-6 text ${styles.text}`}>
                     <h1>Talentmaker</h1>
                     <p>
                         Encouraging and empowering students to pursure their future endeavours and

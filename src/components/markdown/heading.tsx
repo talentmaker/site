@@ -9,9 +9,9 @@
  * https://github.com/ethanlim04
  */
 
-import "./heading.scss"
 import Anchor from "./anchor"
 import React from "react"
+import styles from "./heading.module.scss"
 
 type Props = {
     level: number
@@ -39,7 +39,7 @@ export const Heading = (props: Props): JSX.Element => {
         <div className="position-relative">
             <Anchor
                 href={`#${content.trim().replace(/ /gu, "-").toLowerCase()}`}
-                className="header-link d-inline-block"
+                className={`${styles.headerLink} d-inline-block`}
             >
                 <span className="material-icons">link</span>
             </Anchor>

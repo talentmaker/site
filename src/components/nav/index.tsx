@@ -7,13 +7,14 @@
  * https://Luke-zhang-04.github.io
  * https://github.com/ethanlim04
  */
-import "./nav.scss"
+
 import {Link, RouteComponentProps, withRouter} from "react-router-dom"
 import type {AppTypes} from "~"
 import {BreakPoints} from "~/globals"
 import Logo from "~/images/logo.svg"
 import React from "react"
 import UserContext from "~/contexts/userContext"
+import styles from "./index.module.scss"
 
 const navLinkCount = 5
 
@@ -30,7 +31,7 @@ interface NavLinkProps {
 
 interface NavLinkShowProps {
     isloggedin: boolean
-    ismobile?: boolean
+    isMobile?: boolean
 }
 
 @(withRouter as any)
@@ -70,7 +71,9 @@ export default class Nav extends React.PureComponent<Partial<RouteComponentProps
         return (
             <li className="nav-item">
                 <Link
-                    className={`nav-link ${_location === location ? "active" : ""}`}
+                    className={`nav-link ${styles.navLink} ${
+                        _location === location ? "active" : ""
+                    }`}
                     to={location}
                 >
                     {name} {location === _location ? <SrOnly /> : ""}
@@ -84,7 +87,7 @@ export default class Nav extends React.PureComponent<Partial<RouteComponentProps
 
         return (
             <Link
-                className={`mobile-nav-link ${_location === location ? "active" : ""}`}
+                className={`${styles.mobileNavLink} ${_location === location ? "active" : ""}`}
                 to={location}
             >
                 <span
@@ -111,10 +114,10 @@ export default class Nav extends React.PureComponent<Partial<RouteComponentProps
         }
     }
 
-    private _navLinks = ({isloggedin, ismobile}: NavLinkShowProps): JSX.Element => {
+    private _navLinks = ({isloggedin, isMobile}: NavLinkShowProps): JSX.Element => {
         const NavLink = this._navLink
 
-        if (ismobile) {
+        if (isMobile) {
             const navValues: [string, string, string][] = [
                 ["/competitions", "view_list", "Competitions"],
                 ["/talents", "school", "Talents"],
@@ -132,7 +135,7 @@ export default class Nav extends React.PureComponent<Partial<RouteComponentProps
                     {navValues.map((properties) => (
                         <div
                             key={`mobile-name-item-${properties.toString()}`}
-                            className="mobile-nav-item-container"
+                            className={styles.mobileNavItemContainer}
                         >
                             {this._navIcon(...properties)}
                         </div>
@@ -164,15 +167,17 @@ export default class Nav extends React.PureComponent<Partial<RouteComponentProps
         const NavLinks = this._navLinks
 
         return (
-            <nav className="navbar navbar-expand-md navbar-light bg-none d-none d-sm-block">
+            <nav
+                className={`navbar ${styles.navbar} navbar-expand-md navbar-light bg-none d-none d-sm-block`}
+            >
                 <div className="container-fluid">
                     <div className="row w-100">
                         <div className="col-md-1">
-                            <Link className="navbar-brand" to="/">
+                            <Link className={`navbar-brand ${styles.navbarBrand}`} to="/">
                                 <img src={Logo} alt="Talentmaker logo" title="Talentmaker" />
                             </Link>
                         </div>
-                        <div className="col-md-11 nav-links">
+                        <div className={`col-md-11 nav-links ${styles.navLinks}`}>
                             <button
                                 className="navbar-toggler"
                                 type="button"
@@ -184,7 +189,10 @@ export default class Nav extends React.PureComponent<Partial<RouteComponentProps
                             >
                                 <span className="navbar-toggler-icon"></span>
                             </button>
-                            <div className="collapse navbar-collapse" id="navbarNav">
+                            <div
+                                className={`collapse navbar-collapse ${styles.navbarNav}`}
+                                id="navbarNav"
+                            >
                                 <NavLinks
                                     isloggedin={currentUser !== null && currentUser !== undefined}
                                 />
@@ -200,13 +208,13 @@ export default class Nav extends React.PureComponent<Partial<RouteComponentProps
         const NavLinks = this._navLinks
 
         return (
-            <div className="mobile-nav bg-lighter">
+            <div className={`mobile-nav ${styles.mobileNav} bg-lighter`}>
                 <NavLinks
-                    ismobile={true}
+                    isMobile={true}
                     isloggedin={currentUser !== null && currentUser !== undefined}
                 />
                 <span
-                    className="mobile-nav-underline"
+                    className={`mobile-nav-underline ${styles.mobileNavUnderline}`}
                     style={{
                         left:
                             this.state.currentPageCount *

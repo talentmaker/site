@@ -8,10 +8,13 @@
  * https://github.com/ethanlim04
  */
 
-import {Competitions as CompetitionsType, competitionsSchema} from "~/schemas/competitions"
+import {
+    BulkCompetitionType as CompetitionType,
+    Competitions as CompetitionsType,
+    competitionsSchema,
+} from "~/schemas/competitions"
 import {Spinner, initTooltips} from "~/components/bootstrap"
 import {arrayToChunks, getUtcTime, readCache, validate} from "~/utils"
-import type {Competition as CompetitionType} from "~/schemas/competition"
 import DatePlus from "@luke-zhang-04/dateplus"
 import GridItem from "~/components/gridItem"
 import {Link} from "react-router-dom"
@@ -71,18 +74,23 @@ export const Competitions: React.FC = () => {
         initTooltips()
     })
 
-    const getSortedCompetitions = React.useCallback((): CompetitionsType[][] => {
-        // Competitions due in the future and past
-        const future: CompetitionsType =
-            competitions?.filter((val) => new Date(val.deadline).getTime() >= getUtcTime()) ?? []
-        const past: CompetitionsType =
-            competitions?.filter((val) => new Date(val.deadline).getTime() < getUtcTime()) ?? []
+    const getSortedCompetitions = React.useCallback(
+        (_competitions: CompetitionType[]): CompetitionsType[][] => {
+            // Competitions due in the future and past
+            const future: CompetitionsType =
+                _competitions?.filter((val) => new Date(val.deadline).getTime() >= getUtcTime()) ??
+                []
+            const past: CompetitionsType =
+                _competitions?.filter((val) => new Date(val.deadline).getTime() < getUtcTime()) ??
+                []
 
-        return [arrayToChunks(future), arrayToChunks(past)]
-    }, [competitions])
+            return [arrayToChunks(future), arrayToChunks(past)]
+        },
+        [],
+    )
 
     if (competitions) {
-        const sortedCompetitions = getSortedCompetitions()
+        const sortedCompetitions = getSortedCompetitions(competitions)
 
         return (
             <div className="container-fluid">

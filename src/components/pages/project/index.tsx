@@ -39,7 +39,7 @@ export const Project: React.FC<Props> = (props) => {
 
     const setup = React.useCallback(() => {
         ;(async () => {
-            const data = await readCache(`talentmakerCache_competition-${props.id}`)
+            const data = await readCache(`talentmakerCache_project-${props.id}`)
 
             setProject(await validate(projectSchema, data, false))
         })()
@@ -86,20 +86,7 @@ export const Project: React.FC<Props> = (props) => {
                         </Link>
                     ) : undefined}
                 </Components.UserInfo>
-                <div className="row bg-primary bar">
-                    <div className="col-sm-12 topics">
-                        {" "}
-                        {/* Blue bar with competitions */}
-                        {project.topics?.map((topic, index) => (
-                            <p
-                                className="bg-primary mx-1 my-0 py-1 px-2 d-flex"
-                                key={`topic-${topic}-${index}`}
-                            >
-                                {topic}
-                            </p>
-                        ))}
-                    </div>
-                </div>
+                <Components.Bar topics={project.topics} />
                 <div className="row">
                     <div className="col-lg-9">
                         <Components.Video title="competition video" src={data.src} />

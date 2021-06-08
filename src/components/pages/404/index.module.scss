@@ -11,7 +11,7 @@
 
 @use "src/styles/variables";
 
-.link-container {
+.linkContainer {
   a,
   button {
     width: fit-content;
@@ -195,7 +195,7 @@ $gradient-color-6: mix($gradient-color-5, variables.$light, 80%);
   }
 }
 
-.error-container {
+.errorContainer {
   text-align: center;
   font-size: 106px;
   font-family: sans-serif;
@@ -217,7 +217,7 @@ $gradient-color-6: mix($gradient-color-5, variables.$light, 80%);
   }
 }
 
-.screen-reader-text {
+.screenReaderText {
   position: absolute;
   top: -9999em;
   left: -9999em;

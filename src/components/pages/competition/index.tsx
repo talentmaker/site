@@ -90,20 +90,7 @@ export const Competition: React.FC<Props> = (props) => {
                         <JoinButton {...{user, competition}} onSuccess={setup} />
                     )}
                 </Components.UserInfo>
-                <div className="row bg-primary bar">
-                    <div className="col-sm-12 topics">
-                        {" "}
-                        {/* Blue bar with competitions */}
-                        {competition?.topics?.map((topic, index) => (
-                            <p
-                                className="bg-primary mx-1 my-0 py-1 px-2 d-flex"
-                                key={`topic-${topic}-${index}`}
-                            >
-                                {topic}
-                            </p>
-                        ))}
-                    </div>
-                </div>
+                <Components.Bar topics={competition?.topics} />
                 <div className="row">
                     <div className="col-lg-9">
                         <Components.Video title="competition video" src={data.src} />

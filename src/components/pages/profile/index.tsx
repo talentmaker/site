@@ -8,12 +8,12 @@
  * https://github.com/ethanlim04
  */
 
-import "./index.scss"
 import DefaultPFP from "~/images/profile.svg"
 import React from "react"
 import UserContext from "~/contexts/userContext"
 import notify from "~/utils/notify"
 import orgRequestAdapter from "~/adapters/orgRequest"
+import styles from "./index.module.scss"
 import {useHistory} from "react-router-dom"
 
 const makeOrgRequest = async (user: User): Promise<void> => {
@@ -44,15 +44,15 @@ export const UserDisplay: React.FC = () => {
                         <div className="row">
                             <div className="col-lg-2">
                                 <div className="px-4 my-3">
-                                    <img src={DefaultPFP} className="pfp" alt="Profile" />
+                                    <img src={DefaultPFP} className={styles.pfp} alt="Profile" />
                                 </div>
                             </div>
                             <div className="col-lg-6 d-flex flex-column justify-content-center">
-                                <p className="username">
+                                <p className={styles.username}>
                                     {user.username}
                                     <span className="text-muted">#{user.sub.slice(0, 8)}</span>
                                 </p>
-                                <p className="sub text-muted">{user.sub}</p>
+                                <p className={`${styles.sub} text-muted`}>{user.sub}</p>
                             </div>
                             <div className="col-lg-4 d-flex flex-row align-items-center justify-content-end">
                                 <button className="btn btn-outline-primary btn-lg">Edit</button>
@@ -69,7 +69,7 @@ export const UserDisplay: React.FC = () => {
                             </div>
                         </div>
 
-                        <div className="row bg-primary bar">
+                        <div className={`row bg-primary ${styles.bar}`}>
                             <div className="col-sm-12"></div>
                         </div>
 

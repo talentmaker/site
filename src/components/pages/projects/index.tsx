@@ -21,7 +21,7 @@ import projectsAdapter from "~/adapters/projects"
 const Project: React.FC<{project: ProjectsType[0]; user?: User}> = ({project, user}) => (
     <GridItem
         imageURL={project.coverImageURL ?? undefined}
-        title={project.name}
+        title={project.name ?? ""}
         link={{to: `/project/${project.id}`, text: "Details"}}
     >
         {
@@ -47,7 +47,7 @@ export const Projects: React.FC<{compId: string}> = ({compId}) => {
 
     React.useEffect(() => {
         ;(async () => {
-            const data = await cache.read("talentmakerCache_competitions")
+            const data = await cache.read("talentmakerCache_projects")
 
             setProjects(await validate(projectsSchema, data, false))
         })()
@@ -64,16 +64,16 @@ export const Projects: React.FC<{compId: string}> = ({compId}) => {
         initTooltips()
     })
 
-    const getSortedProjects = React.useCallback((): ProjectsType[][] => {
+    const getSortedProjects = React.useCallback((_projects: ProjectsType): ProjectsType[][] => {
         // Projects due in the future and past
         const advancing: ProjectsType = []
-        const submitted = projects ?? []
+        const submitted = _projects ?? []
 
         return [arrayToChunks(advancing), arrayToChunks(submitted)]
-    }, [projects])
+    }, [])
 
     if (projects) {
-        const sortedCompetitions = getSortedProjects()
+        const sortedCompetitions = getSortedProjects(projects)
 
         return (
             <div className="container-fluid">

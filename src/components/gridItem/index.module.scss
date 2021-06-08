@@ -11,7 +11,7 @@
 
 @use "src/styles/variables";
 
-.grid-card {
+.gridCard {
   height: 33.33vw;
   position: relative;
   margin-bottom: 2vw;
@@ -22,7 +22,7 @@
     object-fit: cover;
   }
 
-  .card-info {
+  .cardInfo {
     width: 100%;
     position: absolute;
     bottom: 0;
@@ -36,7 +36,7 @@
       top: 0;
     }
 
-    .card-details {
+    .cardDetails {
       background-color: variables.$lighter;
       width: 100%;
       position: relative;
