@@ -11,7 +11,7 @@
 import "./index.scss"
 import {IFrame, Img} from "../elements"
 import React, {ReactNode} from "react"
-import DefaultPFP from "../../images/profile.svg"
+import DefaultPFP from "~/images/profile.svg"
 import {Link} from "react-router-dom"
 import {Spinner} from "../bootstrap"
 

@@ -11,7 +11,7 @@ import "./home.scss"
 import {Link} from "react-router-dom"
 import ProblemSolvingSvg from "./problemSolving.svg"
 import React from "react"
-import UserContext from "../../../contexts/userContext"
+import UserContext from "~/contexts/userContext"
 
 export const Home: React.FC = () => {
     const {currentUser: user} = React.useContext(UserContext)

@@ -9,11 +9,11 @@
  */
 import "./nav.scss"
 import {Link, RouteComponentProps, withRouter} from "react-router-dom"
-import type {AppTypes} from "../.."
-import {BreakPoints} from "../../globals"
-import Logo from "../../images/logo.svg"
+import type {AppTypes} from "~"
+import {BreakPoints} from "~/globals"
+import Logo from "~/images/logo.svg"
 import React from "react"
-import UserContext from "../../contexts/userContext"
+import UserContext from "~/contexts/userContext"
 
 const navLinkCount = 5
 

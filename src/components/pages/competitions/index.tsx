@@ -8,17 +8,16 @@
  * https://github.com/ethanlim04
  */
 
-import {Competitions as CompetitionsType, competitionsSchema} from "../../../schemas/competitions"
-import {Spinner, initTooltips} from "../../bootstrap"
-import {arrayToChunks, getUtcTime, validate} from "../../../utils"
-import type {Competition as CompetitionType} from "../../../schemas/competition"
+import {Competitions as CompetitionsType, competitionsSchema} from "~/schemas/competitions"
+import {Spinner, initTooltips} from "~/components/bootstrap"
+import {arrayToChunks, getUtcTime, readCache, validate} from "~/utils"
+import type {Competition as CompetitionType} from "~/schemas/competition"
 import DatePlus from "@luke-zhang-04/dateplus"
-import GridItem from "../../gridItem"
+import GridItem from "~/components/gridItem"
 import {Link} from "react-router-dom"
 import React from "react"
-import UserContext from "../../../contexts/userContext"
-import cache from "../../../utils/cache"
-import competitionsAdapter from "../../../adapters/competitions"
+import UserContext from "~/contexts/userContext"
+import competitionsAdapter from "~/adapters/competitions"
 
 const Competition: React.FC<{comp: CompetitionType; user?: User}> = ({comp, user}) => {
     const deadline = new DatePlus(comp.deadline)
@@ -55,7 +54,7 @@ export const Competitions: React.FC = () => {
 
     React.useEffect(() => {
         ;(async () => {
-            const data = await cache.read("talentmakerCache_competitions")
+            const data = await readCache("talentmakerCache_competitions")
 
             setCompetitions(await validate(competitionsSchema, data, false))
         })()

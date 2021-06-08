@@ -9,7 +9,7 @@
  */
 
 import AuthImage from "./authimage.svg"
-import {Img} from "../../elements"
+import {Img} from "~/components/elements"
 import {Link} from "react-router-dom"
 import Login from "./login"
 import React from "react"

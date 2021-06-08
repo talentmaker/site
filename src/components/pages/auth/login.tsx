@@ -11,11 +11,11 @@
 import "./index.scss"
 import * as yup from "yup"
 import {Form, Formik, FormikHelpers} from "formik"
-import {Input} from "../../formik"
+import {Input} from "~/components/formik"
 import React from "react"
-import {Spinner} from "../../bootstrap"
-import UserContext from "../../../contexts/userContext"
-import loginAdapter from "../../../adapters/auth/login"
+import {Spinner} from "~/components/bootstrap"
+import UserContext from "~/contexts/userContext"
+import loginAdapter from "~/adapters/auth/login"
 import {useHistory} from "react-router-dom"
 
 interface FormValues {

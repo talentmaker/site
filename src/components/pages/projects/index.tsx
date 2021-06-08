@@ -8,15 +8,15 @@
  * https://github.com/ethanlim04
  */
 
-import {Projects as ProjectsType, projectsSchema} from "../../../schemas/projects"
-import {Spinner, initTooltips} from "../../bootstrap"
-import {arrayToChunks, validate} from "../../../utils"
-import GridItem from "../../gridItem"
+import {Projects as ProjectsType, projectsSchema} from "~/schemas/projects"
+import {Spinner, initTooltips} from "~/components/bootstrap"
+import {arrayToChunks, validate} from "~/utils"
+import GridItem from "~/components/gridItem"
 import {Link} from "react-router-dom"
 import React from "react"
-import UserContext from "../../../contexts/userContext"
-import cache from "../../../utils/cache"
-import projectsAdapter from "../../../adapters/projects"
+import UserContext from "~/contexts/userContext"
+import cache from "~/utils/cache"
+import projectsAdapter from "~/adapters/projects"
 
 const Project: React.FC<{project: ProjectsType[0]; user?: User}> = ({project, user}) => (
     <GridItem

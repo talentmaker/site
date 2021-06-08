@@ -35,9 +35,9 @@
   },
   "scripts": {
     "analyze": "source-map-explorer 'build/static/js/*.js'",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "lint": "bash lint.sh",
     "lint:fix": "bash lint.sh --fix",
     "eslint": "eslint src/\"{*,**/*}\".\"{js,jsx,ts,tsx}\""
@@ -47,6 +47,7 @@
   },
   "devDependencies": {
     "@babel/helper-define-map": "^7.13.12",
+    "@craco/craco": "^6.1.2",
     "@testing-library/jest-dom": "^5.12.0",
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^13.1.5",
@@ -70,7 +71,7 @@
     "eslint-plugin-react": "^7.23.2",
     "prettier": "^2.3.0",
     "prettier-plugin-jsdoc": "^0.3.19",
-    "react-scripts": "4.0.3",
+    "craco": "4.0.3",
     "sass": "~1.32.11",
     "source-map-explorer": "^2.5.2",
     "stylelint": "^13.12.0",

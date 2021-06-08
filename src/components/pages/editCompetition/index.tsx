@@ -10,18 +10,18 @@
 
 import * as yup from "yup"
 import {BottomFields, TopFields} from "./components"
-import {Competition, competitionSchema} from "../../../schemas/competition"
+import {Competition, competitionSchema} from "~/schemas/competition"
 import {Form, Formik, FormikHelpers} from "formik"
-import {hash, notify, readCache, validate} from "../../../utils"
+import {hash, notify, readCache, validate} from "~/utils"
 import {highlight, languages} from "prismjs"
 import Editor from "@luke-zhang-04/react-simple-markdown-editor"
-import Markdown from "../../markdown"
-import {MarkdownButtons} from "../../markdown/editor"
+import Markdown from "~/components/markdown"
+import {MarkdownButtons} from "~/components/markdown/editor"
 import React from "react"
-import {Spinner} from "../../bootstrap"
-import UserContext from "../../../contexts/userContext"
-import {competitionAdapter} from "../../../adapters/competition"
-import editCompetitionAdapter from "../../../adapters/editCompetition"
+import {Spinner} from "~/components/bootstrap"
+import UserContext from "~/contexts/userContext"
+import {competitionAdapter} from "~/adapters/competition"
+import editCompetitionAdapter from "~/adapters/editCompetition"
 
 const formValidationSchema = yup.object({
     name: yup.string().max(64),

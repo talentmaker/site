@@ -9,7 +9,7 @@
  * https://github.com/ethanlim04
  */
 
-import DefaultImage from "../../images/default.svg"
+import DefaultImage from "~/images/default.svg"
 import React from "react"
 
 type ImgProps = React.DetailedHTMLProps<

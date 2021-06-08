@@ -9,7 +9,7 @@
  */
 
 import "./index.scss"
-import DefaultPhoto from "../../images/default.svg"
+import DefaultPhoto from "~/images/default.svg"
 import {Img} from "../elements"
 import {Link} from "react-router-dom"
 import React from "react"

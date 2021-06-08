@@ -8,7 +8,7 @@
  * https://github.com/ethanlim04
  */
 
-import {Input} from "../../formik"
+import {Input} from "~/components/formik"
 
 const sharedProps = {
     shouldShowValidFeedback: false,

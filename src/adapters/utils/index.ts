@@ -8,6 +8,6 @@
  * https://github.com/ethanlim04
  */
 
-export {request} from "../../utils/request"
+export {request} from "~/utils/request"
 
 export {createAdapter} from "./createAdapter"

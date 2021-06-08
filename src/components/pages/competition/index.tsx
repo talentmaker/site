@@ -8,20 +8,19 @@
  * https://github.com/ethanlim04
  */
 
-import * as Components from "../../detailedItem"
-import {Competition as CompetitionType, competitionSchema} from "../../../schemas/competition"
+import * as Components from "~/components/detailedItem"
+import {Competition as CompetitionType, competitionSchema} from "~/schemas/competition"
 import {JoinButton, SubmissionButton} from "./buttons"
-import {Spinner, initTooltips} from "../../bootstrap"
+import {Spinner, initTooltips} from "~/components/bootstrap"
+import {readCache, validate} from "~/utils"
 import {Link} from "react-router-dom"
-import Markdown from "../../markdown"
+import Markdown from "~/components/markdown"
 import Prism from "prismjs"
 import React from "react"
-import UserContext from "../../../contexts/userContext"
-import cache from "../../../utils/cache"
-import competitionAdapter from "../../../adapters/competition"
+import UserContext from "~/contexts/userContext"
+import competitionAdapter from "~/adapters/competition"
 import getCompetitionData from "./utils"
-import scrollToHeader from "../../../components/markdown/scrollToHeader"
-import {validate} from "../../../utils"
+import scrollToHeader from "~/components/markdown/scrollToHeader"
 
 type Props = {
     /**
@@ -36,7 +35,7 @@ export const Competition: React.FC<Props> = (props) => {
 
     const setup = React.useCallback(() => {
         ;(async () => {
-            const data = await cache.read(`talentmakerCache_competition-${props.id}`)
+            const data = await readCache(`talentmakerCache_competition-${props.id}`)
 
             setCompetition(await validate(competitionSchema, data, false))
         })()

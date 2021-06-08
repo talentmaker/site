@@ -9,11 +9,11 @@
  */
 
 import "./index.scss"
-import DefaultPFP from "../../../images/profile.svg"
+import DefaultPFP from "~/images/profile.svg"
 import React from "react"
-import UserContext from "../../../contexts/userContext"
-import notify from "../../../utils/notify"
-import orgRequestAdapter from "../../../adapters/orgRequest"
+import UserContext from "~/contexts/userContext"
+import notify from "~/utils/notify"
+import orgRequestAdapter from "~/adapters/orgRequest"
 import {useHistory} from "react-router-dom"
 
 const makeOrgRequest = async (user: User): Promise<void> => {

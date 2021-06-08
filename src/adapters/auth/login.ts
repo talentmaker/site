@@ -9,7 +9,7 @@
  */
 
 import {createAdapter} from "../utils"
-import {userSchema} from "../../schemas/user"
+import {userSchema} from "~/schemas/user"
 
 export const loginAdapter = createAdapter(
     async ({request, url, schema}, email: string, password: string) =>

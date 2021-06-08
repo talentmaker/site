@@ -8,11 +8,11 @@
  * https://github.com/ethanlim04
  */
 
-import {Competition} from "../../../schemas/competition"
+import {Competition} from "~/schemas/competition"
 import {Link} from "react-router-dom"
 import React from "react"
-import {Spinner} from "../../bootstrap"
-import {competitionJoinAdapter} from "../../../adapters/competition"
+import {Spinner} from "~/components/bootstrap"
+import {competitionJoinAdapter} from "~/adapters/competition"
 import qs from "query-string"
 
 export const SubmissionButton: React.FC<{competition: Competition}> = ({

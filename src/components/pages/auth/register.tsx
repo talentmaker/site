@@ -10,12 +10,12 @@
 
 /* eslint-disable prefer-named-capture-group */
 import * as yup from "yup"
-import {Checkbox, Input} from "../../formik"
+import {Checkbox, Input} from "~/components/formik"
 import {Form, Formik, FormikHelpers} from "formik"
 import React from "react"
-import {Spinner} from "../../bootstrap"
-import notify from "../../../utils/notify"
-import registrationAdapter from "../../../adapters/auth/register"
+import {Spinner} from "~/components/bootstrap"
+import notify from "~/utils/notify"
+import registrationAdapter from "~/adapters/auth/register"
 
 interface FormValues {
     username: string

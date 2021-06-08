@@ -8,8 +8,8 @@
  * https://github.com/ethanlim04
  */
 
-import type * as Components from "../../detailedItem"
-import type {Project as ProjectType} from "../../../schemas/project"
+import type * as Components from "~/components/detailedItem"
+import type {Project as ProjectType} from "~/schemas/project"
 import osiLicenses from "osi-licenses"
 import spdxLicenses from "spdx-license-ids"
 

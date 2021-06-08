@@ -8,8 +8,8 @@
  * https://github.com/ethanlim04
  */
 
-import type * as Components from "../../detailedItem"
-import type {Competition as CompetitionType} from "../../../schemas/competition"
+import type * as Components from "~/components/detailedItem"
+import type {Competition as CompetitionType} from "~/schemas/competition"
 import DatePlus from "@luke-zhang-04/dateplus"
 
 type Data = {

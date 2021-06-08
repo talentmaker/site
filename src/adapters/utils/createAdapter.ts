@@ -8,9 +8,9 @@
  * https://github.com/ethanlim04
  */
 
-import * as utils from "../../utils"
-import cacheUtils from "../../utils/cache"
-import globals from "../../globals"
+import * as utils from "~/utils"
+import cacheUtils from "~/utils/cache"
+import globals from "~/globals"
 import qs from "query-string"
 import type yup from "yup"
 
