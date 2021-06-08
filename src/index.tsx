@@ -181,7 +181,7 @@ class App extends React.Component<AppTypes.Props, AppTypes.State> {
                     <Route path="/competition/:id" component={Competition} />
                     <Route path="/competitions" component={Competitions} />
                     <Route path="/editCompetition/:id" component={EditCompetition} />
-                    <Route path="/editProject/:id" component={EditProject} />
+                    <Route path="/editProject/:id?" component={EditProject} />
                     <Route path="/legal" component={Legal} />
                     <Route path="/privacy-policy" component={PrivacyPolicy} />
                     <Route path="/profile" component={Profile} />

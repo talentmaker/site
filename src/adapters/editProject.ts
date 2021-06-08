@@ -11,19 +11,19 @@
 import {createAdapter} from "./utils"
 
 type Params = {
-    title?: string
+    title: string
+    compId?: string
+    projectId?: string
     desc?: string
-    shortDesc: string
-    id: string
+    srcURL?: string
+    demoURL?: string
+    license?: string
     videoURL?: string
-    deadline: string
-    website?: string
-    coverImageURL?: string
 }
 
-export const editCompetitionAdapter = createAdapter(
+export const editProjectAdapter = createAdapter(
     async ({request, url}, {idToken, idTokenChecksum}: User, params: Params) => {
-        await request(`${url}/competitions/write`, "POST", undefined, {
+        await request(`${url}/projects/write`, "POST", undefined, {
             ...params,
             idToken,
             idTokenChecksum,
@@ -33,4 +33,4 @@ export const editCompetitionAdapter = createAdapter(
     },
 )
 
-export default editCompetitionAdapter
+export default editProjectAdapter

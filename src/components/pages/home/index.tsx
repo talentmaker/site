@@ -14,7 +14,7 @@ import React from "react"
 import UserContext from "../../../contexts/userContext"
 
 export const Home: React.FC = () => {
-    const user = React.useContext(UserContext)
+    const {currentUser: user} = React.useContext(UserContext)
 
     return (
         <div className="landing-page">

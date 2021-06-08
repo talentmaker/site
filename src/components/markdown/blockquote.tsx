@@ -16,7 +16,7 @@ type Props = {
 }
 
 export const BlockQuote: React.FC<Props> = (props) => (
-    <blockquote className="bg-light container py-3">{props.children}</blockquote>
+    <blockquote className="bg-light py-3">{props.children}</blockquote>
 )
 
 export default BlockQuote

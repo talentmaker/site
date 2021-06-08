@@ -11,14 +11,23 @@
 import {Field, useField} from "formik"
 import type React from "react"
 
-interface InputProps {
+type InputProps = React.DetailedHTMLProps<
+    React.HTMLAttributes<HTMLInputElement>,
+    HTMLInputElement
+> & {
     name: string
     type: string
     label: string
+    shouldShowValidFeedback?: boolean
+    placeholder?: string
 }
 
-export const Input: React.FC<InputProps> = (props) => {
-    const [field, meta] = useField<InputProps>(props)
+export const Input: React.FC<InputProps> = ({
+    children,
+    shouldShowValidFeedback = true,
+    ...props
+}) => {
+    const [field, meta] = useField<Omit<InputProps, "children" | "shouldShowValidFeedback">>(props)
     const errorText = meta.error && meta.touched ? meta.error : ""
 
     let errorClass: string | undefined
@@ -29,19 +38,21 @@ export const Input: React.FC<InputProps> = (props) => {
         feedback = <div className="invalid-feedback">{errorText}</div>
     } else if (meta.touched) {
         errorClass = "is-valid"
-        feedback = <div className="valid-feedback">Looks Good!</div>
+        feedback = shouldShowValidFeedback ? (
+            <div className="valid-feedback">Looks Good!</div>
+        ) : undefined
     }
 
     return (
         <div className="input-group border-none br-0">
             <div className="input-group-prepend">
-                <span className="input-group-text">{props.children ?? ""}</span>
+                <span className="input-group-text">{children ?? ""}</span>
             </div>
             <Field
-                type={props.type}
+                {...props}
                 {...field}
-                placeholder={props.label}
-                className={`form-control ${errorClass ?? ""}`}
+                placeholder={props.placeholder ?? props.label}
+                className={`${props.className ?? ""} ${errorClass ?? ""} form-control`}
             />
             {feedback}
         </div>
