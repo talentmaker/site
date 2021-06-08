@@ -98,48 +98,6 @@ body {
   }
 }
 
-.react-datepicker-wrapper {
-  // Make date picker act like form control
-  position: relative;
-  flex: 1 1 auto;
-  width: 1%;
-  min-width: 0;
-}
-
-.react-datepicker {
-  border-radius: 0 !important; // Remove border radius from calendar
-  background-color: $light !important; // Make the background one colour
-  border: none !important; // Remove borders
-
-  .react-datepicker__header {
-    background-color: $dark !important; // Make header dark
-    color: $light !important; // Change text colour too
-    border-radius: 0 !important; // Remove border radius
-
-    .react-datepicker__current-month,
-    .react-datepicker__day-name,
-    .react-datepicker__navigation {
-      color: $light !important;
-    }
-  }
-
-  .react-datepicker__triangle {
-    color: $dark !important; // Make the triangle dark too
-    border-bottom-color: $dark !important; // But border-bottom is really important
-
-    &::before {
-      border-bottom-color: $dark !important; // Get rid of top border
-    }
-  }
-
-  .react-datepicker__day--selected,
-  .react-datepicker__day--keyboard-selected,
-  .react-datepicker__day--today {
-    border-radius: 0 !important; // Remove border radius from selected date
-    background-color: $primary; // Change its bg colour
-  }
-}
-
 // Header font weights
 h3,
 h4,
