@@ -20,9 +20,7 @@ export const EditProject: React.FC = () => {
     if (id) {
         return <EditProjectComponent id={id} />
     } else if (typeof compId === "string") {
-        return (
-            <EditProjectComponent compId={compId} />
-        )
+        return <EditProjectComponent compId={compId} />
     }
 
     return (
