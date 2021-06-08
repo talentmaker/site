@@ -8,7 +8,7 @@
  *
  * License: BSD-3-Clause
  */
-@use "../variables" as variables;
+@use "src/styles/variables";
 @use "./searchbar" as searchbar;
 
 .landing-page {

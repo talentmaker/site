@@ -9,7 +9,7 @@
  * License: BSD-3-Clause
  */
 
-@use "../variables" as variables;
+@use "src/styles/variables";
 
 blockquote {
   border-left: solid mix(variables.$lighter, black, 80%) 0.5rem;

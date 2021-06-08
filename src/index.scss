@@ -3,7 +3,7 @@
  * Includes Normalize.css, Bootstrap SASS, and other styles that apply to all pages
  */
 
-@use "../node_modules/normalize.css/normalize";
+@use "~normalize.css/normalize";
 @use "./styles/variables";
 @use "./styles/markdown";
 
