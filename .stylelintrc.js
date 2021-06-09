@@ -8,14 +8,21 @@ module.exports = {
             true,
             {
                 ignoreAtRules: [
+                    "use",
+                    "forward",
+                    "import",
+                    "mixin",
+                    "include",
                     "function",
+                    "extend",
+                    "at-root",
+                    "error",
+                    "warn",
+                    "debug",
                     "if",
                     "each",
-                    "include",
-                    "mixin",
-                    "use",
                     "for",
-                    "debug",
+                    "while",
                 ],
             },
         ],
@@ -23,6 +30,12 @@ module.exports = {
             true,
             {
                 ignore: ["empty-lines"],
+            },
+        ],
+        "selector-pseudo-class-no-unknown": [
+            true,
+            {
+                ignorePseudoClasses: ["global"],
             },
         ],
     },
