@@ -22,7 +22,7 @@
     transition: opacity 0.125s ease;
   }
 
-  .material-icons {
+  :global(.material-icons) {
     font-size: 1.25rem;
   }
 }

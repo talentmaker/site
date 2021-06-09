@@ -89,8 +89,7 @@
         font-weight: bold;
       }
 
-      .material-icons,
-      .material-icons-outlined {
+      :global(.material-icons, .material-icons-outlined) {
         font-size: 150%;
       }
     }

@@ -57,11 +57,11 @@
       color $transition-time $transition-timing;
   }
 
-  .bi-youtube {
+  :global(.bi-youtube) {
     @include icon(#ff0000);
   }
 
-  .bi-linkedin {
+  :global(.bi-linkedin) {
     @include icon(#0e76a8);
   }
 }
