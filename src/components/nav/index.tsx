@@ -8,226 +8,196 @@
  * https://github.com/ethanlim04
  */
 
-import {Link, RouteComponentProps, withRouter} from "react-router-dom"
-import type {AppTypes} from "~"
+import {Link, useLocation} from "react-router-dom"
 import {BreakPoints} from "~/globals"
 import Logo from "~/images/logo.svg"
 import React from "react"
 import UserContext from "~/contexts/userContext"
+import routes from "./routes"
 import styles from "./index.module.scss"
 
-const navLinkCount = 5
+const navLinkCount = Math.min(routes.mobile.length, routes.desktop.length)
 
-interface NavState {
-    location?: string
-    dimensions: [width: number, height: number]
-    currentPageCount: number
-}
+export const Nav: React.FC = () => {
+    const currentLocation = useLocation()
+    const [dimensions, setDimensions] = React.useState<[width: number, height: number]>([
+        window.innerWidth,
+        window.innerHeight,
+    ])
+    const {currentUser: user} = React.useContext(UserContext)
 
-interface NavLinkProps {
-    location: string
-    name: string
-}
-
-interface NavLinkShowProps {
-    isloggedin: boolean
-    isMobile?: boolean
-}
-
-@(withRouter as any)
-export default class Nav extends React.PureComponent<Partial<RouteComponentProps>, NavState> {
-    public constructor(props: Partial<RouteComponentProps>) {
-        super(props)
-
-        this.state = {
-            location: this.props.location?.pathname,
-            dimensions: [window.innerWidth, window.innerHeight],
-            currentPageCount: 0,
-        }
-    }
-
-    public componentDidMount = (): void => {
+    React.useEffect(() => {
         window.addEventListener("resize", () => {
-            this.setState({dimensions: [window.innerWidth, window.innerHeight]})
+            setDimensions([window.innerWidth, window.innerHeight])
         })
-    }
 
-    public componentDidUpdate = (prevProps: RouteComponentProps): void => {
-        if (this.props.location !== prevProps.location) {
-            this.onRouteChanged()
+        return () => {
+            window.removeEventListener("resize", () => {
+                setDimensions([window.innerWidth, window.innerHeight])
+            })
         }
-    }
+    }, [])
 
-    public onRouteChanged = (): void => {
-        this.setState({location: this.props.location?.pathname})
-    }
-
-    private _srOnly = (): JSX.Element => <span className="visually-hidden">(current)</span>
-
-    private _navLink = ({location, name}: NavLinkProps): JSX.Element => {
-        const _location = this.state.location
-        const SrOnly = this._srOnly
-
-        return (
+    const NavLink = React.useCallback<React.FC<{location: string; name: string}>>(
+        ({location, name}): JSX.Element => (
             <li className="nav-item">
                 <Link
                     className={`nav-link ${styles.navLink} ${
-                        _location === location ? "active" : ""
+                        currentLocation.pathname === location ? "active" : ""
                     }`}
                     to={location}
                 >
-                    {name} {location === _location ? <SrOnly /> : ""}
+                    {name}{" "}
+                    {currentLocation.pathname === location ? (
+                        <span className="visually-hidden">(current)</span>
+                    ) : (
+                        ""
+                    )}
                 </Link>
             </li>
-        )
-    }
+        ),
+        [currentLocation.pathname],
+    )
 
-    private _navIcon = (location: string, iconName: string, displayName: string): JSX.Element => {
-        const _location = this.state.location
-
-        return (
+    const navIcon = React.useCallback(
+        (location: string, iconName: string, displayName: string): JSX.Element => (
             <Link
-                className={`${styles.mobileNavLink} ${_location === location ? "active" : ""}`}
+                className={`${styles.mobileNavLink} ${
+                    currentLocation.pathname === location ? "active" : ""
+                }`}
                 to={location}
             >
                 <span
                     className={
-                        _location === location ? "material-icons" : "material-icons-outlined"
+                        currentLocation.pathname === location
+                            ? "material-icons"
+                            : "material-icons-outlined"
                     }
                 >
                     {iconName}
                 </span>
                 <p>{displayName}</p>
             </Link>
-        )
-    }
+        ),
+        [currentLocation.pathname],
+    )
 
-    private _setCurrentPage = (links: string[][]): void => {
-        for (const [index, [location]] of links.entries()) {
-            if (this.state.location === location) {
-                if (this.state.currentPageCount !== index) {
-                    this.setState({currentPageCount: index})
-                }
-
-                break
-            }
-        }
-    }
-
-    private _navLinks = ({isloggedin, isMobile}: NavLinkShowProps): JSX.Element => {
-        const NavLink = this._navLink
-
-        if (isMobile) {
-            const navValues: [string, string, string][] = [
-                ["/competitions", "view_list", "Competitions"],
-                ["/talents", "school", "Talents"],
-                ["/", "home", "Home"],
-                ["/talentmakers", "cases", "Talentmakers"],
-                isloggedin
-                    ? ["/profile", "account_circle", "Profile"]
-                    : ["/auth", "account_circle", "Sign Up"],
-            ]
-
-            this._setCurrentPage(navValues)
-
-            return (
+    const NavLinks = React.useCallback<React.FC<{isMobile?: boolean}>>(
+        ({isMobile}) =>
+            isMobile ? (
                 <>
-                    {navValues.map((properties) => (
+                    {routes.mobile.map((properties) => (
                         <div
                             key={`mobile-name-item-${properties.toString()}`}
                             className={styles.mobileNavItemContainer}
                         >
-                            {this._navIcon(...properties)}
+                            {typeof properties[0] === "string"
+                                ? navIcon(...(properties as [string, string, string]))
+                                : navIcon(
+                                      ...((user === null || user === undefined
+                                          ? properties[1]
+                                          : properties[0]) as [string, string, string]),
+                                  )}
                         </div>
                     ))}
                 </>
-            )
+            ) : (
+                <ul className="navbar-nav">
+                    {routes.desktop.map((val) => {
+                        if (typeof val[0] === "string") {
+                            return (
+                                <NavLink
+                                    key={`nav-link-${val[0]}`}
+                                    location={val[0] as string}
+                                    name={val[1] as string}
+                                />
+                            )
+                        } else if (user === null || user === undefined) {
+                            return (
+                                <NavLink
+                                    key={`nav-link-${val[0]}`}
+                                    location={val[1][0]}
+                                    name={val[1][1]}
+                                />
+                            )
+                        }
+
+                        return (
+                            <NavLink
+                                key={`nav-link-${val[0]}`}
+                                location={val[0][0]}
+                                name={val[0][1]}
+                            />
+                        )
+                    })}
+                </ul>
+            ),
+        [currentLocation.pathname, user],
+    )
+
+    const getPageIndex = React.useCallback(() => {
+        for (const [index, value] of routes.mobile.entries()) {
+            if (typeof value[0] === "string") {
+                if (currentLocation.pathname === value[0]) {
+                    return index
+                }
+            } else {
+                if (
+                    currentLocation.pathname ===
+                    (user === null || user === undefined ? value[1][0] : value[0][0])
+                ) {
+                    return index
+                }
+            }
         }
 
-        const navValues: string[][] = [
-            ["/", "Home"],
-            ["/competitions", "Competitions"],
-            ["/talents", "Talents"],
-            ["/talentmakers", "Talentmakers"],
-            isloggedin ? ["/profile", "Profile"] : ["/auth", "Sign Up"],
-        ]
+        return 0
+    }, [currentLocation.pathname])
 
-        this._setCurrentPage(navValues)
-
-        return (
-            <ul className="navbar-nav">
-                {navValues.map((val) => (
-                    <NavLink key={`nav-link-${val[0]}`} location={val[0]} name={val[1]} />
-                ))}
-            </ul>
-        )
-    }
-
-    private _desktopNav = ({currentUser}: AppTypes.Context): JSX.Element => {
-        const NavLinks = this._navLinks
-
-        return (
-            <nav
-                className={`navbar ${styles.navbar} navbar-expand-md navbar-light bg-none d-none d-sm-block`}
-            >
-                <div className="container-fluid">
-                    <div className="row w-100">
-                        <div className="col-md-1">
-                            <Link className={`navbar-brand ${styles.navbarBrand}`} to="/">
-                                <img src={Logo} alt="Talentmaker logo" title="Talentmaker" />
-                            </Link>
-                        </div>
-                        <div className={`col-md-11 nav-links ${styles.navLinks}`}>
-                            <button
-                                className="navbar-toggler"
-                                type="button"
-                                data-toggle="collapse"
-                                data-target="#navbarNav"
-                                aria-controls="navbarNav"
-                                aria-expanded="false"
-                                aria-label="Toggle navigation"
-                            >
-                                <span className="navbar-toggler-icon"></span>
-                            </button>
-                            <div
-                                className={`collapse navbar-collapse ${styles.navbarNav}`}
-                                id="navbarNav"
-                            >
-                                <NavLinks
-                                    isloggedin={currentUser !== null && currentUser !== undefined}
-                                />
-                            </div>
+    return dimensions[0] <= BreakPoints.Md ? (
+        <div className={`mobile-nav ${styles.mobileNav} bg-lighter`}>
+            <NavLinks isMobile={true} />
+            <span
+                className={`mobile-nav-underline ${styles.mobileNavUnderline}`}
+                style={{
+                    left: getPageIndex() * (dimensions[0] / navLinkCount),
+                }}
+            />
+        </div>
+    ) : (
+        <nav
+            className={`navbar ${styles.navbar} navbar-expand-md navbar-light bg-none d-none d-sm-block`}
+        >
+            <div className="container-fluid">
+                <div className="row w-100">
+                    <div className="col-md-1">
+                        <Link className={`navbar-brand ${styles.navbarBrand}`} to="/">
+                            <img src={Logo} alt="Talentmaker logo" title="Talentmaker" />
+                        </Link>
+                    </div>
+                    <div className={`col-md-11 nav-links ${styles.navLinks}`}>
+                        <button
+                            className="navbar-toggler"
+                            type="button"
+                            data-toggle="collapse"
+                            data-target="#navbarNav"
+                            aria-controls="navbarNav"
+                            aria-expanded="false"
+                            aria-label="Toggle navigation"
+                        >
+                            <span className="navbar-toggler-icon"></span>
+                        </button>
+                        <div
+                            className={`collapse navbar-collapse ${styles.navbarNav}`}
+                            id="navbarNav"
+                        >
+                            <NavLinks />
                         </div>
                     </div>
                 </div>
-            </nav>
-        )
-    }
-
-    private _mobileNav = ({currentUser}: AppTypes.Context): JSX.Element => {
-        const NavLinks = this._navLinks
-
-        return (
-            <div className={`mobile-nav ${styles.mobileNav} bg-lighter`}>
-                <NavLinks
-                    isMobile={true}
-                    isloggedin={currentUser !== null && currentUser !== undefined}
-                />
-                <span
-                    className={`mobile-nav-underline ${styles.mobileNavUnderline}`}
-                    style={{
-                        left:
-                            this.state.currentPageCount *
-                            (this.state.dimensions[0] / navLinkCount),
-                    }}
-                />
             </div>
-        )
-    }
-
-    public render = (): JSX.Element => (
-        <UserContext.Consumer>
-            {this.state.dimensions[0] <= BreakPoints.Md ? this._mobileNav : this._desktopNav}
-        </UserContext.Consumer>
+        </nav>
     )
 }
+
+export default Nav
