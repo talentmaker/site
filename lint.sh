@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ "$1" == "--fix" ]||[ "$1" == "-f" ]; then
+if [ "$1" == "--fix" ] || [ "$1" == "-f" ]; then
     echo "Begin lint"
     ./node_modules/.bin/eslint --ext .js,.jsx,.ts,.tsx --cache --max-warnings=0 --fix src &
     ./node_modules/.bin/stylelint ./src/"{*,**/*}"."{scss,css}" --cache --max-warnings=0 --fix &
