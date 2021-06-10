@@ -4,7 +4,7 @@ const StyleLintPlugin = require("stylelint-webpack-plugin")
 module.exports = {
     style: {
         modules: {
-            localIdentName: "tm-[local]_[sha256:hash:base64:9]", // Maybe add [folter] for folder name
+            localIdentName: "[local]_[sha256:hash:base64:9]", // Maybe add [folter] for folder name
         },
     },
     webpack: {
