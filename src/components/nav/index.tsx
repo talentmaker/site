@@ -8,6 +8,15 @@
  * https://github.com/ethanlim04
  */
 
+import {
+    NavLink as BsNavLink,
+    Col,
+    Container,
+    NavItem,
+    Navbar,
+    NavbarBrand,
+    Row,
+} from "react-bootstrap"
 import {Link, useLocation} from "react-router-dom"
 import {BreakPoints} from "~/globals"
 import Logo from "~/images/logo.svg"
@@ -40,11 +49,11 @@ export const Nav: React.FC = () => {
 
     const NavLink = React.useCallback<React.FC<{location: string; name: string}>>(
         ({location, name}): JSX.Element => (
-            <li className="nav-item">
-                <Link
-                    className={`nav-link ${styles.navLink} ${
-                        currentLocation.pathname === location ? "active" : ""
-                    }`}
+            <NavItem>
+                <BsNavLink
+                    as={Link}
+                    active={currentLocation.pathname === location}
+                    className={styles.navLink}
                     to={location}
                 >
                     {name}{" "}
@@ -53,18 +62,18 @@ export const Nav: React.FC = () => {
                     ) : (
                         ""
                     )}
-                </Link>
-            </li>
+                </BsNavLink>
+            </NavItem>
         ),
         [currentLocation.pathname],
     )
 
     const navIcon = React.useCallback(
         (location: string, iconName: string, displayName: string): JSX.Element => (
-            <Link
-                className={`${styles.mobileNavLink} ${
-                    currentLocation.pathname === location ? "active" : ""
-                }`}
+            <BsNavLink
+                as={Link}
+                active={currentLocation.pathname === location}
+                className={styles.mobileNavLink}
                 to={location}
             >
                 <span
@@ -77,7 +86,7 @@ export const Nav: React.FC = () => {
                     {iconName}
                 </span>
                 <p>{displayName}</p>
-            </Link>
+            </BsNavLink>
         ),
         [currentLocation.pathname],
     )
@@ -155,48 +164,36 @@ export const Nav: React.FC = () => {
     }, [currentLocation.pathname])
 
     return dimensions[0] <= BreakPoints.Md ? (
-        <div className={`mobile-nav ${styles.mobileNav} bg-lighter`}>
+        <div className={`${styles.mobileNav} bg-lighter`}>
             <NavLinks isMobile={true} />
             <span
-                className={`mobile-nav-underline ${styles.mobileNavUnderline}`}
+                className={styles.mobileNavUnderline}
                 style={{
                     left: getPageIndex() * (dimensions[0] / navLinkCount),
                 }}
             />
         </div>
     ) : (
-        <nav
-            className={`navbar ${styles.navbar} navbar-expand-md navbar-light bg-none d-none d-sm-block`}
+        <Navbar
+            variant="light"
+            expand="md"
+            className={`${styles.navbar} bg-none d-none d-sm-block`}
         >
-            <div className="container-fluid">
-                <div className="row w-100">
-                    <div className="col-md-1">
-                        <Link className={`navbar-brand ${styles.navbarBrand}`} to="/">
+            <Container fluid>
+                <Row className="w-100">
+                    <Col md={1}>
+                        <NavbarBrand as={Link} className={styles.navbarBrand} to="/">
                             <img src={Logo} alt="Talentmaker logo" title="Talentmaker" />
-                        </Link>
-                    </div>
-                    <div className={`col-md-11 nav-links ${styles.navLinks}`}>
-                        <button
-                            className="navbar-toggler"
-                            type="button"
-                            data-toggle="collapse"
-                            data-target="#navbarNav"
-                            aria-controls="navbarNav"
-                            aria-expanded="false"
-                            aria-label="Toggle navigation"
-                        >
-                            <span className="navbar-toggler-icon"></span>
-                        </button>
-                        <div
-                            className={`collapse navbar-collapse ${styles.navbarNav}`}
-                            id="navbarNav"
-                        >
+                        </NavbarBrand>
+                    </Col>
+                    <Col md={11} className={styles.navLinks}>
+                        <div className={styles.navbarNav}>
                             <NavLinks />
                         </div>
-                    </div>
-                </div>
-            </div>
-        </nav>
+                    </Col>
+                </Row>
+            </Container>
+        </Navbar>
     )
 }
 

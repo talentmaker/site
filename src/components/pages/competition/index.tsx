@@ -9,6 +9,7 @@
  */
 
 import * as Components from "~/components/detailedItem"
+import {Button, Col, Container, Row} from "react-bootstrap"
 import {Competition as CompetitionType, competitionSchema} from "~/schemas/competition"
 import {JoinButton, SubmissionButton} from "./buttons"
 import {Spinner, initTooltips} from "~/components/bootstrap"
@@ -75,12 +76,14 @@ export const Competition: React.FC<Props> = (props) => {
                 >
                     <SubmissionButton competition={competition} />
                     {competition ? (
-                        <Link
+                        <Button
+                            variant="outline-success"
+                            as={Link}
                             to={`/projects/${competition.id}`}
-                            className="btn btn-outline-success me-3"
+                            className="me-3"
                         >
                             <span className="material-icons">visibility</span> Submissions
-                        </Link>
+                        </Button>
                     ) : undefined}
                     {user === undefined ? (
                         <p className="me-3">
@@ -91,21 +94,21 @@ export const Competition: React.FC<Props> = (props) => {
                     )}
                 </Components.UserInfo>
                 <Components.Bar topics={competition?.topics} />
-                <div className="row">
-                    <div className="col-lg-9">
+                <Row>
+                    <Col lg={9}>
                         <Components.Video title="competition video" src={data.src} />
                         <div className="markdown-container p-3">
-                            <div className="container-fluid p-4 bg-lighter">
+                            <Container fluid className="p-4 bg-lighter">
                                 <Markdown>
                                     {competition.desc ?? "# No description provided"}
                                 </Markdown>
-                            </div>
+                            </Container>
                         </div>
-                    </div>
-                    <div className="col-lg-3 bg-lighter">
+                    </Col>
+                    <Col lg={3} className="bg-lighter">
                         <Components.Sidebar items={data.items} />
-                    </div>
-                </div>
+                    </Col>
+                </Row>
             </>
         )
     }

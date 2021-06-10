@@ -8,6 +8,7 @@
  * https://github.com/ethanlim04
  */
 
+import {Button, Col, Container} from "react-bootstrap"
 import DefaultPhoto from "~/images/default.svg"
 import {Img} from "../elements"
 import {Link} from "react-router-dom"
@@ -27,26 +28,26 @@ type Props = {
 }
 
 export const GridItem: React.FC<Props> = ({children, desc, imageURL, link, tag, title}) => (
-    <div className="col-lg-4 my-3">
-        <div className={`${styles.gridCard}`}>
+    <Col lg={4} className="my-3">
+        <div className={styles.gridCard}>
             <Img src={imageURL ?? DefaultPhoto} alt="cover">
                 <Spinner color="primary" size="6rem" centered />
             </Img>
-            <div className={`${styles.cardInfo}`}>
-                {tag ? <div className={`${styles.tag}`}>{tag}</div> : undefined}
-                <div className={`container-fluid ${styles.cardDetails}`}>
-                    {title ? <h3>{title}</h3> : undefined}
-                    {desc ? <p className="text-primary">{desc}</p> : undefined}
-                    {link ? (
-                        <Link to={link.to} className="btn btn-outline-primary">
+            <div className={styles.cardInfo}>
+                {tag && <div className={styles.tag}>{tag}</div>}
+                <Container fluid className={styles.cardDetails}>
+                    {title && <h3>{title}</h3>}
+                    {desc && <p className="text-primary">{desc}</p>}
+                    {link && (
+                        <Button as={Link} variant="primary" to={link.to}>
                             {link.text}
-                        </Link>
-                    ) : undefined}
+                        </Button>
+                    )}
                     {children}
-                </div>
+                </Container>
             </div>
         </div>
-    </div>
+    </Col>
 )
 
 export default GridItem

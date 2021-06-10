@@ -8,13 +8,15 @@
  * https://github.com/ethanlim04
  */
 
+import {Container} from "react-bootstrap"
+
 export const PrivacyPolicy = () => (
-    <div className="container">
+    <Container className="py-3 py-md-4 py-lg-5">
         <h2>Privacy Policy</h2>
         <p>
             Your privacy is important to us. It is Talentmaker&apos;s policy to respect your
             privacy regarding any information we may collect from you across our website,{" "}
-            <a href="https://www.google.com/">https://www.google.com/</a>, and other sites we own
+            <a href="https://talentmaker.ca">https://talentmaker.ca</a>, and other sites we own
             and operate.
         </p>
         <p>
@@ -47,7 +49,7 @@ export const PrivacyPolicy = () => (
             user data and personal information, feel free to contact us.
         </p>
         <p>This policy is effective as of 3 August 2020.</p>
-    </div>
+    </Container>
 )
 
 export default PrivacyPolicy

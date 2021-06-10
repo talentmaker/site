@@ -10,6 +10,7 @@
 
 import * as yup from "yup"
 import {BottomFields, TopFields} from "./components"
+import {Button, FormGroup} from "react-bootstrap"
 import {Competition, competitionSchema} from "~/schemas/competition"
 import {Form, Formik, FormikHelpers} from "formik"
 import {hash, notify, readCache, validate} from "~/utils"
@@ -56,7 +57,7 @@ export const EditCompetition: React.FC<{id?: number}> = ({id}) => {
 
     const getInitialValues = React.useCallback(
         (_competition?: Competition | FormValues): FormValues => ({
-            name: _competition?.name ?? "",
+            name: _competition?.name ?? undefined,
             shortDesc: _competition?.shortDesc ?? "",
             videoURL: _competition?.videoURL ?? "",
             website: _competition?.website ?? "",
@@ -188,7 +189,7 @@ export const EditCompetition: React.FC<{id?: number}> = ({id}) => {
                 <Form className="px-4 py-3">
                     <TopFields />
                     <MarkdownButtons {...{mode, setMode}} />
-                    <div className="form-group markdown-editor-container bg-lighter px-3">
+                    <FormGroup className="form-group markdown-editor-container bg-lighter px-3">
                         {
                             /**
                              * If edit mode, show markdown editor Otherwise, show the preview
@@ -211,12 +212,12 @@ export const EditCompetition: React.FC<{id?: number}> = ({id}) => {
                                 </div>
                             )
                         }
-                    </div>
+                    </FormGroup>
                     <BottomFields />
-                    <button className="btn btn-success" type="submit" disabled={isSubmitting}>
-                        {isSubmitting ? <Spinner inline> </Spinner> : undefined}
+                    <Button variant="success" type="submit" disabled={isSubmitting}>
+                        {isSubmitting && <Spinner inline> </Spinner>}
                         Submit
-                    </button>
+                    </Button>
                 </Form>
             )}
         </Formik>

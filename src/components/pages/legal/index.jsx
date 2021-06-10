@@ -1,10 +1,11 @@
+import {Container} from "react-bootstrap"
 import License from "./Bsd3"
 
 export const Legal = () => (
-    <div className="container mb-3">
+    <Container className="py-3 py-md-4 py-lg-5">
         <h1>Talentmaker Website Terms of Use</h1>
         <License />
-    </div>
+    </Container>
 )
 
 export default Legal

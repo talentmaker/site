@@ -8,6 +8,7 @@
  * https://github.com/ethanlim04
  */
 
+import {Button, Col, Row} from "react-bootstrap"
 import {Link} from "react-router-dom"
 import ProblemSolvingSvg from "./problemSolving.svg"
 import React from "react"
@@ -19,26 +20,26 @@ export const Home: React.FC = () => {
 
     return (
         <div className={styles.landingPage}>
-            <div className={`row ${styles.row}`}>
-                <div className={`col-md-6 text ${styles.text}`}>
+            <Row className={styles.row}>
+                <Col md={6} className={`text ${styles.text}`}>
                     <h1>Talentmaker</h1>
                     <p>
                         Encouraging and empowering students to pursure their future endeavours and
                         career asprirations with real, hands on, and rewarding project experience.
                     </p>
-                    <Link to="/competitions" className="btn btn-primary">
+                    <Button as={Link} to="/competitions" variant="primary">
                         <span className="material-icons">developer_board</span> Competitions
-                    </Link>
+                    </Button>
                     {user ? undefined : (
-                        <Link to="/auth" className="btn btn-accent ms-3">
+                        <Button as={Link} to="/auth" variant="accent" className="ms-md-3">
                             <span className="material-icons">person</span> Make an account!
-                        </Link>
+                        </Button>
                     )}
-                </div>
-                <div className="col-md-6 image">
+                </Col>
+                <Col md={6} className="image">
                     <img className="w-100" src={ProblemSolvingSvg} alt="problem solving" />
-                </div>
-            </div>
+                </Col>
+            </Row>
         </div>
     )
 }

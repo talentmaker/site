@@ -9,6 +9,7 @@
  */
 
 import * as Components from "~/components/detailedItem"
+import {Button, Col, Container, Row} from "react-bootstrap"
 import {Project as ProjectType, projectSchema} from "~/schemas/project"
 import {Spinner, initTooltips} from "~/components/bootstrap"
 import {readCache, validate} from "~/utils"
@@ -78,28 +79,30 @@ export const Project: React.FC<Props> = (props) => {
                     desc={`Submission for ${project.name ?? "Submission"}`}
                 >
                     {(user?.sub ?? "") === project.creator ? (
-                        <Link
-                            className="btn btn-outline-dark mx-2"
+                        <Button
+                            variant="outline-dark"
+                            as={Link}
+                            className="mx-2"
                             to={`/editProject/${project.id ?? ""}`}
                         >
                             <span className="material-icons">create</span> Edit Submission
-                        </Link>
+                        </Button>
                     ) : undefined}
                 </Components.UserInfo>
                 <Components.Bar topics={project.topics} />
-                <div className="row">
-                    <div className="col-lg-9">
+                <Row>
+                    <Col lg={9}>
                         <Components.Video title="competition video" src={data.src} />
                         <div className="markdown-container p-3">
-                            <div className="container-fluid p-4 bg-lighter">
+                            <Container fluid className="p-4 bg-lighter">
                                 <Markdown>{project.desc ?? ""}</Markdown>
-                            </div>
+                            </Container>
                         </div>
-                    </div>
-                    <div className="col-lg-3 bg-lighter">
+                    </Col>
+                    <Col lg={3} className="bg-lighter">
                         <Components.Sidebar items={data.items} />
-                    </div>
-                </div>
+                    </Col>
+                </Row>
             </>
         )
     }

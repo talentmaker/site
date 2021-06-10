@@ -10,6 +10,7 @@
 
 /* eslint-disable prefer-named-capture-group */
 import * as yup from "yup"
+import {Button, Container} from "react-bootstrap"
 import {Checkbox, Input} from "~/components/formik"
 import {Form, Formik, FormikHelpers} from "formik"
 import React from "react"
@@ -94,7 +95,7 @@ export const Reg: React.FC = () => {
             validationSchema={validationSchema}
         >
             {({isSubmitting}): JSX.Element => (
-                <Form className="container-fluid">
+                <Container fluid as={Form}>
                     <Input name="username" type="username" label="Username">
                         <span className="material-icons">person</span>
                     </Input>
@@ -109,11 +110,11 @@ export const Reg: React.FC = () => {
                     </Input>
                     <Checkbox name="didagree" type="checkbox" />
 
-                    <button className="btn btn-primary" type="submit" disabled={isSubmitting}>
+                    <Button variant="primary" type="submit" disabled={isSubmitting}>
                         {isSubmitting ? <Spinner inline> </Spinner> : undefined}
                         Register
-                    </button>
-                </Form>
+                    </Button>
+                </Container>
             )}
         </Formik>
     )

@@ -8,6 +8,7 @@
  * https://github.com/ethanlim04
  */
 
+import {Button, Container, Row} from "react-bootstrap"
 import {Projects as ProjectsType, projectsSchema} from "~/schemas/projects"
 import {Spinner, initTooltips} from "~/components/bootstrap"
 import {arrayToChunks, validate} from "~/utils"
@@ -26,17 +27,19 @@ const Project: React.FC<{project: ProjectsType[0]; user?: User}> = ({project, us
     >
         {
             // This project belongs to this user
-            user?.sub === project.creator ? (
-                <Link
+            user?.sub === project.creator && (
+                <Button
+                    as={Link}
+                    variant="outline-dark"
                     to={`/editProject/${project.id}`}
-                    className="btn btn-outline-dark d-inline-block float-end"
+                    className="d-inline-block float-end"
                     data-bs-toggle="tooltip"
                     data-bs-placement="left"
                     title="Edit"
                 >
                     <span className="material-icons">create</span>
-                </Link>
-            ) : undefined
+                </Button>
+            )
         }
     </GridItem>
 )
@@ -76,11 +79,11 @@ export const Projects: React.FC<{compId: string}> = ({compId}) => {
         const sortedCompetitions = getSortedProjects(projects)
 
         return (
-            <div className="container-fluid">
+            <Container fluid>
                 <h1 className="my-3">Advancing</h1>
                 {(sortedCompetitions[0]?.length ?? 0) > 0 ? (
                     sortedCompetitions[0].map((row, index) => (
-                        <div key={`project-row-${index}`} className="row g-3">
+                        <Row key={`project-row-${index}`} className="g-3">
                             {row.map((project, index2) => (
                                 <Project
                                     key={`comp-item-0-${index}-${index2}`}
@@ -88,7 +91,7 @@ export const Projects: React.FC<{compId: string}> = ({compId}) => {
                                     user={user}
                                 />
                             ))}
-                        </div>
+                        </Row>
                     ))
                 ) : (
                     <p>None</p>
@@ -96,7 +99,7 @@ export const Projects: React.FC<{compId: string}> = ({compId}) => {
 
                 <h1 className="mb-3">Submitted</h1>
                 {sortedCompetitions[1]?.map((row, index) => (
-                    <div key={`project-row-${index}`} className="row g-3">
+                    <Row key={`project-row-${index}`} className="g-3">
                         {row.map((project, index2) => (
                             <Project
                                 key={`comp-item-1-${index}-${index2}`}
@@ -104,9 +107,9 @@ export const Projects: React.FC<{compId: string}> = ({compId}) => {
                                 user={user}
                             />
                         ))}
-                    </div>
+                    </Row>
                 ))}
-            </div>
+            </Container>
         )
     }
 

@@ -8,6 +8,7 @@
  * https://github.com/ethanlim04
  */
 
+import {Button, Container, Row} from "react-bootstrap"
 import {
     BulkCompetitionType as CompetitionType,
     Competitions as CompetitionsType,
@@ -36,15 +37,17 @@ const Competition: React.FC<{comp: CompetitionType; user?: User}> = ({comp, user
             {
                 // This competition belongs to this organization
                 user?.sub === comp.orgId ? (
-                    <Link
+                    <Button
+                        as={Link}
                         to={`/editCompetition/${comp.id}`}
-                        className="btn btn-outline-dark d-inline-block float-end"
+                        variant="outline-dark"
+                        className="d-inline-block float-end"
                         data-bs-toggle="tooltip"
                         data-bs-placement="left"
                         title="Edit"
                     >
                         <span className="material-icons">create</span>
-                    </Link>
+                    </Button>
                 ) : undefined
             }
         </GridItem>
@@ -93,20 +96,20 @@ export const Competitions: React.FC = () => {
         const sortedCompetitions = getSortedCompetitions(competitions)
 
         return (
-            <div className="container-fluid">
-                {user?.isOrg === true ? (
+            <Container fluid>
+                {user?.isOrg === true && (
                     <>
                         <h1>Create a Competition</h1>
                         <p>As an organization, you can create a new competition</p>
-                        <Link to="/editCompetition/new" className="btn btn-outline-primary">
+                        <Button to="/editCompetition/new" as={Link} variant="outline-primary">
                             New Competition
-                        </Link>
+                        </Button>
                     </>
-                ) : undefined}
+                )}
 
                 <h1 className="my-3">Upcoming Competitions</h1>
                 {sortedCompetitions[0].map((row, index) => (
-                    <div key={`comp-row-0-${index}`} className="row g-3">
+                    <Row key={`comp-row-0-${index}`} className="g-3">
                         {row.map((comp, index2) => (
                             <Competition
                                 key={`comp-item-0-${index}-${index2}`}
@@ -114,12 +117,12 @@ export const Competitions: React.FC = () => {
                                 user={user}
                             />
                         ))}
-                    </div>
+                    </Row>
                 ))}
 
                 <h1 className="mb-3">Past Competitions</h1>
                 {sortedCompetitions[1]?.map((row, index) => (
-                    <div key={`comp-row-1-${index}`} className="row g-3">
+                    <Row key={`comp-row-1-${index}`} className="g-3">
                         {row.map((comp, index2) => (
                             <Competition
                                 key={`comp-item-1-${index}-${index2}`}
@@ -127,9 +130,9 @@ export const Competitions: React.FC = () => {
                                 user={user}
                             />
                         ))}
-                    </div>
+                    </Row>
                 ))}
-            </div>
+            </Container>
         )
     }
 

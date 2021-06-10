@@ -8,8 +8,8 @@
  * https://github.com/ethanlim04
  */
 
-import "./index.scss"
 import * as yup from "yup"
+import {Button, Container} from "react-bootstrap"
 import {Form, Formik, FormikHelpers} from "formik"
 import {Input} from "~/components/formik"
 import React from "react"
@@ -35,12 +35,9 @@ const initialValues: FormValues = {
 
 export const Login = (): JSX.Element => {
     const {push: changeHistory} = useHistory()
+    const {setUserFromUnknown: setUser} = React.useContext(UserContext)
     const submit = React.useCallback(
-        async (
-            values: FormValues,
-            {setSubmitting}: FormikHelpers<FormValues>,
-            setUser: (user?: {[key: string]: unknown} | null) => Promise<void>,
-        ): Promise<void> => {
+        async (values: FormValues, {setSubmitting}: FormikHelpers<FormValues>): Promise<void> => {
             setSubmitting(true)
 
             const data = await loginAdapter(values.email, values.password)
@@ -59,36 +56,28 @@ export const Login = (): JSX.Element => {
     )
 
     return (
-        <UserContext.Consumer>
-            {({setUserFromUnknown: setUser}): JSX.Element => (
-                <Formik
-                    initialValues={initialValues}
-                    onSubmit={(values, helpers): Promise<void> => submit(values, helpers, setUser)}
-                    validationSchema={validationSchema}
-                    validateOnMount
-                >
-                    {({isSubmitting}): JSX.Element => (
-                        <Form className="container-fluid">
-                            <Input name="email" type="Email" label="Email">
-                                <span className="material-icons">person</span>
-                            </Input>
-                            <Input name="password" type="password" label="Password">
-                                <span className="material-icons">vpn_key</span>
-                            </Input>
+        <Formik
+            initialValues={initialValues}
+            onSubmit={submit}
+            validationSchema={validationSchema}
+            validateOnMount
+        >
+            {({isSubmitting}): JSX.Element => (
+                <Container fluid as={Form}>
+                    <Input name="email" type="Email" label="Email">
+                        <span className="material-icons">person</span>
+                    </Input>
+                    <Input name="password" type="password" label="Password">
+                        <span className="material-icons">vpn_key</span>
+                    </Input>
 
-                            <button
-                                className="btn btn-primary"
-                                type="submit"
-                                disabled={isSubmitting}
-                            >
-                                {isSubmitting ? <Spinner inline> </Spinner> : undefined}
-                                Login
-                            </button>
-                        </Form>
-                    )}
-                </Formik>
+                    <Button variant="primary" type="submit" disabled={isSubmitting}>
+                        {isSubmitting ? <Spinner inline> </Spinner> : undefined}
+                        Login
+                    </Button>
+                </Container>
             )}
-        </UserContext.Consumer>
+        </Formik>
     )
 }
 

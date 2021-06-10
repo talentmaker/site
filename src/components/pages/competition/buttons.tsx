@@ -8,6 +8,7 @@
  * https://github.com/ethanlim04
  */
 
+import {Button} from "react-bootstrap"
 import {Competition} from "~/schemas/competition"
 import {Link} from "react-router-dom"
 import React from "react"
@@ -21,28 +22,34 @@ export const SubmissionButton: React.FC<{competition: Competition}> = ({
     if (hasProject) {
         return (
             <div className="d-flex flex-column align-items-center justify-content-end">
-                <Link
-                    className="btn btn-outline-dark me-2 mb-2"
+                <Button
+                    variant="outline-dark"
+                    as={Link}
+                    className="me-2 mb-2"
                     to={`/editProject?${qs.stringify({competition: id})}`}
                 >
                     <span className="material-icons">create</span> Edit Submission
-                </Link>
-                <Link
-                    className="btn btn-outline-primary me-2"
+                </Button>
+                <Button
+                    variant="outline-primary"
+                    as={Link}
+                    className="me-2"
                     to={`/project?${qs.stringify({competition: id})}`}
                 >
                     <span className="material-icons">visibility</span> View Submission
-                </Link>
+                </Button>
             </div>
         )
     } else if (inComp) {
         return (
-            <Link
-                className="btn btn-outline-primary mx-2"
+            <Button
+                variant="outline-primary"
+                as={Link}
+                className="mx-2"
                 to={`/editProject?${qs.stringify({competition: id, id: "new"})}`}
             >
                 <span className="material-icons">add</span> Create Submission
-            </Link>
+            </Button>
         )
     }
 
@@ -59,14 +66,17 @@ export const JoinButton: React.FC<JoinButtonProps> = ({competition, user, onSucc
         competition // Competition exists
     ) {
         return user.sub === competition.orgId ? ( // Organization owns competition
-            <Link to={`/editCompetition/${competition.id}`} className="btn btn-outline-dark me-3">
+            <Button
+                as={Link}
+                variant="outline-dark"
+                to={`/editCompetition/${competition.id}`}
+                className="me-3"
+            >
                 <span className="material-icons">create</span> Edit
-            </Link>
-        ) : (
-            <></>
-        )
+            </Button>
+        ) : null
     } else if (!competition) {
-        return <></>
+        return null
     }
 
     const join = React.useCallback(async (): Promise<void> => {
@@ -86,16 +96,16 @@ export const JoinButton: React.FC<JoinButtonProps> = ({competition, user, onSucc
     }, [user, competition])
 
     // User is not an organization
-    return competition?.inComp ? (
-        <></>
-    ) : (
-        <button
-            className="btn btn-outline-primary btn-lg me-3"
+    return competition?.inComp ? null : (
+        <Button
+            size="lg"
+            variant="outline-primary"
+            className="me-3"
             onClick={join}
             disabled={isJoining}
         >
             {isJoining ? <Spinner inline> </Spinner> : undefined}
             Join
-        </button>
+        </Button>
     )
 }

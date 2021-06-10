@@ -8,43 +8,51 @@
  * https://github.com/ethanlim04
  */
 
+import {Button, Col, Row} from "react-bootstrap"
 import React from "react"
 
 export const MarkdownButtons: React.FC<{
     mode: "edit" | "preview"
     setMode: (mode: "edit" | "preview") => void
 }> = ({mode, setMode}) => (
-    <div className="row bg-lighter mx-0">
-        <div className="col-12 d-flex m-0 p-0">
+    <Row className="bg-lighter mx-0">
+        <Col xs={12} className="d-flex m-0 p-0">
             {mode === "edit" ? (
                 <>
-                    <button type="button" className="btn py-1 disabled btn-lighter">
+                    <Button variant="lighter" disabled type="button" className="py-1">
                         Edit
-                    </button>
-                    <button
+                    </Button>
+                    <Button
                         type="button"
-                        className="btn py-1 btn-light-grey"
+                        variant="light-grey"
+                        className="py-1"
                         onClick={(): void => setMode("preview")}
                     >
                         Preview
-                    </button>
+                    </Button>
                 </>
             ) : (
                 <>
-                    <button
+                    <Button
                         type="button"
-                        className="btn py-1 btn-light-grey"
+                        variant="light-grey"
+                        className="py-1"
                         onClick={(): void => setMode("edit")}
                     >
                         Edit
-                    </button>
-                    <button type="button" className="btn py-1 disabled btn-lighter border-right-1">
+                    </Button>
+                    <Button
+                        variant="lighter"
+                        disabled
+                        type="button"
+                        className="py-1 border-right-1"
+                    >
                         Preview
-                    </button>
+                    </Button>
                 </>
             )}
-        </div>
-    </div>
+        </Col>
+    </Row>
 )
 
 export default MarkdownButtons

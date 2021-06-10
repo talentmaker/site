@@ -10,6 +10,7 @@
 
 import {Link} from "react-router-dom"
 import React from "react"
+import {Row} from "react-bootstrap"
 import styles from "./index.module.scss"
 
 /**
@@ -36,7 +37,7 @@ const linkProps = {
 /* eslint-disable jsx-a11y/anchor-has-content */
 export const Footer: React.FC<{user?: User}> = (props): JSX.Element => (
     <footer className="page-footer font-small bg-lighter text-dark pt-4 pb-3">
-        <div className={`row ${styles.row} ${styles.socialMediaIcons}`}>
+        <Row className={`${styles.row} ${styles.socialMediaIcons}`}>
             <a
                 {...linkProps}
                 href="https://www.youtube.com/channel/UCltJw7oSTdHDio806LztCzQ"
@@ -47,9 +48,9 @@ export const Footer: React.FC<{user?: User}> = (props): JSX.Element => (
                 href="https://www.linkedin.com/in/talent-maker-group/"
                 className="bi-linkedin"
             ></a>
-        </div>
+        </Row>
 
-        <div className={`row ${styles.row} pages`}>
+        <Row className={`${styles.row} pages`}>
             <FooterLinks
                 links={[
                     ["/competitions", "Competitions"],
@@ -58,10 +59,10 @@ export const Footer: React.FC<{user?: User}> = (props): JSX.Element => (
                     props.user ? ["/profile", "Your Profile"] : ["/auth", "Sign Up"],
                 ]}
             />
-        </div>
+        </Row>
 
         <div className={`text-center ${styles.textCenter}`}>
-            <Link to="/legal">Terms and conditions</Link>
+            <Link to="/legal">Terms of use</Link>
             <span className="my-0 mx-3">&#x2022;</span>
             <Link to="/privacy-policy">Privacy Policy</Link>
         </div>

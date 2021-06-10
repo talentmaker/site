@@ -9,6 +9,7 @@
  */
 
 import {Field, useField} from "formik"
+import {InputGroup} from "react-bootstrap"
 import type React from "react"
 
 type InputProps = React.DetailedHTMLProps<
@@ -44,10 +45,8 @@ export const Input: React.FC<InputProps> = ({
     }
 
     return (
-        <div className="input-group border-none br-0">
-            <div className="input-group-prepend">
-                <span className="input-group-text">{children ?? ""}</span>
-            </div>
+        <InputGroup className="border-none br-0">
+            <InputGroup.Text>{children ?? ""}</InputGroup.Text>
             <Field
                 {...props}
                 {...field}
@@ -55,7 +54,7 @@ export const Input: React.FC<InputProps> = ({
                 className={`${props.className ?? ""} ${errorClass ?? ""} form-control`}
             />
             {feedback}
-        </div>
+        </InputGroup>
     )
 }
 

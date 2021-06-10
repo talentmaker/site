@@ -8,6 +8,7 @@
  * https://github.com/ethanlim04
  */
 
+import {Button, Col, Container, Row} from "react-bootstrap"
 import DefaultPFP from "~/images/profile.svg"
 import React from "react"
 import UserContext from "~/contexts/userContext"
@@ -31,75 +32,73 @@ const makeOrgRequest = async (user: User): Promise<void> => {
 
 export const UserDisplay: React.FC = () => {
     const history = useHistory()
-
+    const {currentUser: user, setUser} = React.useContext(UserContext)
     const orgRequest = React.useCallback(makeOrgRequest, [])
 
-    return (
-        <UserContext.Consumer>
-            {({currentUser: user, setUser}): JSX.Element =>
-                user === undefined ? (
-                    <div className="container">It looks like you&apos;ve been signed out</div>
-                ) : (
-                    <>
-                        <div className="row">
-                            <div className="col-lg-2">
-                                <div className="px-4 my-3">
-                                    <img src={DefaultPFP} className={styles.pfp} alt="Profile" />
-                                </div>
-                            </div>
-                            <div className="col-lg-6 d-flex flex-column justify-content-center">
-                                <p className={styles.username}>
-                                    {user.username}
-                                    <span className="text-muted">#{user.sub.slice(0, 8)}</span>
-                                </p>
-                                <p className={`${styles.sub} text-muted`}>{user.sub}</p>
-                            </div>
-                            <div className="col-lg-4 d-flex flex-row align-items-center justify-content-end">
-                                <button className="btn btn-outline-primary btn-lg">Edit</button>
-                                <button
-                                    className="btn btn-outline-danger btn-lg mx-4"
-                                    onClick={async (): Promise<void> => {
-                                        await setUser(undefined)
+    return user === undefined ? (
+        <Container>It looks like you&apos;ve been signed out</Container>
+    ) : (
+        <>
+            <Row>
+                <Col lg={2}>
+                    <div className="px-4 my-3">
+                        <img src={DefaultPFP} className={styles.pfp} alt="Profile" />
+                    </div>
+                </Col>
+                <Col lg={6} className="d-flex flex-column justify-content-center">
+                    <p className={styles.username}>
+                        {user.username}
+                        <span className="text-muted">#{user.sub.slice(0, 8)}</span>
+                    </p>
+                    <p className={`${styles.sub} text-muted`}>{user.sub}</p>
+                </Col>
+                <Col lg={4} className="d-flex flex-row align-items-center justify-content-end">
+                    <Button variant="outline-primary" size="lg">
+                        Edit
+                    </Button>
+                    <Button
+                        size="lg"
+                        variant="outline-danger"
+                        className="mx-4"
+                        onClick={async (): Promise<void> => {
+                            await setUser(undefined)
 
-                                        return history.push("/")
-                                    }}
-                                >
-                                    Logout
-                                </button>
-                            </div>
-                        </div>
+                            return history.push("/")
+                        }}
+                    >
+                        Logout
+                    </Button>
+                </Col>
+            </Row>
 
-                        <div className={`row bg-primary ${styles.bar}`}>
-                            <div className="col-sm-12"></div>
-                        </div>
+            <Row className={`bg-primary ${styles.bar}`}>
+                <Col xs={12}></Col>
+            </Row>
 
-                        <div className="row">
-                            <div className="col-3 bg-lighter">
-                                <ul className="list-unstyled text-dark px-4 py-5">
-                                    <li>Email: {user.email}</li>
-                                    <br />
-                                    <li>Username: {user.username}</li>
-                                    <br />
-                                    <li>UID (short): {user.sub.slice(0, 8)}</li>
-                                    <br />
-                                    An organization? Apply to become an organization!
-                                    <br />
-                                    <button
-                                        className="btn btn-outline-primary"
-                                        onClick={(): Promise<void> => orgRequest(user)}
-                                    >
-                                        Apply
-                                    </button>
-                                </ul>
-                            </div>
-                            <div className="col-9">
-                                <h1>Projects:</h1>
-                            </div>
-                        </div>
-                    </>
-                )
-            }
-        </UserContext.Consumer>
+            <Row>
+                <Col xs={3} className="bg-lighter">
+                    <ul className="list-unstyled text-dark px-4 py-5">
+                        <li>Email: {user.email}</li>
+                        <br />
+                        <li>Username: {user.username}</li>
+                        <br />
+                        <li>UID (short): {user.sub.slice(0, 8)}</li>
+                        <br />
+                        An organization? Apply to become an organization!
+                        <br />
+                        <Button
+                            variant="outline-primary"
+                            onClick={(): Promise<void> => orgRequest(user)}
+                        >
+                            Apply
+                        </Button>
+                    </ul>
+                </Col>
+                <Col xs={9}>
+                    <h1>Projects:</h1>
+                </Col>
+            </Row>
+        </>
     )
 }
 

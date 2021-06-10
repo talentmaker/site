@@ -28,6 +28,14 @@ body {
   max-width: 100% !important;
 }
 
+// Get rid of border radius on form inputs
+.input-group,
+.input-group-text,
+.form-control {
+  border-radius: 0;
+  border: none;
+}
+
 .form-control::placeholder,
 .form-control {
   color: variables.$dark;

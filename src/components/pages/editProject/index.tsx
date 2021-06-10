@@ -10,6 +10,7 @@
 
 import * as yup from "yup"
 import {BottomFields, TopFields} from "./components"
+import {Button, FormGroup} from "react-bootstrap"
 import {Form, Formik, FormikHelpers} from "formik"
 import {hash, notify} from "~/utils"
 import {highlight, languages} from "prismjs"
@@ -170,7 +171,7 @@ export const EditProject: React.FC<
                 <Form className="px-4 py-3">
                     <TopFields />
                     <MarkdownButtons {...{mode, setMode}} />
-                    <div className="form-group markdown-editor-container bg-lighter px-3">
+                    <FormGroup className="markdown-editor-container bg-lighter px-3">
                         {
                             /**
                              * If edit mode, show markdown editor Otherwise, show the preview
@@ -193,12 +194,12 @@ export const EditProject: React.FC<
                                 </div>
                             )
                         }
-                    </div>
+                    </FormGroup>
                     <BottomFields />
-                    <button className="btn btn-success" type="submit" disabled={isSubmitting}>
-                        {isSubmitting ? <Spinner inline> </Spinner> : undefined}
+                    <Button variant="success" type="submit" disabled={isSubmitting}>
+                        {isSubmitting && <Spinner inline> </Spinner>}
                         Submit
-                    </button>
+                    </Button>
                 </Form>
             )}
         </Formik>

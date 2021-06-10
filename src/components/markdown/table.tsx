@@ -8,6 +8,8 @@
  * https://Luke-zhang-04.github.io
  * https://github.com/ethanlim04
  */
+
+import {Table as BsTable} from "react-bootstrap"
 import type React from "react"
 
 type Props = {
@@ -15,7 +17,9 @@ type Props = {
 }
 
 export const Table: React.FC<Props> = (props) => (
-    <table className="table table-bordered text-dark">{props.children}</table>
+    <BsTable bordered className="text-dark">
+        {props.children}
+    </BsTable>
 )
 
 export const TableCell: React.FC<Props> = (props) => (

@@ -8,6 +8,7 @@
  * https://github.com/ethanlim04
  */
 
+import {Col, Container, Row} from "react-bootstrap"
 import AuthImage from "./authimage.svg"
 import {Img} from "~/components/elements"
 import {Link} from "react-router-dom"
@@ -30,15 +31,21 @@ export const Auth: React.FC = () => {
     }, [location])
 
     return (
-        <div className="container-fluid my-5">
-            <div className="row py-5">
-                <div className="col-6 bg-primary align-items-center justify-content-center d-flex py-5">
+        <Container fluid className=" my-5">
+            <Row className="py-5">
+                <Col
+                    xs={6}
+                    className="bg-primary align-items-center justify-content-center d-flex py-5"
+                >
                     <Img src={AuthImage} alt="auth images" className="w-75 flex-center" />
-                </div>
-                <div className="col-6 text-center bg-lighter p-5 align-items-center justify-content-center d-flex">
+                </Col>
+                <Col
+                    xs={6}
+                    className="text-center bg-lighter p-5 align-items-center justify-content-center d-flex"
+                >
                     {mode === "register" ? <Reg /> : <Login />}
-                </div>
-            </div>
+                </Col>
+            </Row>
             {mode === "register" ? (
                 <Link
                     to="/auth?mode=login"
@@ -54,7 +61,7 @@ export const Auth: React.FC = () => {
                     Don&apos;t Have an Account? Register!
                 </Link>
             )}
-        </div>
+        </Container>
     )
 }
 

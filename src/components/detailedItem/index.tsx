@@ -8,6 +8,7 @@
  * https://github.com/ethanlim04
  */
 
+import {Col, Row} from "react-bootstrap"
 import {IFrame, Img} from "../elements"
 import React, {ReactNode} from "react"
 import DefaultPFP from "~/images/profile.svg"
@@ -22,20 +23,20 @@ type UserInfoProps = {
 }
 
 export const UserInfo: React.FC<UserInfoProps> = ({pfp, username, desc, children}) => (
-    <div className="row">
-        <div className="col-lg-2">
+    <Row>
+        <Col lg={2}>
             <div className="px-4 my-3">
-                <Img src={pfp ?? DefaultPFP} className={`${styles.pfp}`} alt="Profile" />
+                <Img src={pfp ?? DefaultPFP} className={styles.pfp} alt="Profile" />
             </div>
-        </div>
-        <div className="col-lg-5 d-flex flex-column justify-content-center">
-            {username ? <p className={`${styles.username}`}>{username}</p> : undefined}
-            {desc ? <p className="sub text-muted">{desc}</p> : undefined}
-        </div>
-        <div className="col-lg-5 d-flex flex-row align-items-center justify-content-end">
+        </Col>
+        <Col lg={5} className="d-flex flex-column justify-content-center">
+            {username && <p className={styles.username}>{username}</p>}
+            {desc && <p className="sub text-muted">{desc}</p>}
+        </Col>
+        <Col lg={5} className="d-flex flex-row align-items-center justify-content-end">
             {children}
-        </div>
-    </div>
+        </Col>
+    </Row>
 )
 
 export const Video: React.FC<React.ComponentProps<typeof IFrame>> = (props) => {
@@ -156,8 +157,8 @@ export const Sidebar: React.FC<SidebarProps> = ({items}) => (
 )
 
 export const Bar: React.FC<{topics?: (string | undefined)[] | null}> = ({topics}) => (
-    <div className={`row bg-primary ${styles.bar}`}>
-        <div className={`col-sm-12 ${styles.topics}`}>
+    <Row className={`bg-primary ${styles.bar}`}>
+        <Col xs={12} className={styles.topics}>
             {" "}
             {/* Blue bar with competitions */}
             {topics?.map((topic, index) => (
@@ -168,6 +169,6 @@ export const Bar: React.FC<{topics?: (string | undefined)[] | null}> = ({topics}
                     {topic}
                 </p>
             ))}
-        </div>
-    </div>
+        </Col>
+    </Row>
 )

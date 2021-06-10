@@ -9,6 +9,7 @@
  */
 
 import {Field, useField} from "formik"
+import {FormCheck} from "react-bootstrap"
 import {Link} from "react-router-dom"
 import type React from "react"
 
@@ -19,21 +20,20 @@ export const Checkbox: React.FC<{name: string; type: string}> = ({type, name}) =
     })
 
     return (
-        <div className="form-check">
-            {/* eslint-disable-next-line */}
-            <label className="form-check-label">
+        <FormCheck className="form-check">
+            <FormCheck.Label>
                 <Field
                     type={type}
                     className={`form-check-input ${errorText ? "is-invalid" : "is-valid"}`}
                     {...field}
                 />
-                By Signing up, you agree to our <Link to="/legal">terms and conditions</Link> and{" "}
+                By Signing up, you agree to our <Link to="/legal">terms of use</Link> and{" "}
                 <Link to="/privacy-policy">Privacy Policy</Link>.
                 <div className={errorText ? "invalid-feedback" : "valid-feedback"}>
                     {errorText ? errorText : "Looks Good!"}
                 </div>
-            </label>
-        </div>
+            </FormCheck.Label>
+        </FormCheck>
     )
 }
 

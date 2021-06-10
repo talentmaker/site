@@ -1,8 +1,15 @@
 export const Bsd3 = () => (
     <div id="BSD3">
         <p>
-            Copyright (C) 2020 - 2021 <a href="https://luke-zhang-04.github.io/">Luke Zhang</a>,{" "}
-            <a href="https://github.com/ethanlim04">Ethan Lim</a>.
+            Copyright (C) 2020 - 2021{" "}
+            <a target="_blank" rel="noopener noreferrer" href="https://luke-zhang-04.github.io/">
+                Luke Zhang
+            </a>
+            ,{" "}
+            <a target="_blank" rel="noopener noreferrer" href="https://github.com/ethanlim04">
+                Ethan Lim
+            </a>
+            .
         </p>
         <p>
             Redistribution and use in source and binary forms, with or without modification, are
