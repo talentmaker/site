@@ -1,4 +1,5 @@
 const path = require("path")
+const StyleLintPlugin = require("stylelint-webpack-plugin")
 
 module.exports = {
     style: {
@@ -8,7 +9,18 @@ module.exports = {
     },
     webpack: {
         alias: {
+            // Alias ~ to src, e.g ~/components/whatever
             "~": path.join(__dirname, "src"),
+        },
+        plugins: {
+            // Add stylelint plugin
+            add: [
+                new StyleLintPlugin({
+                    configBasedir: __dirname,
+                    context: path.resolve(__dirname, "src"),
+                    files: ["**/*.scss", "**/*.sass", "**/*.css"],
+                }),
+            ],
         },
     },
 }

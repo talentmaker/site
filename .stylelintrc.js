@@ -1,6 +1,7 @@
 module.exports = {
     extends: "stylelint-config-standard",
     ignoreFiles: ["public/**", "build/**", "*.{tsx,ts,js,jsx}"],
+    defaultSeverity: "warning",
     rules: {
         indentation: null, // Work with prettier
         "declaration-colon-newline-after": null,
