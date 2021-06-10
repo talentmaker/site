@@ -1,0 +1,134 @@
+/*!
+ * Universal styling for Talentmaker-site
+ * Includes Normalize.css, Bootstrap SASS, and other styles that apply to all pages
+ */
+
+@use "~normalize.css/normalize";
+@use "./styles/variables";
+@use "./styles/markdown";
+
+@import "./styles/bootstrap";
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700;900&display=swap");
+
+/*!
+ * Talentmaker website
+ *
+ * Copyright (C) 2020 - 2021 Luke Zhang, Ethan Lim
+ * Author: Luke Zhang - luke-zhang-04.github.io
+ *
+ * License: BSD-3-Clause
+ */
+body {
+  background-color: $light;
+  color: $dark;
+}
+
+html,
+body {
+  max-width: 100% !important;
+}
+
+// Get rid of border radius on form inputs
+.input-group,
+.input-group-text,
+.form-control {
+  border-radius: 0;
+  border: none;
+}
+
+.form-control::placeholder,
+.form-control {
+  color: variables.$dark;
+}
+
+.form-control {
+  background-color: variables.$light;
+
+  &:focus {
+    background-color: variables.$light-grey;
+    color: variables.$darker;
+  }
+
+  &::placeholder {
+    opacity: 0.75; // Mute placeholder text
+  }
+}
+
+.input-group-text {
+  // The icons before an input field and thier colour
+  background-color: variables.$light-grey;
+}
+
+.btn {
+  border-radius: 0; // Buttons are boxed
+}
+
+.material-icons {
+  display: inline-block; // Display for aligning icon
+  vertical-align: middle; // Align icon in middle
+}
+
+// Fix toasts
+.toast-fixed {
+  position: fixed;
+  top: 1%;
+  left: 50%; // Position left edge 50% from left
+  transform: translateX(-50%); // Centre element by moving half its width over
+  z-index: 1000;
+}
+
+@keyframes toast-entrance {
+  from {
+    top: -6%;
+    opacity: 0;
+  }
+
+  to {
+    top: 1%;
+    opacity: 1;
+  }
+}
+
+// Remove border radius from toasts
+.toast {
+  border-radius: 0;
+
+  .toast-header {
+    border-radius: 0;
+  }
+
+  &.show {
+    animation: toast-entrance 0.25s ease-out;
+  }
+}
+
+// Header font weights
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 400;
+}
+
+// Button for going back to top
+.btn-circle {
+  background-color: variables.$none; // Transparent
+  border: none; // Remove borders
+  border-radius: 50%; // Rounded
+  padding: 0; // Even out padding from x and y
+
+  &:focus {
+    outline: none; // Remove ugly outline after click
+  }
+
+  & > * {
+    transition: transform 0.125s ease-in; // Transition for inner content
+    font-size: variables.$spacer * 2;
+  }
+
+  &:hover {
+    & > * {
+      transform: translateY(-0.5rem); // Move the content upwards
+    }
+  }
+}

@@ -1,0 +1,14 @@
+[production]
+
+defaults
+
+not IE >= 0
+not IE_mob >= 0
+>= 1%
+not dead
+
+
+[development]
+last 1 chrome version
+last 1 firefox version
+last 1 safari version

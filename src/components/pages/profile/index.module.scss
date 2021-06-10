@@ -1,0 +1,29 @@
+/*!
+ * Talentmaker website
+ *
+ * Copyright (C) 2020 - 2021 Luke Zhang, Ethan Lim
+ * https://Luke-zhang-04.github.io
+ * https://github.com/ethanlim04
+ * Author: Luke Zhang
+ *
+ * License: BSD-3-Clause
+ */
+
+@use "src/styles/variables";
+
+.pfp {
+  width: 100%;
+  clip-path: circle(at center);
+}
+
+.sub {
+  font-size: 1.25vw;
+}
+
+.username {
+  font-size: 3vw;
+}
+
+.bar {
+  height: 10vh;
+}

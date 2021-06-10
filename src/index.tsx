@@ -17,28 +17,30 @@ import "prismjs/components/prism-typescript"
 import "prismjs/components/prism-python"
 
 // Styles
-import "./styles.scss"
+import "./index.scss"
 
 import * as serviceWorker from "./serviceWorker"
-import {CognitoUser, isCognitoUser} from "./utils/cognito"
+import {
+    Auth,
+    Competition,
+    Competitions,
+    EditCompetition,
+    EditProject,
+    Home,
+    Legal,
+    NotFound,
+    PrivacyPolicy,
+    Profile,
+    Project,
+    Projects,
+} from "./pages"
 import {Route, BrowserRouter as Router, Switch} from "react-router-dom"
-import Auth from "./auth"
-import Competition from "./competition"
-import Competitions from "./competitions"
-import EditCompetition from "./editCompetition"
-import EditProject from "./editProject"
-import Footer from "./footer"
-import Home from "./home"
-import Legal from "./legal/Legal"
-import Nav from "./nav"
-import NotFound from "./404"
-import PrivacyPolicy from "./legal/PrivacyPolicy"
-import Profile from "./profile"
-import Project from "./project"
-import Projects from "./projects"
+import {CognitoUser as User, isUser} from "./schemas/user"
+import Footer from "./components/footer"
+import Nav from "./components/nav"
 import React from "react"
 import ReactDOM from "react-dom"
-import UserContext from "./userContext"
+import UserContext from "./contexts/userContext"
 import {url} from "./globals"
 
 export const appRef = React.createRef<App>()
@@ -51,7 +53,7 @@ export declare namespace AppTypes {
 
     export interface State {
         isAuthenticated: boolean
-        currentUser?: CognitoUser
+        currentUser?: User
 
         /**
          * Current notification to show
@@ -63,7 +65,7 @@ export declare namespace AppTypes {
      * React user context type
      */
     export interface Context {
-        currentUser: undefined | CognitoUser | null
+        currentUser: undefined | User
 
         /**
          * Set the current loggedin user
@@ -106,7 +108,7 @@ class App extends React.Component<AppTypes.Props, AppTypes.State> {
                 })
             ).json()) as {[key: string]: unknown}
 
-            if (isCognitoUser(user)) {
+            if (isUser(user)) {
                 await this.setUser(user)
                 this.setState({})
 
@@ -129,7 +131,7 @@ class App extends React.Component<AppTypes.Props, AppTypes.State> {
      * @param user - Unknown object that will go through validation OR `undefined | null` for logout
      */
     public setUserFromUnknown = async (user?: {[key: string]: unknown} | null): Promise<void> => {
-        if (user === undefined || user === null || isCognitoUser(user)) {
+        if (user === undefined || user === null || isUser(user)) {
             return await this.setUser(user)
         }
     }
@@ -139,7 +141,7 @@ class App extends React.Component<AppTypes.Props, AppTypes.State> {
      *
      * @param user - Object with user info OR `undefined | null` to logout
      */
-    public setUser = async (user?: CognitoUser | null): Promise<void> => {
+    public setUser = async (user?: User | null): Promise<void> => {
         const isLoggedin = localStorage.getItem("loggedin") === "true"
 
         if (isLoggedin && (user === undefined || user === null)) {
@@ -182,10 +184,7 @@ class App extends React.Component<AppTypes.Props, AppTypes.State> {
                     <Route path="/editProject/:id?" component={EditProject} />
                     <Route path="/legal" component={Legal} />
                     <Route path="/privacy-policy" component={PrivacyPolicy} />
-                    <Route
-                        path="/profile"
-                        render={(): JSX.Element => <Profile user={this.state.currentUser} />}
-                    />
+                    <Route path="/profile" component={Profile} />
                     <Route path="/project/:id" component={Project} />
                     <Route path="/project" component={Project} />
                     <Route path="/projects/:compId" component={Projects} />
@@ -211,4 +210,4 @@ ReactDOM.render(
  * unregister() to register() below. Note this comes with some pitfalls.
  * Learn more about service workers: https://bit.ly/CRA-PWA
  */
-serviceWorker.unregister()
+serviceWorker.register()

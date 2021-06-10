@@ -1,6 +1,7 @@
 module.exports = {
     extends: "stylelint-config-standard",
     ignoreFiles: ["public/**", "build/**", "*.{tsx,ts,js,jsx}"],
+    defaultSeverity: "warning",
     rules: {
         indentation: null, // Work with prettier
         "declaration-colon-newline-after": null,
@@ -8,14 +9,21 @@ module.exports = {
             true,
             {
                 ignoreAtRules: [
+                    "use",
+                    "forward",
+                    "import",
+                    "mixin",
+                    "include",
                     "function",
+                    "extend",
+                    "at-root",
+                    "error",
+                    "warn",
+                    "debug",
                     "if",
                     "each",
-                    "include",
-                    "mixin",
-                    "use",
                     "for",
-                    "debug",
+                    "while",
                 ],
             },
         ],
@@ -23,6 +31,12 @@ module.exports = {
             true,
             {
                 ignore: ["empty-lines"],
+            },
+        ],
+        "selector-pseudo-class-no-unknown": [
+            true,
+            {
+                ignorePseudoClasses: ["global"],
             },
         ],
     },
