@@ -15,9 +15,6 @@ jobs:
       - name: lint
         run: yarn lint -CI
 
-      - name: check with prettier
-        run: yarn prettier . --check
-
       - name: build
         run: yarn build
         env:
