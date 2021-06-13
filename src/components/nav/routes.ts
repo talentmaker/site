@@ -18,7 +18,6 @@ export const mobile: MobileLinks = [
     ["/talents", "school", "Talents"],
     ["/", "home", "Home"],
     ["/talentmakers", "cases", "Talentmakers"],
-
     [
         ["/profile", "account_circle", "Profile"],
         ["/auth", "account_circle", "Sign Up"],

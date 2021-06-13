@@ -9,16 +9,6 @@
 
 @use "src/styles/variables";
 
-/**
- * Mixin for a single icon
- * $color: color of icon
- */
-@mixin icon($color) {
-  &:hover {
-    color: $color;
-  }
-}
-
 .textCenter {
   p {
     width: auto; // Remove width 100%
@@ -55,13 +45,5 @@
 
     transition: // Transition for
       color $transition-time $transition-timing;
-  }
-
-  :global(.bi-youtube) {
-    @include icon(#ff0000);
-  }
-
-  :global(.bi-linkedin) {
-    @include icon(#0e76a8);
   }
 }
