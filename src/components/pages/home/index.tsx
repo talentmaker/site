@@ -19,7 +19,7 @@ export const Home: React.FC = () => {
     const {currentUser: user} = React.useContext(UserContext)
 
     return (
-        <div className={styles.landingPage}>
+        <div className={`${styles.landingPage} pt-3`}>
             <Row className={styles.row}>
                 <Col md={6} className={`text ${styles.text}`}>
                     <h1>Talentmaker</h1>

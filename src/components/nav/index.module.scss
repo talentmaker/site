@@ -14,30 +14,26 @@
 
 @include mixins.min-width("md") {
   .navbar {
-    .navLink {
-      font-size: 2vw;
-      padding-left: 1vw !important;
-      padding-right: 1vw !important;
-    }
-
     .navLinks {
-      display: flex;
-      flex-direction: row;
-      align-items: center; // Vertically centred
-      justify-content: right; // Horizontally to the right
+      width: 100%;
 
-      .navbarNav {
-        max-width: fit-content; // Fix navbar sizing
+      .navLinkGroup {
+        display: flex;
+        flex-direction: row;
+        align-items: center; // Vertically centred
+        justify-content: space-between; // Horizontally to the right
       }
     }
 
     .navbarBrand {
-      margin: 0; // Remove margins b/c they were making the navbar taller
+      margin-top: 0; // Remove margins b/c they were making the navbar taller
+      margin-bottom: 0;
+      margin-right: variables.$font-size-base;
 
       img {
         // Logo
         display: block;
-        width: 100%;
+        width: variables.$font-size-base * 3;
       }
     }
   }
@@ -55,6 +51,7 @@
   z-index: 1000;
   display: flex;
   flex-direction: row;
+  justify-content: space-around;
 
   .mobileNavUnderline {
     width: percentage((100 / $nav-item-count) / 100);
@@ -67,8 +64,6 @@
 
   .mobileNavItemContainer {
     width: percentage((100 / $nav-item-count) / 100);
-    padding-top: 0.5rem;
-    padding-bottom: 0.25rem;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -79,6 +74,9 @@
       text-decoration: none;
       text-align: center;
       transition: transform 0.5s $transition-timing;
+      padding-left: 0;
+      padding-right: 0;
+      padding-bottom: 0;
 
       p {
         transition: font-weight 0.5s $transition-timing;

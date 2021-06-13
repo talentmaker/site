@@ -111,7 +111,7 @@ export const Project: React.FC<Props> = (props) => {
                 <Row>
                     <Col lg={9}>
                         <Components.Video title="competition video" src={data.src} />
-                        <div className="markdown-container p-3">
+                        <div className="markdown-container py-3 px-gx">
                             <Container fluid className="p-4 bg-lighter">
                                 <Markdown>{project.desc ?? ""}</Markdown>
                             </Container>

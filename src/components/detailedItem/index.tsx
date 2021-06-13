@@ -47,7 +47,7 @@ export const Video: React.FC<React.ComponentProps<typeof IFrame>> = (props) => {
     const [didVideoLoad, setLoad] = React.useState(false)
 
     return (
-        <div className="mx-3 mt-3">
+        <div className="mx-gx mt-3">
             <div className={`${styles.videoContainer} ${didVideoLoad ? "" : "p-0"}`}>
                 <IFrame
                     {...props}

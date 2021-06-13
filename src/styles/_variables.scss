@@ -21,6 +21,8 @@ $darker: #272727;
 $dark-grey: mix($dark, white, 90%);
 $accent: #01559c;
 
+$min-contrast-ratio: 4.5;
+
 $breadcrumb-divider: quote(">");
 
 $font-family-sans-serif: "Ubuntu", sans-serif;
@@ -53,25 +55,15 @@ $spacers: ();
 $spacers: map-merge(
   (
     0: 0,
-    1: (
-      $spacer * 0.25,
-    ),
-    2: (
-      $spacer * 0.5,
-    ),
+    1: $spacer * 0.25,
+    2: $spacer * 0.5,
     3: $spacer,
-    4: (
-      $spacer * 1.5,
-    ),
-    5: (
-      $spacer * 3,
-    ),
-    6: (
-      $spacer * 6,
-    ),
-    7: (
-      $spacer * 12,
-    ),
+    4: $spacer * 1.5,
+    5: $spacer * 3,
+    "bs-gx": var(--bs-gutter-x),
+    "bs-gy": var(--bs-gutter-y),
+    "gx": var(--gutter-x),
+    "gy": var(--gutter-y),
   ),
   $spacers
 );

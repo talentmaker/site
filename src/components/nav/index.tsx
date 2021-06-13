@@ -8,15 +8,7 @@
  * https://github.com/ethanlim04
  */
 
-import {
-    NavLink as BsNavLink,
-    Col,
-    Container,
-    NavItem,
-    Navbar,
-    NavbarBrand,
-    Row,
-} from "react-bootstrap"
+import {NavLink as BsNavLink, Container, NavItem, Navbar, NavbarBrand} from "react-bootstrap"
 import {Link, useLocation} from "react-router-dom"
 import {BreakPoints} from "~/globals"
 import Logo from "~/images/logo.svg"
@@ -25,7 +17,111 @@ import UserContext from "~/contexts/userContext"
 import routes from "./routes"
 import styles from "./index.module.scss"
 
-const navLinkCount = Math.min(routes.mobile.length, routes.desktop.length)
+const navLinkCount = Math.min(routes.mobile.length)
+
+const NavLink: React.FC<{location: string; currentLocation: string; name: string}> = ({
+    location,
+    currentLocation,
+    name,
+}) => (
+    <NavItem>
+        <BsNavLink
+            as={Link}
+            active={currentLocation === location}
+            className={styles.navLink}
+            to={location}
+        >
+            {name}{" "}
+            {currentLocation === location ? (
+                <span className="visually-hidden">(current)</span>
+            ) : (
+                ""
+            )}
+        </BsNavLink>
+    </NavItem>
+)
+
+const navIcon = (
+    location: string,
+    iconName: string,
+    displayName: string,
+    currentLocation: string,
+): JSX.Element => (
+    <BsNavLink
+        as={Link}
+        active={currentLocation === location}
+        className={styles.mobileNavLink}
+        to={location}
+    >
+        <span
+            className={currentLocation === location ? "material-icons" : "material-icons-outlined"}
+        >
+            {iconName}
+        </span>
+        <p>{displayName}</p>
+    </BsNavLink>
+)
+
+const NavLinks: React.FC<{isMobile?: boolean; pathname: string}> = ({isMobile, pathname}) => {
+    const {currentUser: user} = React.useContext(UserContext)
+
+    return isMobile ? (
+        <>
+            {routes.mobile.map((properties) => (
+                <div
+                    key={`mobile-name-item-${properties.toString()}`}
+                    className={styles.mobileNavItemContainer}
+                >
+                    {typeof properties[0] === "string"
+                        ? navIcon(...(properties as [string, string, string]), pathname)
+                        : navIcon(
+                              ...((user === null || user === undefined
+                                  ? properties[1]
+                                  : properties[0]) as [string, string, string]),
+                              pathname,
+                          )}
+                </div>
+            ))}
+        </>
+    ) : (
+        <div className={styles.navLinkGroup}>
+            {routes.desktop.map((group, index) => (
+                <ul key={`nav-group-${index}`} className="navbar-nav">
+                    {group.map((val) => {
+                        if (typeof val[0] === "string") {
+                            return (
+                                <NavLink
+                                    currentLocation={pathname}
+                                    key={`nav-link-${val[0]}`}
+                                    location={val[0] as string}
+                                    name={val[1] as string}
+                                />
+                            )
+                        } else if (user === null || user === undefined) {
+                            return (
+                                <NavLink
+                                    currentLocation={pathname}
+                                    key={`nav-link-${val[0]}`}
+                                    location={val[1][0]}
+                                    name={val[1][1]}
+                                />
+                            )
+                        }
+
+                        return (
+                            <NavLink
+                                currentLocation={pathname}
+                                key={`nav-link-${val[0]}`}
+                                location={val[0][0]}
+                                name={val[0][1]}
+                            />
+                        )
+                    })}
+                </ul>
+            ))}
+        </div>
+    )
+}
 
 export const Nav: React.FC = () => {
     const currentLocation = useLocation()
@@ -46,103 +142,6 @@ export const Nav: React.FC = () => {
             })
         }
     }, [])
-
-    const NavLink = React.useCallback<React.FC<{location: string; name: string}>>(
-        ({location, name}): JSX.Element => (
-            <NavItem>
-                <BsNavLink
-                    as={Link}
-                    active={currentLocation.pathname === location}
-                    className={styles.navLink}
-                    to={location}
-                >
-                    {name}{" "}
-                    {currentLocation.pathname === location ? (
-                        <span className="visually-hidden">(current)</span>
-                    ) : (
-                        ""
-                    )}
-                </BsNavLink>
-            </NavItem>
-        ),
-        [currentLocation.pathname],
-    )
-
-    const navIcon = React.useCallback(
-        (location: string, iconName: string, displayName: string): JSX.Element => (
-            <BsNavLink
-                as={Link}
-                active={currentLocation.pathname === location}
-                className={styles.mobileNavLink}
-                to={location}
-            >
-                <span
-                    className={
-                        currentLocation.pathname === location
-                            ? "material-icons"
-                            : "material-icons-outlined"
-                    }
-                >
-                    {iconName}
-                </span>
-                <p>{displayName}</p>
-            </BsNavLink>
-        ),
-        [currentLocation.pathname],
-    )
-
-    const NavLinks = React.useCallback<React.FC<{isMobile?: boolean}>>(
-        ({isMobile}) =>
-            isMobile ? (
-                <>
-                    {routes.mobile.map((properties) => (
-                        <div
-                            key={`mobile-name-item-${properties.toString()}`}
-                            className={styles.mobileNavItemContainer}
-                        >
-                            {typeof properties[0] === "string"
-                                ? navIcon(...(properties as [string, string, string]))
-                                : navIcon(
-                                      ...((user === null || user === undefined
-                                          ? properties[1]
-                                          : properties[0]) as [string, string, string]),
-                                  )}
-                        </div>
-                    ))}
-                </>
-            ) : (
-                <ul className="navbar-nav">
-                    {routes.desktop.map((val) => {
-                        if (typeof val[0] === "string") {
-                            return (
-                                <NavLink
-                                    key={`nav-link-${val[0]}`}
-                                    location={val[0] as string}
-                                    name={val[1] as string}
-                                />
-                            )
-                        } else if (user === null || user === undefined) {
-                            return (
-                                <NavLink
-                                    key={`nav-link-${val[0]}`}
-                                    location={val[1][0]}
-                                    name={val[1][1]}
-                                />
-                            )
-                        }
-
-                        return (
-                            <NavLink
-                                key={`nav-link-${val[0]}`}
-                                location={val[0][0]}
-                                name={val[0][1]}
-                            />
-                        )
-                    })}
-                </ul>
-            ),
-        [currentLocation.pathname, user],
-    )
 
     const getPageIndex = React.useCallback(() => {
         for (const [index, value] of routes.mobile.entries()) {
@@ -165,7 +164,7 @@ export const Nav: React.FC = () => {
 
     return dimensions[0] <= BreakPoints.Md ? (
         <div className={`${styles.mobileNav} bg-lighter`}>
-            <NavLinks isMobile={true} />
+            <NavLinks isMobile={true} pathname={currentLocation.pathname} />
             <span
                 className={styles.mobileNavUnderline}
                 style={{
@@ -177,21 +176,15 @@ export const Nav: React.FC = () => {
         <Navbar
             variant="light"
             expand="md"
-            className={`${styles.navbar} bg-none d-none d-sm-block`}
+            className={`${styles.navbar} bg-lighter d-none d-sm-block`}
         >
             <Container fluid>
-                <Row className="w-100">
-                    <Col md={1}>
-                        <NavbarBrand as={Link} className={styles.navbarBrand} to="/">
-                            <img src={Logo} alt="Talentmaker logo" title="Talentmaker" />
-                        </NavbarBrand>
-                    </Col>
-                    <Col md={11} className={styles.navLinks}>
-                        <div className={styles.navbarNav}>
-                            <NavLinks />
-                        </div>
-                    </Col>
-                </Row>
+                <NavbarBrand as={Link} className={styles.navbarBrand} to="/">
+                    <img src={Logo} alt="Talentmaker logo" title="Talentmaker" />
+                </NavbarBrand>
+                <div className={styles.navLinks}>
+                    <NavLinks pathname={currentLocation.pathname} />
+                </div>
             </Container>
         </Navbar>
     )

@@ -4,8 +4,9 @@
  */
 
 @use "~normalize.css/normalize";
-@use "./styles//variables";
-@use "./styles//markdown";
+@use "./styles/mixins";
+@use "./styles/variables";
+@use "./styles/markdown";
 
 @import "./styles//bootstrap";
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700;900&display=swap");
@@ -21,7 +22,17 @@
 
 // Set the gutter for root div
 #root {
-  @extend .g-3;
+  --gutter-x: #{map-get(variables.$spacers, 3)};
+  --gutter-y: var(--bs-gutter-x);
+  --bs-gutter-x: var(--gutter-x);
+  --bs-gutter-y: var(--gutter-y);
+
+  @include mixins.min-width("md") {
+    --gutter-x: #{map-get(variables.$spacers, 4)};
+    --gutter-y: var(--bs-gutter-x);
+    --bs-gutter-x: var(--gutter-x);
+    --bs-gutter-y: var(--gutter-y);
+  }
 }
 
 body {
@@ -137,4 +148,10 @@ h6 {
       transform: translateY(-0.5rem); // Move the content upwards
     }
   }
+}
+
+// Add padding to breadcrumbs
+nav[aria-label="breadcrumb"] {
+  @extend .mt-2;
+  @extend .mb-4;
 }
