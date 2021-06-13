@@ -23,13 +23,22 @@ type UserInfoProps = {
 export const UserInfo: React.FC<UserInfoProps> = ({username, desc, children}) => (
     <Container fluid>
         <Row>
-            <Col lg={7} className="d-flex flex-column justify-content-center">
-                {username && <p className={styles.username}>{username}</p>}
-                {desc && <p className="sub text-muted">{desc}</p>}
-            </Col>
-            <Col lg={5} className="d-flex flex-row align-items-center justify-content-end">
-                {children}
-            </Col>
+            {children ? (
+                <>
+                    <Col lg={7} className="d-flex flex-column justify-content-center">
+                        {username && <p className={styles.username}>{username}</p>}
+                        {desc && <p className="sub text-muted">{desc}</p>}
+                    </Col>
+                    <Col lg={5} className="d-flex flex-row align-items-center justify-content-end">
+                        {children}
+                    </Col>
+                </>
+            ) : (
+                <Col lg={12} className="d-flex flex-column justify-content-center">
+                    {username && <p className={styles.username}>{username}</p>}
+                    {desc && <p className="sub text-muted">{desc}</p>}
+                </Col>
+            )}
         </Row>
     </Container>
 )
