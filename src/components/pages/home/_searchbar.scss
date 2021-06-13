@@ -8,6 +8,8 @@
  *
  * License: BSD-3-Clause
  */
+
+@use "src/styles/mixins";
 @use "src/styles/variables";
 
 $line-height: 2vw;
@@ -21,7 +23,7 @@ $line-height: 2vw;
   min-height: 0;
   box-shadow: 0 0 5vw rgba(variables.$dark, 0.25);
 
-  @media (max-width: map-get(variables.$grid-breakpoints, sm)) {
+  @include mixins.max-width("sm") {
     padding: 1vw 2vw;
   }
 
@@ -32,7 +34,7 @@ $line-height: 2vw;
     font-size: 1.5vw;
     line-height: $line-height;
 
-    @media (max-width: map-get(variables.$grid-breakpoints, sm)) {
+    @include mixins.max-width("sm") {
       font-size: 3.5vw;
       vertical-align: middle;
     }
@@ -54,7 +56,7 @@ $line-height: 2vw;
   line-height: $line-height;
   height: 100%;
 
-  @media (max-width: map-get(variables.$grid-breakpoints, sm)) {
+  @include mixins.max-width("sm") {
     font-size: 3vw;
     padding: 1vw 2vw;
   }

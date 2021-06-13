@@ -8,6 +8,8 @@
  *
  * License: BSD-3-Clause
  */
+
+@use "src/styles/mixins";
 @use "src/styles/variables";
 @use "./searchbar" as searchbar;
 
@@ -48,7 +50,7 @@
   }
 }
 
-@media (min-width: map-get(variables.$grid-breakpoints, md)) {
+@include mixins.min-width("md") {
   .landingPage {
     .row {
       .text {
@@ -76,7 +78,7 @@
   }
 }
 
-@media (min-width: map-get(variables.$grid-breakpoints, lg)) {
+@include mixins.min-width("lg") {
   .landingPage {
     .row {
       .text {

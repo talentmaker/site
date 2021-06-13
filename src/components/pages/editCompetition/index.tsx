@@ -23,7 +23,7 @@ import {Spinner} from "~/components/bootstrap"
 import UserContext from "~/contexts/userContext"
 import {competitionAdapter} from "~/adapters/competition"
 import editCompetitionAdapter from "~/adapters/editCompetition"
-import styles from "~/styles/markdown-editor.module.scss"
+import styles from "~/components/styles/markdown-editor.module.scss"
 
 const formValidationSchema = yup.object({
     name: yup.string().max(64),

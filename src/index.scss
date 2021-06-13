@@ -4,10 +4,10 @@
  */
 
 @use "~normalize.css/normalize";
-@use "./styles/global/variables";
-@use "./styles/global/markdown";
+@use "./styles//variables";
+@use "./styles//markdown";
 
-@import "./styles/global/bootstrap";
+@import "./styles//bootstrap";
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700;900&display=swap");
 
 /*!

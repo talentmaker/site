@@ -23,7 +23,7 @@ import {Spinner} from "~/components/bootstrap"
 import UserContext from "~/contexts/userContext"
 import editProjectAdapter from "~/adapters/editProject"
 import {projectAdapter} from "~/adapters/project"
-import styles from "~/styles/markdown-editor.module.scss"
+import styles from "~/components/styles/markdown-editor.module.scss"
 
 const formValidationSchema = yup.object({
     name: yup

@@ -9,9 +9,10 @@
  * License: BSD-3-Clause
  */
 
+@use "src/styles/mixins";
 @use "src/styles/variables";
 
-@media (min-width: map-get(variables.$grid-breakpoints, md)) {
+@include mixins.min-width("md") {
   .navbar {
     .navLink {
       font-size: 2vw;
