@@ -1,0 +1,41 @@
+/*!
+ * Talentmaker website
+ *
+
+ * Copyright (C) 2020 - 2021 Luke Zhang, Ethan Lim
+ * Author: Luke Zhang - luke-zhang-04.github.io
+ *
+ * License: BSD-3-Clause
+ */
+
+@use "variables";
+
+/**
+ * Mixin for min-width with breakpoint size
+ * $size: breakpoint size e.g sm, md, lg
+ */
+@mixin min-width($size) {
+  @media screen and (min-width: map-get(variables.$grid-breakpoints, $size)) {
+    @content;
+  }
+}
+
+/**
+ * Mixin for max-width with breakpoint size
+ * $size: breakpoint size e.g sm, md, lg
+ */
+@mixin max-width($size) {
+  @media screen and (max-width: map-get(variables.$grid-breakpoints, $size)) {
+    @content;
+  }
+}
+
+/**
+ * Mixin for a single icon
+ * $color: color of icon
+ */
+@mixin icon($color) {
+  &:hover {
+    color: $color;
+  }
+}

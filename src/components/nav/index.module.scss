@@ -1,0 +1,96 @@
+/*!
+ * Talentmaker website
+ *
+ * Copyright (C) 2020 - 2021 Luke Zhang, Ethan Lim
+ * https://Luke-zhang-04.github.io
+ * https://github.com/ethanlim04
+ * Author: Luke Zhang
+ *
+ * License: BSD-3-Clause
+ */
+
+@use "src/styles/mixins";
+@use "src/styles/variables";
+
+@include mixins.min-width("md") {
+  .navbar {
+    .navLinks {
+      width: 100%;
+
+      .navLinkGroup {
+        display: flex;
+        flex-direction: row;
+        align-items: center; // Vertically centred
+        justify-content: space-between; // Horizontally to the right
+      }
+    }
+
+    .navbarBrand {
+      margin-top: 0; // Remove margins b/c they were making the navbar taller
+      margin-bottom: 0;
+      margin-right: variables.$font-size-base;
+
+      img {
+        // Logo
+        display: block;
+        width: variables.$font-size-base * 3;
+      }
+    }
+  }
+}
+
+.mobileNav {
+  $nav-item-count: 5;
+  $underline-height: 2.5px;
+  $transition-timing: cubic-bezier(0.645, 0.045, 0.355, 1);
+
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+
+  .mobileNavUnderline {
+    width: percentage((100 / $nav-item-count) / 100);
+    background-color: variables.$dark;
+    position: absolute;
+    height: $underline-height;
+    bottom: 0;
+    transition: left 0.5s $transition-timing;
+  }
+
+  .mobileNavItemContainer {
+    width: percentage((100 / $nav-item-count) / 100);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    .mobileNavLink {
+      color: variables.$dark;
+      text-decoration: none;
+      text-align: center;
+      transition: transform 0.5s $transition-timing;
+      padding-left: 0;
+      padding-right: 0;
+      padding-bottom: 0;
+
+      p {
+        transition: font-weight 0.5s $transition-timing;
+        font-size: 70%;
+        margin-bottom: 0;
+      }
+
+      &.active p {
+        font-weight: bold;
+      }
+
+      :global(.material-icons, .material-icons-outlined) {
+        font-size: 150%;
+      }
+    }
+  }
+}

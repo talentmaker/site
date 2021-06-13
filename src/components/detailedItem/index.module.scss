@@ -1,0 +1,61 @@
+/*!
+ * Talentmaker website
+ *
+ * Copyright (C) 2020 - 2021 Luke Zhang, Ethan Lim
+ * https://Luke-zhang-04.github.io
+ * https://github.com/ethanlim04
+ * Author: Luke Zhang
+ *
+ * License: BSD-3-Clause
+ */
+
+@use "src/styles/mixins";
+@use "src/styles/variables";
+
+.pfp {
+  width: 100%;
+  clip-path: circle(at center);
+}
+
+.username {
+  font-size: variables.$h1-font-size;
+}
+
+.bar {
+  height: 10vh;
+}
+
+.videoContainer {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  padding-top: 56.25%; // 16:9 Aspect Ratio (divide 9 by 16 = 0.5625)
+
+  .video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.topics {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  color: variables.$light;
+
+  p {
+    border: solid 0.125rem variables.$light;
+  }
+}
+
+@include mixins.min-width("md") {
+  .username {
+    font-size: 3vw;
+  }
+}

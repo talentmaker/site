@@ -1,0 +1,99 @@
+/*!
+ * Talentmaker website
+ *
+ * Copyright (C) 2020 - 2021 Luke Zhang, Ethan Lim
+ * https://Luke-zhang-04.github.io
+ * https://github.com/ethanlim04
+ * Author: Luke Zhang
+ *
+ * License: BSD-3-Clause
+ */
+
+@use "src/styles/mixins";
+@use "src/styles/variables";
+@use "./searchbar" as searchbar;
+
+.landingPage {
+  .row {
+    .text {
+      $px: 10vw;
+
+      padding-left: $px;
+      padding-right: $px;
+
+      h1 {
+        font-size: 7vw;
+        margin-right: 17.5vw;
+      }
+
+      p {
+        font-size: 4vw;
+        font-weight: lighter;
+      }
+
+      .searchbarContainer {
+        position: relative;
+
+        .searchbar {
+          @include searchbar.searchbar;
+        }
+
+        .inputBtn {
+          @include searchbar.input-btn;
+        }
+      }
+    }
+
+    .image {
+      filter: drop-shadow(0 1.5vw 1.5vw rgba(black, 0.3));
+    }
+  }
+}
+
+@include mixins.min-width("md") {
+  .landingPage {
+    .row {
+      .text {
+        padding-left: 3vw;
+        padding-right: 0;
+
+        h1 {
+          font-size: 4.5vw;
+          margin-right: 3vw;
+          font-weight: normal;
+        }
+
+        p {
+          font-size: 2.5vw;
+          font-weight: 350;
+        }
+      }
+
+      .image {
+        img {
+          transform: translateX(-9%);
+        }
+      }
+    }
+  }
+}
+
+@include mixins.min-width("lg") {
+  .landingPage {
+    .row {
+      .text {
+        margin-top: 5vw;
+
+        h1 {
+          font-size: 3vw;
+        }
+
+        p {
+          font-size: 2vw;
+          margin-right: 3vw;
+          font-weight: 350;
+        }
+      }
+    }
+  }
+}
