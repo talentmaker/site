@@ -8,21 +8,15 @@
  * https://github.com/ethanlim04
  */
 
-import React from "react"
-import {Spinner} from "../components/bootstrap"
+import CompetitionComponent from "../components/pages/competition"
+import type React from "react"
 import {useParams} from "react-router-dom"
-
-const CompetitionComponent = React.lazy(() => import("../components/pages/competition"))
 
 export const Competition: React.FC = () => {
     const {id} = useParams<{id?: string}>()
 
     return id ? (
-        <React.Suspense
-            fallback={<Spinner color="primary" size="25vw" className="my-5" centered />}
-        >
-            <CompetitionComponent id={id} />
-        </React.Suspense>
+        <CompetitionComponent id={id} />
     ) : (
         <>
             <h1>Error:</h1>

@@ -8,23 +8,14 @@
  * https://github.com/ethanlim04
  */
 
-import React from "react"
-import {Spinner} from "../components/bootstrap"
+import EditCompetitionComponent from "../components/pages/editCompetition"
 import {useParams} from "react-router"
-
-const EditCompetitionComponent = React.lazy(() => import("../components/pages/editCompetition"))
 
 export const EditCompetition: React.FC = () => {
     const {id} = useParams<{id: string}>()
 
     return (
-        <React.Suspense
-            fallback={<Spinner color="primary" size="25vw" className="my-5" centered />}
-        >
-            <EditCompetitionComponent
-                id={id === "new" || id === undefined ? undefined : Number(id)}
-            />
-        </React.Suspense>
+        <EditCompetitionComponent id={id === "new" || id === undefined ? undefined : Number(id)} />
     )
 }
 
