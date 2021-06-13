@@ -9,10 +9,11 @@
  * License: BSD-3-Clause
  */
 
+@use "src/styles/mixins";
 @use "src/styles/variables";
 
 .gridCard {
-  height: 33.33vw;
+  height: auto;
   position: relative;
   margin-bottom: 2vw;
 
@@ -24,20 +25,20 @@
 
   .cardInfo {
     width: 100%;
-    position: absolute;
-    bottom: 0;
+    position: relative;
+    background-color: variables.$lighter;
+    padding-top: map-get(variables.$spacers, 3);
+    padding-bottom: map-get(variables.$spacers, 3);
 
     .tag {
       position: relative;
       max-width: fit-content;
-      background-color: variables.$primary;
-      padding: 0.25vw;
-      font-size: 1vw;
+      padding: 0.25vw variables.$font-size-base;
+      font-size: variables.$font-size-base;
       top: 0;
     }
 
     .cardDetails {
-      background-color: variables.$lighter;
       width: 100%;
       position: relative;
       padding-top: 1vw;
@@ -52,6 +53,29 @@
         white-space: nowrap; // Truncate title and description if needed
         overflow: hidden; // Hide overflow
         text-overflow: ellipsis; // Add ellipsis after truncating
+      }
+    }
+  }
+}
+
+@include mixins.min-width("md") {
+  .gridCard {
+    height: 33.33vw;
+
+    .cardInfo {
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+      background-color: variables.$none;
+      padding-top: 0;
+      padding-bottom: 0;
+
+      .tag {
+        background-color: variables.$primary;
+      }
+
+      .cardDetails {
+        background-color: variables.$lighter;
       }
     }
   }

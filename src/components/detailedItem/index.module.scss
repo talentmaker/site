@@ -9,6 +9,7 @@
  * License: BSD-3-Clause
  */
 
+@use "src/styles/mixins";
 @use "src/styles/variables";
 
 .pfp {
@@ -17,7 +18,7 @@
 }
 
 .username {
-  font-size: 3vw;
+  font-size: variables.$h1-font-size;
 }
 
 .bar {
@@ -50,5 +51,11 @@
 
   p {
     border: solid 0.125rem variables.$light;
+  }
+}
+
+@include mixins.min-width("md") {
+  .username {
+    font-size: 3vw;
   }
 }

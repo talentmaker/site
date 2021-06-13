@@ -70,7 +70,7 @@ const Img: React.FC<Props> = (props) => {
 
                     return props.onLoad?.(event)
                 }}
-                className={`${didLoad ? "d-block" : "d-none"} ${props.className}`}
+                className={`${didLoad ? "d-block" : "d-none"} ${props.className ?? ""}`}
             />
         </>
     )
