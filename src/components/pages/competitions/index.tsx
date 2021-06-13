@@ -96,7 +96,7 @@ export const Competitions: React.FC = () => {
         const sortedCompetitions = getSortedCompetitions(competitions)
 
         return (
-            <Container fluid>
+            <Container fluid className="mt-3">
                 {user?.isOrg === true && (
                     <>
                         <h1>Create a Competition</h1>
