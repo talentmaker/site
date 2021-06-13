@@ -8,35 +8,30 @@
  * https://github.com/ethanlim04
  */
 
-import {Col, Row} from "react-bootstrap"
-import {IFrame, Img} from "../elements"
+import {Col, Container, Row} from "react-bootstrap"
 import React, {ReactNode} from "react"
-import DefaultPFP from "~/images/profile.svg"
+import {IFrame} from "../elements"
 import {Link} from "react-router-dom"
 import {Spinner} from "../bootstrap"
 import styles from "./index.module.scss"
 
 type UserInfoProps = {
-    pfp?: string
     username?: string
     desc?: string
 }
 
-export const UserInfo: React.FC<UserInfoProps> = ({pfp, username, desc, children}) => (
-    <Row>
-        <Col lg={2}>
-            <div className="px-4 my-3">
-                <Img src={pfp ?? DefaultPFP} className={styles.pfp} alt="Profile" />
-            </div>
-        </Col>
-        <Col lg={5} className="d-flex flex-column justify-content-center">
-            {username && <p className={styles.username}>{username}</p>}
-            {desc && <p className="sub text-muted">{desc}</p>}
-        </Col>
-        <Col lg={5} className="d-flex flex-row align-items-center justify-content-end">
-            {children}
-        </Col>
-    </Row>
+export const UserInfo: React.FC<UserInfoProps> = ({username, desc, children}) => (
+    <Container fluid>
+        <Row>
+            <Col lg={7} className="d-flex flex-column justify-content-center">
+                {username && <p className={styles.username}>{username}</p>}
+                {desc && <p className="sub text-muted">{desc}</p>}
+            </Col>
+            <Col lg={5} className="d-flex flex-row align-items-center justify-content-end">
+                {children}
+            </Col>
+        </Row>
+    </Container>
 )
 
 export const Video: React.FC<React.ComponentProps<typeof IFrame>> = (props) => {

@@ -8,7 +8,7 @@
  * https://github.com/ethanlim04
  */
 
-import {Button, Container, Row} from "react-bootstrap"
+import {Breadcrumb, Button, Container, Row} from "react-bootstrap"
 import {Projects as ProjectsType, projectsSchema} from "~/schemas/projects"
 import {Spinner, initTooltips} from "~/components/bootstrap"
 import {arrayToChunks, validate} from "~/utils"
@@ -80,6 +80,15 @@ export const Projects: React.FC<{compId: string}> = ({compId}) => {
 
         return (
             <Container fluid>
+                <Breadcrumb>
+                    <Breadcrumb.Item linkAs={Link} linkProps={{to: "/competitions"}}>
+                        Competitions
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item linkAs={Link} linkProps={{to: `/competition/${compId}`}}>
+                        {compId}
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item active>Submissions</Breadcrumb.Item>
+                </Breadcrumb>
                 <h1 className="my-3">Advancing</h1>
                 {(sortedCompetitions[0]?.length ?? 0) > 0 ? (
                     sortedCompetitions[0].map((row, index) => (

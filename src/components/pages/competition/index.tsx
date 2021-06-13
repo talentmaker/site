@@ -9,7 +9,7 @@
  */
 
 import * as Components from "~/components/detailedItem"
-import {Button, Col, Container, Row} from "react-bootstrap"
+import {Breadcrumb, Button, Col, Container, Row} from "react-bootstrap"
 import {Competition as CompetitionType, competitionSchema} from "~/schemas/competition"
 import {JoinButton, SubmissionButton} from "./buttons"
 import {Spinner, initTooltips} from "~/components/bootstrap"
@@ -70,6 +70,12 @@ export const Competition: React.FC<Props> = (props) => {
 
         return (
             <>
+                <Breadcrumb className="container-fluid" listProps={{className: "mb-0"}}>
+                    <Breadcrumb.Item linkAs={Link} linkProps={{to: "/competitions"}}>
+                        Competitions
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item active>{props.id}</Breadcrumb.Item>
+                </Breadcrumb>
                 <Components.UserInfo
                     username={competition.name ?? `${competition.orgName}'s Competition`}
                     desc={competition.shortDesc}

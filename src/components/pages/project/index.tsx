@@ -9,7 +9,7 @@
  */
 
 import * as Components from "~/components/detailedItem"
-import {Button, Col, Container, Row} from "react-bootstrap"
+import {Breadcrumb, Button, Col, Container, Row} from "react-bootstrap"
 import {Project as ProjectType, projectSchema} from "~/schemas/project"
 import {Spinner, initTooltips} from "~/components/bootstrap"
 import {readCache, validate} from "~/utils"
@@ -74,6 +74,24 @@ export const Project: React.FC<Props> = (props) => {
 
         return (
             <>
+                <Breadcrumb className="container-fluid" listProps={{className: "mb-0"}}>
+                    <Breadcrumb.Item linkAs={Link} linkProps={{to: "/competitions"}}>
+                        Competitions
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item
+                        linkAs={Link}
+                        linkProps={{to: `/competition/${project.competitionId}`}}
+                    >
+                        {project.competitionId}
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item
+                        linkAs={Link}
+                        linkProps={{to: `/projects/${project.competitionId}`}}
+                    >
+                        Submissions
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item active>{project.id}</Breadcrumb.Item>
+                </Breadcrumb>
                 <Components.UserInfo
                     username={project.name ?? "Submission"}
                     desc={`Submission for ${project.name ?? "Submission"}`}

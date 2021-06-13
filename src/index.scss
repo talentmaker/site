@@ -18,6 +18,12 @@
  *
  * License: BSD-3-Clause
  */
+
+// Set the gutter for root div
+#root {
+  @extend .g-3;
+}
+
 body {
   background-color: $light;
   color: $dark;
