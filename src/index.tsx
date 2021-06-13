@@ -33,6 +33,8 @@ import {
     Profile,
     Project,
     Projects,
+    Talentmakers,
+    Talents,
 } from "./pages"
 import {Route, BrowserRouter as Router, Switch} from "react-router-dom"
 import {CognitoUser as User, isUser} from "./schemas/user"
@@ -188,6 +190,8 @@ class App extends React.Component<AppTypes.Props, AppTypes.State> {
                     <Route path="/project/:id" component={Project} />
                     <Route path="/project" component={Project} />
                     <Route path="/projects/:compId" component={Projects} />
+                    <Route path="/talents" component={Talents} />
+                    <Route path="/talentmakers" component={Talentmakers} />
 
                     {/* 404 */}
                     <Route component={NotFound} />
