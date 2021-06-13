@@ -8,9 +8,11 @@
  * https://github.com/ethanlim04
  */
 
-import ProjectsComponent from "../components/pages/projects"
-import type React from "react"
+import React from "react"
+import {Spinner} from "../components/bootstrap"
 import {useParams} from "react-router"
+
+const ProjectsComponent = React.lazy(() => import("../components/pages/projects"))
 
 /**
  * Wrapper for the projects component that passes in the user
@@ -19,7 +21,11 @@ export const Projects: React.FC<{}> = () => {
     const {compId} = useParams<{compId?: string}>()
 
     return compId ? (
-        <ProjectsComponent compId={compId} />
+        <React.Suspense
+            fallback={<Spinner color="primary" size="25vw" className="my-5" centered />}
+        >
+            <ProjectsComponent compId={compId} />
+        </React.Suspense>
     ) : (
         <>
             <h1>Error:</h1>

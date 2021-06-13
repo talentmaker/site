@@ -8,19 +8,33 @@
  * https://github.com/ethanlim04
  */
 
-import ProjectComponent from "../components/pages/project"
-import type React from "react"
+import React from "react"
+import {Spinner} from "../components/bootstrap"
 import queryString from "query-string"
 import {useParams} from "react-router"
+
+const ProjectComponent = React.lazy(() => import("../components/pages/project"))
 
 export const Project: React.FC = () => {
     const {id} = useParams<{id?: string}>()
     const {competition: compId} = queryString.parse(window.location.search)
 
     if (id) {
-        return <ProjectComponent id={id} />
+        return (
+            <React.Suspense
+                fallback={<Spinner color="primary" size="25vw" className="my-5" centered />}
+            >
+                <ProjectComponent id={id} />
+            </React.Suspense>
+        )
     } else if (typeof compId === "string") {
-        return <ProjectComponent compId={compId} />
+        return (
+            <React.Suspense
+                fallback={<Spinner color="primary" size="25vw" className="my-5" centered />}
+            >
+                <ProjectComponent compId={compId} />
+            </React.Suspense>
+        )
     }
 
     return (

@@ -8,19 +8,33 @@
  * https://github.com/ethanlim04
  */
 
-import EditProjectComponent from "../components/pages/editProject"
 import React from "react"
+import {Spinner} from "../components/bootstrap"
 import queryString from "query-string"
 import {useParams} from "react-router-dom"
+
+const EditProjectComponent = React.lazy(() => import("../components/pages/editProject"))
 
 export const EditProject: React.FC = () => {
     const {id} = useParams<{id?: string}>()
     const {competition: compId} = queryString.parse(window.location.search)
 
     if (id) {
-        return <EditProjectComponent id={id} />
+        return (
+            <React.Suspense
+                fallback={<Spinner color="primary" size="25vw" className="my-5" centered />}
+            >
+                <EditProjectComponent id={id} />
+            </React.Suspense>
+        )
     } else if (typeof compId === "string") {
-        return <EditProjectComponent compId={compId} />
+        return (
+            <React.Suspense
+                fallback={<Spinner color="primary" size="25vw" className="my-5" centered />}
+            >
+                <EditProjectComponent compId={compId} />
+            </React.Suspense>
+        )
     }
 
     return (
