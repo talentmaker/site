@@ -94,8 +94,9 @@ export const UserDisplay: React.FC = () => {
                         </Button>
                     </ul>
                 </Col>
-                <Col xs={9}>
+                <Col xs={9} className="px-gx">
                     <h1>Projects:</h1>
+                    <p>Coming soon!</p>
                 </Col>
             </Row>
         </>
