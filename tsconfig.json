@@ -38,6 +38,6 @@
     "baseUrl": "./"
   },
   "include": [
-    "src/"
+    "public/src"
   ]
 }
