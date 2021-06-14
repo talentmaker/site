@@ -1,23 +1,26 @@
 version: "1" # required to adjust maintainability checks
+
+# A lot of rules will be very lose because React hooks is just like that
+
 checks:
   argument-count:
     config:
       threshold: 6
   complex-logic:
     config:
-      threshold: 10
+      threshold: 20
   file-lines:
     config:
       threshold: 300
   method-complexity:
     config:
-      threshold: 10
+      threshold: 20
   method-count:
     config:
-      threshold: 15
+      threshold: 20
   method-lines:
     config:
-      threshold: 30
+      threshold: 100
   nested-control-flow:
     config:
       threshold: 6
@@ -25,9 +28,13 @@ checks:
     config:
       threshold: 6
   similar-code:
-    enabled: true
+    config:
+      threshold: 60
+      count_threshold: 3
   identical-code:
-    enabled: true
+    config:
+      threshold: 30
+      count_threshold: 2
 
 exclude_patterns:
   - "src/serviceWorker.ts"
