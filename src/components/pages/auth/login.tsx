@@ -71,7 +71,12 @@ export const Login = (): JSX.Element => {
                         <span className="material-icons">vpn_key</span>
                     </Input>
 
-                    <Button variant="primary" type="submit" disabled={isSubmitting}>
+                    <Button
+                        className="mt-3"
+                        variant="primary"
+                        type="submit"
+                        disabled={isSubmitting}
+                    >
                         {isSubmitting ? <Spinner inline> </Spinner> : undefined}
                         Login
                     </Button>

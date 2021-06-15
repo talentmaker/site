@@ -31,17 +31,19 @@ export const Auth: React.FC = () => {
     }, [location])
 
     return (
-        <Container fluid className=" my-5">
+        <Container fluid className="my-5">
             <Row className="py-5">
                 <Col
-                    xs={6}
+                    xs={12}
+                    md={6}
                     className="bg-primary align-items-center justify-content-center d-flex py-5"
                 >
                     <Img src={AuthImage} alt="auth images" className="w-75 flex-center" />
                 </Col>
                 <Col
-                    xs={6}
-                    className="text-center bg-lighter p-5 align-items-center justify-content-center d-flex"
+                    xs={12}
+                    md={6}
+                    className="text-center bg-lighter p-3 p-md-5 align-items-center justify-content-center d-flex"
                 >
                     {mode === "register" ? <Reg /> : <Login />}
                 </Col>
