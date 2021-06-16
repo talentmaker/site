@@ -9,26 +9,113 @@
 
 @import "~bootstrap/scss/utilities";
 
-$full-range: ();
-
-@for $width from 1 through 100 {
-  $full-range: map-merge(
-    $full-range,
-    (
-      $width: percentage($width / 100),
-    )
-  );
-}
+// Remove unused utilities
+$utilities: map-remove(
+  $utilities,
+  "align",
+  "overflow",
+  "shadow",
+  "translate-middle",
+  "max-width",
+  "viewport-width",
+  "min-viewport-width",
+  "max-height",
+  "viewport-height",
+  "min-viewport-height",
+  "gap",
+  "align-content",
+  "align-self",
+  "order",
+  "negative-margin",
+  "negative-margin-x",
+  "negative-margin-y",
+  "negative-margin-top",
+  "negative-margin-end",
+  "negative-margin-bottom",
+  "negative-margin-start",
+  "font-family",
+  "font-size",
+  "font-style",
+  "font-weight",
+  "line-height",
+  "text-transform",
+  "white-space",
+  "word-wrap",
+  "gradient",
+  "user-select",
+  "pointer-events",
+  "rounded",
+  "rounded-top",
+  "rounded-end",
+  "rounded-bottom",
+  "rounded-start",
+  "visibility"
+);
 
 $utilities: map-merge(
   $utilities,
   (
-    "width":
+    "float":
       map-merge(
-        map-get($utilities, "width"),
+        map-get($utilities, "float"),
         (
-          responsive: true,
-          values: $full-range,
+          responsive: false,
+        )
+      ),
+    "flex":
+      map-merge(
+        map-get($utilities, "flex"),
+        (
+          responsive: false,
+        )
+      ),
+    "flex-direction":
+      map-merge(
+        map-get($utilities, "flex-direction"),
+        (
+          responsive: false,
+        )
+      ),
+    "flex-grow":
+      map-merge(
+        map-get($utilities, "flex-grow"),
+        (
+          responsive: false,
+        )
+      ),
+    "flex-shrink":
+      map-merge(
+        map-get($utilities, "flex-shrink"),
+        (
+          responsive: false,
+        )
+      ),
+    "flex-wrap":
+      map-merge(
+        map-get($utilities, "flex-wrap"),
+        (
+          responsive: false,
+        )
+      ),
+    "justify-content":
+      map-merge(
+        map-get($utilities, "justify-content"),
+        (
+          responsive: false,
+        )
+      ),
+    "align-items":
+      map-merge(
+        map-get($utilities, "align-items"),
+        (
+          responsive: false,
+        )
+      ),
+    "text-align":
+      map-merge(
+        map-get($utilities, "text-align"),
+        (
+          responsive: false,
         )
       ),
   )
