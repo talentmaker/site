@@ -202,12 +202,19 @@ class App extends React.Component<AppTypes.Props, AppTypes.State> {
     )
 }
 
-ReactDOM.render(
-    <React.StrictMode>
-        <App ref={appRef} />
-    </React.StrictMode>,
-    document.getElementById("root"),
-)
+// Apply fade out, render content
+document.querySelector(".loading-container")?.classList.add("fade-out")
+
+const timeout = 200
+
+setTimeout(() => {
+    ReactDOM.render(
+        <React.StrictMode>
+            <App ref={appRef} />
+        </React.StrictMode>,
+        document.getElementById("root"),
+    )
+}, timeout)
 
 /*
  * If you want your app to work offline and load faster, you can change

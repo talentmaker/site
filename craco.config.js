@@ -1,4 +1,7 @@
+const craco = require("@craco/craco")
 const path = require("path")
+const paths = require("react-scripts/config/paths")
+const HtmlWebpackPlugin = require("html-webpack-plugin")
 const StyleLintPlugin = require("stylelint-webpack-plugin")
 
 module.exports = {
@@ -13,8 +16,30 @@ module.exports = {
             "~": path.join(__dirname, "src"),
         },
         plugins: {
-            // Add stylelint plugin
+            remove: ["HtmlWebpackPlugin"],
             add: [
+                // Use non-blocking script load
+                new HtmlWebpackPlugin({
+                    inject: true,
+                    template: paths.appHtml,
+                    scriptLoading: "defer",
+                    ...craco.whenProd(() => ({
+                        minify: {
+                            removeComments: true,
+                            collapseWhitespace: true,
+                            removeRedundantAttributes: true,
+                            useShortDoctype: true,
+                            removeEmptyAttributes: true,
+                            removeStyleLinkTypeAttributes: true,
+                            keepClosingSlash: true,
+                            minifyJS: true,
+                            minifyCSS: true,
+                            minifyURLs: true,
+                        },
+                    })),
+                }),
+
+                // Add stylelint plugin
                 new StyleLintPlugin({
                     configBasedir: __dirname,
                     context: path.resolve(__dirname, "src"),
