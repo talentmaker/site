@@ -12,7 +12,9 @@
     "url": "https://github.com/Luke-zhang-04/round-maker/issues"
   },
   "scripts": {
-    "analyze": "source-map-explorer 'build/static/js/*.js'",
+    "analyze": "source-map-explorer 'build/static/**/*.{js,css}'",
+    "analyze:css": "source-map-explorer 'build/static/css/*.css'",
+    "analyze:js": "source-map-explorer 'build/static/js/*.js'",
     "build": "craco build",
     "lint": "bash lint.sh",
     "lint:fix": "bash lint.sh --fix",
