@@ -1,16 +1,4 @@
 /*!
- * Universal styling for Talentmaker-site
- * Includes Normalize.css, Bootstrap SASS, and other styles that apply to all pages
- */
-
-@use "~normalize.css/normalize";
-@use "./styles/mixins";
-@use "./styles/variables";
-@use "./styles/markdown";
-
-@import "./styles//bootstrap";
-
-/*!
  * Talentmaker website
  *
  * Copyright (C) 2020 - 2021 Luke Zhang, Ethan Lim
@@ -18,6 +6,10 @@
  *
  * License: BSD-3-Clause
  */
+
+@use "functions" as utils;
+@use "mixins";
+@use "variables";
 
 // Set the gutter for root div
 #root {
@@ -34,49 +26,15 @@
   }
 }
 
-body {
-  background-color: $light;
-  color: $dark;
-}
-
 html,
 body {
   max-width: 100% !important;
 }
 
-// Get rid of border radius on form inputs
-.input-group,
-.input-group-text,
 .form-control {
-  border-radius: 0;
-  border: none;
-}
-
-.form-control::placeholder,
-.form-control {
-  color: variables.$dark;
-}
-
-.form-control {
-  background-color: variables.$light;
-
-  &:focus {
-    background-color: variables.$light-grey;
-    color: variables.$darker;
-  }
-
   &::placeholder {
-    opacity: 0.75; // Mute placeholder text
+    opacity: 0.75 !important; // Mute placeholder text
   }
-}
-
-.input-group-text {
-  // The icons before an input field and thier colour
-  background-color: variables.$light-grey;
-}
-
-.btn {
-  border-radius: 0; // Buttons are boxed
 }
 
 .material-icons {
@@ -106,16 +64,8 @@ body {
 }
 
 // Remove border radius from toasts
-.toast {
-  border-radius: 0;
-
-  .toast-header {
-    border-radius: 0;
-  }
-
-  &.show {
-    animation: toast-entrance 0.25s ease-out;
-  }
+.toast.show {
+  animation: toast-entrance 0.25s ease-out;
 }
 
 // Header font weights
@@ -127,7 +77,7 @@ h6 {
 }
 
 // Button for going back to top
-.btn-circle {
+.icon-btn {
   background-color: variables.$none; // Transparent
   border: none; // Remove borders
   border-radius: 50%; // Rounded
@@ -151,8 +101,8 @@ h6 {
 
 // Add padding to breadcrumbs
 nav[aria-label="breadcrumb"] {
-  @extend .mt-2;
-  @extend .mb-4;
+  margin-top: utils.spacer(2);
+  margin-bottom: utils.spacer(4);
 }
 
 //Set icon colours for social media icons icons

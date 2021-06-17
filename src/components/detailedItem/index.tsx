@@ -141,7 +141,7 @@ const SidebarItem: React.FC<SidebarProps["items"][0]> = ({icon, title, contents,
 export const Sidebar: React.FC<SidebarProps> = ({items}) => (
     <div className="p-3 position-sticky top-0">
         <button
-            className="btn-circle"
+            className="icon-btn"
             onClick={(): void => {
                 window.scrollTo({
                     top: 0,

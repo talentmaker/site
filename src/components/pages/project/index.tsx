@@ -21,6 +21,7 @@ import UserContext from "~/contexts/userContext"
 import getProjectData from "./utils"
 import projectAdapter from "~/adapters/project"
 import scrollToHeader from "~/components/markdown/scrollToHeader"
+import styles from "~/components/markdown/styles.module.scss"
 
 type Props = {
     /**
@@ -111,7 +112,7 @@ export const Project: React.FC<Props> = (props) => {
                 <Row>
                     <Col lg={9}>
                         <Components.Video title="competition video" src={data.src} />
-                        <div className="markdown-container py-3 px-gx">
+                        <div className={`${styles.markdownContainer} py-3 px-gx`}>
                             <Container fluid className="p-4 bg-lighter">
                                 <Markdown>{project.desc ?? ""}</Markdown>
                             </Container>

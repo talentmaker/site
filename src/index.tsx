@@ -17,7 +17,8 @@ import "prismjs/components/prism-typescript"
 import "prismjs/components/prism-python"
 
 // Styles
-import "./index.scss"
+import "./styles/global.scss"
+import("./styles/vendor.scss") // Hacky way to enable code-splitting for vendor css
 
 import * as serviceWorker from "./serviceWorker"
 import {

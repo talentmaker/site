@@ -15,6 +15,7 @@ module.exports = {
                     "mixin",
                     "include",
                     "function",
+                    "return",
                     "extend",
                     "at-root",
                     "error",

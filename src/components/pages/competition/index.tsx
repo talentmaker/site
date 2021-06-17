@@ -22,6 +22,7 @@ import UserContext from "~/contexts/userContext"
 import competitionAdapter from "~/adapters/competition"
 import getCompetitionData from "./utils"
 import scrollToHeader from "~/components/markdown/scrollToHeader"
+import styles from "~/components/markdown/styles.module.scss"
 
 type Props = {
     /**
@@ -103,7 +104,7 @@ export const Competition: React.FC<Props> = (props) => {
                 <Row>
                     <Col lg={9}>
                         <Components.Video title="competition video" src={data.src} />
-                        <div className="markdown-container py-3 px-gx">
+                        <div className={`${styles.markdownContainer} py-3 px-gx`}>
                             <Container fluid className="p-4 bg-lighter">
                                 <Markdown>
                                     {competition.desc ?? "# No description provided"}

@@ -28,8 +28,23 @@ $breadcrumb-divider: quote(">");
 $font-family-sans-serif: "Ubuntu", sans-serif;
 $font-family-base: "Ubuntu", sans-serif;
 
-$body-bg: $dark;
-$body-color: $light;
+$body-bg: $light;
+$body-color: $dark;
+
+$input-border-radius: 0; // Get rid of border radius on form inputs
+$input-border-width: 0;
+$input-color: $dark; // Change input colours
+$input-placeholder-color: $dark;
+$input-bg: $light;
+$input-focus-bg: $light-grey;
+$input-focus-color: $darker;
+$input-group-addon-bg: $light-grey; // The icons before an input field and thier colour
+
+$btn-border-radius: 0; // Get rid of border radius on buttons
+$btn-border-radius-lg: 0;
+$btn-border-radius-sm: 0;
+
+$toast-border-radius: 0; // Get rid of border radius on toasts
 
 $theme-colors: map-merge(
   $theme-colors,
