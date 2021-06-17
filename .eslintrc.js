@@ -28,7 +28,14 @@ module.exports = {
         sourceType: "module",
         project: ["./tsconfig.json"],
     },
-    plugins: ["react", "@typescript-eslint", "prefer-arrow", "jsx-a11y", "prettier"],
+    plugins: [
+        "react",
+        "@typescript-eslint",
+        "prefer-arrow",
+        "jsx-a11y",
+        "prettier",
+        "react-hooks",
+    ],
     rules: {
         // General ESLint rules
         "arrow-body-style": ["warn", "as-needed"],
@@ -179,6 +186,9 @@ module.exports = {
                 usePrettierrc: true,
             },
         ],
+
+        // React Hooks
+        "react-hooks/rules-of-hooks": "error",
     },
     settings: {react: {version: "detect"}},
 }

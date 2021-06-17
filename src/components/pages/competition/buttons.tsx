@@ -60,6 +60,21 @@ type JoinButtonProps = {competition: Competition; user?: User; onSuccess?: () =>
 
 export const JoinButton: React.FC<JoinButtonProps> = ({competition, user, onSuccess}) => {
     const [isJoining, setJoining] = React.useState(false)
+    const join = React.useCallback(async (): Promise<void> => {
+        setJoining(true)
+
+        if (user !== undefined && user !== null) {
+            const isSuccessful = !(
+                (await competitionJoinAdapter(user, Number(competition.id))) instanceof Error
+            )
+
+            if (isSuccessful) {
+                onSuccess?.()
+            }
+        }
+
+        setJoining(false)
+    }, [user, competition])
 
     if (
         user?.isOrg && // User is organization
@@ -78,22 +93,6 @@ export const JoinButton: React.FC<JoinButtonProps> = ({competition, user, onSucc
     } else if (!competition) {
         return null
     }
-
-    const join = React.useCallback(async (): Promise<void> => {
-        setJoining(true)
-
-        if (user !== undefined && user !== null) {
-            const isSuccessful = !(
-                (await competitionJoinAdapter(user, Number(competition.id))) instanceof Error
-            )
-
-            if (isSuccessful) {
-                onSuccess?.()
-            }
-        }
-
-        setJoining(false)
-    }, [user, competition])
 
     // User is not an organization
     return competition?.inComp ? null : (
