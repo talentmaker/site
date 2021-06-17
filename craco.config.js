@@ -4,6 +4,8 @@ const paths = require("react-scripts/config/paths")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 const StyleLintPlugin = require("stylelint-webpack-plugin")
 
+const appPackageJson = require(paths.appPackageJson)
+
 module.exports = {
     style: {
         modules: {
@@ -49,6 +51,21 @@ module.exports = {
         },
         resolve: {
             mainFields: ["module", "main", "browser"],
+        },
+        configure: (webpackConfig) => {
+            const webpackJsonpName = appPackageJson.name.replace(/-[A-z]/u, (str) =>
+                str[1].toUpperCase(),
+            )
+
+            return {
+                ...webpackConfig,
+                output: {
+                    ...webpackConfig.output,
+                    jsonpFunction: `wpJsonp${webpackJsonpName[0].toUpperCase()}${webpackJsonpName.slice(
+                        1,
+                    )}`,
+                },
+            }
         },
     },
 }
