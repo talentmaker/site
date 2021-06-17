@@ -156,14 +156,18 @@ nav[aria-label="breadcrumb"] {
 }
 
 //Set icon colours for social media icons icons
-.bi-youtube {
+.colored-icon.bi-youtube {
   @include mixins.icon(#ff0000);
 }
 
-.bi-linkedin {
+.colored-icon.bi-linkedin {
   @include mixins.icon(#0e76a8);
 }
 
-.bi-github {
+.colored-icon.bi-github {
   @include mixins.icon(variables.$dark-grey);
+}
+
+.colored-icon.bi-github.nav-link {
+  @include mixins.icon(black);
 }

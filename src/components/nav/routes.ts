@@ -1,14 +1,18 @@
 export type MobileLinks = (
     | [path: string, displayName: string, iconName: string]
     | [
-          [path: string, displayName: string, iconName: string],
-          [path: string, displayName: string, iconName: string],
+          authenticated: [path: string, displayName: string, iconName: string],
+          unauthenticated: [path: string, displayName: string, iconName: string],
       ]
 )[]
 
 type DesktopLinkGroup = (
     | [path: string, displayName: string]
-    | [[path: string, displayName: string], [path: string, displayName: string]]
+    | [href: string, iconType: "bootstrap" | "material-icons", iconName: string]
+    | [
+          authenticated: [path: string, displayName: string],
+          unauthenticated: [path: string, displayName: string],
+      ]
 )[]
 
 export type DesktopLinks = [left: DesktopLinkGroup, right: DesktopLinkGroup]
@@ -32,6 +36,9 @@ export const desktop: DesktopLinks = [
         ["/talentmakers", "Talentmakers"],
     ],
     [
+        ["https://www.youtube.com/channel/UCltJw7oSTdHDio806LztCzQ", "bootstrap", "bi-youtube"],
+        ["https://www.linkedin.com/in/talent-maker-group/", "bootstrap", "bi-linkedin"],
+        ["https://github.com/Luke-zhang-04/talentmaker-site", "bootstrap", "bi-github"],
         [
             ["/profile", "Profile"],
             ["/auth", "Sign Up"],

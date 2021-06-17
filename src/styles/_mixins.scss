@@ -36,6 +36,6 @@
  */
 @mixin icon($color) {
   &:hover {
-    color: $color;
+    color: $color !important;
   }
 }

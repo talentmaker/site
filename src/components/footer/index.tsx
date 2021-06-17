@@ -41,17 +41,17 @@ export const Footer: React.FC<{user?: User}> = (props): JSX.Element => (
             <a
                 {...linkProps}
                 href="https://www.youtube.com/channel/UCltJw7oSTdHDio806LztCzQ"
-                className="bi-youtube"
+                className="bi-youtube colored-icon"
             />
             <a
                 {...linkProps}
                 href="https://www.linkedin.com/in/talent-maker-group/"
-                className="bi-linkedin"
+                className="bi-linkedin colored-icon"
             />
             <a
                 {...linkProps}
                 href="https://github.com/Luke-zhang-04/talentmaker-site"
-                className="bi-github"
+                className="bi-github colored-icon"
             />
         </Row>
 
