@@ -8,10 +8,26 @@
  * https://github.com/ethanlim04
  */
 
-import type {AppTypes} from ".."
 import React from "react"
 
-export const UserContext = React.createContext<AppTypes.Context>({
+/**
+ * React user context type
+ */
+export interface Context {
+    currentUser: undefined | User
+
+    /**
+     * Set the current loggedin user
+     */
+    setUser: (user: Context["currentUser"]) => Promise<void>
+
+    /**
+     * Set the current loggedin user from an unknown object that is validated
+     */
+    setUserFromUnknown: (user?: {[key: string]: unknown} | null) => Promise<void>
+}
+
+export const UserContext = React.createContext<Context>({
     currentUser: undefined,
     setUser: () => new Promise((resolve) => resolve()),
     setUserFromUnknown: () => new Promise((resolve) => resolve()),

@@ -46,105 +46,10 @@ import ReactDOM from "react-dom"
 import UserContext from "./contexts/userContext"
 import {url} from "./globals"
 
-export const appRef = React.createRef<App>()
+const App: React.FC = () => {
+    const [currentUser, setCurrentUser] = React.useState<User | undefined>()
 
-/**
- * Typedefs for app
- */
-export declare namespace AppTypes {
-    export interface Props {}
-
-    export interface State {
-        isAuthenticated: boolean
-        currentUser?: User
-
-        /**
-         * Current notification to show
-         */
-        notification?: JSX.Element
-    }
-
-    /**
-     * React user context type
-     */
-    export interface Context {
-        currentUser: undefined | User
-
-        /**
-         * Set the current loggedin user
-         */
-        setUser: (user: Context["currentUser"]) => Promise<void>
-
-        /**
-         * Set the current loggedin user from an unknown object that is validated
-         */
-        setUserFromUnknown: (user?: {[key: string]: unknown} | null) => Promise<void>
-    }
-}
-
-/**
- * Main App component with Router and such
- */
-class App extends React.Component<AppTypes.Props, AppTypes.State> {
-    public constructor(props: AppTypes.Props) {
-        super(props)
-
-        this.state = {
-            isAuthenticated: false,
-            currentUser: undefined,
-            notification: undefined,
-        }
-    }
-
-    /**
-     * User HTTPonly cookie refresh token and try to get an idToken
-     */
-    public componentDidMount = async (): Promise<void> => {
-        if (localStorage.getItem("loggedin") === "true") {
-            const user = (await (
-                await fetch(`${url}/auth/tokens`, {
-                    method: "GET",
-                    credentials: "include",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                })
-            ).json()) as {[key: string]: unknown}
-
-            if (isUser(user)) {
-                await this.setUser(user)
-                this.setState({})
-
-                return
-            }
-
-            await this.setUser(undefined)
-            this.setState({})
-
-            return
-        }
-
-        await this.setUser(undefined)
-        this.setState({})
-    }
-
-    /**
-     * Sets the user to state
-     *
-     * @param user - Unknown object that will go through validation OR `undefined | null` for logout
-     */
-    public setUserFromUnknown = async (user?: {[key: string]: unknown} | null): Promise<void> => {
-        if (user === undefined || user === null || isUser(user)) {
-            return await this.setUser(user)
-        }
-    }
-
-    /**
-     * Sets the user to state
-     *
-     * @param user - Object with user info OR `undefined | null` to logout
-     */
-    public setUser = async (user?: User | null): Promise<void> => {
+    const setUser = React.useCallback(async (user?: User | null): Promise<void> => {
         const isLoggedin = localStorage.getItem("loggedin") === "true"
 
         if (isLoggedin && (user === undefined || user === null)) {
@@ -161,21 +66,57 @@ class App extends React.Component<AppTypes.Props, AppTypes.State> {
             localStorage.setItem("loggedin", "true")
         }
 
-        this.setState({
-            isAuthenticated: !(user === undefined || user === null),
-            currentUser: user ?? undefined,
-        })
-    }
+        setCurrentUser(user ?? undefined)
+    }, [])
 
-    public render = (): JSX.Element => (
+    const setUserFromUnknown = React.useCallback(
+        async (user?: {[key: string]: unknown} | null): Promise<void> => {
+            if (user === undefined || user === null || isUser(user)) {
+                return await setUser(user)
+            }
+        },
+        [],
+    )
+
+    React.useEffect(() => {
+        ;(async () => {
+            if (localStorage.getItem("loggedin") === "true") {
+                const user = (await (
+                    await fetch(`${url}/auth/tokens`, {
+                        method: "GET",
+                        credentials: "include",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    })
+                ).json()) as {[key: string]: unknown}
+
+                if (isUser(user)) {
+                    await setUser(user)
+                    setCurrentUser((currentUser) => currentUser)
+
+                    return
+                }
+
+                await setUser(undefined)
+                setCurrentUser((currentUser) => currentUser)
+
+                return
+            }
+
+            await setUser(undefined)
+            setCurrentUser((currentUser) => currentUser)
+        })()
+    }, [])
+
+    return (
         <UserContext.Provider
             value={{
-                currentUser: this.state.currentUser,
-                setUser: this.setUser,
-                setUserFromUnknown: this.setUserFromUnknown,
+                currentUser,
+                setUser,
+                setUserFromUnknown,
             }}
         >
-            {this.state.notification}
             <Router>
                 <Nav />
                 <Switch>
@@ -197,13 +138,13 @@ class App extends React.Component<AppTypes.Props, AppTypes.State> {
                     {/* 404 */}
                     <Route component={NotFound} />
                 </Switch>
-                <Footer user={this.state.currentUser} />
+                <Footer user={currentUser} />
             </Router>
         </UserContext.Provider>
     )
 }
 
-// Apply fade out, render content
+// Apply fade out, render content. Is it hacky? Yes. Does it work? Yes.
 document.querySelector(".loading-container")?.classList.add("fade-out")
 
 const timeout = 200
@@ -211,7 +152,7 @@ const timeout = 200
 setTimeout(() => {
     ReactDOM.render(
         <React.StrictMode>
-            <App ref={appRef} />
+            <App />
         </React.StrictMode>,
         document.getElementById("root"),
     )
