@@ -15,9 +15,11 @@ import {BlockQuote} from "./blockquote"
 import {CodeBlock} from "./syntaxHighlighter"
 import DOMPurify from "dompurify"
 import {Heading} from "./heading"
-import type React from "react"
-import ReactMarkdown from "react-markdown"
+import React from "react"
+import {Spinner} from "~/components/bootstrap"
 import gfm from "remark-gfm" // Github Flavoured Markdown
+
+const ReactMarkdown = React.lazy(() => import("react-markdown"))
 
 const purifyMarkdown = (content: string): string =>
     DOMPurify.sanitize(content.replace(/\n>/giu, "\n\\>")).replace(/\n\\(&gt;|>)/giu, "\n>\n>")
@@ -49,9 +51,13 @@ export const RenderMarkdown: React.FC<Props> = (props) => {
     }
 
     return (
-        <ReactMarkdown plugins={[[gfm]]} renderers={renderers} allowDangerousHtml>
-            {purifyMarkdown(props.children)}
-        </ReactMarkdown>
+        <React.Suspense
+            fallback={<Spinner color="primary" size="25vw" className="my-5" centered />}
+        >
+            <ReactMarkdown plugins={[[gfm]]} renderers={renderers} allowDangerousHtml>
+                {purifyMarkdown(props.children)}
+            </ReactMarkdown>
+        </React.Suspense>
     )
 }
 
