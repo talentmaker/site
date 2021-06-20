@@ -19,7 +19,6 @@ import "prismjs/components/prism-python"
 
 // Styles
 import "./styles/global.scss"
-import("./styles/vendor.scss") // Hacky way to enable code-splitting for vendor css
 
 import * as serviceWorker from "./serviceWorker"
 import {
@@ -165,19 +164,22 @@ const App: React.FC = () => {
     )
 }
 
-// Apply fade out, render content. Is it hacky? Yes. Does it work? Yes.
-document.querySelector(".loading-container")?.classList.add("fade-out")
+// Hacky way to enable code-splitting for vendor css
+import("./styles/vendor.scss").then(() => {
+    // Apply fade out, render content. Is it hacky? Yes. Does it work? Yes.
+    document.querySelector(".loading-container")?.classList.add("fade-out")
 
-const timeout = 200
+    const timeout = 200
 
-setTimeout(() => {
-    ReactDOM.render(
-        <React.StrictMode>
-            <App />
-        </React.StrictMode>,
-        document.getElementById("root"),
-    )
-}, timeout)
+    setTimeout(() => {
+        ReactDOM.render(
+            <React.StrictMode>
+                <App />
+            </React.StrictMode>,
+            document.getElementById("root"),
+        )
+    }, timeout)
+})
 
 /*
  * If you want your app to work offline and load faster, you can change
