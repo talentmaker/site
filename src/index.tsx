@@ -41,6 +41,7 @@ import {NotificationContext, UserContext} from "./contexts"
 import {NotificationType, Notifications} from "./components/notifications"
 import {Route, BrowserRouter as Router, Switch} from "react-router-dom"
 import {CognitoUser as User, isUser} from "./schemas/user"
+import ErrorBoundary from "./components/errorBoundary"
 import Footer from "./components/footer"
 import Nav from "./components/nav"
 import React from "react"
@@ -135,30 +136,32 @@ const App: React.FC = () => {
             <NotificationContext.Provider
                 value={{addNotification: _addNotification, removeNotification, notifications}}
             >
-                <Notifications notifications={notifications} />
-                <Router>
-                    <Nav />
-                    <Switch>
-                        <Route path="/" exact component={Home} />
-                        <Route path="/auth" component={Auth} />
-                        <Route path="/competition/:id" component={Competition} />
-                        <Route path="/competitions" component={Competitions} />
-                        <Route path="/editCompetition/:id" component={EditCompetition} />
-                        <Route path="/editProject/:id?" component={EditProject} />
-                        <Route path="/legal" component={Legal} />
-                        <Route path="/privacy-policy" component={PrivacyPolicy} />
-                        <Route path="/profile" component={Profile} />
-                        <Route path="/project/:id" component={Project} />
-                        <Route path="/project" component={Project} />
-                        <Route path="/projects/:compId" component={Projects} />
-                        <Route path="/talents" component={Talents} />
-                        <Route path="/talentmakers" component={Talentmakers} />
+                <ErrorBoundary>
+                    <Notifications notifications={notifications} />
+                    <Router>
+                        <Nav />
+                        <Switch>
+                            <Route path="/" exact component={Home} />
+                            <Route path="/auth" component={Auth} />
+                            <Route path="/competition/:id" component={Competition} />
+                            <Route path="/competitions" component={Competitions} />
+                            <Route path="/editCompetition/:id" component={EditCompetition} />
+                            <Route path="/editProject/:id?" component={EditProject} />
+                            <Route path="/legal" component={Legal} />
+                            <Route path="/privacy-policy" component={PrivacyPolicy} />
+                            <Route path="/profile" component={Profile} />
+                            <Route path="/project/:id" component={Project} />
+                            <Route path="/project" component={Project} />
+                            <Route path="/projects/:compId" component={Projects} />
+                            <Route path="/talents" component={Talents} />
+                            <Route path="/talentmakers" component={Talentmakers} />
 
-                        {/* 404 */}
-                        <Route component={NotFound} />
-                    </Switch>
-                    <Footer user={currentUser} />
-                </Router>
+                            {/* 404 */}
+                            <Route component={NotFound} />
+                        </Switch>
+                        <Footer user={currentUser} />
+                    </Router>
+                </ErrorBoundary>
             </NotificationContext.Provider>
         </UserContext.Provider>
     )
