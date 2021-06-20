@@ -9,7 +9,7 @@ const appPackageJson = require(paths.appPackageJson)
 module.exports = {
     style: {
         modules: {
-            localIdentName: "[local]_[sha256:hash:base64:9]", // Maybe add [folter] for folder name
+            localIdentName: "[local]_[sha256:hash:base64:6]", // Maybe add [folter] for folder name
         },
     },
     webpack: {
