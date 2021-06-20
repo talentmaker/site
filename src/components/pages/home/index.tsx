@@ -37,7 +37,12 @@ export const Home: React.FC = () => {
                     )}
                 </Col>
                 <Col md={6} className="image">
-                    <img className="w-100" src={ProblemSolvingSvg} alt="problem solving" />
+                    <img
+                        loading="lazy"
+                        className="w-100"
+                        src={ProblemSolvingSvg}
+                        alt="problem solving"
+                    />
                 </Col>
             </Row>
         </div>

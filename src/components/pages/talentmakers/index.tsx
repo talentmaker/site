@@ -15,7 +15,7 @@ import WIP from "~/images/under-construction.svg"
 export const Talentmakers: React.FC = () => (
     <Container fluid>
         <h1>Under Construction</h1>
-        <img className="w-100" src={WIP} alt="under construction" />
+        <img loading="lazy" className="w-100" src={WIP} alt="under construction" />
     </Container>
 )
 

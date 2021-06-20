@@ -43,7 +43,12 @@ export const UserDisplay: React.FC = () => {
             <Row>
                 <Col lg={2}>
                     <div className="px-4 my-3">
-                        <img src={DefaultPFP} className={styles.pfp} alt="Profile" />
+                        <img
+                            loading="lazy"
+                            src={DefaultPFP}
+                            className={styles.pfp}
+                            alt="Profile"
+                        />
                     </div>
                 </Col>
                 <Col lg={6} className="d-flex flex-column justify-content-center">

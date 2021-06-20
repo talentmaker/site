@@ -215,7 +215,7 @@ export const Nav: React.FC = () => {
         >
             <Container fluid>
                 <NavbarBrand as={Link} className={styles.navbarBrand} to="/">
-                    <img src={Logo} alt="Talentmaker logo" title="Talentmaker" />
+                    <img loading="lazy" src={Logo} alt="Talentmaker logo" title="Talentmaker" />
                 </NavbarBrand>
                 <div className={styles.navLinks}>
                     <NavLinks pathname={currentLocation.pathname} />
