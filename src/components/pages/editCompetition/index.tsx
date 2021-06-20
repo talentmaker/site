@@ -13,17 +13,17 @@ import {BottomFields, TopFields} from "./components"
 import {Button, FormGroup} from "react-bootstrap"
 import {Competition, competitionSchema} from "~/schemas/competition"
 import {Form, Formik, FormikHelpers} from "formik"
-import {hash, notify, readCache, validate} from "~/utils"
+import {NotificationContext, UserContext} from "~/contexts"
+import {hash, readCache, validate} from "~/utils"
 import {highlight, languages} from "prismjs"
 import Editor from "@luke-zhang-04/react-simple-markdown-editor"
 import Markdown from "~/components/markdown"
 import {MarkdownButtons} from "~/components/markdown/editor"
 import React from "react"
 import {Spinner} from "~/components/bootstrap"
-import UserContext from "~/contexts/userContext"
 import {competitionAdapter} from "~/adapters/competition"
 import editCompetitionAdapter from "~/adapters/editCompetition"
-import styles from "~/components/styles/markdown-editor.module.scss"
+import styles from "~/components/markdown/styles.module.scss"
 
 const formValidationSchema = yup.object({
     name: yup.string().max(64),
@@ -54,6 +54,7 @@ export const EditCompetition: React.FC<{id?: number}> = ({id}) => {
     )
     const [mode, setMode] = React.useState<"edit" | "preview">("edit")
     const {currentUser: user} = React.useContext(UserContext)
+    const {addNotification: notify} = React.useContext(NotificationContext)
     const initialDataHash = React.useRef<string | undefined>()
 
     const getInitialValues = React.useCallback(
@@ -122,7 +123,7 @@ export const EditCompetition: React.FC<{id?: number}> = ({id}) => {
 
             setSubmitting(false)
         },
-        [id, desc, user],
+        [id, desc, user, notify],
     )
 
     React.useEffect(() => {
@@ -190,7 +191,9 @@ export const EditCompetition: React.FC<{id?: number}> = ({id}) => {
                 <Form className="px-4 py-3">
                     <TopFields />
                     <MarkdownButtons {...{mode, setMode}} />
-                    <FormGroup className="form-group markdown-editor-container bg-lighter px-3">
+                    <FormGroup
+                        className={`form-group ${styles.markdownEditorContainer} bg-lighter px-3`}
+                    >
                         {
                             /**
                              * If edit mode, show markdown editor Otherwise, show the preview
@@ -203,11 +206,11 @@ export const EditCompetition: React.FC<{id?: number}> = ({id}) => {
                                         highlight(code, languages.markdown, "markdown")
                                     }
                                     className="form-control bg-none"
-                                    textareaClassName={styles.editorTextarea}
+                                    preClassName={styles.editorPre}
                                     padding={3}
                                 />
                             ) : (
-                                <div className="markdown-container p-0">
+                                <div className={`${styles.markdownContainer} p-0`}>
                                     <div className="bg-lighter p-1">
                                         <Markdown plainHeadings>{desc}</Markdown>
                                     </div>

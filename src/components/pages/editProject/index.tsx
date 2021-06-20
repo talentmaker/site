@@ -12,7 +12,7 @@ import * as yup from "yup"
 import {BottomFields, TopFields} from "./components"
 import {Button, FormGroup} from "react-bootstrap"
 import {Form, Formik, FormikHelpers} from "formik"
-import {hash, notify} from "~/utils"
+import {NotificationContext, UserContext} from "~/contexts"
 import {highlight, languages} from "prismjs"
 import Editor from "@luke-zhang-04/react-simple-markdown-editor"
 import Markdown from "~/components/markdown"
@@ -20,10 +20,10 @@ import {MarkdownButtons} from "~/components/markdown/editor"
 import {Project} from "~/schemas/project"
 import React from "react"
 import {Spinner} from "~/components/bootstrap"
-import UserContext from "~/contexts/userContext"
 import editProjectAdapter from "~/adapters/editProject"
+import {hash} from "~/utils"
 import {projectAdapter} from "~/adapters/project"
-import styles from "~/components/styles/markdown-editor.module.scss"
+import styles from "~/components/markdown/styles.module.scss"
 
 const formValidationSchema = yup.object({
     name: yup
@@ -57,6 +57,7 @@ export const EditProject: React.FC<
     )
     const [mode, setMode] = React.useState<"edit" | "preview">("edit")
     const {currentUser: user} = React.useContext(UserContext)
+    const {addNotification: notify} = React.useContext(NotificationContext)
     const initialDataHash = React.useRef<string | undefined>()
 
     const getInitialValues = React.useCallback(
@@ -119,7 +120,7 @@ export const EditProject: React.FC<
 
             setSubmitting(false)
         },
-        [id, compId, desc, user],
+        [id, compId, desc, user, notify],
     )
 
     React.useEffect(() => {
@@ -172,7 +173,7 @@ export const EditProject: React.FC<
                 <Form className="px-4 py-3">
                     <TopFields />
                     <MarkdownButtons {...{mode, setMode}} />
-                    <FormGroup className="markdown-editor-container bg-lighter px-3">
+                    <FormGroup className={`${styles.markdownEditorContainer} bg-lighter px-3`}>
                         {
                             /**
                              * If edit mode, show markdown editor Otherwise, show the preview
@@ -185,11 +186,11 @@ export const EditProject: React.FC<
                                         highlight(code, languages.markdown, "markdown")
                                     }
                                     className="form-control bg-none"
-                                    textareaClassName={styles.editorTextarea}
+                                    preClassName={styles.editorPre}
                                     padding={3}
                                 />
                             ) : (
-                                <div className="markdown-container p-0">
+                                <div className={`${styles.markdownContainer} p-0`}>
                                     <div className="bg-lighter p-1">
                                         <Markdown plainHeadings>{desc}</Markdown>
                                     </div>

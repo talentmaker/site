@@ -82,7 +82,7 @@ const cleanCache = async (): Promise<void> =>
             .sort((first, second) => second[0] - first[0]) // Sort from oldest to newest
             .slice((entries.length - entries.length) * Config.AmountToClear)
 
-        for (const [_, key] of sortedEntries) {
+        for (const [, key] of sortedEntries) {
             localStorage.removeItem(key) // Remove storage items
         }
     })

@@ -1,13 +1,13 @@
-/*!
+/**
  * Talentmaker website
  *
-
  * Copyright (C) 2020 - 2021 Luke Zhang, Ethan Lim
  * Author: Luke Zhang - luke-zhang-04.github.io
  *
  * License: BSD-3-Clause
  */
 
+@use "functions" as utils;
 @use "variables";
 
 /**
@@ -15,7 +15,7 @@
  * $size: breakpoint size e.g sm, md, lg
  */
 @mixin min-width($size) {
-  @media screen and (min-width: map-get(variables.$grid-breakpoints, $size)) {
+  @media screen and (min-width: utils.breakpoint($size)) {
     @content;
   }
 }
@@ -25,7 +25,7 @@
  * $size: breakpoint size e.g sm, md, lg
  */
 @mixin max-width($size) {
-  @media screen and (max-width: map-get(variables.$grid-breakpoints, $size)) {
+  @media screen and (max-width: utils.breakpoint($size)) {
     @content;
   }
 }
@@ -36,6 +36,18 @@
  */
 @mixin icon($color) {
   &:hover {
-    color: $color;
+    color: $color !important;
+  }
+}
+
+/**
+ * Selects minor headings from h3-6
+ */
+@mixin minor-headings {
+  h3,
+  h4,
+  h5,
+  h6 {
+    @content;
   }
 }

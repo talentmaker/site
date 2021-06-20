@@ -28,8 +28,23 @@ $breadcrumb-divider: quote(">");
 $font-family-sans-serif: "Ubuntu", sans-serif;
 $font-family-base: "Ubuntu", sans-serif;
 
-$body-bg: $dark;
-$body-color: $light;
+$body-bg: $light;
+$body-color: $dark;
+
+$input-border-radius: 0; // Get rid of border radius on form inputs
+$input-border-width: 0;
+$input-color: $dark; // Change input colours
+$input-placeholder-color: $dark;
+$input-bg: $light;
+$input-focus-bg: $light-grey;
+$input-focus-color: $darker;
+$input-group-addon-bg: $light-grey; // The icons before an input field and thier colour
+
+$btn-border-radius: 0; // Get rid of border radius on buttons
+$btn-border-radius-lg: 0;
+$btn-border-radius-sm: 0;
+
+$toast-border-radius: 0; // Get rid of border radius on toasts
 
 $theme-colors: map-merge(
   $theme-colors,
@@ -47,25 +62,31 @@ $theme-colors: map-merge(
   )
 );
 
-$spacer: 1rem;
-
-$spacers: ();
-
 // Add extra spacers
 $spacers: map-merge(
   (
-    0: 0,
-    1: $spacer * 0.25,
-    2: $spacer * 0.5,
-    3: $spacer,
-    4: $spacer * 1.5,
-    5: $spacer * 3,
-    "bs-gx": var(--bs-gutter-x),
-    "bs-gy": var(--bs-gutter-y),
+    // These utilities might come in handy later
+    // "bs-gx": var(--bs-gutter-x),
+    // "bs-gy": var(--bs-gutter-y),
     "gx": var(--gutter-x),
-    "gy": var(--gutter-y),
+    "gy": var(--gutter-y)
   ),
   $spacers
 );
 
 $grid-gutter-width: 0; // Set gutter width to 0
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+);
+
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+  xxl: 1320px,
+);

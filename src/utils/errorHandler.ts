@@ -8,7 +8,7 @@
  * https://github.com/ethanlim04
  */
 
-import notify from "./notify"
+import {addNotification as notify} from "~"
 
 export const isErrorLike = (obj: unknown): obj is {name: string; message: string} =>
     obj instanceof Error ||
@@ -34,9 +34,9 @@ export const handleError = (err: unknown): void => {
     console.error(err)
 
     if (err instanceof Error) {
-        notify(err)
+        notify?.(err)
     } else {
-        notify({
+        notify?.({
             title: "Error",
             icon: "report_problem",
             iconClassName: "text-danger",

@@ -13,9 +13,9 @@ import * as yup from "yup"
 import {Button, Container} from "react-bootstrap"
 import {Checkbox, Input} from "~/components/formik"
 import {Form, Formik, FormikHelpers} from "formik"
+import {NotificationContext} from "~/contexts"
 import React from "react"
 import {Spinner} from "~/components/bootstrap"
-import notify from "~/utils/notify"
 import registrationAdapter from "~/adapters/auth/register"
 
 interface FormValues {
@@ -53,6 +53,8 @@ const validationSchema = yup.object({
 })
 
 export const Reg: React.FC = () => {
+    const {addNotification: notify} = React.useContext(NotificationContext)
+
     const submit = React.useCallback(
         async (values: FormValues, {setSubmitting}: FormikHelpers<FormValues>): Promise<void> => {
             setSubmitting(true)
@@ -73,7 +75,7 @@ export const Reg: React.FC = () => {
 
             setSubmitting(false)
         },
-        [],
+        [notify],
     )
 
     const validate = React.useCallback((values: FormValues): {} => {

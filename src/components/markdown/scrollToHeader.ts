@@ -9,13 +9,18 @@
  * https://github.com/ethanlim04
  */
 
+import styles from "../markdown/styles.module.scss"
+
 /**
  * Scrolls to a header with the same contents as a hash
  *
  * @param hash - Url hash such as #header-name
  * @param containerName - Name of the container to search, query selector style
  */
-export const scrollToHeader = (hash: string, containerName = ".markdown-container"): void => {
+export const scrollToHeader = (
+    hash: string,
+    containerName = `.${styles.markdownContainer}`,
+): void => {
     const container = document.querySelector(containerName)
 
     if (container) {

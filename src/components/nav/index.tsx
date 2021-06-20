@@ -17,29 +17,63 @@ import UserContext from "~/contexts/userContext"
 import routes from "./routes"
 import styles from "./index.module.scss"
 
+const externalLinkProps = {
+    target: "_blank",
+    rel: "noopener noreferred",
+}
+
 const navLinkCount = Math.min(routes.mobile.length)
 
-const NavLink: React.FC<{location: string; currentLocation: string; name: string}> = ({
-    location,
-    currentLocation,
-    name,
-}) => (
-    <NavItem>
-        <BsNavLink
-            as={Link}
-            active={currentLocation === location}
-            className={styles.navLink}
-            to={location}
-        >
-            {name}{" "}
-            {currentLocation === location ? (
-                <span className="visually-hidden">(current)</span>
-            ) : (
-                ""
-            )}
-        </BsNavLink>
-    </NavItem>
-)
+const NavLink: React.FC<{
+    location: string
+    currentLocation: string
+    name: string
+    iconName?: string
+}> = ({location, currentLocation, name, iconName}) => {
+    const isExternal = /^https?:\/\//u.test(location)
+    const linkAs = isExternal ? "a" : Link
+    const isActive = currentLocation === location
+    const linkProps = isExternal ? {href: location, ...externalLinkProps} : {to: location}
+    const visuallyHidden = isActive ? <span className="visually-hidden">(current)</span> : ""
+
+    return (
+        <NavItem>
+            {(() => {
+                if (iconName) {
+                    return name === "bootstrap" ? (
+                        <BsNavLink
+                            {...{
+                                ...linkProps,
+                                as: linkAs,
+                                active: isActive,
+                                className: `${iconName} colored-icon`,
+                            }}
+                        >
+                            {visuallyHidden}
+                        </BsNavLink>
+                    ) : (
+                        <BsNavLink
+                            {...{
+                                ...linkProps,
+                                as: linkAs,
+                                active: isActive,
+                                className: `${name} colored-icon`,
+                            }}
+                        >
+                            {iconName} {visuallyHidden}
+                        </BsNavLink>
+                    )
+                }
+
+                return (
+                    <BsNavLink {...{...linkProps, as: linkAs, active: isActive}}>
+                        {name} {visuallyHidden}
+                    </BsNavLink>
+                )
+            })()}
+        </NavItem>
+    )
+}
 
 const navIcon = (
     location: string,
@@ -95,6 +129,7 @@ const NavLinks: React.FC<{isMobile?: boolean; pathname: string}> = ({isMobile, p
                                     key={`nav-link-${val[0]}`}
                                     location={val[0] as string}
                                     name={val[1] as string}
+                                    iconName={val[2] as string | undefined}
                                 />
                             )
                         } else if (user === null || user === undefined) {
@@ -180,7 +215,7 @@ export const Nav: React.FC = () => {
         >
             <Container fluid>
                 <NavbarBrand as={Link} className={styles.navbarBrand} to="/">
-                    <img src={Logo} alt="Talentmaker logo" title="Talentmaker" />
+                    <img loading="lazy" src={Logo} alt="Talentmaker logo" title="Talentmaker" />
                 </NavbarBrand>
                 <div className={styles.navLinks}>
                     <NavLinks pathname={currentLocation.pathname} />

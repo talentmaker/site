@@ -15,8 +15,6 @@ import {inlineTryPromise} from "./try"
 type Methods = "GET" | "HEAD" | "POST" | "PUT" | "DELETE" | "CONNECT" | "OPTIONS" | "TRACE"
 type Conversions = "arrayBuffer" | "blob" | "formData" | "json" | "text"
 
-type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
-
 interface ConversionTypes extends Omit<Body, "json"> {
     json: {[key: string]: unknown}
 }

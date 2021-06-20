@@ -9,31 +9,32 @@
  */
 
 import {Button, Col, Container, Row} from "react-bootstrap"
+import {NotificationContext, UserContext} from "~/contexts"
 import DefaultPFP from "~/images/profile.svg"
 import React from "react"
-import UserContext from "~/contexts/userContext"
-import notify from "~/utils/notify"
 import orgRequestAdapter from "~/adapters/orgRequest"
 import styles from "./index.module.scss"
 import {useHistory} from "react-router-dom"
 
-const makeOrgRequest = async (user: User): Promise<void> => {
-    const data = await orgRequestAdapter(user)
-
-    if (!(data instanceof Error)) {
-        notify({
-            title: "Successfully Made Request!",
-            content: "Success! You have requested to become an organization!",
-            icon: "account_box",
-            iconClassName: "text-success",
-        })
-    }
-}
-
 export const UserDisplay: React.FC = () => {
     const history = useHistory()
     const {currentUser: user, setUser} = React.useContext(UserContext)
-    const orgRequest = React.useCallback(makeOrgRequest, [])
+    const {addNotification: notify} = React.useContext(NotificationContext)
+    const orgRequest = React.useCallback(
+        async (_user: User): Promise<void> => {
+            const data = await orgRequestAdapter(_user)
+
+            if (!(data instanceof Error)) {
+                notify({
+                    title: "Successfully Made Request!",
+                    content: "Success! You have requested to become an organization!",
+                    icon: "account_box",
+                    iconClassName: "text-success",
+                })
+            }
+        },
+        [notify],
+    )
 
     return user === undefined ? (
         <Container>It looks like you&apos;ve been signed out</Container>
@@ -42,7 +43,12 @@ export const UserDisplay: React.FC = () => {
             <Row>
                 <Col lg={2}>
                     <div className="px-4 my-3">
-                        <img src={DefaultPFP} className={styles.pfp} alt="Profile" />
+                        <img
+                            loading="lazy"
+                            src={DefaultPFP}
+                            className={styles.pfp}
+                            alt="Profile"
+                        />
                     </div>
                 </Col>
                 <Col lg={6} className="d-flex flex-column justify-content-center">

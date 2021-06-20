@@ -8,7 +8,7 @@
  * https://github.com/ethanlim04
  */
 
-import {Toast as BsToast, Button} from "react-bootstrap"
+import {Button} from "react-bootstrap"
 import DatePlus from "@luke-zhang-04/dateplus"
 import React from "react"
 
@@ -53,6 +53,13 @@ export interface Props {
     time?: string | number
 
     /**
+     * Time before hiding toasts in seconds
+     *
+     * @default 10
+     */
+    hideTime?: number
+
+    /**
      * If aria-live should be assertive
      *
      * @default false
@@ -88,6 +95,7 @@ export const Toast: React.FC<Props> = ({
     reference,
     title,
     assertive,
+    hideTime = 10,
     ...props
 }) => {
     const [shouldShow, setShouldShow] = React.useState(true)
@@ -108,10 +116,17 @@ export const Toast: React.FC<Props> = ({
         }
     }, [])
 
-    return shouldShow ? (
-        <BsToast
-            show={shouldShow}
-            className="toast-fixed"
+    React.useEffect(() => {
+        if (time > hideTime && shouldShow) {
+            setShouldShow(false)
+        } else if (time < hideTime && !shouldShow) {
+            setShouldShow(true)
+        }
+    }, [time])
+
+    return (
+        <div
+            className={`fade toast toast-fixed ${shouldShow ? "show" : "hide"}`}
             aria-live={assertive ? "assertive" : "polite"}
             aria-atomic="true"
             ref={reference}
@@ -132,13 +147,15 @@ export const Toast: React.FC<Props> = ({
                     onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
                         setShouldShow(false)
 
+                        clearInterval(intervalId.current)
+
                         props.onClick?.(event)
                     }}
                 />
             </div>
-            <BsToast.Body>{children}</BsToast.Body>
-        </BsToast>
-    ) : null
+            <div className="toast-body">{children}</div>
+        </div>
+    )
 }
 
 export default Toast

@@ -1,0 +1,19 @@
+/**
+ * Talentmaker website
+ *
+ * Copyright (C) 2020 - 2021 Luke Zhang, Ethan Lim
+ * Author: Luke Zhang - luke-zhang-04.github.io
+ *
+ * License: BSD-3-Clause
+ */
+
+// Fix toasts
+.toastContainer {
+  position: fixed;
+  top: 1%;
+  left: 50%; // Position left edge 50% from left
+  transform: translateX(-50%); // Centre element by moving half its width over
+  z-index: 1000;
+  display: flex;
+  flex-direction: column-reverse; // Make newest notification first
+}

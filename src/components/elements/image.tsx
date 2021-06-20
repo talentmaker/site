@@ -34,29 +34,34 @@ type Props = ImgProps & {
      * Spinner component to show before the image loads
      */
     children?: React.ReactNode
+
+    /**
+     * If image should be lazy-loaded
+     *
+     * @default false
+     */
+    lazy?: boolean
 }
 
-const Img: React.FC<Props> = (props) => {
-    const images: string[] = typeof props.src === "string" ? [props.src] : props.src
+const Img: React.FC<Props> = ({lazy, src, shouldUseDefault, children, ...props}) => {
+    const images: string[] = typeof src === "string" ? [src] : src
     // Current image index to use
     const [currentIndex, setIndex] = React.useState(0)
     // If the image has loaded
     const [didLoad, setLoad] = React.useState(false)
 
-    if (props.shouldUseDefault !== false) {
+    if (shouldUseDefault !== false) {
         // If shouldUseDefault is undefined or true, append the default image
         images.push(DefaultImage)
     }
 
     return (
         <>
-            {didLoad ? undefined : props.children}
+            {didLoad ? undefined : children}
             <img
                 alt="All backups failed"
-                {...{
-                    ...props,
-                    children: undefined,
-                }}
+                {...props}
+                loading={lazy ? "lazy" : "eager"}
                 src={images[currentIndex]}
                 onError={(event): void => {
                     if (images.length > currentIndex + 1) {

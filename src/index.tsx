@@ -8,6 +8,7 @@
  * https://Luke-zhang-04.github.io
  * https://github.com/ethanlim04
  */
+
 // Load Prismjs languages
 import "prismjs"
 import "prismjs/components/prism-clike"
@@ -17,7 +18,8 @@ import "prismjs/components/prism-typescript"
 import "prismjs/components/prism-python"
 
 // Styles
-import "./index.scss"
+import "./styles/global.scss"
+import("./styles/vendor.scss") // Hacky way to enable code-splitting for vendor css
 
 import * as serviceWorker from "./serviceWorker"
 import {
@@ -36,114 +38,26 @@ import {
     Talentmakers,
     Talents,
 } from "./pages"
+import {NotificationContext, UserContext} from "./contexts"
+import {NotificationType, Notifications} from "./components/notifications"
 import {Route, BrowserRouter as Router, Switch} from "react-router-dom"
 import {CognitoUser as User, isUser} from "./schemas/user"
 import Footer from "./components/footer"
 import Nav from "./components/nav"
 import React from "react"
 import ReactDOM from "react-dom"
-import UserContext from "./contexts/userContext"
 import {url} from "./globals"
 
-export const appRef = React.createRef<App>()
+// Hacky way to expose the addNotification callback
+export let addNotification: ((notification: NotificationType | Error) => void) | undefined
 
-/**
- * Typedefs for app
- */
-export declare namespace AppTypes {
-    export interface Props {}
+const App: React.FC = () => {
+    const [currentUser, setCurrentUser] = React.useState<User | undefined>()
+    const [notifications, setNotifications] = React.useState<{
+        [timestamp: number]: NotificationType | Error
+    }>({})
 
-    export interface State {
-        isAuthenticated: boolean
-        currentUser?: User
-
-        /**
-         * Current notification to show
-         */
-        notification?: JSX.Element
-    }
-
-    /**
-     * React user context type
-     */
-    export interface Context {
-        currentUser: undefined | User
-
-        /**
-         * Set the current loggedin user
-         */
-        setUser: (user: Context["currentUser"]) => Promise<void>
-
-        /**
-         * Set the current loggedin user from an unknown object that is validated
-         */
-        setUserFromUnknown: (user?: {[key: string]: unknown} | null) => Promise<void>
-    }
-}
-
-/**
- * Main App component with Router and such
- */
-class App extends React.Component<AppTypes.Props, AppTypes.State> {
-    public constructor(props: AppTypes.Props) {
-        super(props)
-
-        this.state = {
-            isAuthenticated: false,
-            currentUser: undefined,
-            notification: undefined,
-        }
-    }
-
-    /**
-     * User HTTPonly cookie refresh token and try to get an idToken
-     */
-    public componentDidMount = async (): Promise<void> => {
-        if (localStorage.getItem("loggedin") === "true") {
-            const user = (await (
-                await fetch(`${url}/auth/tokens`, {
-                    method: "GET",
-                    credentials: "include",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                })
-            ).json()) as {[key: string]: unknown}
-
-            if (isUser(user)) {
-                await this.setUser(user)
-                this.setState({})
-
-                return
-            }
-
-            await this.setUser(undefined)
-            this.setState({})
-
-            return
-        }
-
-        await this.setUser(undefined)
-        this.setState({})
-    }
-
-    /**
-     * Sets the user to state
-     *
-     * @param user - Unknown object that will go through validation OR `undefined | null` for logout
-     */
-    public setUserFromUnknown = async (user?: {[key: string]: unknown} | null): Promise<void> => {
-        if (user === undefined || user === null || isUser(user)) {
-            return await this.setUser(user)
-        }
-    }
-
-    /**
-     * Sets the user to state
-     *
-     * @param user - Object with user info OR `undefined | null` to logout
-     */
-    public setUser = async (user?: User | null): Promise<void> => {
+    const setUser = React.useCallback(async (user?: User | null): Promise<void> => {
         const isLoggedin = localStorage.getItem("loggedin") === "true"
 
         if (isLoggedin && (user === undefined || user === null)) {
@@ -160,54 +74,110 @@ class App extends React.Component<AppTypes.Props, AppTypes.State> {
             localStorage.setItem("loggedin", "true")
         }
 
-        this.setState({
-            isAuthenticated: !(user === undefined || user === null),
-            currentUser: user ?? undefined,
+        setCurrentUser(user ?? undefined)
+    }, [])
+
+    const setUserFromUnknown = React.useCallback(
+        async (user?: {[key: string]: unknown} | null): Promise<void> => {
+            if (user === undefined || user === null || isUser(user)) {
+                return await setUser(user)
+            }
+        },
+        [],
+    )
+
+    const _addNotification = React.useCallback((notification: NotificationType | Error) => {
+        setNotifications((notifs) => ({...notifs, [Date.now()]: notification}))
+    }, [])
+
+    addNotification = _addNotification
+
+    const removeNotification = React.useCallback((id: number) => {
+        setNotifications((notifs) => {
+            Reflect.deleteProperty(notifs, id)
+
+            return notifs
         })
-    }
+    }, [])
 
-    public render = (): JSX.Element => (
-        <UserContext.Provider
-            value={{
-                currentUser: this.state.currentUser,
-                setUser: this.setUser,
-                setUserFromUnknown: this.setUserFromUnknown,
-            }}
-        >
-            {this.state.notification}
-            <Router>
-                <Nav />
-                <Switch>
-                    <Route path="/" exact component={Home} />
-                    <Route path="/auth" component={Auth} />
-                    <Route path="/competition/:id" component={Competition} />
-                    <Route path="/competitions" component={Competitions} />
-                    <Route path="/editCompetition/:id" component={EditCompetition} />
-                    <Route path="/editProject/:id?" component={EditProject} />
-                    <Route path="/legal" component={Legal} />
-                    <Route path="/privacy-policy" component={PrivacyPolicy} />
-                    <Route path="/profile" component={Profile} />
-                    <Route path="/project/:id" component={Project} />
-                    <Route path="/project" component={Project} />
-                    <Route path="/projects/:compId" component={Projects} />
-                    <Route path="/talents" component={Talents} />
-                    <Route path="/talentmakers" component={Talentmakers} />
+    React.useEffect(() => {
+        ;(async () => {
+            if (localStorage.getItem("loggedin") === "true") {
+                const user = (await (
+                    await fetch(`${url}/auth/tokens`, {
+                        method: "GET",
+                        credentials: "include",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    })
+                ).json()) as {[key: string]: unknown}
 
-                    {/* 404 */}
-                    <Route component={NotFound} />
-                </Switch>
-                <Footer user={this.state.currentUser} />
-            </Router>
+                if (isUser(user)) {
+                    await setUser(user)
+                    setCurrentUser((_currentUser) => _currentUser)
+
+                    return
+                }
+
+                await setUser(undefined)
+                setCurrentUser((_currentUser) => _currentUser)
+
+                return
+            }
+
+            await setUser(undefined)
+            setCurrentUser((_currentUser) => _currentUser)
+        })()
+    }, [])
+
+    return (
+        <UserContext.Provider value={{currentUser, setUser, setUserFromUnknown}}>
+            <NotificationContext.Provider
+                value={{addNotification: _addNotification, removeNotification, notifications}}
+            >
+                <Notifications notifications={notifications} />
+                <Router>
+                    <Nav />
+                    <Switch>
+                        <Route path="/" exact component={Home} />
+                        <Route path="/auth" component={Auth} />
+                        <Route path="/competition/:id" component={Competition} />
+                        <Route path="/competitions" component={Competitions} />
+                        <Route path="/editCompetition/:id" component={EditCompetition} />
+                        <Route path="/editProject/:id?" component={EditProject} />
+                        <Route path="/legal" component={Legal} />
+                        <Route path="/privacy-policy" component={PrivacyPolicy} />
+                        <Route path="/profile" component={Profile} />
+                        <Route path="/project/:id" component={Project} />
+                        <Route path="/project" component={Project} />
+                        <Route path="/projects/:compId" component={Projects} />
+                        <Route path="/talents" component={Talents} />
+                        <Route path="/talentmakers" component={Talentmakers} />
+
+                        {/* 404 */}
+                        <Route component={NotFound} />
+                    </Switch>
+                    <Footer user={currentUser} />
+                </Router>
+            </NotificationContext.Provider>
         </UserContext.Provider>
     )
 }
 
-ReactDOM.render(
-    <React.StrictMode>
-        <App ref={appRef} />
-    </React.StrictMode>,
-    document.getElementById("root"),
-)
+// Apply fade out, render content. Is it hacky? Yes. Does it work? Yes.
+document.querySelector(".loading-container")?.classList.add("fade-out")
+
+const timeout = 200
+
+setTimeout(() => {
+    ReactDOM.render(
+        <React.StrictMode>
+            <App />
+        </React.StrictMode>,
+        document.getElementById("root"),
+    )
+}, timeout)
 
 /*
  * If you want your app to work offline and load faster, you can change
