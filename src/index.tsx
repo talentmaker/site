@@ -8,6 +8,7 @@
  * https://Luke-zhang-04.github.io
  * https://github.com/ethanlim04
  */
+
 // Load Prismjs languages
 import "prismjs"
 import "prismjs/components/prism-clike"
@@ -37,17 +38,24 @@ import {
     Talentmakers,
     Talents,
 } from "./pages"
+import {NotificationContext, UserContext} from "./contexts"
+import {NotificationType, Notifications} from "./components/notifications"
 import {Route, BrowserRouter as Router, Switch} from "react-router-dom"
 import {CognitoUser as User, isUser} from "./schemas/user"
 import Footer from "./components/footer"
 import Nav from "./components/nav"
 import React from "react"
 import ReactDOM from "react-dom"
-import UserContext from "./contexts/userContext"
 import {url} from "./globals"
+
+// Hacky way to expose the addNotification callback
+export let addNotification: ((notification: NotificationType | Error) => void) | undefined
 
 const App: React.FC = () => {
     const [currentUser, setCurrentUser] = React.useState<User | undefined>()
+    const [notifications, setNotifications] = React.useState<{
+        [timestamp: number]: NotificationType | Error
+    }>({})
 
     const setUser = React.useCallback(async (user?: User | null): Promise<void> => {
         const isLoggedin = localStorage.getItem("loggedin") === "true"
@@ -78,6 +86,20 @@ const App: React.FC = () => {
         [],
     )
 
+    const _addNotification = React.useCallback((notification: NotificationType | Error) => {
+        setNotifications((notifs) => ({...notifs, [Date.now()]: notification}))
+    }, [])
+
+    addNotification = _addNotification
+
+    const removeNotification = React.useCallback((id: number) => {
+        setNotifications((notifs) => {
+            Reflect.deleteProperty(notifs, id)
+
+            return notifs
+        })
+    }, [])
+
     React.useEffect(() => {
         ;(async () => {
             if (localStorage.getItem("loggedin") === "true") {
@@ -93,53 +115,52 @@ const App: React.FC = () => {
 
                 if (isUser(user)) {
                     await setUser(user)
-                    setCurrentUser((currentUser) => currentUser)
+                    setCurrentUser((_currentUser) => _currentUser)
 
                     return
                 }
 
                 await setUser(undefined)
-                setCurrentUser((currentUser) => currentUser)
+                setCurrentUser((_currentUser) => _currentUser)
 
                 return
             }
 
             await setUser(undefined)
-            setCurrentUser((currentUser) => currentUser)
+            setCurrentUser((_currentUser) => _currentUser)
         })()
     }, [])
 
     return (
-        <UserContext.Provider
-            value={{
-                currentUser,
-                setUser,
-                setUserFromUnknown,
-            }}
-        >
-            <Router>
-                <Nav />
-                <Switch>
-                    <Route path="/" exact component={Home} />
-                    <Route path="/auth" component={Auth} />
-                    <Route path="/competition/:id" component={Competition} />
-                    <Route path="/competitions" component={Competitions} />
-                    <Route path="/editCompetition/:id" component={EditCompetition} />
-                    <Route path="/editProject/:id?" component={EditProject} />
-                    <Route path="/legal" component={Legal} />
-                    <Route path="/privacy-policy" component={PrivacyPolicy} />
-                    <Route path="/profile" component={Profile} />
-                    <Route path="/project/:id" component={Project} />
-                    <Route path="/project" component={Project} />
-                    <Route path="/projects/:compId" component={Projects} />
-                    <Route path="/talents" component={Talents} />
-                    <Route path="/talentmakers" component={Talentmakers} />
+        <UserContext.Provider value={{currentUser, setUser, setUserFromUnknown}}>
+            <NotificationContext.Provider
+                value={{addNotification: _addNotification, removeNotification, notifications}}
+            >
+                <Notifications notifications={notifications} />
+                <Router>
+                    <Nav />
+                    <Switch>
+                        <Route path="/" exact component={Home} />
+                        <Route path="/auth" component={Auth} />
+                        <Route path="/competition/:id" component={Competition} />
+                        <Route path="/competitions" component={Competitions} />
+                        <Route path="/editCompetition/:id" component={EditCompetition} />
+                        <Route path="/editProject/:id?" component={EditProject} />
+                        <Route path="/legal" component={Legal} />
+                        <Route path="/privacy-policy" component={PrivacyPolicy} />
+                        <Route path="/profile" component={Profile} />
+                        <Route path="/project/:id" component={Project} />
+                        <Route path="/project" component={Project} />
+                        <Route path="/projects/:compId" component={Projects} />
+                        <Route path="/talents" component={Talents} />
+                        <Route path="/talentmakers" component={Talentmakers} />
 
-                    {/* 404 */}
-                    <Route component={NotFound} />
-                </Switch>
-                <Footer user={currentUser} />
-            </Router>
+                        {/* 404 */}
+                        <Route component={NotFound} />
+                    </Switch>
+                    <Footer user={currentUser} />
+                </Router>
+            </NotificationContext.Provider>
         </UserContext.Provider>
     )
 }

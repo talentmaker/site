@@ -13,14 +13,14 @@ import {BottomFields, TopFields} from "./components"
 import {Button, FormGroup} from "react-bootstrap"
 import {Competition, competitionSchema} from "~/schemas/competition"
 import {Form, Formik, FormikHelpers} from "formik"
-import {hash, notify, readCache, validate} from "~/utils"
+import {NotificationContext, UserContext} from "~/contexts"
+import {hash, readCache, validate} from "~/utils"
 import {highlight, languages} from "prismjs"
 import Editor from "@luke-zhang-04/react-simple-markdown-editor"
 import Markdown from "~/components/markdown"
 import {MarkdownButtons} from "~/components/markdown/editor"
 import React from "react"
 import {Spinner} from "~/components/bootstrap"
-import UserContext from "~/contexts/userContext"
 import {competitionAdapter} from "~/adapters/competition"
 import editCompetitionAdapter from "~/adapters/editCompetition"
 import styles from "~/components/markdown/styles.module.scss"
@@ -54,6 +54,7 @@ export const EditCompetition: React.FC<{id?: number}> = ({id}) => {
     )
     const [mode, setMode] = React.useState<"edit" | "preview">("edit")
     const {currentUser: user} = React.useContext(UserContext)
+    const {addNotification: notify} = React.useContext(NotificationContext)
     const initialDataHash = React.useRef<string | undefined>()
 
     const getInitialValues = React.useCallback(
@@ -122,7 +123,7 @@ export const EditCompetition: React.FC<{id?: number}> = ({id}) => {
 
             setSubmitting(false)
         },
-        [id, desc, user],
+        [id, desc, user, notify],
     )
 
     React.useEffect(() => {

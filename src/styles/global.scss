@@ -42,15 +42,6 @@ body {
   vertical-align: middle; // Align icon in middle
 }
 
-// Fix toasts
-.toast-fixed {
-  position: fixed;
-  top: 1%;
-  left: 50%; // Position left edge 50% from left
-  transform: translateX(-50%); // Centre element by moving half its width over
-  z-index: 1000;
-}
-
 @keyframes toast-entrance {
   from {
     top: -6%;
@@ -64,8 +55,16 @@ body {
 }
 
 // Remove border radius from toasts
-.toast.show {
-  animation: toast-entrance 0.25s ease-out;
+.toast {
+  &.show {
+    animation: toast-entrance 0.5s ease-out;
+    opacity: 1;
+  }
+
+  &.hide {
+    animation: toast-entrance 0.5s ease-out reverse;
+    opacity: 0;
+  }
 }
 
 // Header font weights

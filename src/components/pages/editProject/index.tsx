@@ -12,7 +12,7 @@ import * as yup from "yup"
 import {BottomFields, TopFields} from "./components"
 import {Button, FormGroup} from "react-bootstrap"
 import {Form, Formik, FormikHelpers} from "formik"
-import {hash, notify} from "~/utils"
+import {NotificationContext, UserContext} from "~/contexts"
 import {highlight, languages} from "prismjs"
 import Editor from "@luke-zhang-04/react-simple-markdown-editor"
 import Markdown from "~/components/markdown"
@@ -20,8 +20,8 @@ import {MarkdownButtons} from "~/components/markdown/editor"
 import {Project} from "~/schemas/project"
 import React from "react"
 import {Spinner} from "~/components/bootstrap"
-import UserContext from "~/contexts/userContext"
 import editProjectAdapter from "~/adapters/editProject"
+import {hash} from "~/utils"
 import {projectAdapter} from "~/adapters/project"
 import styles from "~/components/markdown/styles.module.scss"
 
@@ -57,6 +57,7 @@ export const EditProject: React.FC<
     )
     const [mode, setMode] = React.useState<"edit" | "preview">("edit")
     const {currentUser: user} = React.useContext(UserContext)
+    const {addNotification: notify} = React.useContext(NotificationContext)
     const initialDataHash = React.useRef<string | undefined>()
 
     const getInitialValues = React.useCallback(
@@ -119,7 +120,7 @@ export const EditProject: React.FC<
 
             setSubmitting(false)
         },
-        [id, compId, desc, user],
+        [id, compId, desc, user, notify],
     )
 
     React.useEffect(() => {
