@@ -8,12 +8,12 @@
  * https://github.com/ethanlim04
  */
 
-import DatePlus from "@luke-zhang-04/dateplus"
 import {NotificationContext} from "~/contexts"
 import React from "react"
 import ReactDOM from "react-dom"
 import {Toast} from "../bootstrap"
 import type {Props as ToastProps} from "../bootstrap/toast"
+import {secsToMs} from "@luke-zhang-04/dateplus"
 import styles from "./styles.module.scss"
 
 export interface NotificationType
@@ -31,7 +31,7 @@ if (!toastRoot) {
 }
 
 const hideTimeSecs = 10
-const hideTime = DatePlus.secsToMs(hideTimeSecs)
+const hideTime = secsToMs(hideTimeSecs)
 
 export const Notifications: React.FC<{
     notifications: {[timestamp: number]: NotificationType | Error}
