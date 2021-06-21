@@ -9,8 +9,8 @@
  */
 
 import {Button} from "react-bootstrap"
-import DatePlus from "@luke-zhang-04/dateplus"
 import React from "react"
+import {secondsToHours} from "@luke-zhang-04/dateplus"
 
 enum Time {
     Second = 1000,
@@ -73,19 +73,19 @@ export interface Props {
 }
 
 const getTimeFromSeconds = (time: number): string => {
-    const date = DatePlus.secondsToHours(time)
+    const date = secondsToHours(time)
 
     if (date.hours > 0) {
-        return `${date.hours} hour${date.hours > 1 ? "s" : ""}, ${date.minutes} minute${
-            date.minutes > 1 ? "s" : ""
+        return `${date.hours} hour${date.hours === 1 ? "" : "s"}, ${date.minutes} minute${
+            date.minutes === 1 ? "" : "s"
         } ago`
     } else if (date.minutes > 0) {
-        return `${date.minutes} minute${date.minutes > 1 ? "s" : ""}, ${date.seconds} second${
-            date.seconds > 1 ? "s" : ""
+        return `${date.minutes} minute${date.minutes === 1 ? "" : "s"}, ${date.seconds} second${
+            date.seconds === 1 ? "" : "s"
         } ago`
     }
 
-    return `${date.seconds} second${date.seconds > 1 ? "s" : ""} ago`
+    return `${date.seconds} second${date.seconds === 1 ? "" : "s"} ago`
 }
 
 export const Toast: React.FC<Props> = ({

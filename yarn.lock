@@ -1471,10 +1471,10 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
-"@luke-zhang-04/dateplus@^3.0.1":
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/@luke-zhang-04/dateplus/-/dateplus-3.0.1.tgz#8ef263eafb083ff9165793a21f690563a5df6f0e"
-  integrity sha512-j7LupU0+y2zdgLKapqaqqMvvdG5h6Bzs/JxHTkwCUZ49+ZZ1yx7cZ9L3exagz9AkC4MlS871BpWVhEP55/EYMA==
+"@luke-zhang-04/dateplus@~3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@luke-zhang-04/dateplus/-/dateplus-3.1.0.tgz#e9d37e2d6c7299df6b19c61df2d0fe0c9afc578b"
+  integrity sha512-xkz2Ci4fjLUsuk6ua1yFKilzuM7LCPP45ylHZNMBLtUMjkdGJhBtEHAC71k9mzTGNsXyCXbHYSgR85Ij/IZZMA==
 
 "@luke-zhang-04/react-simple-markdown-editor@^1.1.0":
   version "1.1.0"
