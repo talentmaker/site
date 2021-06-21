@@ -44,15 +44,15 @@ const isPlacement = (
  * Initializes tooltips
  */
 export const initTooltips = (): void => {
-    Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]') ?? []).forEach(
-        (element) => {
-            const tooltip = new bootstrap.Tooltip(element, getAttributesFromElement(element))
+    for (const element of Array.from(
+        document.querySelectorAll('[data-bs-toggle="tooltip"]') ?? [],
+    )) {
+        const tooltip = new bootstrap.Tooltip(element, getAttributesFromElement(element))
 
-            element.addEventListener("click", () => {
-                tooltip.hide()
-            })
-        },
-    )
+        element.addEventListener("click", () => {
+            tooltip.hide()
+        })
+    }
 }
 
 export default initTooltips
