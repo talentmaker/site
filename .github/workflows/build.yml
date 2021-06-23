@@ -18,6 +18,9 @@ jobs:
       - name: audit
         run: yarn audit --groups dependencies
 
+      - name: browser coverage
+        run: ./browserCheck.js
+
       - name: build
         run: yarn build
         env:
