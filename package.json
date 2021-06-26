@@ -16,6 +16,7 @@
     "analyze:css": "source-map-explorer 'build/static/css/*.css'",
     "analyze:js": "source-map-explorer 'build/static/js/*.js'",
     "build": "craco build",
+    "generate-pwa-assets": "npx pwa-asset-generator ./public/images/android-chrome-512x512.png --background '#eee' --scrape false",
     "lint": "bash lint.sh",
     "lint:fix": "bash lint.sh --fix",
     "prepare": "husky install",
@@ -43,6 +44,7 @@
     "react-tag-input": "^6.5.2",
     "remark-gfm": "^1.0.0",
     "spdx-license-ids": "^3.0.7",
+    "web-vitals": "^2.0.1",
     "yup": "^0.32.9"
   },
   "devDependencies": {

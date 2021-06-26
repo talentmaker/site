@@ -12,6 +12,10 @@ Web app for [talentmaker](https://talentmaker.ca) white interacts with a proprie
 
 The current browserslist config covers about 90% of users
 
+## Resources
+
+-   [Generate PWA Icons](https://realfavicongenerator.net/)
+
 ## Directory Structure
 
 The directory structure in `src/` is based off this [Free Code Camp Article](https://www.freecodecamp.org/news/a-better-way-to-structure-react-projects/)

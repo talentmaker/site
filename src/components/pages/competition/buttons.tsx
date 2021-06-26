@@ -46,7 +46,7 @@ export const SubmissionButton: React.FC<{competition: Competition}> = ({
                 variant="outline-primary"
                 as={Link}
                 className="mx-2"
-                to={`/editProject?${qs.stringify({competition: id, id: "new"})}`}
+                to={`/editProject/new?${qs.stringify({competition: id})}`}
             >
                 <span className="material-icons">add</span> Create Submission
             </Button>

@@ -15,10 +15,12 @@ import {useParams} from "react-router-dom"
 
 export const EditProject: React.FC = () => {
     const {id} = useParams<{id?: string}>()
-    const {competition: compId} = queryString.parse(window.location.search)
+    const {competition: compId, id: qid} = queryString.parse(window.location.search)
 
     if (id) {
         return <EditProjectComponent id={id} />
+    } else if (typeof qid === "string") {
+        return <EditProjectComponent id={qid} />
     } else if (typeof compId === "string") {
         return <EditProjectComponent compId={compId} />
     }

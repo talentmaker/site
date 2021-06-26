@@ -180,7 +180,7 @@ export const EditCompetition: React.FC<{id?: number}> = ({id}) => {
         )
     }
 
-    return competition ? (
+    return competition || id === undefined ? (
         <Formik
             enableReinitialize
             initialValues={getInitialValues(competition)}
