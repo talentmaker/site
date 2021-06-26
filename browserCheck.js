@@ -1,4 +1,4 @@
-#!/usr/bin/node
+#!/bin/node
 
 const browserslist = require("browserslist")
 
