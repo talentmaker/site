@@ -102,7 +102,7 @@ export const Project: React.FC<Props> = (props) => {
                             variant="outline-dark"
                             as={Link}
                             className="mx-2"
-                            to={`/editProject/${project.id ?? ""}`}
+                            to={`/editProject/${project.id}`}
                         >
                             <span className="material-icons">create</span> Edit Submission
                         </Button>

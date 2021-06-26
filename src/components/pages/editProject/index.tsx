@@ -68,7 +68,7 @@ export const EditProject: React.FC<
             license: _project?.license ?? "",
             videoURL: _project?.videoURL ?? "",
         }),
-        [],
+        [user],
     )
 
     const shouldSubmitProject = React.useCallback(
@@ -124,26 +124,28 @@ export const EditProject: React.FC<
     )
 
     React.useEffect(() => {
-        ;(async () => {
-            if (user) {
-                const data = await projectAdapter(user, id, compId)
+        if (id !== "new") {
+            ;(async () => {
+                if (user) {
+                    const data = await projectAdapter(user, id, compId)
 
-                if (data instanceof Error) {
-                    return
+                    if (data instanceof Error) {
+                        return
+                    }
+
+                    setProject(data)
+
+                    if (data.desc) {
+                        setDesc(data.desc)
+                    }
+
+                    initialDataHash.current = await hash("SHA-256", {
+                        ...getInitialValues(data),
+                        desc,
+                    })
                 }
-
-                setProject(data)
-
-                if (data.desc) {
-                    setDesc(data.desc)
-                }
-
-                initialDataHash.current = await hash("SHA-256", {
-                    ...getInitialValues(data),
-                    desc,
-                })
-            }
-        })()
+            })()
+        }
     }, [id, compId, user])
 
     if (!user) {
@@ -162,7 +164,7 @@ export const EditProject: React.FC<
         )
     }
 
-    return project ? (
+    return project || id === "new" ? (
         <Formik
             enableReinitialize
             initialValues={getInitialValues(project)}
