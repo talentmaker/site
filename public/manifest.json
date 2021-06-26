@@ -1,6 +1,6 @@
 {
-  "short_name": "Talentmaker Site",
-  "name": "Talentmaker Site",
+  "short_name": "Talentmaker",
+  "name": "Talentmaker",
   "icons": [
     {
       "src": "images/favicon.ico",
@@ -19,7 +19,7 @@
     }
   ],
   "start_url": ".",
-  "display": "standalone",
+  "display": "fullscreen",
   "theme_color": "#3f88c5",
   "background_color": "#eee"
 }
