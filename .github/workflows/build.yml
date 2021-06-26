@@ -23,7 +23,7 @@ jobs:
         run: yarn audit --groups dependencies
 
       - name: browser coverage
-        run: ./browserCheck.js
+        run: node ./browserCheck.js
 
       - name: build
         run: yarn build
