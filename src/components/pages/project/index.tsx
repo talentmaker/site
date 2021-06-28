@@ -69,10 +69,9 @@ export const Project: React.FC<Props> = (props) => {
     })
 
     const getData = React.useCallback(getProjectData, [])
+    const data = React.useMemo(() => getData(project), [project, project?.license, project?.id])
 
-    if (project) {
-        const data = getData(project)
-
+    if (project && data) {
         return (
             <>
                 <Breadcrumb className="container-fluid" listProps={{className: "mb-0"}}>
