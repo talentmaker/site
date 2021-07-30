@@ -16,6 +16,7 @@ import React from "react"
 import UserContext from "~/contexts/userContext"
 import routes from "./routes"
 import styles from "./index.module.scss"
+import {useWindowSize} from "~/hooks/useWindowSize"
 
 const externalLinkProps = {
     target: "_blank",
@@ -160,23 +161,8 @@ const NavLinks: React.FC<{isMobile?: boolean; pathname: string}> = ({isMobile, p
 
 export const Nav: React.FC = () => {
     const currentLocation = useLocation()
-    const [dimensions, setDimensions] = React.useState<[width: number, height: number]>([
-        window.innerWidth,
-        window.innerHeight,
-    ])
+    const dimensions = useWindowSize()
     const {currentUser: user} = React.useContext(UserContext)
-
-    React.useEffect(() => {
-        window.addEventListener("resize", () => {
-            setDimensions([window.innerWidth, window.innerHeight])
-        })
-
-        return () => {
-            window.removeEventListener("resize", () => {
-                setDimensions([window.innerWidth, window.innerHeight])
-            })
-        }
-    }, [])
 
     const getPageIndex = React.useCallback(() => {
         for (const [index, value] of routes.mobile.entries()) {
