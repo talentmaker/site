@@ -8,7 +8,7 @@
  * https://github.com/ethanlim04
  */
 
-import {inlineTryPromise} from "./try"
+import {inlineTryPromise} from "@luke-zhang-04/utils"
 
 /* eslint-disable prefer-arrow/prefer-arrow-functions */
 

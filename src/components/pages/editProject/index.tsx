@@ -21,7 +21,7 @@ import {Project} from "~/schemas/project"
 import React from "react"
 import {Spinner} from "~/components/bootstrap"
 import editProjectAdapter from "~/adapters/editProject"
-import {hash} from "~/utils"
+import {hash} from "@luke-zhang-04/utils/browser"
 import {projectAdapter} from "~/adapters/project"
 import styles from "~/components/markdown/styles.module.scss"
 
@@ -73,10 +73,14 @@ export const EditProject: React.FC<
 
     const shouldSubmitProject = React.useCallback(
         async (values?: FormValues) => {
-            const newDataHash = await hash("SHA-256", {
-                ...getInitialValues(values),
-                desc,
-            })
+            const newDataHash = await hash(
+                JSON.stringify({
+                    ...getInitialValues(values),
+                    desc,
+                }),
+                "SHA-256",
+                "base64",
+            )
 
             return newDataHash !== initialDataHash.current // If data has been changed
         },
@@ -139,10 +143,14 @@ export const EditProject: React.FC<
                         setDesc(data.desc)
                     }
 
-                    initialDataHash.current = await hash("SHA-256", {
-                        ...getInitialValues(data),
-                        desc,
-                    })
+                    initialDataHash.current = await hash(
+                        JSON.stringify({
+                            ...getInitialValues(data),
+                            desc,
+                        }),
+                        "SHA-256",
+                        "base64",
+                    )
                 }
             })()
         }

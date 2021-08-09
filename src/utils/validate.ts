@@ -10,7 +10,7 @@
  */
 
 import * as yup from "yup"
-import {inlineTryPromise} from "./try"
+import {inlineTryPromise} from "@luke-zhang-04/utils"
 
 /* eslint-disable prefer-arrow/prefer-arrow-functions */
 
