@@ -10,22 +10,19 @@
 
 import {createAdapter} from "./utils"
 
-export const orgRequestAdapter = createAdapter(
-    async ({request, url}, {idToken, idTokenChecksum}: User) => {
-        await request(
-            `${url}/organization/request`,
-            "POST",
-            "json",
-            {
-                idToken,
-                idTokenChecksum,
-            },
-            undefined,
-            {credentials: "include"},
-        )
+export const orgRequestAdapter = createAdapter(async ({request, url}, {idToken}: User) => {
+    await request(
+        `${url}/organization/request`,
+        "POST",
+        "json",
+        {
+            idToken,
+        },
+        undefined,
+        {credentials: "include"},
+    )
 
-        return undefined
-    },
-)
+    return undefined
+})
 
 export default orgRequestAdapter

@@ -22,11 +22,10 @@ type Params = {
 }
 
 export const editCompetitionAdapter = createAdapter(
-    async ({request, url}, {idToken, idTokenChecksum}: User, params: Params) => {
+    async ({request, url}, {idToken}: User, params: Params) => {
         await request(`${url}/competitions/write`, "POST", undefined, {
             ...params,
             idToken,
-            idTokenChecksum,
         })
 
         return undefined
