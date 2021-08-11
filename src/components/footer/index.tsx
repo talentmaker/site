@@ -3,7 +3,7 @@
  *
  * @license BSD-3-Clause
  * @author Luke Zhang
- * @copyright (C) 2020 - 2021 Luke Zhang, Ethan Lim
+ * @copyright (C) 2020 - 2021 Luke Zhang
  * https://Luke-zhang-04.github.io
  * https://github.com/ethanlim04
  */
@@ -82,10 +82,6 @@ export const Footer: React.FC<{user?: User}> = (props): JSX.Element => (
             Copyright © 2020 - 2021:{" "}
             <a href="https://luke-zhang-04.github.io" target="_blank" rel="noopener noreferrer">
                 Luke Zhang
-            </a>
-            ,{" "}
-            <a href="https://github.com/ethanlim04" target="_blank" rel="noopener noreferrer">
-                Ethan Lim
             </a>
             .
         </div>
