@@ -15,38 +15,34 @@ import type {Tooltip} from "bootstrap"
  */
 declare const bootstrap: typeof import("bootstrap/")
 
-/* eslint-disable one-var */
 /**
  * Is a placement type
  */
 const isPlacement = (
-        placement: string | (() => void) | null,
-    ): placement is Tooltip.Options["placement"] =>
-        placement instanceof Function ||
-        (placement !== null && ["auto", "top", "bottom", "left", "right"].includes(placement)),
-    /**
-     * From an element, get the tooltip attributes
-     */
-    getAttributesFromElement = (element: Element): Partial<Tooltip.Options> => {
-        const placementAttr = element.getAttribute("data-bs-placement"),
-            placement: Tooltip.Options["placement"] = isPlacement(placementAttr)
-                ? placementAttr
-                : "auto"
+    placement: string | (() => void) | null,
+): placement is Tooltip.Options["placement"] =>
+    placement instanceof Function ||
+    (placement !== null && ["auto", "top", "bottom", "left", "right"].includes(placement))
 
-        return {
-            placement,
-        }
+/**
+ * From an element, get the tooltip attributes
+ */
+const getAttributesFromElement = (element: Element): Partial<Tooltip.Options> => {
+    const placementAttr = element.getAttribute("data-bs-placement")
+    const placement: Tooltip.Options["placement"] = isPlacement(placementAttr)
+        ? placementAttr
+        : "auto"
+
+    return {
+        placement,
     }
-
-/* eslint-enable one-var */
+}
 
 /**
  * Initializes tooltips
  */
 export const initTooltips = (): void => {
-    for (const element of Array.from(
-        document.querySelectorAll('[data-bs-toggle="tooltip"]') ?? [],
-    )) {
+    for (const element of document.querySelectorAll('[data-bs-toggle="tooltip"]')) {
         const tooltip = new bootstrap.Tooltip(element, getAttributesFromElement(element))
 
         element.addEventListener("click", () => {

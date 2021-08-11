@@ -138,10 +138,10 @@ const SidebarItem: React.FC<SidebarProps["items"][0]> = ({icon, title, contents,
     )
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({items}) => (
-    <div className="p-3 position-sticky top-0">
+export const Sidebar: React.FC<SidebarProps> = ({items, children}) => (
+    <div className={`p-3 position-sticky top-0 ${styles.sidebar}`}>
         <button
-            className="icon-btn"
+            className="icon-btn-animate"
             onClick={(): void => {
                 window.scrollTo({
                     top: 0,
@@ -157,6 +157,7 @@ export const Sidebar: React.FC<SidebarProps> = ({items}) => (
                 item ? <SidebarItem {...item} key={`sidebaritem-${index}`} /> : undefined,
             )}
         </ul>
+        {children}
     </div>
 )
 

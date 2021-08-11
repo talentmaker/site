@@ -75,7 +75,6 @@ h6 {
   font-weight: 400;
 }
 
-// Button for going back to top
 .icon-btn {
   background-color: variables.$none; // Transparent
   border: none; // Remove borders
@@ -85,6 +84,11 @@ h6 {
   &:focus {
     outline: none; // Remove ugly outline after click
   }
+}
+
+// Button for going back to top
+.icon-btn-animate {
+  @extend .icon-btn;
 
   & > * {
     transition: transform 0.125s ease-in; // Transition for inner content

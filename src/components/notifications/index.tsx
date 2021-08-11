@@ -30,7 +30,7 @@ if (!toastRoot) {
     throw new Error("Toast root is not defined")
 }
 
-const hideTimeSecs = 10
+const hideTimeSecs = 5
 const hideTime = secsToMs(hideTimeSecs)
 
 export const Notifications: React.FC<{

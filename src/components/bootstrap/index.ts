@@ -10,4 +10,5 @@
 
 export {Toast} from "./toast"
 export {Spinner} from "./spinner"
+export {initPopovers} from "./popover"
 export {initTooltips} from "./tooltip"

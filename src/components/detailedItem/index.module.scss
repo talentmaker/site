@@ -59,3 +59,9 @@
     font-size: 3vw;
   }
 }
+
+.sidebar {
+  max-height: 100vh;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+}

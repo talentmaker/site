@@ -49,7 +49,9 @@ interface FormValues {
 }
 
 export const EditProject: React.FC<
-    {id: string; compId?: undefined} | {compId: string; id?: undefined}
+    | {id: string; compId?: undefined}
+    | {compId: string; id?: undefined}
+    | {id: "new"; compId: string}
 > = ({id, compId}) => {
     const [project, setProject] = React.useState<Project | undefined>()
     const [desc, setDesc] = React.useState(
@@ -163,7 +165,7 @@ export const EditProject: React.FC<
                 <p>You are not logged in</p>
             </>
         )
-    } else if (project && project.creator !== user.sub) {
+    } else if (project && !project.teamMembers.some((member) => member.uid === user.sub)) {
         return (
             <>
                 <h1>Unauthorized</h1>

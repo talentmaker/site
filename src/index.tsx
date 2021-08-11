@@ -29,6 +29,7 @@ import {
     EditCompetition,
     EditProject,
     Home,
+    JoinTeam,
     Legal,
     NotFound,
     PrivacyPolicy,
@@ -148,6 +149,7 @@ const App: React.FC = () => {
                             <Route path="/competitions" component={Competitions} />
                             <Route path="/editCompetition/:id" component={EditCompetition} />
                             <Route path="/editProject/:id?" component={EditProject} />
+                            <Route path="/joinTeam/:data" component={JoinTeam} />
                             <Route path="/legal" component={Legal} />
                             <Route path="/privacy-policy" component={PrivacyPolicy} />
                             <Route path="/profile" component={Profile} />

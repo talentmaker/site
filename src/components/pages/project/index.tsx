@@ -11,14 +11,15 @@
 import * as Components from "~/components/detailedItem"
 import {Breadcrumb, Button, Col, Container, Row} from "react-bootstrap"
 import {Project as ProjectType, projectSchema} from "~/schemas/project"
-import {Spinner, initTooltips} from "~/components/bootstrap"
+import {Spinner, initPopovers, initTooltips} from "~/components/bootstrap"
 import {readCache, validate} from "~/utils"
 import {Link} from "react-router-dom"
 import Markdown from "~/components/markdown"
 import Prism from "prismjs"
 import React from "react"
-import UserContext from "~/contexts/userContext"
+import {UserContext} from "~/contexts"
 import getProjectData from "./utils"
+import {invliteLinkAdapter} from "~/adapters/teams"
 import projectAdapter from "~/adapters/project"
 import scrollToHeader from "~/components/markdown/scrollToHeader"
 import styles from "~/components/markdown/styles.module.scss"
@@ -37,19 +38,25 @@ type Props = {
 
 export const Project: React.FC<Props> = (props) => {
     const [project, setProject] = React.useState<ProjectType | undefined>()
+    const [inviteLink, setInviteLink] = React.useState<string | string>()
     const {currentUser: user} = React.useContext(UserContext)
 
     const setup = React.useCallback(() => {
         ;(async () => {
-            const data = await readCache(`talentmakerCache_project-${props.id}`)
+            if (props.id) {
+                const data = await readCache(`talentmakerCache_project-${props.id}`)
 
-            setProject(await validate(projectSchema, data, false))
+                setProject(await validate(projectSchema, data, false))
+            }
         })()
         ;(async () => {
             const data = await projectAdapter(user, props.id, props.compId)
 
             if (!(data instanceof Error)) {
-                setProject(data)
+                setProject({
+                    ...data,
+                    teamMembers: data.teamMembers.sort(({isCreator}) => (isCreator ? -1 : 1)),
+                })
             }
         })()
     }, [props.id, props.compId, user])
@@ -66,12 +73,69 @@ export const Project: React.FC<Props> = (props) => {
         Prism.highlightAll()
 
         initTooltips()
+        initPopovers()
     })
 
     const getData = React.useCallback(getProjectData, [])
     const data = React.useMemo(() => getData(project), [project, project?.license, project?.id])
+    const setInviteLinkState = React.useCallback(async () => {
+        if (user && project) {
+            const link = await invliteLinkAdapter(
+                user,
+                project?.id.toString(),
+                project?.competitionId,
+            )
+
+            if (!(link instanceof Error)) {
+                setInviteLink(`${window.location.origin}/joinTeam/${link.urlSuffix}`)
+            }
+        }
+    }, [project, project?.id, project?.competitionId])
 
     if (project && data) {
+        const management = user && user.sub === project?.creator && (
+            <Container fluid className="p-4 my-3 bg-lighter">
+                <h1>Management</h1>
+                <Button onClick={setInviteLinkState} variant="outline-dark">
+                    <span className="material-icons">groups</span> Generate Invite link
+                </Button>
+                {inviteLink && (
+                    <p className="mt-3">
+                        Your invite link is: &quot;
+                        <code>{inviteLink}</code>
+                        &quot;.{" "}
+                        {/* eslint-disable-next-line jsx-a11y/anchor-is-valid, jsx-a11y/click-events-have-key-events */}
+                        <a
+                            tabIndex={0}
+                            role="button"
+                            data-bs-toggle="popover"
+                            data-bs-trigger="focus"
+                            data-bs-content="Copied to clipboard"
+                            className="icon-btn"
+                            onClick={() => {
+                                window.navigator.clipboard.writeText(inviteLink)
+                            }}
+                        >
+                            <span className="material-icons">content_copy</span>
+                        </a>{" "}
+                        Only share this link with people you intend on adding to your team. Team
+                        members have editing privileges. This link expires in 24 hours.
+                    </p>
+                )}
+            </Container>
+        )
+        const mainDisplay = (
+            <Col lg={9}>
+                <Components.Video title="competition video" src={data.src} />
+                <div className={`${styles.markdownContainer} py-3 px-gx`}>
+                    <Container fluid className="p-4 bg-lighter">
+                        <Markdown>{project.desc ?? ""}</Markdown>
+                    </Container>
+                    {management}
+                </div>
+            </Col>
+        )
+
         return (
             <>
                 <Breadcrumb className="container-fluid" listProps={{className: "mb-0"}}>
@@ -96,7 +160,7 @@ export const Project: React.FC<Props> = (props) => {
                     username={project.name ?? "Submission"}
                     desc={`Submission for ${project.name ?? "Submission"}`}
                 >
-                    {(user?.sub ?? "") === project.creator ? (
+                    {project.teamMembers.some((member) => member.uid === user?.sub) ? (
                         <Button
                             variant="outline-dark"
                             as={Link}
@@ -109,16 +173,27 @@ export const Project: React.FC<Props> = (props) => {
                 </Components.UserInfo>
                 <Components.Bar topics={project.topics} />
                 <Row>
-                    <Col lg={9}>
-                        <Components.Video title="competition video" src={data.src} />
-                        <div className={`${styles.markdownContainer} py-3 px-gx`}>
-                            <Container fluid className="p-4 bg-lighter">
-                                <Markdown>{project.desc ?? ""}</Markdown>
-                            </Container>
-                        </div>
-                    </Col>
+                    {mainDisplay}
                     <Col lg={3} className="bg-lighter">
-                        <Components.Sidebar items={data.items} />
+                        <Components.Sidebar items={data.items}>
+                            <h2>Team</h2>
+                            <ul>
+                                {project.teamMembers.map(
+                                    (member): JSX.Element =>
+                                        member.isCreator ? (
+                                            <li>
+                                                <b>Creator: </b>
+                                                {member.username}
+                                            </li>
+                                        ) : (
+                                            <li>
+                                                <b>Member: </b>
+                                                {member.username}
+                                            </li>
+                                        ),
+                                )}
+                            </ul>
+                        </Components.Sidebar>
                     </Col>
                 </Row>
             </>
