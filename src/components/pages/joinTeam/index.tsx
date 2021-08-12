@@ -18,10 +18,9 @@ import {Spinner} from "~/components/bootstrap"
 
 type Props = {
     data: string
-    integrity: string
 }
 
-export const JoinTeam: React.FC<Props> = ({data, integrity}) => {
+export const JoinTeam: React.FC<Props> = ({data}) => {
     const [inviteLinkData, setInviteLinkData] = React.useState<InviteLink>()
     const [isJoining, setIsJoining] = React.useState(false)
     const {currentUser: user} = React.useContext(UserContext)
@@ -42,7 +41,7 @@ export const JoinTeam: React.FC<Props> = ({data, integrity}) => {
         if (user && inviteLinkData) {
             setIsJoining(true)
 
-            const err = await joinTeamAdapter(user, data, integrity)
+            const err = await joinTeamAdapter(user, data)
 
             if (!(err instanceof Error)) {
                 notify({
@@ -56,19 +55,15 @@ export const JoinTeam: React.FC<Props> = ({data, integrity}) => {
 
             setIsJoining(false)
         }
-    }, [
-        user,
-        data,
-        integrity,
-        inviteLinkData,
-        inviteLinkData?.projectName,
-        inviteLinkData?.projectId,
-    ])
+    }, [user, data, inviteLinkData, inviteLinkData?.projectName, inviteLinkData?.projectId])
 
     if (!user) {
         return <p>Error: unauthenticated</p>
     } else if (!inviteLinkData) {
         return <Spinner color="primary" size="25vw" className="my-5" centered />
+    } else if (Date.now() > inviteLinkData.expiry) {
+        // Don't worry, there's a server side check for this too
+        return <p>Error: your link is expired</p>
     }
 
     return (

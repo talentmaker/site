@@ -41,15 +41,8 @@ export const invliteLinkAdapter = createAdapter(
     }),
 )
 
-export const joinTeamAdapter = createAdapter(
-    async ({request, qs, url}, user: User, data: string, integrity: string) => {
-        await request(
-            `${url}/teams/join/${data}?${qs.stringify({integrity})}`,
-            "POST",
-            undefined,
-            {
-                idToken: user.idToken,
-            },
-        )
-    },
-)
+export const joinTeamAdapter = createAdapter(async ({request, url}, user: User, data: string) => {
+    await request(`${url}/teams/join/${data}`, "POST", undefined, {
+        idToken: user.idToken,
+    })
+})

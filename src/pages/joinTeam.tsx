@@ -10,21 +10,19 @@
 
 import JoinTeamComponent from "../components/pages/joinTeam"
 import React from "react"
-import queryString from "query-string"
 import {useParams} from "react-router-dom"
 
 export const EditProject: React.FC = () => {
     const {data} = useParams<{data?: string}>()
-    const {integrity} = queryString.parse(window.location.search)
 
-    if (data && typeof integrity === "string") {
-        return <JoinTeamComponent {...{data, integrity}} />
+    if (data) {
+        return <JoinTeamComponent data={data} />
     }
 
     return (
         <>
             <h1>Error:</h1>
-            <p>Bad query; no integrity specified</p>
+            <p>Data param not specified</p>
         </>
     )
 }
