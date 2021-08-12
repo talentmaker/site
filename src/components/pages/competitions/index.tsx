@@ -3,7 +3,7 @@
  *
  * @license BSD-3-Clause
  * @author Luke Zhang
- * @copyright (C) 2020 - 2021 Luke Zhang, Ethan Lim
+ * @copyright (C) 2020 - 2021 Luke Zhang
  * https://Luke-zhang-04.github.io
  * https://github.com/ethanlim04
  */
@@ -15,12 +15,13 @@ import {
     competitionsSchema,
 } from "~/schemas/competitions"
 import {Spinner, initTooltips} from "~/components/bootstrap"
-import {arrayToChunks, getUtcTime, readCache, validate} from "~/utils"
+import {getUtcTime, readCache, validate} from "~/utils"
 import DatePlus from "@luke-zhang-04/dateplus"
 import GridItem from "~/components/gridItem"
 import {Link} from "react-router-dom"
 import React from "react"
 import UserContext from "~/contexts/userContext"
+import {arrayToChunks} from "@luke-zhang-04/utils"
 import competitionsAdapter from "~/adapters/competitions"
 
 const Competition: React.FC<{comp: CompetitionType; user?: User}> = ({comp, user}) => {

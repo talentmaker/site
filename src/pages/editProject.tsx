@@ -3,7 +3,7 @@
  *
  * @license BSD-3-Clause
  * @author Luke Zhang
- * @copyright (C) 2020 - 2021 Luke Zhang, Ethan Lim
+ * @copyright (C) 2020 - 2021 Luke Zhang
  * https://Luke-zhang-04.github.io
  * https://github.com/ethanlim04
  */
@@ -17,7 +17,9 @@ export const EditProject: React.FC = () => {
     const {id} = useParams<{id?: string}>()
     const {competition: compId, id: qid} = queryString.parse(window.location.search)
 
-    if (id) {
+    if (id === "new" && typeof compId === "string") {
+        return <EditProjectComponent compId={compId} id="new" />
+    } else if (id) {
         return <EditProjectComponent id={id} />
     } else if (typeof qid === "string") {
         return <EditProjectComponent id={qid} />

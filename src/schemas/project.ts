@@ -3,7 +3,7 @@
  *
  * @license BSD-3-Clause
  * @author Luke Zhang
- * @copyright (C) 2020 - 2021 Luke Zhang, Ethan Lim
+ * @copyright (C) 2020 - 2021 Luke Zhang
  * https://Luke-zhang-04.github.io
  * https://github.com/ethanlim04
  */
@@ -25,6 +25,17 @@ export const projectSchema = yup.object({
     name: yup.string().required(),
     creatorUsername: yup.string().required(),
     competitionName: yup.string().required(),
+    teamMembers: yup
+        .array(
+            yup.object({
+                uid: yup.string().required(),
+                username: yup.string().required(),
+                desc: yup.string().nullable(),
+                role: yup.string().nullable(),
+                isCreator: yup.boolean().required(),
+            }),
+        )
+        .required(),
 })
 
 export type Project = typeof projectSchema.__outputType

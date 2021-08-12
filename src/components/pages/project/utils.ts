@@ -3,7 +3,7 @@
  *
  * @license BSD-3-Clause
  * @author Luke Zhang
- * @copyright (C) 2020 - 2021 Luke Zhang, Ethan Lim
+ * @copyright (C) 2020 - 2021 Luke Zhang
  * https://Luke-zhang-04.github.io
  * https://github.com/ethanlim04
  */
@@ -45,44 +45,47 @@ const getProjectLicense = (license: string): Data["items"][0] => {
     }
 }
 
-export const getProjectData = (_project: ProjectType): Data => ({
-    items: [
-        {
-            title: "Competition: ",
-            to: `/competition/${_project.competitionId}`,
-            contents: _project.competitionName,
-        },
-        {
-            icon: "account_circle",
-            contents: _project.creatorUsername,
-        },
-        _project.srcURL
-            ? {
-                  icon: "code",
-                  href: _project.srcURL,
-                  contents: _project.srcURL,
-              }
-            : undefined,
-        _project.demoURL
-            ? {
-                  icon: "preview",
-                  href: _project.demoURL,
-                  contents: _project.demoURL,
-              }
-            : undefined,
-        _project.videoURL
-            ? {
-                  icon: "video_library",
-                  href: _project.videoURL,
-                  contents: _project.videoURL,
-              }
-            : undefined,
-        _project.license ? getProjectLicense(_project.license) : undefined,
-    ],
-    src:
-        _project.videoURL
-            ?.replace("watch?v=", "embed/")
-            .replace("https://youtu.be", "https://www.youtube.com/embed") ?? "",
-})
+export const getProjectData = (project?: ProjectType): Data | undefined =>
+    project === undefined
+        ? undefined
+        : {
+              items: [
+                  {
+                      title: "Competition: ",
+                      to: `/competition/${project.competitionId}`,
+                      contents: project.competitionName,
+                  },
+                  {
+                      icon: "account_circle",
+                      contents: project.creatorUsername,
+                  },
+                  project.srcURL
+                      ? {
+                            icon: "code",
+                            href: project.srcURL,
+                            contents: project.srcURL,
+                        }
+                      : undefined,
+                  project.demoURL
+                      ? {
+                            icon: "preview",
+                            href: project.demoURL,
+                            contents: project.demoURL,
+                        }
+                      : undefined,
+                  project.videoURL
+                      ? {
+                            icon: "video_library",
+                            href: project.videoURL,
+                            contents: project.videoURL,
+                        }
+                      : undefined,
+                  project.license ? getProjectLicense(project.license) : undefined,
+              ],
+              src:
+                  project.videoURL
+                      ?.replace("watch?v=", "embed/")
+                      .replace("https://youtu.be", "https://www.youtube.com/embed") ?? "",
+          }
 
 export default getProjectData

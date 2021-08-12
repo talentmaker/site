@@ -3,7 +3,7 @@
  *
  * @license BSD-3-Clause
  * @author Luke Zhang
- * @copyright (C) 2020 - 2021 Luke Zhang, Ethan Lim
+ * @copyright (C) 2020 - 2021 Luke Zhang
  * https://Luke-zhang-04.github.io
  * https://github.com/ethanlim04
  */
@@ -21,7 +21,7 @@ import {Project} from "~/schemas/project"
 import React from "react"
 import {Spinner} from "~/components/bootstrap"
 import editProjectAdapter from "~/adapters/editProject"
-import {hash} from "~/utils"
+import {hash} from "@luke-zhang-04/utils/browser"
 import {projectAdapter} from "~/adapters/project"
 import styles from "~/components/markdown/styles.module.scss"
 
@@ -49,7 +49,9 @@ interface FormValues {
 }
 
 export const EditProject: React.FC<
-    {id: string; compId?: undefined} | {compId: string; id?: undefined}
+    | {id: string; compId?: undefined}
+    | {compId: string; id?: undefined}
+    | {id: "new"; compId: string}
 > = ({id, compId}) => {
     const [project, setProject] = React.useState<Project | undefined>()
     const [desc, setDesc] = React.useState(
@@ -73,10 +75,14 @@ export const EditProject: React.FC<
 
     const shouldSubmitProject = React.useCallback(
         async (values?: FormValues) => {
-            const newDataHash = await hash("SHA-256", {
-                ...getInitialValues(values),
-                desc,
-            })
+            const newDataHash = await hash(
+                JSON.stringify({
+                    ...getInitialValues(values),
+                    desc,
+                }),
+                "SHA-256",
+                "base64",
+            )
 
             return newDataHash !== initialDataHash.current // If data has been changed
         },
@@ -139,10 +145,14 @@ export const EditProject: React.FC<
                         setDesc(data.desc)
                     }
 
-                    initialDataHash.current = await hash("SHA-256", {
-                        ...getInitialValues(data),
-                        desc,
-                    })
+                    initialDataHash.current = await hash(
+                        JSON.stringify({
+                            ...getInitialValues(data),
+                            desc,
+                        }),
+                        "SHA-256",
+                        "base64",
+                    )
                 }
             })()
         }
@@ -155,7 +165,7 @@ export const EditProject: React.FC<
                 <p>You are not logged in</p>
             </>
         )
-    } else if (project && project.creator !== user.sub) {
+    } else if (project && !project.teamMembers.some((member) => member.uid === user.sub)) {
         return (
             <>
                 <h1>Unauthorized</h1>

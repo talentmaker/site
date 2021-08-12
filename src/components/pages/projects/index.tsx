@@ -3,7 +3,7 @@
  *
  * @license BSD-3-Clause
  * @author Luke Zhang
- * @copyright (C) 2020 - 2021 Luke Zhang, Ethan Lim
+ * @copyright (C) 2020 - 2021 Luke Zhang
  * https://Luke-zhang-04.github.io
  * https://github.com/ethanlim04
  */
@@ -11,13 +11,14 @@
 import {Breadcrumb, Button, Container, Row} from "react-bootstrap"
 import {Projects as ProjectsType, projectsSchema} from "~/schemas/projects"
 import {Spinner, initTooltips} from "~/components/bootstrap"
-import {arrayToChunks, validate} from "~/utils"
 import GridItem from "~/components/gridItem"
 import {Link} from "react-router-dom"
 import React from "react"
 import UserContext from "~/contexts/userContext"
+import {arrayToChunks} from "@luke-zhang-04/utils"
 import cache from "~/utils/cache"
 import projectsAdapter from "~/adapters/projects"
+import {validate} from "~/utils"
 
 const Project: React.FC<{project: ProjectsType[0]; user?: User}> = ({project, user}) => (
     <GridItem

@@ -1,7 +1,7 @@
 /*!
  * Talentmaker website
  *
- * Copyright (C) 2020 - 2021 Luke Zhang, Ethan Lim
+ * Copyright (C) 2020 - 2021 Luke Zhang
  * Author: Luke Zhang - luke-zhang-04.github.io
  *
  * License: BSD-3-Clause
@@ -75,7 +75,6 @@ h6 {
   font-weight: 400;
 }
 
-// Button for going back to top
 .icon-btn {
   background-color: variables.$none; // Transparent
   border: none; // Remove borders
@@ -85,6 +84,11 @@ h6 {
   &:focus {
     outline: none; // Remove ugly outline after click
   }
+}
+
+// Button for going back to top
+.icon-btn-animate {
+  @extend .icon-btn;
 
   & > * {
     transition: transform 0.125s ease-in; // Transition for inner content

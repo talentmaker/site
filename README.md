@@ -16,6 +16,10 @@ The current browserslist config covers about 90% of users
 
 -   [Generate PWA Icons](https://realfavicongenerator.net/)
 
+## Path Aliasing
+
+-   `~` is an alias for the root directory (src) of the app, simillar to the Unix home alias
+
 ## Directory Structure
 
 The directory structure in `src/` is based off this [Free Code Camp Article](https://www.freecodecamp.org/news/a-better-way-to-structure-react-projects/)

@@ -3,7 +3,7 @@
  *
  * @license BSD-3-Clause
  * @author Luke Zhang
- * @copyright (C) 2020 - 2021 Luke Zhang, Ethan Lim
+ * @copyright (C) 2020 - 2021 Luke Zhang
  * https://Luke-zhang-04.github.io
  * https://github.com/ethanlim04
  */
@@ -14,8 +14,8 @@ import {Button, FormGroup} from "react-bootstrap"
 import {Competition, competitionSchema} from "~/schemas/competition"
 import {Form, Formik, FormikHelpers} from "formik"
 import {NotificationContext, UserContext} from "~/contexts"
-import {hash, readCache, validate} from "~/utils"
 import {highlight, languages} from "prismjs"
+import {readCache, validate} from "~/utils"
 import Editor from "@luke-zhang-04/react-simple-markdown-editor"
 import Markdown from "~/components/markdown"
 import {MarkdownButtons} from "~/components/markdown/editor"
@@ -23,6 +23,7 @@ import React from "react"
 import {Spinner} from "~/components/bootstrap"
 import {competitionAdapter} from "~/adapters/competition"
 import editCompetitionAdapter from "~/adapters/editCompetition"
+import {hash} from "@luke-zhang-04/utils/browser"
 import styles from "~/components/markdown/styles.module.scss"
 
 const formValidationSchema = yup.object({
@@ -76,10 +77,14 @@ export const EditCompetition: React.FC<{id?: number}> = ({id}) => {
 
     const shouldSubmitCompetition = React.useCallback(
         async (values?: FormValues) => {
-            const newDataHash = await hash("SHA-256", {
-                ...getInitialValues(values),
-                desc,
-            })
+            const newDataHash = await hash(
+                JSON.stringify({
+                    ...getInitialValues(values),
+                    desc,
+                }),
+                "SHA-256",
+                "base64",
+            )
 
             return newDataHash !== initialDataHash.current // If data has been changed
         },
@@ -156,10 +161,14 @@ export const EditCompetition: React.FC<{id?: number}> = ({id}) => {
                     setDesc(data.desc)
                 }
 
-                initialDataHash.current = await hash("SHA-256", {
-                    ...getInitialValues(data),
-                    desc,
-                })
+                initialDataHash.current = await hash(
+                    JSON.stringify({
+                        ...getInitialValues(data),
+                        desc,
+                    }),
+                    "SHA-256",
+                    "base64",
+                )
             }
         })()
     }, [id, user])

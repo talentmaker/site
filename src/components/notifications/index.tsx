@@ -3,7 +3,7 @@
  *
  * @license BSD-3-Clause
  * @author Luke Zhang
- * @copyright (C) 2020 - 2021 Luke Zhang, Ethan Lim
+ * @copyright (C) 2020 - 2021 Luke Zhang
  * https://Luke-zhang-04.github.io
  * https://github.com/ethanlim04
  */
@@ -30,7 +30,7 @@ if (!toastRoot) {
     throw new Error("Toast root is not defined")
 }
 
-const hideTimeSecs = 10
+const hideTimeSecs = 5
 const hideTime = secsToMs(hideTimeSecs)
 
 export const Notifications: React.FC<{

@@ -4,7 +4,7 @@
  * @license BSD-3-Clause
  * @author Luke Zhang
  * @file entry Point for this react application including the app component
- * @copyright (C) 2020 - 2021 Luke Zhang, Ethan Lim
+ * @copyright (C) 2020 - 2021 Luke Zhang
  * https://Luke-zhang-04.github.io
  * https://github.com/ethanlim04
  */
@@ -29,6 +29,7 @@ import {
     EditCompetition,
     EditProject,
     Home,
+    JoinTeam,
     Legal,
     NotFound,
     PrivacyPolicy,
@@ -148,6 +149,7 @@ const App: React.FC = () => {
                             <Route path="/competitions" component={Competitions} />
                             <Route path="/editCompetition/:id" component={EditCompetition} />
                             <Route path="/editProject/:id?" component={EditProject} />
+                            <Route path="/joinTeam/:data" component={JoinTeam} />
                             <Route path="/legal" component={Legal} />
                             <Route path="/privacy-policy" component={PrivacyPolicy} />
                             <Route path="/profile" component={Profile} />
