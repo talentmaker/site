@@ -23,9 +23,12 @@ export const competitionJoinAdapter = createAdapter(
 )
 
 export const competitionAdapter = createAdapter(
-    async ({request, url, cache, schema}, user: User | undefined, id: string) => {
-        const userQS = user ? `&idToken=${user.idToken}` : ""
-        const data = await request(`${url}/competitions/getOne?id=${id}${userQS}`, "GET", "json")
+    async ({request, url, cache, qs, schema}, sub: string | undefined, id: string) => {
+        const data = await request(
+            `${url}/competitions/getOne?${qs.stringify({id, sub})}`,
+            "GET",
+            "json",
+        )
         const competition = await schema.validate(data)
 
         cache.write(`talentmakerCache_competition-${id}`, data)

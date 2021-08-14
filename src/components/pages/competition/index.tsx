@@ -42,13 +42,13 @@ export const Competition: React.FC<Props> = (props) => {
             setCompetition(await validate(competitionSchema, data, false))
         })()
         ;(async () => {
-            const data = await competitionAdapter(user, props.id)
+            const data = await competitionAdapter(user?.sub, props.id)
 
             if (!(data instanceof Error)) {
                 setCompetition(data)
             }
         })()
-    }, [props.id, user])
+    }, [props.id, user, user?.sub])
 
     React.useEffect(() => {
         setup()

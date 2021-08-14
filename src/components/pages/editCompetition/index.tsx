@@ -149,7 +149,7 @@ export const EditCompetition: React.FC<{id?: number}> = ({id}) => {
         })()
         ;(async () => {
             if (id && user) {
-                const data = await competitionAdapter(user, id.toString())
+                const data = await competitionAdapter(user.sub, id.toString())
 
                 if (data instanceof Error) {
                     return
@@ -171,7 +171,7 @@ export const EditCompetition: React.FC<{id?: number}> = ({id}) => {
                 )
             }
         })()
-    }, [id, user])
+    }, [id, user, user?.sub])
 
     if (!user) {
         return (
