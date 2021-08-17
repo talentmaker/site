@@ -42,7 +42,7 @@ import {
 import {NotificationContext, UserContext} from "./contexts"
 import {NotificationType, Notifications} from "./components/notifications"
 import {Route, BrowserRouter as Router, Switch} from "react-router-dom"
-import {CognitoUser as User, isUser} from "./schemas/user"
+import {CognitoUser as User, userSchema} from "./schemas/user"
 import ErrorBoundary from "./components/errorBoundary"
 import Footer from "./components/footer"
 import Nav from "./components/nav"
@@ -82,7 +82,7 @@ const App: React.FC = () => {
 
     const setUserFromUnknown = React.useCallback(
         async (user?: {[key: string]: unknown} | null): Promise<void> => {
-            if (user === undefined || user === null || isUser(user)) {
+            if (user === undefined || user === null || userSchema.isValidSync(user)) {
                 return await setUser(user)
             }
         },

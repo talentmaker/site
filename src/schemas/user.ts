@@ -20,13 +20,3 @@ export const userSchema = yup.object({
 })
 
 export type CognitoUser = typeof userSchema.__outputType
-
-export const isUser = (obj: unknown): obj is CognitoUser => {
-    try {
-        userSchema.validateSync(obj)
-
-        return true
-    } catch {
-        return false
-    }
-}
