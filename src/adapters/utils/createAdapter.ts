@@ -46,7 +46,7 @@ type AdapterCallback<ArgsType, Args extends ArgsType[], S extends yup.BaseSchema
     ...args: Args
 ) => Promise<S extends yup.BaseSchema ? S["__outputType"] : void>
 
-type ReturnType<S extends yup.BaseSchema | void> =
+type AdapterReturnTypeOrError<S extends yup.BaseSchema | void> =
     | (S extends yup.BaseSchema ? S["__outputType"] : void)
     | Error
 
@@ -61,7 +61,7 @@ export const createAdapter =
     <ArgsType, Args extends ArgsType[], S extends yup.BaseSchema | void = undefined>(
         func: AdapterCallback<ArgsType, Args, S>,
         schema?: S,
-    ): ((...args: Args) => Promise<ReturnType<S>>) =>
+    ): ((...args: Args) => Promise<AdapterReturnTypeOrError<S>>) =>
     (...args: Args) =>
         catcherPromise(
             async () =>
