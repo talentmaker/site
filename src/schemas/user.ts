@@ -12,7 +12,6 @@ import * as yup from "yup"
 
 export const userSchema = yup.object({
     idToken: yup.string().required(),
-    accessToken: yup.string().required(),
     email: yup.string().required(),
     sub: yup.string().required(),
     username: yup.string().required(),
