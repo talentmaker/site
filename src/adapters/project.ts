@@ -16,14 +16,14 @@ export const projectAdapter = createAdapter(
         {adapterError, request, url, cache, schema, qs},
         user: User | undefined,
         id?: string,
-        compId?: string,
+        competitionId?: string,
     ) => {
         let queryString
 
         if (id) {
             queryString = qs.stringify({id})
-        } else if (compId && user) {
-            queryString = qs.stringify({sub: user.sub, competitionId: compId})
+        } else if (competitionId && user) {
+            queryString = qs.stringify({uid: user.uid, competitionId})
         } else {
             throw adapterError("Invalid Params")
         }

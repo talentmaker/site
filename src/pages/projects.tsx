@@ -16,10 +16,10 @@ import {useParams} from "react-router"
  * Wrapper for the projects component that passes in the user
  */
 export const Projects: React.FC<{}> = () => {
-    const {compId} = useParams<{compId?: string}>()
+    const {competitionId} = useParams<{competitionId?: string}>()
 
-    return compId ? (
-        <ProjectsComponent compId={compId} />
+    return competitionId ? (
+        <ProjectsComponent competitionId={competitionId} />
     ) : (
         <>
             <h1>Error:</h1>

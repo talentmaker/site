@@ -12,7 +12,7 @@ import {createAdapter} from "./utils"
 
 type Params = {
     title: string
-    compId?: string
+    competitionId?: string
     projectId?: string
     desc?: string
     srcURL?: string

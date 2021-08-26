@@ -28,7 +28,7 @@ const Project: React.FC<{project: ProjectsType[0]; user?: User}> = ({project, us
     >
         {
             // This project belongs to this user
-            user?.sub === project.creator && (
+            user?.uid === project.creator && (
                 <Button
                     as={Link}
                     variant="outline-dark"
@@ -45,7 +45,7 @@ const Project: React.FC<{project: ProjectsType[0]; user?: User}> = ({project, us
     </GridItem>
 )
 
-export const Projects: React.FC<{compId: string}> = ({compId}) => {
+export const Projects: React.FC<{competitionId: string}> = ({competitionId}) => {
     const [projects, setProjects] = React.useState<ProjectsType | undefined>()
     const {currentUser: user} = React.useContext(UserContext)
 
@@ -56,7 +56,7 @@ export const Projects: React.FC<{compId: string}> = ({compId}) => {
             setProjects(await validate(projectsSchema, data, false))
         })()
         ;(async () => {
-            const data = await projectsAdapter(compId)
+            const data = await projectsAdapter(competitionId)
 
             if (!(data instanceof Error)) {
                 setProjects(data)
@@ -85,8 +85,11 @@ export const Projects: React.FC<{compId: string}> = ({compId}) => {
                     <Breadcrumb.Item linkAs={Link} linkProps={{to: "/competitions"}}>
                         Competitions
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item linkAs={Link} linkProps={{to: `/competition/${compId}`}}>
-                        {compId}
+                    <Breadcrumb.Item
+                        linkAs={Link}
+                        linkProps={{to: `/competition/${competitionId}`}}
+                    >
+                        {competitionId}
                     </Breadcrumb.Item>
                     <Breadcrumb.Item active>Submissions</Breadcrumb.Item>
                 </Breadcrumb>

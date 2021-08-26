@@ -149,7 +149,7 @@ export const EditCompetition: React.FC<{id?: number}> = ({id}) => {
         })()
         ;(async () => {
             if (id && user) {
-                const data = await competitionAdapter(user.sub, id.toString())
+                const data = await competitionAdapter(user.uid, id.toString())
 
                 if (data instanceof Error) {
                     return
@@ -171,7 +171,7 @@ export const EditCompetition: React.FC<{id?: number}> = ({id}) => {
                 )
             }
         })()
-    }, [id, user, user?.sub])
+    }, [id, user, user?.uid])
 
     if (!user) {
         return (
@@ -180,7 +180,7 @@ export const EditCompetition: React.FC<{id?: number}> = ({id}) => {
                 <p>You are not logged in</p>
             </>
         )
-    } else if (competition && competition.orgId !== user.sub) {
+    } else if (competition && competition.organizationId !== user.uid) {
         return (
             <>
                 <h1>Unauthorized</h1>

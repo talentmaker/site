@@ -54,9 +54,9 @@ export const UserDisplay: React.FC = () => {
                 <Col lg={6} className="d-flex flex-column justify-content-center">
                     <p className={styles.username}>
                         {user.username}
-                        <span className="text-muted">#{user.sub.slice(0, 8)}</span>
+                        <span className="text-muted">#{user.uid.slice(0, 8)}</span>
                     </p>
-                    <p className={`${styles.sub} text-muted`}>{user.sub}</p>
+                    <p className={`${styles.uid} text-muted`}>{user.uid}</p>
                 </Col>
                 <Col lg={4} className="d-flex flex-row align-items-center justify-content-end">
                     <Button variant="outline-primary" size="lg">
@@ -88,7 +88,7 @@ export const UserDisplay: React.FC = () => {
                         <br />
                         <li>Username: {user.username}</li>
                         <br />
-                        <li>UID (short): {user.sub.slice(0, 8)}</li>
+                        <li>UID (short): {user.uid.slice(0, 8)}</li>
                         <br />
                         An organization? Apply to become an organization!
                         <br />

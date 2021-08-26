@@ -27,7 +27,7 @@ export const UserInfo: React.FC<UserInfoProps> = ({username, desc, children}) =>
                 <>
                     <Col lg={7} className="d-flex flex-column justify-content-center">
                         {username && <p className={styles.username}>{username}</p>}
-                        {desc && <p className="sub text-muted mb-0">{desc}</p>}
+                        {desc && <p className="uid text-muted mb-0">{desc}</p>}
                     </Col>
                     <Col lg={5} className="d-flex flex-row align-items-center justify-content-end">
                         {children}
@@ -36,7 +36,7 @@ export const UserInfo: React.FC<UserInfoProps> = ({username, desc, children}) =>
             ) : (
                 <Col lg={12} className="d-flex flex-column justify-content-center">
                     {username && <p className={styles.username}>{username}</p>}
-                    {desc && <p className="sub text-muted mb-0">{desc}</p>}
+                    {desc && <p className="uid text-muted mb-0">{desc}</p>}
                 </Col>
             )}
         </Row>

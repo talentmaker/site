@@ -37,7 +37,7 @@ const Competition: React.FC<{comp: CompetitionType; user?: User}> = ({comp, user
         >
             {
                 // This competition belongs to this organization
-                user?.sub === comp.orgId ? (
+                user?.uid === comp.organizationId ? (
                     <Button
                         as={Link}
                         to={`/editCompetition/${comp.id}`}

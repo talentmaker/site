@@ -148,7 +148,7 @@ const App: React.FC = () => {
                             <Route path="/profile" component={Profile} />
                             <Route path="/project/:id" component={Project} />
                             <Route path="/project" component={Project} />
-                            <Route path="/projects/:compId" component={Projects} />
+                            <Route path="/projects/:competitionId" component={Projects} />
                             <Route path="/talents" component={Talents} />
                             <Route path="/talentmakers" component={Talentmakers} />
 

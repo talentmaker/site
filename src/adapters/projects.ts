@@ -12,9 +12,9 @@ import {createAdapter} from "./utils"
 import {projectsSchema} from "../schemas/projects"
 
 export const projectsAdapter = createAdapter(
-    async ({request, url, cache, schema}, compId: string) => {
+    async ({request, url, cache, schema}, competitionId: string) => {
         const data = await request(
-            `${url}/projects/get?column=competitionId&value=${compId}`,
+            `${url}/projects/get?column=competitionId&value=${competitionId}`,
             "GET",
             "json",
         )

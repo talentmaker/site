@@ -34,7 +34,9 @@ export const getCompetitionData = (_competition: CompetitionType): Data => {
                     <>
                         {" "}
                         {_competition.orgName}
-                        <span className="text-muted">#{_competition.orgId.slice(0, 7)}</span>
+                        <span className="text-muted">
+                            #{_competition.organizationId.slice(0, 7)}
+                        </span>
                     </>
                 ),
             },

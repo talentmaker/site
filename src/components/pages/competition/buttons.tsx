@@ -80,7 +80,7 @@ export const JoinButton: React.FC<JoinButtonProps> = ({competition, user, onSucc
         user?.isOrg && // User is organization
         competition // Competition exists
     ) {
-        return user.sub === competition.orgId ? ( // Organization owns competition
+        return user.uid === competition.organizationId ? ( // Organization owns competition
             <Button
                 as={Link}
                 variant="outline-dark"

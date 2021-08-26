@@ -49,10 +49,10 @@ interface FormValues {
 }
 
 export const EditProject: React.FC<
-    | {id: string; compId?: undefined}
-    | {compId: string; id?: undefined}
-    | {id: "new"; compId: string}
-> = ({id, compId}) => {
+    | {id: string; competitionId?: undefined}
+    | {competitionId: string; id?: undefined}
+    | {id: "new"; competitionId: string}
+> = ({id, competitionId}) => {
     const [project, setProject] = React.useState<Project | undefined>()
     const [desc, setDesc] = React.useState(
         "# My Submission\n\nThis is Markdown. You can find out how to use markdown [here](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)",
@@ -103,7 +103,7 @@ export const EditProject: React.FC<
             } else if (user) {
                 const result = await editProjectAdapter(user, {
                     projectId: id,
-                    compId,
+                    competitionId,
                     title: values.name,
                     desc,
                     srcURL: values.srcURL,
@@ -126,14 +126,14 @@ export const EditProject: React.FC<
 
             setSubmitting(false)
         },
-        [id, compId, desc, user, notify],
+        [id, competitionId, desc, user, notify],
     )
 
     React.useEffect(() => {
         if (id !== "new") {
             ;(async () => {
                 if (user) {
-                    const data = await projectAdapter(user, id, compId)
+                    const data = await projectAdapter(user, id, competitionId)
 
                     if (data instanceof Error) {
                         return
@@ -156,7 +156,7 @@ export const EditProject: React.FC<
                 }
             })()
         }
-    }, [id, compId, user])
+    }, [id, competitionId, user])
 
     if (!user) {
         return (
@@ -165,7 +165,7 @@ export const EditProject: React.FC<
                 <p>You are not logged in</p>
             </>
         )
-    } else if (project && !project.teamMembers.some((member) => member.uid === user.sub)) {
+    } else if (project && !project.teamMembers.some((member) => member.uid === user.uid)) {
         return (
             <>
                 <h1>Unauthorized</h1>

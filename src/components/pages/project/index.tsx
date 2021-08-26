@@ -33,7 +33,7 @@ type Props = {
     /**
      * Competition id
      */
-    compId?: string
+    competitionId?: string
 }
 
 export const Project: React.FC<Props> = (props) => {
@@ -50,7 +50,7 @@ export const Project: React.FC<Props> = (props) => {
             }
         })()
         ;(async () => {
-            const data = await projectAdapter(user, props.id, props.compId)
+            const data = await projectAdapter(user, props.id, props.competitionId)
 
             if (!(data instanceof Error)) {
                 setProject({
@@ -59,7 +59,7 @@ export const Project: React.FC<Props> = (props) => {
                 })
             }
         })()
-    }, [props.id, props.compId, user])
+    }, [props.id, props.competitionId, user])
 
     React.useEffect(() => {
         setup()
@@ -67,7 +67,7 @@ export const Project: React.FC<Props> = (props) => {
         if (window.location.hash) {
             scrollToHeader(window.location.hash)
         }
-    }, [props.id, props.compId, user])
+    }, [props.id, props.competitionId, user])
 
     React.useEffect(() => {
         Prism.highlightAll()
@@ -93,7 +93,7 @@ export const Project: React.FC<Props> = (props) => {
     }, [project, project?.id, project?.competitionId])
 
     if (project && data) {
-        const management = user && user.sub === project?.creator && (
+        const management = user && user.uid === project?.creator && (
             <Container fluid className="p-4 my-3 bg-lighter">
                 <h1>Management</h1>
                 <Button onClick={setInviteLinkState} variant="outline-dark">
@@ -160,7 +160,7 @@ export const Project: React.FC<Props> = (props) => {
                     username={project.name ?? "Submission"}
                     desc={`Submission for ${project.name ?? "Submission"}`}
                 >
-                    {project.teamMembers.some((member) => member.uid === user?.sub) ? (
+                    {project.teamMembers.some((member) => member.uid === user?.uid) ? (
                         <Button
                             variant="outline-dark"
                             as={Link}

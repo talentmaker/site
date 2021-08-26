@@ -15,12 +15,12 @@ import {useParams} from "react-router"
 
 export const Project: React.FC = () => {
     const {id} = useParams<{id?: string}>()
-    const {competition: compId} = queryString.parse(window.location.search)
+    const {competition: competitionId} = queryString.parse(window.location.search)
 
     if (id) {
         return <ProjectComponent id={id} />
-    } else if (typeof compId === "string") {
-        return <ProjectComponent compId={compId} />
+    } else if (typeof competitionId === "string") {
+        return <ProjectComponent competitionId={competitionId} />
     }
 
     return (
