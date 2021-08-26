@@ -15,6 +15,7 @@ export const userSchema = yup.object({
     email: yup.string().required(),
     uid: yup.string().required(),
     username: yup.string().required(),
+    isVerified: yup.boolean().required(),
     isOrg: yup.boolean(),
 })
 
