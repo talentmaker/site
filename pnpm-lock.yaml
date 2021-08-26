@@ -41,6 +41,7 @@ specifiers:
   prettier: ^2.3.0
   prettier-plugin-jsdoc: ^0.3.19
   prettier-plugin-package: ^1.3.0
+  prettier-plugin-sh: ^0.7.1
   prismjs: ^1.23.0
   query-string: ^7.0.0
   react: ^17.0.2
@@ -67,7 +68,7 @@ specifiers:
 dependencies:
   "@luke-zhang-04/dateplus": 3.1.0
   "@luke-zhang-04/react-simple-markdown-editor": 1.1.0_react-dom@17.0.2+react@17.0.2
-  "@luke-zhang-04/utils": github.com/luke-zhang-04/utils/e9cd6dbc4e3d558c906c7f2c45550e6df9df8412
+  "@luke-zhang-04/utils": github.com/luke-zhang-04/utils/64fdc8814368da4a8c37fbfd039b516d314b91d6_@types+node@14.17.4
   "@types/react-select": 3.1.2
   bootstrap: 5.0.2
   dompurify: 2.2.9
@@ -120,6 +121,7 @@ devDependencies:
   prettier: 2.3.2
   prettier-plugin-jsdoc: 0.3.23_prettier@2.3.2
   prettier-plugin-package: 1.3.0_prettier@2.3.2
+  prettier-plugin-sh: 0.7.1_prettier@2.3.2
   react-scripts: 4.0.3_f304ea7a1bd0553ec438469e13b29e32
   sass: 1.32.13
   source-map-explorer: 2.5.2
@@ -11546,6 +11548,13 @@ packages:
       thunky: 1.1.0
     dev: true
 
+  /mvdan-sh/0.5.0:
+    resolution:
+      {
+        integrity: sha512-UWbdl4LHd2fUnaEcOUFVWRdWGLkNoV12cKVIPiirYd8qM5VkCoCTXErlDubevrkEG7kGohvjRxAlTQmOqG80tw==,
+      }
+    dev: true
+
   /nan/2.14.2:
     resolution:
       {
@@ -13524,6 +13533,18 @@ packages:
     peerDependencies:
       prettier: ^2.0.0
     dependencies:
+      prettier: 2.3.2
+    dev: true
+
+  /prettier-plugin-sh/0.7.1_prettier@2.3.2:
+    resolution:
+      {
+        integrity: sha512-2MWRdGOSz0yf/z2kTKF1AqxDuH9MZD8faoDAz5ySGphxssi9oyM3Ys+jp7AfqsCXvGUDbRA4EJOlKS0yZKAW6w==,
+      }
+    peerDependencies:
+      prettier: ^2.0.5
+    dependencies:
+      mvdan-sh: 0.5.0
       prettier: 2.3.2
     dev: true
 
@@ -17811,11 +17832,20 @@ packages:
         integrity: sha512-V50KMwwzqJV0NpZIZFwfOD5/lyny3WlSzRiXgA0G7VUnRlqttta1L6UQIHzd6EuBY/cHGfwTIck7w1yH6Q5zUw==,
       }
 
-  github.com/luke-zhang-04/utils/e9cd6dbc4e3d558c906c7f2c45550e6df9df8412:
+  github.com/luke-zhang-04/utils/64fdc8814368da4a8c37fbfd039b516d314b91d6_@types+node@14.17.4:
     resolution:
       {
-        tarball: https://codeload.github.com/luke-zhang-04/utils/tar.gz/e9cd6dbc4e3d558c906c7f2c45550e6df9df8412,
+        tarball: https://codeload.github.com/luke-zhang-04/utils/tar.gz/64fdc8814368da4a8c37fbfd039b516d314b91d6,
       }
+    id: github.com/luke-zhang-04/utils/64fdc8814368da4a8c37fbfd039b516d314b91d6
     name: "@luke-zhang-04/utils"
-    version: 1.3.0
+    version: 1.5.0
+    engines: {node: ">=12"}
+    peerDependencies:
+      "@types/node": ">= 12"
+    peerDependenciesMeta:
+      "@types/node":
+        optional: true
+    dependencies:
+      "@types/node": 14.17.4
     dev: false
