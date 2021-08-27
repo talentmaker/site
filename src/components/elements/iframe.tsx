@@ -6,7 +6,6 @@
  * @file iframe Element with spinner
  * @copyright (C) 2020 - 2021 Luke Zhang
  * https://Luke-zhang-04.github.io
- * https://github.com/ethanlim04
  */
 
 import React from "react"

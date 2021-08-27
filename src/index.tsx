@@ -6,7 +6,6 @@
  * @file entry Point for this react application including the app component
  * @copyright (C) 2020 - 2021 Luke Zhang
  * https://Luke-zhang-04.github.io
- * https://github.com/ethanlim04
  */
 
 // Load Prismjs languages
