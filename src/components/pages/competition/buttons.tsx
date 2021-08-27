@@ -77,7 +77,7 @@ export const JoinButton: React.FC<JoinButtonProps> = ({competition, user, onSucc
     }, [user, competition])
 
     if (
-        user?.isOrg && // User is organization
+        user?.isOrganization && // User is organization
         competition // Competition exists
     ) {
         return user.uid === competition.organizationId ? ( // Organization owns competition

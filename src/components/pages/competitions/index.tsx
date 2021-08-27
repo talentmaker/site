@@ -98,7 +98,7 @@ export const Competitions: React.FC = () => {
 
         return (
             <Container fluid className="mt-3">
-                {user?.isOrg === true && (
+                {user?.isOrganization === true && (
                     <>
                         <h1>Create a Competition</h1>
                         <p>As an organization, you can create a new competition</p>

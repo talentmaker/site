@@ -74,7 +74,7 @@ export const UserDisplay: React.FC = () => {
                         <li>Username: {user.username}</li>
                         <br />
                         <li>UID (short): {user.uid.slice(0, 8)}</li>
-                        {user.isOrg ? undefined : (
+                        {user.isOrganization ? undefined : (
                             <>
                                 <br />
                                 An organization? Apply to become an organization!

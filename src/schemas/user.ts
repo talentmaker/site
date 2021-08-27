@@ -16,7 +16,7 @@ export const userSchema = yup.object({
     uid: yup.string().required(),
     username: yup.string().required(),
     isVerified: yup.boolean().required(),
-    isOrg: yup.boolean(),
+    isOrganization: yup.boolean(),
 })
 
 export type CognitoUser = typeof userSchema.__outputType
