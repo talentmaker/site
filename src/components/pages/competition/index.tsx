@@ -9,19 +9,20 @@
 
 import * as Components from "~/components/detailedItem"
 import {Breadcrumb, Button, Col, Container, Row} from "react-bootstrap"
-import {Competition as CompetitionType, competitionSchema} from "~/schemas/competition"
 import {JoinButton, SubmissionButton} from "./buttons"
 import {Spinner, initTooltips} from "~/components/bootstrap"
-import {readCache, validate} from "~/utils"
 import {Link} from "react-router-dom"
 import Markdown from "~/components/markdown"
 import Prism from "prismjs"
 import React from "react"
 import UserContext from "~/contexts/userContext"
 import competitionAdapter from "~/adapters/competition"
+import {competitionSchema} from "~/schemas/competition"
 import getCompetitionData from "./utils"
+import {readCache} from "~/utils"
 import scrollToHeader from "~/components/markdown/scrollToHeader"
 import styles from "~/components/markdown/styles.module.scss"
+import {useAdapter} from "~/hooks"
 
 type Props = {
     /**
@@ -31,31 +32,21 @@ type Props = {
 }
 
 export const Competition: React.FC<Props> = (props) => {
-    const [competition, setCompetition] = React.useState<CompetitionType | undefined>()
     const {currentUser: user} = React.useContext(UserContext)
-
-    const setup = React.useCallback(() => {
-        ;(async () => {
-            const data = await readCache(`talentmakerCache_competition-${props.id}`)
-
-            setCompetition(await validate(competitionSchema, data, false))
-        })()
-        ;(async () => {
-            const data = await competitionAdapter(user?.uid, props.id)
-
-            if (!(data instanceof Error)) {
-                setCompetition(data)
-            }
-        })()
-    }, [props.id, user, user?.uid])
+    const {data: competition, rerun} = useAdapter(
+        () => competitionAdapter(user?.uid, props.id),
+        async () =>
+            competitionSchema.validate(
+                await readCache(`talentmakerCache_competition-${props.id}`),
+            ),
+        [user],
+    )
 
     React.useEffect(() => {
-        setup()
-
         if (window.location.hash) {
             scrollToHeader(window.location.hash)
         }
-    }, [props.id, user])
+    }, [])
 
     React.useEffect(() => {
         Prism.highlightAll()
@@ -96,7 +87,7 @@ export const Competition: React.FC<Props> = (props) => {
                             <Link to="/auth">Sign up</Link> to participate in competitions.
                         </p>
                     ) : (
-                        <JoinButton {...{user, competition}} onSuccess={setup} />
+                        <JoinButton {...{user, competition}} onSuccess={rerun} />
                     )}
                 </Components.UserInfo>
                 <Components.Bar topics={competition?.topics} />

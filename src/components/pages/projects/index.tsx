@@ -17,7 +17,7 @@ import UserContext from "~/contexts/userContext"
 import {arrayToChunks} from "@luke-zhang-04/utils"
 import cache from "~/utils/cache"
 import projectsAdapter from "~/adapters/projects"
-import {validate} from "~/utils"
+import {useAdapter} from "~/hooks"
 
 const Project: React.FC<{project: ProjectsType[0]; user?: User}> = ({project, user}) => (
     <GridItem
@@ -27,7 +27,7 @@ const Project: React.FC<{project: ProjectsType[0]; user?: User}> = ({project, us
     >
         {
             // This project belongs to this user
-            user?.uid === project.creator && (
+            user?.uid === project.creatorId && (
                 <Button
                     as={Link}
                     variant="outline-dark"
@@ -45,23 +45,11 @@ const Project: React.FC<{project: ProjectsType[0]; user?: User}> = ({project, us
 )
 
 export const Projects: React.FC<{competitionId: string}> = ({competitionId}) => {
-    const [projects, setProjects] = React.useState<ProjectsType | undefined>()
+    const {data: projects} = useAdapter(
+        () => projectsAdapter(competitionId),
+        async () => projectsSchema.validate(await cache.read("talentmakerCache_projects")),
+    )
     const {currentUser: user} = React.useContext(UserContext)
-
-    React.useEffect(() => {
-        ;(async () => {
-            const data = await cache.read("talentmakerCache_projects")
-
-            setProjects(await validate(projectsSchema, data, false))
-        })()
-        ;(async () => {
-            const data = await projectsAdapter(competitionId)
-
-            if (!(data instanceof Error)) {
-                setProjects(data)
-            }
-        })()
-    }, [])
 
     React.useEffect(() => {
         initTooltips()

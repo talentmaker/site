@@ -9,9 +9,7 @@
 
 import * as Components from "~/components/detailedItem"
 import {Breadcrumb, Button, Col, Container, Row} from "react-bootstrap"
-import {Project as ProjectType, projectSchema} from "~/schemas/project"
 import {Spinner, initPopovers, initTooltips} from "~/components/bootstrap"
-import {readCache, validate} from "~/utils"
 import {Link} from "react-router-dom"
 import Markdown from "~/components/markdown"
 import Prism from "prismjs"
@@ -20,8 +18,11 @@ import {UserContext} from "~/contexts"
 import getProjectData from "./utils"
 import {invliteLinkAdapter} from "~/adapters/teams"
 import projectAdapter from "~/adapters/project"
+import {projectSchema} from "~/schemas/project"
+import {readCache} from "~/utils"
 import scrollToHeader from "~/components/markdown/scrollToHeader"
 import styles from "~/components/markdown/styles.module.scss"
+import {useAdapter} from "~/hooks"
 
 type Props = {
     /**
@@ -36,37 +37,22 @@ type Props = {
 }
 
 export const Project: React.FC<Props> = (props) => {
-    const [project, setProject] = React.useState<ProjectType | undefined>()
-    const [inviteLink, setInviteLink] = React.useState<string | string>()
     const {currentUser: user} = React.useContext(UserContext)
-
-    const setup = React.useCallback(() => {
-        ;(async () => {
-            if (props.id) {
-                const data = await readCache(`talentmakerCache_project-${props.id}`)
-
-                setProject(await validate(projectSchema, data, false))
-            }
-        })()
-        ;(async () => {
-            const data = await projectAdapter(user, props.id, props.competitionId)
-
-            if (!(data instanceof Error)) {
-                setProject({
-                    ...data,
-                    teamMembers: data.teamMembers.sort(({isCreator}) => (isCreator ? -1 : 1)),
-                })
-            }
-        })()
-    }, [props.id, props.competitionId, user])
+    const {data: project} = useAdapter(
+        () => (user ? projectAdapter(user, props.id, props.competitionId) : undefined),
+        async () =>
+            props.id
+                ? projectSchema.validate(await readCache(`talentmakerCache_project-${props.id}`))
+                : undefined,
+        [user],
+    )
+    const [inviteLink, setInviteLink] = React.useState<string | string>()
 
     React.useEffect(() => {
-        setup()
-
         if (window.location.hash) {
             scrollToHeader(window.location.hash)
         }
-    }, [props.id, props.competitionId, user])
+    }, [])
 
     React.useEffect(() => {
         Prism.highlightAll()
@@ -92,7 +78,7 @@ export const Project: React.FC<Props> = (props) => {
     }, [project, project?.id, project?.competitionId])
 
     if (project && data) {
-        const management = user && user.uid === project?.creator && (
+        const management = user && user.uid === project?.creatorId && (
             <Container fluid className="p-4 my-3 bg-lighter">
                 <h1>Management</h1>
                 <Button onClick={setInviteLinkState} variant="outline-dark">
@@ -180,12 +166,12 @@ export const Project: React.FC<Props> = (props) => {
                                 {project.teamMembers.map(
                                     (member): JSX.Element =>
                                         member.isCreator ? (
-                                            <li>
+                                            <li key={member.uid}>
                                                 <b>Creator: </b>
                                                 {member.username}
                                             </li>
                                         ) : (
-                                            <li>
+                                            <li key={member.uid}>
                                                 <b>Member: </b>
                                                 {member.username}
                                             </li>

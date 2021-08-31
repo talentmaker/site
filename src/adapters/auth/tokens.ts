@@ -18,6 +18,7 @@ export const tokenAdapter = createAdapter(
             }),
         ),
     userSchema,
+    false,
 )
 
 export default tokenAdapter

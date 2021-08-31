@@ -49,7 +49,11 @@ $utilities: map-remove(
   "rounded-end",
   "rounded-bottom",
   "rounded-start",
-  "visibility"
+  "visibility",
+  "opacity",
+  "hstack",
+  "vstack",
+  "vr"
 );
 
 $utilities: map-merge(

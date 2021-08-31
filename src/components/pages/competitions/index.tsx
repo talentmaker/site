@@ -14,7 +14,7 @@ import {
     competitionsSchema,
 } from "~/schemas/competitions"
 import {Spinner, initTooltips} from "~/components/bootstrap"
-import {getUtcTime, readCache, validate} from "~/utils"
+import {getUtcTime, readCache} from "~/utils"
 import DatePlus from "@luke-zhang-04/dateplus"
 import GridItem from "~/components/gridItem"
 import {Link} from "react-router-dom"
@@ -22,6 +22,7 @@ import React from "react"
 import UserContext from "~/contexts/userContext"
 import {arrayToChunks} from "@luke-zhang-04/utils"
 import competitionsAdapter from "~/adapters/competitions"
+import {useAdapter} from "~/hooks"
 
 const Competition: React.FC<{comp: CompetitionType; user?: User}> = ({comp, user}) => {
     const deadline = new DatePlus(comp.deadline)
@@ -55,46 +56,38 @@ const Competition: React.FC<{comp: CompetitionType; user?: User}> = ({comp, user
 }
 
 export const Competitions: React.FC = () => {
-    const [competitions, setCompetitions] = React.useState<CompetitionsType | undefined>()
+    const {isDone, data} = useAdapter(
+        () => competitionsAdapter(),
+        async () => competitionsSchema.validate(await readCache("talentmakerCache_competitions")),
+    )
     const {currentUser: user} = React.useContext(UserContext)
-
-    React.useEffect(() => {
-        ;(async () => {
-            const data = await readCache("talentmakerCache_competitions")
-
-            setCompetitions(await validate(competitionsSchema, data, false))
-        })()
-        ;(async () => {
-            const data = await competitionsAdapter()
-
-            if (!(data instanceof Error)) {
-                setCompetitions(data)
-            }
-        })()
-    }, [])
 
     React.useEffect(() => {
         initTooltips()
     })
 
     const getSortedCompetitions = React.useCallback(
-        (_competitions: CompetitionType[]): CompetitionsType[][] => {
+        (_competitions: CompetitionType[] | undefined): CompetitionsType[][] => {
+            if (_competitions === undefined) {
+                return []
+            }
+
             // Competitions due in the future and past
-            const future: CompetitionsType =
-                _competitions?.filter((val) => new Date(val.deadline).getTime() >= getUtcTime()) ??
-                []
-            const past: CompetitionsType =
-                _competitions?.filter((val) => new Date(val.deadline).getTime() < getUtcTime()) ??
-                []
+            const future: CompetitionsType = _competitions.filter(
+                (val) => new Date(val.deadline).getTime() >= getUtcTime(),
+            )
+            const past: CompetitionsType = _competitions.filter(
+                (val) => new Date(val.deadline).getTime() < getUtcTime(),
+            )
 
             return [arrayToChunks(future), arrayToChunks(past)]
         },
         [],
     )
 
-    if (competitions) {
-        const sortedCompetitions = getSortedCompetitions(competitions)
+    const sortedCompetitions = getSortedCompetitions(data)
 
+    if (isDone) {
         return (
             <Container fluid className="mt-3">
                 {user?.isOrganization === true && (

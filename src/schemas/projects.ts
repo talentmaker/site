@@ -13,7 +13,7 @@ export const projectsSchema = yup
     .array(
         yup.object({
             id: yup.number().required(),
-            creator: yup.string().required(),
+            creatorId: yup.string().required(),
             createdAt: yup.date().required(),
             desc: yup.string().nullable(),
             srcURL: yup.string().nullable(),

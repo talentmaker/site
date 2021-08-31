@@ -11,30 +11,20 @@ import {Button, Container} from "react-bootstrap"
 import {Link, useHistory} from "react-router-dom"
 import {NotificationContext, UserContext} from "~/contexts"
 import {inviteLinkDataAdapter, joinTeamAdapter} from "~/adapters/teams"
-import type {InviteLink} from "~/schemas/inviteLink"
 import React from "react"
 import {Spinner} from "~/components/bootstrap"
+import {useAdapter} from "~/hooks"
 
 type Props = {
     data: string
 }
 
 export const JoinTeam: React.FC<Props> = ({data}) => {
-    const [inviteLinkData, setInviteLinkData] = React.useState<InviteLink>()
+    const {data: inviteLinkData} = useAdapter(() => inviteLinkDataAdapter(data))
     const [isJoining, setIsJoining] = React.useState(false)
     const {currentUser: user} = React.useContext(UserContext)
     const {addNotification: notify} = React.useContext(NotificationContext)
     const history = useHistory()
-
-    React.useEffect(() => {
-        ;(async () => {
-            const result = await inviteLinkDataAdapter(data)
-
-            if (!(result instanceof Error)) {
-                setInviteLinkData(result)
-            }
-        })()
-    }, [])
 
     const joinTeam = React.useCallback(async () => {
         if (user && inviteLinkData) {

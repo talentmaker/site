@@ -19,7 +19,10 @@ class AdapterError extends Error {
 
 const adapterError = (message?: string) => new AdapterError(message)
 
-const catcherPromise = async <T>(func: () => Promise<T>): Promise<T | Error> => {
+const catcherPromise = async <T>(
+    func: () => Promise<T>,
+    shouldNotifyError = true,
+): Promise<T | Error> => {
     try {
         return await func()
     } catch (err) {
@@ -27,13 +30,19 @@ const catcherPromise = async <T>(func: () => Promise<T>): Promise<T | Error> => 
             return err
         }
 
-        utils.handleError(err)
+        if (shouldNotifyError) {
+            utils.handleError(err)
+        }
 
         return utils.createError(err)
     }
 }
 
-type AdapterCallback<ArgsType, Args extends ArgsType[], S extends yup.BaseSchema | void> = (
+export type AdapterCallback<
+    ArgsType,
+    Args extends ArgsType[],
+    S extends yup.BaseSchema | undefined,
+> = (
     tools: {
         adapterError: typeof adapterError
         request: typeof utils.request
@@ -45,7 +54,7 @@ type AdapterCallback<ArgsType, Args extends ArgsType[], S extends yup.BaseSchema
     ...args: Args
 ) => Promise<S extends yup.BaseSchema ? S["__outputType"] : void>
 
-type AdapterReturnTypeOrError<S extends yup.BaseSchema | void> =
+export type AdapterReturnTypeOrError<S extends yup.BaseSchema | undefined> =
     | (S extends yup.BaseSchema ? S["__outputType"] : void)
     | Error
 
@@ -57,9 +66,10 @@ type AdapterReturnTypeOrError<S extends yup.BaseSchema | void> =
  * @returns An adapter
  */
 export const createAdapter =
-    <ArgsType, Args extends ArgsType[], S extends yup.BaseSchema | void = undefined>(
+    <ArgsType, Args extends ArgsType[], S extends yup.BaseSchema | undefined = undefined>(
         func: AdapterCallback<ArgsType, Args, S>,
         schema?: S,
+        shouldNotifyError = true,
     ): ((...args: Args) => Promise<AdapterReturnTypeOrError<S>>) =>
     (...args: Args) =>
         catcherPromise(
@@ -75,6 +85,7 @@ export const createAdapter =
                     },
                     ...args,
                 ),
+            shouldNotifyError,
         )
 
 export default createAdapter
