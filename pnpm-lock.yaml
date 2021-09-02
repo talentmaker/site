@@ -24,6 +24,7 @@ specifiers:
   "@typescript-eslint/eslint-plugin": ^4.29.3
   "@typescript-eslint/parser": ^4.29.3
   bootstrap: ^5.1.0
+  browserslist: ^4.16.8
   chokidar: ^3.5.2
   dompurify: ^2.3.1
   eslint-plugin-jsx-a11y: ^6.4.1
@@ -108,6 +109,7 @@ devDependencies:
   "@types/yup": 0.29.13
   "@typescript-eslint/eslint-plugin": 4.29.3_661754089b71323a99736873b5cca5e6
   "@typescript-eslint/parser": 4.29.3_typescript@4.4.2
+  browserslist: 4.16.8
   chokidar: 3.5.2
   eslint-plugin-jsx-a11y: 6.4.1
   eslint-plugin-prefer-arrow: 1.2.3
@@ -5011,6 +5013,21 @@ packages:
       node-releases: 1.1.73
     dev: true
 
+  /browserslist/4.16.8:
+    resolution:
+      {
+        integrity: sha512-sc2m9ohR/49sWEbPj14ZSSZqp+kbi16aLao42Hmn3Z8FpjuMaq2xCA2l4zl9ITfyzvnvyE0hcg62YkIGKxgaNQ==,
+      }
+    engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
+    hasBin: true
+    dependencies:
+      caniuse-lite: 1.0.30001252
+      colorette: 1.3.0
+      electron-to-chromium: 1.3.827
+      escalade: 3.1.1
+      node-releases: 1.1.75
+    dev: true
+
   /bser/2.1.1:
     resolution:
       {
@@ -5241,6 +5258,13 @@ packages:
     resolution:
       {
         integrity: sha512-1uoSZ1Pq1VpH0WerIMqwptXHNNGfdl7d1cJUFs80CwQ/lVzdhTvsFZCeNFslze7AjsQnb4C85tzclPa1VShbeQ==,
+      }
+    dev: true
+
+  /caniuse-lite/1.0.30001252:
+    resolution:
+      {
+        integrity: sha512-I56jhWDGMtdILQORdusxBOH+Nl/KgQSdDmpJezYddnAkVOmnoU8zwjTV9xAjMIYxr0iPreEAVylCGcmHCjfaOw==,
       }
     dev: true
 
@@ -5611,6 +5635,13 @@ packages:
     resolution:
       {
         integrity: sha512-MKGMzyfeuutC/ZJ1cba9NqcNpfeqMUcYmyF1ZFY6/Cn7CNSAKx6a+s48sqLqyAiZuaP2TcqMhoo+dlwFnVxT9w==,
+      }
+    dev: true
+
+  /colorette/1.3.0:
+    resolution:
+      {
+        integrity: sha512-ecORCqbSFP7Wm8Y6lyqMJjexBQqXSF7SSeaTyGGphogUjBlFP9m9o08wy86HL2uB7fMTxtOUzLMk7ogKcxMg1w==,
       }
     dev: true
 
@@ -6857,6 +6888,13 @@ packages:
     resolution:
       {
         integrity: sha512-7a/wV/plM/b95XjTdA2Q4zAxxExTDKkNQpTiaU/nVT8tGCQVtX9NsnTjhALBFICpOB58hU6xg5fFC3CT2Bybpg==,
+      }
+    dev: true
+
+  /electron-to-chromium/1.3.827:
+    resolution:
+      {
+        integrity: sha512-ye+4uQOY/jbjRutMcE/EmOcNwUeo1qo9aKL2tPyb09cU3lmxNeyDF4RWiemmkknW+p29h7dyDqy02higTxc9/A==,
       }
     dev: true
 
@@ -11853,6 +11891,13 @@ packages:
     resolution:
       {
         integrity: sha512-uW7fodD6pyW2FZNZnp/Z3hvWKeEW1Y8R1+1CnErE8cXFXzl5blBOoVB41CvMer6P6Q0S5FXDwcHgFd1Wj0U9zg==,
+      }
+    dev: true
+
+  /node-releases/1.1.75:
+    resolution:
+      {
+        integrity: sha512-Qe5OUajvqrqDSy6wrWFmMwfJ0jVgwiw4T3KqmbTcZ62qW0gQkheXYhcFM1+lOVcGUoRxcEcfyvFMAnDgaF1VWw==,
       }
     dev: true
 
