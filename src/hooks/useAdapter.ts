@@ -75,10 +75,10 @@ export const useAdapter = <
     }, [adapterCall, isLoading])
 
     React.useEffect(() => {
-        if (cacheHook !== undefined && data === undefined) {
+        if (cacheHook !== undefined && isLoading) {
             Promise.resolve(cacheHook())
                 .then((val) => {
-                    if (val !== undefined && !isLoading) {
+                    if (val !== undefined && isLoading) {
                         setData(val)
                         setIsLoading(false)
                     }
