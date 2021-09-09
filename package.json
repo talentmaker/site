@@ -24,7 +24,7 @@
     "test": "craco test"
   },
   "dependencies": {
-    "@luke-zhang-04/dateplus": "~3.1.0",
+    "@luke-zhang-04/dateplus": "^4.0.0-beta1",
     "@luke-zhang-04/react-simple-markdown-editor": "^1.1.0",
     "@luke-zhang-04/utils": "github:luke-zhang-04/utils#semver:^1.2.0",
     "bootstrap": "^5.1.0",
