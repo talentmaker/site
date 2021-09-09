@@ -24,7 +24,7 @@ export const competitionJoinAdapter = createAdapter(
 export const competitionAdapter = createAdapter(
     async ({request, url, cache, qs, schema}, uid: string | undefined, id: string) => {
         const data = await request(
-            `${url}/competitions/getOne?${qs.stringify({id, uid})}`,
+            `${url}/competitions/get?${qs.stringify({id, uid})}`,
             "GET",
             "json",
         )

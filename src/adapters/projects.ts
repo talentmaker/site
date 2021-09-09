@@ -13,7 +13,7 @@ import {projectsSchema} from "../schemas/projects"
 export const projectsAdapter = createAdapter(
     async ({request, url, cache, schema}, competitionId: string) => {
         const data = await request(
-            `${url}/projects/get?column=competitionId&value=${competitionId}`,
+            `${url}/projects/getMany?column=competitionId&value=${competitionId}`,
             "GET",
             "json",
         )

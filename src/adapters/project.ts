@@ -26,7 +26,7 @@ export const projectAdapter = createAdapter(
         } else {
             throw adapterError("Invalid Params")
         }
-        const data = await request(`${url}/projects/getOne?${queryString}`, "GET", "json")
+        const data = await request(`${url}/projects/get?${queryString}`, "GET", "json")
         const project = await schema.validate(data)
 
         cache.write(`talentmakerCache_project-${id}`, data)

@@ -11,7 +11,7 @@ import {competitionsSchema} from "../schemas/competitions"
 import {createAdapter} from "./utils"
 
 export const competitionsAdapter = createAdapter(async ({request, url, cache, schema}) => {
-    const data = await request(`${url}/competitions/get`, "GET", "json")
+    const data = await request(`${url}/competitions/getMany`, "GET", "json")
     const competitions = await schema.validate(data)
 
     cache.write(
