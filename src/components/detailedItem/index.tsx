@@ -72,12 +72,40 @@ export const Video: React.FC<React.ComponentProps<typeof IFrame>> = (props) => {
 
 type SidebarProps = {
     items: (
-        | {title: string; icon?: undefined; contents: ReactNode; href?: string; to?: undefined}
-        | {icon: string; title?: undefined; contents: ReactNode; href?: string; to?: undefined}
-        | {title: string; icon?: undefined; contents: ReactNode; to?: string; href?: undefined}
-        | {icon: string; title?: undefined; contents: ReactNode; to?: string; href?: undefined}
+        | (
+              | {
+                    title: string
+                    icon?: undefined
+                    contents: ReactNode
+                    href?: string
+                    to?: undefined
+                }
+              | {
+                    icon: string
+                    title?: undefined
+                    contents: ReactNode
+                    href?: string
+                    to?: undefined
+                }
+              | {
+                    title: string
+                    icon?: undefined
+                    contents: ReactNode
+                    to?: string
+                    href?: undefined
+                }
+              | {
+                    icon: string
+                    title?: undefined
+                    contents: ReactNode
+                    to?: string
+                    href?: undefined
+                }
+          )
         | undefined
     )[]
+    canEdit?: boolean
+    onSettingsClicked?: () => void
 }
 
 const linkProps = {
@@ -137,19 +165,38 @@ const SidebarItem: React.FC<SidebarProps["items"][0]> = ({icon, title, contents,
     )
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({items, children}) => (
+export const Sidebar: React.FC<SidebarProps> = ({items, children, canEdit, onSettingsClicked}) => (
     <div className={`p-3 position-sticky top-0 ${styles.sidebar}`}>
-        <button
-            className="icon-btn-animate"
-            onClick={(): void => {
-                window.scrollTo({
-                    top: 0,
-                    behavior: "smooth",
-                })
-            }}
-        >
-            <span className="material-icons">expand_less</span>
-        </button>
+        {canEdit ? (
+            <div className="d-flex flex-row justify-content-between">
+                <button
+                    className="icon-btn-animate"
+                    onClick={(): void => {
+                        window.scrollTo({
+                            top: 0,
+                            behavior: "smooth",
+                        })
+                    }}
+                >
+                    <span className="material-icons">expand_less</span>
+                </button>
+                <button className="icon-btn icon-btn-accent" onClick={onSettingsClicked}>
+                    <span className="material-icons-outlined">settings</span>
+                </button>
+            </div>
+        ) : (
+            <button
+                className="icon-btn-animate"
+                onClick={(): void =>
+                    window.scrollTo({
+                        top: 0,
+                        behavior: "smooth",
+                    })
+                }
+            >
+                <span className="material-icons">expand_less</span>
+            </button>
+        )}
         <h1>About</h1>
         <ul className="list-unstyled text-dark">
             {items.map((item, index) =>

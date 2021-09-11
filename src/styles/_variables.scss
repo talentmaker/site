@@ -8,9 +8,14 @@
  */
 
 @import "~bootstrap/scss/functions";
+
+$border-radius: 0; // Get rid of border radius on everything
+$border-radius-sm: 0;
+$border-radius-lg: 0;
+
 @import "~bootstrap/scss/variables";
 
-$none: rgba(0, 0, 0, 0);
+$none: #0000;
 $primary: #3f88c5;
 $secondary: #032b43;
 $light: #eee;
@@ -49,7 +54,6 @@ $toast-border-radius: 0; // Get rid of border radius on toasts
 $theme-colors: map-merge(
   $theme-colors,
   (
-    none: $none,
     primary: $primary,
     secondary: $secondary,
     light: $light,

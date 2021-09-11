@@ -7,4 +7,5 @@
  * https://Luke-zhang-04.github.io
  */
 
+export {EditableMarkdown} from "./editor"
 export {MarkdownButtons} from "./buttons"

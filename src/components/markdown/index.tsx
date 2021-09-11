@@ -23,7 +23,9 @@ const ReactMarkdown = React.lazy(() => import("react-markdown"))
 const purifyMarkdown = (content: string): string =>
     DOMPurify.sanitize(content.replace(/\n>/giu, "\n\\>")).replace(/\n\\(&gt;|>)/giu, "\n>\n>")
 
-interface Props {
+export {EditableMarkdown} from "./editor"
+
+export interface Props {
     /**
      * Markdown to render
      */
@@ -35,7 +37,7 @@ interface Props {
     plainHeadings?: boolean
 }
 
-export const RenderMarkdown: React.FC<Props> = (props) => {
+export const RenderMarkdown = (props: Props): ReturnType<React.FC> => {
     const renderers = {
         blockquote: BlockQuote,
         code: CodeBlock,

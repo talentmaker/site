@@ -9,17 +9,19 @@
 
 import * as Components from "~/components/detailedItem"
 import {Breadcrumb, Button, Col, Container, Row} from "react-bootstrap"
+import {NotificationContext, UserContext} from "~/contexts"
 import {Spinner, initPopovers, initTooltips} from "~/components/bootstrap"
+import {readCache, writeCache} from "~/utils"
+import EditModal from "./editModal"
+import {EditableMarkdown} from "~/components/markdown"
 import {Link} from "react-router-dom"
-import Markdown from "~/components/markdown"
 import Prism from "prismjs"
 import React from "react"
-import {UserContext} from "~/contexts"
+import editProjectAdapter from "~/adapters/editProject"
 import getProjectData from "./utils"
 import {invliteLinkAdapter} from "~/adapters/teams"
 import projectAdapter from "~/adapters/project"
 import {projectSchema} from "~/schemas/project"
-import {readCache} from "~/utils"
 import scrollToHeader from "~/components/markdown/scrollToHeader"
 import styles from "~/components/markdown/styles.module.scss"
 import {useAdapter} from "~/hooks"
@@ -38,7 +40,7 @@ type Props = {
 
 export const Project: React.FC<Props> = (props) => {
     const {currentUser: user} = React.useContext(UserContext)
-    const {data: project} = useAdapter(
+    const {data: project, setData} = useAdapter(
         () => (user ? projectAdapter(user, props.id, props.competitionId) : undefined),
         async () =>
             props.id
@@ -47,6 +49,9 @@ export const Project: React.FC<Props> = (props) => {
         [user],
     )
     const [inviteLink, setInviteLink] = React.useState<string | string>()
+    const [shouldShowModal, setShouldShowModal] = React.useState(false)
+    const [isDescSaved, setIsDescSaved] = React.useState(true)
+    const {addNotification: notify} = React.useContext(NotificationContext)
 
     React.useEffect(() => {
         if (window.location.hash) {
@@ -62,7 +67,6 @@ export const Project: React.FC<Props> = (props) => {
     })
 
     const getData = React.useCallback(getProjectData, [])
-    const data = React.useMemo(() => getData(project), [project, project?.license, project?.id])
     const setInviteLinkState = React.useCallback(async () => {
         if (user && project) {
             const link = await invliteLinkAdapter(
@@ -77,8 +81,39 @@ export const Project: React.FC<Props> = (props) => {
         }
     }, [project, project?.id, project?.competitionId])
 
+    const data = getData(project)
+
     if (project && data) {
-        const management = user && user.uid === project?.creatorId && (
+        const isOwner = user && user.uid === project?.creatorId
+        const isTeamMember = project.teamMembers.some((member) => member.uid === user?.uid)
+        const onDescSave = isTeamMember // Why
+            ? async (desc: string): Promise<void> => {
+                  if (user && project) {
+                      setData({...project, desc})
+
+                      const result = await editProjectAdapter(user, {
+                          ...project,
+                          desc,
+                          title: project.name,
+                          projectId: project.id,
+                      })
+
+                      if (!(result instanceof Error)) {
+                          await writeCache(`talentmakerCache_project-${props.id}`, project)
+
+                          setIsDescSaved(true)
+
+                          notify({
+                              title: "Success!",
+                              content: "Successfully edited your project!",
+                              icon: "done_all",
+                              iconClassName: "text-success",
+                          })
+                      }
+                  }
+              }
+            : undefined
+        const management = isOwner && (
             <Container fluid className="p-4 my-3 bg-lighter">
                 <h1>Management</h1>
                 <Button onClick={setInviteLinkState} variant="outline-dark">
@@ -97,9 +132,7 @@ export const Project: React.FC<Props> = (props) => {
                             data-bs-trigger="focus"
                             data-bs-content="Copied to clipboard"
                             className="icon-btn"
-                            onClick={() => {
-                                window.navigator.clipboard.writeText(inviteLink)
-                            }}
+                            onClick={() => window.navigator.clipboard.writeText(inviteLink)}
                         >
                             <span className="material-icons">content_copy</span>
                         </a>{" "}
@@ -114,7 +147,20 @@ export const Project: React.FC<Props> = (props) => {
                 <Components.Video title="competition video" src={data.src} />
                 <div className={`${styles.markdownContainer} py-3 px-gx`}>
                     <Container fluid className="p-4 bg-lighter">
-                        <Markdown>{project.desc ?? ""}</Markdown>
+                        <EditableMarkdown
+                            hasWarningMessage={!isDescSaved}
+                            onChange={(desc) => {
+                                setData({...project, desc})
+
+                                if (isDescSaved) {
+                                    setIsDescSaved(false)
+                                }
+                            }}
+                            onSave={onDescSave}
+                            onCancel={() => setIsDescSaved(true)}
+                        >
+                            {project.desc ?? ""}
+                        </EditableMarkdown>
                     </Container>
                     {management}
                 </div>
@@ -123,6 +169,15 @@ export const Project: React.FC<Props> = (props) => {
 
         return (
             <>
+                <EditModal
+                    project={project}
+                    shouldShow={shouldShowModal}
+                    onClose={() => setShouldShowModal(false)}
+                    onSave={async (_project) => {
+                        setData(_project)
+                        await writeCache(`talentmakerCache_project-${props.id}`, _project)
+                    }}
+                />
                 <Breadcrumb className="container-fluid" listProps={{className: "mb-0"}}>
                     <Breadcrumb.Item linkAs={Link} linkProps={{to: "/competitions"}}>
                         Competitions
@@ -143,24 +198,29 @@ export const Project: React.FC<Props> = (props) => {
                 </Breadcrumb>
                 <Components.UserInfo
                     username={project.name ?? "Submission"}
-                    desc={`Submission for ${project.name ?? "Submission"}`}
+                    desc={`Submission for ${project.competitionName}`}
                 >
-                    {project.teamMembers.some((member) => member.uid === user?.uid) ? (
-                        <Button
-                            variant="outline-dark"
-                            as={Link}
-                            className="mx-2"
-                            to={`/editProject/${project.id}`}
-                        >
-                            <span className="material-icons">create</span> Edit Submission
-                        </Button>
-                    ) : undefined}
+                    {isTeamMember && (
+                        <>
+                            <Button
+                                variant="outline-dark"
+                                className="mx-2"
+                                onClick={() => setShouldShowModal(true)}
+                            >
+                                <span className="material-icons">settings</span> Edit Details
+                            </Button>
+                        </>
+                    )}
                 </Components.UserInfo>
                 <Components.Bar topics={project.topics} />
                 <Row>
                     {mainDisplay}
                     <Col lg={3} className="bg-lighter">
-                        <Components.Sidebar items={data.items}>
+                        <Components.Sidebar
+                            items={data.items}
+                            canEdit={isTeamMember}
+                            onSettingsClicked={() => setShouldShowModal(true)}
+                        >
                             <h2>Team</h2>
                             <ul>
                                 {project.teamMembers.map(

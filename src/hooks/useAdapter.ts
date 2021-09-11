@@ -39,6 +39,11 @@ type UseAdapterReturn<OutputType> = (
      * returns a result
      */
     rerun: () => void
+
+    /**
+     * Manually set the data and toggle isLoading and isDone. Erases errors.
+     */
+    setData: React.Dispatch<React.SetStateAction<OutputType | undefined>>
 }
 
 export const useAdapter = <
@@ -62,6 +67,7 @@ export const useAdapter = <
                     setError(val)
                 } else if (val !== undefined) {
                     setData(val)
+                    setError(undefined)
                 }
             })
             .catch((err) =>
@@ -89,12 +95,21 @@ export const useAdapter = <
         callAdapter()
     }, deps)
 
+    const publicSetData = React.useCallback<
+        React.Dispatch<React.SetStateAction<OutputType | undefined>>
+    >((_data) => {
+        setData(_data)
+        setError(undefined)
+        setIsLoading(false)
+    }, [])
+
     return {
         isLoading,
         isDone: !isLoading,
         data,
         error,
         rerun: callAdapter,
+        setData: publicSetData,
     } as UseAdapterReturn<OutputType>
 }
 

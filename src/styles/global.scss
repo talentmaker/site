@@ -37,7 +37,11 @@ body {
   }
 }
 
-.material-icons {
+.material-icons,
+.material-icons-outlined,
+.material-icons-two-tone,
+.material-icons-round,
+.material-icons-sharp {
   display: inline-block; // Display for aligning icon
   vertical-align: middle; // Align icon in middle
 }
@@ -75,20 +79,37 @@ h6 {
   font-weight: 400;
 }
 
-.icon-btn {
+@mixin icon-btn-base {
   background-color: variables.$none; // Transparent
   border: none; // Remove borders
   border-radius: 50%; // Rounded
   padding: 0; // Even out padding from x and y
+  color: variables.$dark;
 
   &:focus {
     outline: none; // Remove ugly outline after click
   }
 }
 
+.icon-btn {
+  @include icon-btn-base();
+
+  & > * {
+    transition: variables.$btn-transition;
+  }
+}
+
+@each $color, $value in variables.$theme-colors {
+  .icon-btn-#{$color} {
+    :hover {
+      color: $value;
+    }
+  }
+}
+
 // Button for going back to top
 .icon-btn-animate {
-  @extend .icon-btn;
+  @include icon-btn-base();
 
   & > * {
     transition: transform 0.125s ease-in; // Transition for inner content
