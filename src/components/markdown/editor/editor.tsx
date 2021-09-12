@@ -14,6 +14,7 @@ type EditableMarkdownProps = {
      */
     onChange?: (data: string) => void
     isEditing?: boolean
+    canEdit?: boolean
 
     /**
      * If a warning message should be shown to alert to unsaved changes
@@ -22,6 +23,7 @@ type EditableMarkdownProps = {
 }
 
 export const EditableMarkdown = ({
+    canEdit,
     hasWarningMessage,
     ...props
 }: Props & EditableMarkdownProps): ReturnType<React.FC> => {
@@ -49,82 +51,86 @@ export const EditableMarkdown = ({
         </Button>
     )
 
-    return (
-        <>
-            <div className="d-flex flex-row justify-content-end">{button}</div>
-            {isEditing ? (
-                <>
-                    <Editor
-                        value={value}
-                        onValueChange={(code) => {
-                            setValue(code)
-                            props.onChange?.(code)
-                        }}
-                        highlight={(code) => highlight(code, languages.markdown, "markdown")}
-                        className="form-control bg-transparent"
-                        preClassName={styles.editorPre}
-                        padding={3}
-                        shouldAutoFocus
-                    />
-                    <div className="d-flex flex-row justify-content-end">
-                        <Button
-                            variant="outline-danger"
-                            onClick={() => {
-                                const newValue = originalValue.current ?? ""
-
-                                setValue(newValue)
-                                props.onCancel?.(newValue)
-                                props.onChange?.(newValue)
-                                setIsEditing(false)
+    if (canEdit) {
+        return (
+            <>
+                <div className="d-flex flex-row justify-content-end">{button}</div>
+                {isEditing ? (
+                    <>
+                        <Editor
+                            value={value}
+                            onValueChange={(code) => {
+                                setValue(code)
+                                props.onChange?.(code)
                             }}
-                        >
-                            Cancel
-                        </Button>
-                        <Button
-                            variant="success"
-                            className="ms-3"
-                            onClick={() => {
-                                props.onSave?.(value)
-                                setIsEditing(false)
-                            }}
-                        >
-                            Save
-                        </Button>
-                    </div>
-                </>
-            ) : (
-                <>
-                    {hasWarningMessage && (
-                        <>
-                            <p className="text-danger">Warning: you have unsaved changes.</p>
-                            <div className="d-flex flex-row justify-content-start">
-                                <div>
-                                    <Button
-                                        variant="outline-danger"
-                                        onClick={() => {
-                                            const newValue = originalValue.current ?? ""
+                            highlight={(code) => highlight(code, languages.markdown, "markdown")}
+                            className="form-control bg-transparent"
+                            preClassName={styles.editorPre}
+                            padding={3}
+                            shouldAutoFocus
+                        />
+                        <div className="d-flex flex-row justify-content-end">
+                            <Button
+                                variant="outline-danger"
+                                onClick={() => {
+                                    const newValue = originalValue.current ?? ""
 
-                                            setValue(newValue)
-                                            props.onCancel?.(newValue)
-                                            props.onChange?.(newValue)
-                                        }}
-                                    >
-                                        Cancel
-                                    </Button>
-                                    <Button
-                                        variant="success"
-                                        className="ms-3"
-                                        onClick={() => props.onSave?.(value)}
-                                    >
-                                        Save
-                                    </Button>
+                                    setValue(newValue)
+                                    props.onCancel?.(newValue)
+                                    props.onChange?.(newValue)
+                                    setIsEditing(false)
+                                }}
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+                                variant="success"
+                                className="ms-3"
+                                onClick={() => {
+                                    props.onSave?.(value)
+                                    setIsEditing(false)
+                                }}
+                            >
+                                Save
+                            </Button>
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        {hasWarningMessage && (
+                            <>
+                                <p className="text-danger">Warning: you have unsaved changes.</p>
+                                <div className="d-flex flex-row justify-content-start">
+                                    <div>
+                                        <Button
+                                            variant="outline-danger"
+                                            onClick={() => {
+                                                const newValue = originalValue.current ?? ""
+
+                                                setValue(newValue)
+                                                props.onCancel?.(newValue)
+                                                props.onChange?.(newValue)
+                                            }}
+                                        >
+                                            Cancel
+                                        </Button>
+                                        <Button
+                                            variant="success"
+                                            className="ms-3"
+                                            onClick={() => props.onSave?.(value)}
+                                        >
+                                            Save
+                                        </Button>
+                                    </div>
                                 </div>
-                            </div>
-                        </>
-                    )}
-                    <RenderMarkdown {...props}>{value}</RenderMarkdown>
-                </>
-            )}
-        </>
-    )
+                            </>
+                        )}
+                        <RenderMarkdown {...props}>{value}</RenderMarkdown>
+                    </>
+                )}
+            </>
+        )
+    }
+
+    return <RenderMarkdown {...props} />
 }

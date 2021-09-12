@@ -84,8 +84,9 @@ export const Project: React.FC<Props> = (props) => {
     const data = getData(project)
 
     if (project && data) {
-        const isOwner = user && user.uid === project?.creatorId
-        const isTeamMember = project.teamMembers.some((member) => member.uid === user?.uid)
+        const isOwner = user !== undefined && user.uid === project?.creatorId
+        const isTeamMember =
+            user !== undefined && project.teamMembers.some((member) => member.uid === user?.uid)
         const onDescSave = isTeamMember // Why
             ? async (desc: string): Promise<void> => {
                   if (user && project) {
@@ -158,6 +159,7 @@ export const Project: React.FC<Props> = (props) => {
                             }}
                             onSave={onDescSave}
                             onCancel={() => setIsDescSaved(true)}
+                            canEdit={isTeamMember}
                         >
                             {project.desc ?? ""}
                         </EditableMarkdown>
