@@ -7,6 +7,7 @@
  * https://Luke-zhang-04.github.io
  */
 
+import * as adapters from "~/adapters"
 import {Breadcrumb, Button, Container, Row} from "react-bootstrap"
 import {Projects as ProjectsType, projectsSchema} from "~/schemas/projects"
 import {Spinner, initTooltips} from "~/components/bootstrap"
@@ -16,7 +17,6 @@ import React from "react"
 import UserContext from "~/contexts/userContext"
 import {arrayToChunks} from "@luke-zhang-04/utils"
 import cache from "~/utils/cache"
-import projectsAdapter from "~/adapters/projects"
 import {useAdapter} from "~/hooks"
 
 const Project: React.FC<{project: ProjectsType[0]; user?: User}> = ({project, user}) => (
@@ -46,7 +46,7 @@ const Project: React.FC<{project: ProjectsType[0]; user?: User}> = ({project, us
 
 export const Projects: React.FC<{competitionId: string}> = ({competitionId}) => {
     const {data: projects} = useAdapter(
-        () => projectsAdapter(competitionId),
+        () => adapters.project.getMany(competitionId),
         async () => projectsSchema.validate(await cache.read("talentmakerCache_projects")),
     )
     const {currentUser: user} = React.useContext(UserContext)

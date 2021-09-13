@@ -7,12 +7,12 @@
  * https://Luke-zhang-04.github.io
  */
 
+import * as adapters from "~/adapters"
 import {Button} from "react-bootstrap"
 import {Competition} from "~/schemas/competition"
 import {Link} from "react-router-dom"
 import React from "react"
 import {Spinner} from "~/components/bootstrap"
-import {competitionJoinAdapter} from "~/adapters/competition"
 import qs from "query-string"
 
 export const SubmissionButton: React.FC<{competition: Competition}> = ({
@@ -64,7 +64,7 @@ export const JoinButton: React.FC<JoinButtonProps> = ({competition, user, onSucc
 
         if (user !== undefined && user !== null) {
             const isSuccessful = !(
-                (await competitionJoinAdapter(user, Number(competition.id))) instanceof Error
+                (await adapters.competition.join(user, Number(competition.id))) instanceof Error
             )
 
             if (isSuccessful) {

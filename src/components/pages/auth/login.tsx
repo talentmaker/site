@@ -7,6 +7,7 @@
  * https://Luke-zhang-04.github.io
  */
 
+import * as adapters from "~/adapters"
 import * as yup from "yup"
 import {Button, Container} from "react-bootstrap"
 import {Form, Formik, FormikHelpers} from "formik"
@@ -14,7 +15,6 @@ import {Input} from "~/components/formik"
 import React from "react"
 import {Spinner} from "~/components/bootstrap"
 import UserContext from "~/contexts/userContext"
-import loginAdapter from "~/adapters/auth/login"
 import {useHistory} from "react-router-dom"
 
 interface FormValues {
@@ -39,7 +39,7 @@ export const Login = (): JSX.Element => {
         async (values: FormValues, {setSubmitting}: FormikHelpers<FormValues>): Promise<void> => {
             setSubmitting(true)
 
-            const data = await loginAdapter(values.email, values.password)
+            const data = await adapters.auth.login(values.email, values.password)
 
             if (!(data instanceof Error)) {
                 await setUser(data)

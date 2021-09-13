@@ -19,6 +19,7 @@ import "prismjs/components/prism-python"
 // Styles
 import "./styles/global.scss"
 
+import * as adapters from "./adapters"
 import * as serviceWorker from "./serviceWorker"
 import * as webVitals from "./reportWebVitals"
 import {
@@ -47,7 +48,6 @@ import Footer from "./components/footer"
 import Nav from "./components/nav"
 import React from "react"
 import ReactDOM from "react-dom"
-import {tokenAdapter} from "./adapters/auth/tokens"
 import {url} from "./globals"
 
 // Hacky way to expose the addNotification callback
@@ -105,7 +105,7 @@ const App: React.FC = () => {
     React.useEffect(() => {
         ;(async () => {
             if (localStorage.getItem("loggedin") === "true") {
-                const user = await tokenAdapter()
+                const user = await adapters.auth.tokens()
 
                 if (user instanceof Error) {
                     await setUser(undefined)

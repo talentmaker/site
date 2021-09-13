@@ -7,6 +7,7 @@
  * https://Luke-zhang-04.github.io
  */
 
+import * as adapters from "~/adapters"
 import * as yup from "yup"
 import {BottomFields, TopFields} from "./components"
 import {Button, FormGroup} from "react-bootstrap"
@@ -20,8 +21,6 @@ import Markdown from "~/components/markdown"
 import {MarkdownButtons} from "~/components/markdown/editor"
 import React from "react"
 import {Spinner} from "~/components/bootstrap"
-import {competitionAdapter} from "~/adapters/competition"
-import editCompetitionAdapter from "~/adapters/editCompetition"
 import {hash} from "@luke-zhang-04/utils/browser"
 import styles from "~/components/markdown/styles.module.scss"
 
@@ -102,7 +101,7 @@ export const EditCompetition: React.FC<{id?: number}> = ({id}) => {
                     iconClassName: "text-success",
                 })
             } else if (user) {
-                const result = await editCompetitionAdapter(user, {
+                const result = await adapters.competition.update(user, {
                     id: id ?? 0,
                     title: values.name ?? "",
                     desc,
@@ -148,7 +147,7 @@ export const EditCompetition: React.FC<{id?: number}> = ({id}) => {
         })()
         ;(async () => {
             if (id && user) {
-                const data = await competitionAdapter(user.uid, id.toString())
+                const data = await adapters.competition.get(user.uid, id.toString())
 
                 if (data instanceof Error) {
                     return

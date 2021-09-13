@@ -7,6 +7,7 @@
  * https://Luke-zhang-04.github.io
  */
 
+import * as adapters from "~/adapters"
 import * as yup from "yup"
 import {Button, Form, Modal} from "react-bootstrap"
 import {Formik, FormikHelpers} from "formik"
@@ -15,7 +16,6 @@ import {Input} from "~/components/formik"
 import {Project} from "~/schemas/project"
 import React from "react"
 import {Spinner} from "~/components/bootstrap"
-import editProjectAdapter from "~/adapters/editProject"
 import {hash} from "@luke-zhang-04/utils/browser"
 import {pick} from "@luke-zhang-04/utils"
 
@@ -84,7 +84,7 @@ export const EditModal: React.FC<Props> = ({shouldShow, onClose, onSave, project
 
             if (user) {
                 if (await shouldSubmitProject(values)) {
-                    const result = await editProjectAdapter(user, {
+                    const result = await adapters.project.update(user, {
                         ...values,
                         title: values.name,
                         projectId: project.id,

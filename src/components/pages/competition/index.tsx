@@ -8,6 +8,7 @@
  */
 
 import * as Components from "~/components/detailedItem"
+import * as adapters from "~/adapters"
 import {Breadcrumb, Button, Col, Container, Row} from "react-bootstrap"
 import {JoinButton, SubmissionButton} from "./buttons"
 import {Spinner, initTooltips} from "~/components/bootstrap"
@@ -19,9 +20,7 @@ import NotificationContext from "~/contexts/notificationContext"
 import Prism from "prismjs"
 import React from "react"
 import UserContext from "~/contexts/userContext"
-import competitionAdapter from "~/adapters/competition"
 import {competitionSchema} from "~/schemas/competition"
-import editCompetitionAdapter from "~/adapters/editCompetition"
 import getCompetitionData from "./utils"
 import scrollToHeader from "~/components/markdown/scrollToHeader"
 import styles from "~/components/markdown/styles.module.scss"
@@ -41,7 +40,7 @@ export const Competition: React.FC<Props> = (props) => {
         rerun,
         setData,
     } = useAdapter(
-        () => competitionAdapter(user?.uid, props.id),
+        () => adapters.competition.get(user?.uid, props.id),
         async () =>
             competitionSchema.validate(
                 await readCache(`talentmakerCache_competition-${props.id}`),
@@ -74,7 +73,7 @@ export const Competition: React.FC<Props> = (props) => {
                   if (user && competition) {
                       setData({...competition, desc})
 
-                      const result = await editCompetitionAdapter(user, {
+                      const result = await adapters.competition.update(user, {
                           desc,
                           id: competition.id,
                       })

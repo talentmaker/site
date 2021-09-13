@@ -8,6 +8,7 @@
  */
 
 /* eslint-disable prefer-named-capture-group */
+import * as adapters from "~/adapters"
 import * as yup from "yup"
 import {Button, Container} from "react-bootstrap"
 import {Checkbox, Input} from "~/components/formik"
@@ -15,7 +16,6 @@ import {Form, Formik, FormikHelpers} from "formik"
 import {NotificationContext} from "~/contexts"
 import React from "react"
 import {Spinner} from "~/components/bootstrap"
-import registrationAdapter from "~/adapters/auth/register"
 
 interface FormValues {
     username: string
@@ -57,7 +57,7 @@ export const Reg: React.FC = () => {
     const submit = React.useCallback(
         async (values: FormValues, {setSubmitting}: FormikHelpers<FormValues>): Promise<void> => {
             setSubmitting(true)
-            const register = await registrationAdapter(
+            const register = await adapters.auth.register(
                 values.username,
                 values.email,
                 values.password,

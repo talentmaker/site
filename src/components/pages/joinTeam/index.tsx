@@ -7,10 +7,10 @@
  * https://Luke-zhang-04.github.io
  */
 
+import * as adapters from "~/adapters"
 import {Button, Container} from "react-bootstrap"
 import {Link, useHistory} from "react-router-dom"
 import {NotificationContext, UserContext} from "~/contexts"
-import {inviteLinkDataAdapter, joinTeamAdapter} from "~/adapters/teams"
 import React from "react"
 import {Spinner} from "~/components/bootstrap"
 import {useAdapter} from "~/hooks"
@@ -20,7 +20,7 @@ type Props = {
 }
 
 export const JoinTeam: React.FC<Props> = ({data}) => {
-    const {data: inviteLinkData} = useAdapter(() => inviteLinkDataAdapter(data))
+    const {data: inviteLinkData} = useAdapter(() => adapters.team.getInviteLinkData(data))
     const [isJoining, setIsJoining] = React.useState(false)
     const {currentUser: user} = React.useContext(UserContext)
     const {addNotification: notify} = React.useContext(NotificationContext)
@@ -30,7 +30,7 @@ export const JoinTeam: React.FC<Props> = ({data}) => {
         if (user && inviteLinkData) {
             setIsJoining(true)
 
-            const err = await joinTeamAdapter(user, data)
+            const err = await adapters.team.join(user, data)
 
             if (!(err instanceof Error)) {
                 notify({

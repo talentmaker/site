@@ -7,6 +7,7 @@
  * https://Luke-zhang-04.github.io
  */
 
+import * as adapters from "~/adapters"
 import {Button, Container, Row} from "react-bootstrap"
 import {
     BulkCompetitionType as CompetitionType,
@@ -21,7 +22,6 @@ import {Link} from "react-router-dom"
 import React from "react"
 import UserContext from "~/contexts/userContext"
 import {arrayToChunks} from "@luke-zhang-04/utils"
-import competitionsAdapter from "~/adapters/competitions"
 import {useAdapter} from "~/hooks"
 
 const Competition: React.FC<{comp: CompetitionType; user?: User}> = ({comp, user}) => {
@@ -57,7 +57,7 @@ const Competition: React.FC<{comp: CompetitionType; user?: User}> = ({comp, user
 
 export const Competitions: React.FC = () => {
     const {isDone, data} = useAdapter(
-        () => competitionsAdapter(),
+        () => adapters.competition.getMany(),
         async () => competitionsSchema.validate(await readCache("talentmakerCache_competitions")),
     )
     const {currentUser: user} = React.useContext(UserContext)

@@ -7,6 +7,7 @@
  * https://Luke-zhang-04.github.io
  */
 
+import * as adapters from "~/adapters"
 import * as yup from "yup"
 import {BottomFields, TopFields} from "./components"
 import {Button, FormGroup} from "react-bootstrap"
@@ -19,9 +20,7 @@ import {MarkdownButtons} from "~/components/markdown/editor"
 import {Project} from "~/schemas/project"
 import React from "react"
 import {Spinner} from "~/components/bootstrap"
-import editProjectAdapter from "~/adapters/editProject"
 import {hash} from "@luke-zhang-04/utils/browser"
-import {projectAdapter} from "~/adapters/project"
 import styles from "~/components/markdown/styles.module.scss"
 
 const formValidationSchema = yup.object({
@@ -100,7 +99,7 @@ export const EditProject: React.FC<
                     iconClassName: "text-success",
                 })
             } else if (user) {
-                const result = await editProjectAdapter(user, {
+                const result = await adapters.project.update(user, {
                     projectId: id,
                     competitionId,
                     title: values.name,
@@ -132,7 +131,7 @@ export const EditProject: React.FC<
         if (id !== "new") {
             ;(async () => {
                 if (user) {
-                    const data = await projectAdapter(user, id, competitionId)
+                    const data = await adapters.project.get(user, id, competitionId)
 
                     if (data instanceof Error) {
                         return

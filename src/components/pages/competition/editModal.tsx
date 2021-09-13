@@ -7,6 +7,7 @@
  * https://Luke-zhang-04.github.io
  */
 
+import * as adapters from "~/adapters"
 import * as yup from "yup"
 import {Button, Form, Modal} from "react-bootstrap"
 import {Formik, FormikHelpers} from "formik"
@@ -15,7 +16,6 @@ import {Competition} from "~/schemas/competition"
 import {Input} from "~/components/formik"
 import React from "react"
 import {Spinner} from "~/components/bootstrap"
-import editCompetitionAdapter from "~/adapters/editCompetition"
 import {hash} from "@luke-zhang-04/utils/browser"
 import {pick} from "@luke-zhang-04/utils"
 
@@ -114,7 +114,7 @@ export const EditModal: React.FC<Props> = ({shouldShow, onClose, onSave, competi
 
             if (user) {
                 if (await shouldSubmitCompetition(values)) {
-                    const result = await editCompetitionAdapter(user, {
+                    const result = await adapters.competition.update(user, {
                         ...values,
                         deadline: values.deadline,
                         title: values.name,

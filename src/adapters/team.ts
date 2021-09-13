@@ -11,16 +11,13 @@ import * as yup from "yup"
 import {createAdapter} from "./utils"
 import {inviteLinkSchema} from "~/schemas/inviteLink"
 
-export const inviteLinkDataAdapter = createAdapter(
-    async ({request, url, schema}, data: string) => {
-        const body = await request(`${url}/teams/getLinkData/${data}`, "GET", "json")
+export const getInviteLinkData = createAdapter(async ({request, url, schema}, data: string) => {
+    const body = await request(`${url}/teams/getLinkData/${data}`, "GET", "json")
 
-        return await schema.validate(body)
-    },
-    inviteLinkSchema.shape({}),
-)
+    return await schema.validate(body)
+}, inviteLinkSchema.shape({}))
 
-export const invliteLinkAdapter = createAdapter(
+export const getInviteLink = createAdapter(
     async ({request, url, qs, schema}, user: User, projectId: string, competitionId: string) => {
         const body = await request(
             `${url}/teams/getLink?${qs.stringify({
@@ -40,7 +37,7 @@ export const invliteLinkAdapter = createAdapter(
     }),
 )
 
-export const joinTeamAdapter = createAdapter(async ({request, url}, user: User, data: string) => {
+export const join = createAdapter(async ({request, url}, user: User, data: string) => {
     await request(`${url}/teams/join/${data}`, "POST", undefined, {
         idToken: user.idToken,
     })

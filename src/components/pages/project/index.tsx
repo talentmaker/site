@@ -8,6 +8,7 @@
  */
 
 import * as Components from "~/components/detailedItem"
+import * as adapters from "~/adapters"
 import {Breadcrumb, Button, Col, Container, Row} from "react-bootstrap"
 import {NotificationContext, UserContext} from "~/contexts"
 import {Spinner, initPopovers, initTooltips} from "~/components/bootstrap"
@@ -17,10 +18,7 @@ import {EditableMarkdown} from "~/components/markdown"
 import {Link} from "react-router-dom"
 import Prism from "prismjs"
 import React from "react"
-import editProjectAdapter from "~/adapters/editProject"
 import getProjectData from "./utils"
-import {invliteLinkAdapter} from "~/adapters/teams"
-import projectAdapter from "~/adapters/project"
 import {projectSchema} from "~/schemas/project"
 import scrollToHeader from "~/components/markdown/scrollToHeader"
 import styles from "~/components/markdown/styles.module.scss"
@@ -41,7 +39,7 @@ type Props = {
 export const Project: React.FC<Props> = (props) => {
     const {currentUser: user} = React.useContext(UserContext)
     const {data: project, setData} = useAdapter(
-        () => (user ? projectAdapter(user, props.id, props.competitionId) : undefined),
+        () => (user ? adapters.project.get(user, props.id, props.competitionId) : undefined),
         async () =>
             props.id
                 ? projectSchema.validate(await readCache(`talentmakerCache_project-${props.id}`))
@@ -69,7 +67,7 @@ export const Project: React.FC<Props> = (props) => {
     const getData = React.useCallback(getProjectData, [])
     const setInviteLinkState = React.useCallback(async () => {
         if (user && project) {
-            const link = await invliteLinkAdapter(
+            const link = await adapters.team.getInviteLink(
                 user,
                 project?.id.toString(),
                 project?.competitionId,
@@ -92,7 +90,7 @@ export const Project: React.FC<Props> = (props) => {
                   if (user && project) {
                       setData({...project, desc})
 
-                      const result = await editProjectAdapter(user, {
+                      const result = await adapters.project.update(user, {
                           desc,
                           projectId: project.id,
                       })

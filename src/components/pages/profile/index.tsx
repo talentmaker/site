@@ -7,12 +7,11 @@
  * https://Luke-zhang-04.github.io
  */
 
+import * as adapters from "~/adapters"
 import {Button, Col, Container, Row} from "react-bootstrap"
 import DefaultPFP from "~/images/profile.svg"
 import React from "react"
 import {UserContext} from "~/contexts"
-import confirmAdapter from "~/adapters/auth/confirm"
-import orgRequestAdapter from "~/adapters/orgRequest"
 import styles from "./index.module.scss"
 import {useHistory} from "react-router-dom"
 
@@ -80,7 +79,7 @@ export const UserDisplay: React.FC = () => {
                                 <br />
                                 <Button
                                     variant="outline-primary"
-                                    onClick={() => orgRequestAdapter(user)}
+                                    onClick={() => adapters.organization.request(user)}
                                 >
                                     Apply
                                 </Button>
@@ -93,7 +92,7 @@ export const UserDisplay: React.FC = () => {
                                 <br />
                                 <Button
                                     variant="outline-primary"
-                                    onClick={() => confirmAdapter(user.idToken)}
+                                    onClick={() => adapters.auth.confirm(user.idToken)}
                                 >
                                     Verify
                                 </Button>

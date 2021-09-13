@@ -9,8 +9,9 @@
 
 import {createAdapter} from "./utils"
 import {projectSchema} from "../schemas/project"
+import {projectsSchema} from "../schemas/projects"
 
-export const projectAdapter = createAdapter(
+export const get = createAdapter(
     async (
         {adapterError, request, url, cache, schema, qs},
         user: User | undefined,
@@ -36,4 +37,48 @@ export const projectAdapter = createAdapter(
     projectSchema,
 )
 
-export default projectAdapter
+export const getMany = createAdapter(
+    async ({request, url, cache, schema}, competitionId: string) => {
+        const data = await request(
+            `${url}/projects/getMany?column=competitionId&value=${competitionId}`,
+            "GET",
+            "json",
+        )
+        const projects = await schema.validate(data)
+
+        cache.write(
+            "talentmakerCache_projects",
+            projects.map((project) => ({
+                ...project,
+                desc: undefined, // Remove descriptions; They're long and aren't used in this context
+            })),
+        )
+
+        return projects
+    },
+    projectsSchema,
+)
+
+type UpdateParams = {
+    title?: string
+    competitionId?: string
+    projectId?: string | number
+    desc?: string | null
+    srcURL?: string | null
+    demoURL?: string | null
+    license?: string | null
+    videoURL?: string | null
+}
+
+export const update = createAdapter(
+    async ({request, url}, {idToken}: User, params: UpdateParams) => {
+        await request(`${url}/projects/write`, "PUT", undefined, {
+            ...params,
+            idToken,
+        })
+
+        console.log(params)
+
+        return undefined
+    },
+)
