@@ -15,17 +15,15 @@ const sharedProps = {
 }
 
 export const TopFields = (): JSX.Element => (
-    <>
-        <Input
-            {...sharedProps}
-            name="name"
-            type="text"
-            label="Submission Title"
-            placeholder="Submission Title"
-        >
-            <span className="material-icons">sort</span>
-        </Input>
-    </>
+    <Input
+        {...sharedProps}
+        name="name"
+        type="text"
+        label="Submission Title"
+        placeholder="Submission Title"
+    >
+        <span className="material-icons">sort</span>
+    </Input>
 )
 
 export const BottomFields = (): JSX.Element => (

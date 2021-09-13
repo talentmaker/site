@@ -62,7 +62,7 @@ export const UserDisplay: React.FC = () => {
             </Row>
 
             <Row className={`bg-primary ${styles.bar}`}>
-                <Col xs={12}></Col>
+                <Col xs={12} />
             </Row>
 
             <Row>

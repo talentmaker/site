@@ -61,7 +61,7 @@ export const Input: React.FC<InputProps> = ({
                     id={id}
                     placeholder={props.placeholder ?? props.label}
                     className={`${props.className ?? ""} ${errorClass ?? ""} form-control`}
-                ></Field>
+                />
                 {feedback}
             </InputGroup>
         </>

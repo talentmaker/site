@@ -52,7 +52,7 @@ export const SubmissionButton: React.FC<{competition: Competition}> = ({
         )
     }
 
-    return <></>
+    return null
 }
 
 type JoinButtonProps = {competition: Competition; user?: User; onSuccess?: () => void}

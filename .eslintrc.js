@@ -174,9 +174,13 @@ module.exports = {
         ],
 
         // React rules
+        "react/jsx-no-useless-fragment": "warn",
+        "react/no-danger": "error",
         "react/prop-types": "off",
-        "react/sort-comp": "error",
         "react/react-in-jsx-scope": "off",
+        "react/self-closing-comp": "warn",
+        "react/sort-comp": "warn",
+        "react/void-dom-elements-no-children": "warn",
 
         // Prettier rules
         "prettier/prettier": [
