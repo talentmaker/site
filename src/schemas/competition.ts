@@ -21,7 +21,7 @@ export const competitionSchema = yup.object({
     coverImageURL: yup.string().nullable(),
     orgName: yup.string().required(),
     topics: yup.array(yup.string()).nullable(),
-    shortDesc: yup.string(),
+    shortDesc: yup.string().required(),
     inComp: yup.boolean(),
     hasProject: yup.boolean(),
 })

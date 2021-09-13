@@ -10,14 +10,14 @@
 import {createAdapter} from "./utils"
 
 type Params = {
-    title?: string
-    desc?: string
-    shortDesc: string
-    id: string
-    videoURL?: string
-    deadline: string
-    website?: string
-    coverImageURL?: string
+    title?: string | null
+    desc?: string | null
+    shortDesc?: string
+    id: number
+    videoURL?: string | null
+    deadline?: string
+    website?: string | null
+    coverImageURL?: string | null
 }
 
 export const editCompetitionAdapter = createAdapter(

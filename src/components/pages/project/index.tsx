@@ -93,9 +93,7 @@ export const Project: React.FC<Props> = (props) => {
                       setData({...project, desc})
 
                       const result = await editProjectAdapter(user, {
-                          ...project,
                           desc,
-                          title: project.name,
                           projectId: project.id,
                       })
 
@@ -203,15 +201,13 @@ export const Project: React.FC<Props> = (props) => {
                     desc={`Submission for ${project.competitionName}`}
                 >
                     {isTeamMember && (
-                        <>
-                            <Button
-                                variant="outline-dark"
-                                className="mx-2"
-                                onClick={() => setShouldShowModal(true)}
-                            >
-                                <span className="material-icons">settings</span> Edit Details
-                            </Button>
-                        </>
+                        <Button
+                            variant="outline-dark"
+                            className="mx-2"
+                            onClick={() => setShouldShowModal(true)}
+                        >
+                            <span className="material-icons">settings</span> Edit Details
+                        </Button>
                     )}
                 </Components.UserInfo>
                 <Components.Bar topics={project.topics} />

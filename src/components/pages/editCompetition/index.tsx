@@ -103,7 +103,7 @@ export const EditCompetition: React.FC<{id?: number}> = ({id}) => {
                 })
             } else if (user) {
                 const result = await editCompetitionAdapter(user, {
-                    id: id?.toString() ?? "new",
+                    id: id ?? 0,
                     title: values.name ?? "",
                     desc,
                     shortDesc: values.shortDesc,

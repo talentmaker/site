@@ -89,8 +89,6 @@ export const JoinButton: React.FC<JoinButtonProps> = ({competition, user, onSucc
                 <span className="material-icons">create</span> Edit
             </Button>
         ) : null
-    } else if (!competition) {
-        return null
     }
 
     // User is not an organization
