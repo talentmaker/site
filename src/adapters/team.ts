@@ -11,6 +11,12 @@ import * as yup from "yup"
 import {createAdapter} from "./utils"
 import {inviteLinkSchema} from "~/schemas/inviteLink"
 
+export const join = createAdapter(async ({request, url}, user: User, data: string) => {
+    await request(`${url}/teams/join/${data}`, "POST", undefined, {
+        idToken: user.idToken,
+    })
+})
+
 export const getInviteLinkData = createAdapter(async ({request, url, schema}, data: string) => {
     const body = await request(`${url}/teams/getLinkData/${data}`, "GET", "json")
 
@@ -36,9 +42,3 @@ export const getInviteLink = createAdapter(
         urlSuffix: yup.string().required(),
     }),
 )
-
-export const join = createAdapter(async ({request, url}, user: User, data: string) => {
-    await request(`${url}/teams/join/${data}`, "POST", undefined, {
-        idToken: user.idToken,
-    })
-})

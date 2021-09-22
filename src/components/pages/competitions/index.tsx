@@ -38,17 +38,7 @@ const Competition: React.FC<{comp: CompetitionType; user?: User}> = ({comp, user
             {
                 // This competition belongs to this organization
                 user?.uid === comp.organizationId ? (
-                    <Button
-                        as={Link}
-                        to={`/editCompetition/${comp.id}`}
-                        variant="outline-dark"
-                        className="d-inline-block float-end"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="left"
-                        title="Edit"
-                    >
-                        <span className="material-icons">create</span>
-                    </Button>
+                    <p className="d-inline-block float-end mb-0">Your competition</p>
                 ) : undefined
             }
         </GridItem>

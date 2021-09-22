@@ -24,6 +24,13 @@ export const projectsSchema = yup
             competitionId: yup.string().required(),
             topics: yup.array(yup.string()).nullable(),
             name: yup.string().required(),
+            teamMembers: yup
+                .array(
+                    yup.object({
+                        uid: yup.string().required(),
+                    }),
+                )
+                .required(),
         }),
     )
     .required()

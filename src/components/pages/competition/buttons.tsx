@@ -20,24 +20,14 @@ export const SubmissionButton: React.FC<{competition: Competition}> = ({
 }) => {
     if (hasProject) {
         return (
-            <div className="d-flex flex-column align-items-center justify-content-end">
-                <Button
-                    variant="outline-dark"
-                    as={Link}
-                    className="me-2 mb-2"
-                    to={`/editProject?${qs.stringify({competition: id})}`}
-                >
-                    <span className="material-icons">create</span> Edit Submission
-                </Button>
-                <Button
-                    variant="outline-primary"
-                    as={Link}
-                    className="me-2"
-                    to={`/project?${qs.stringify({competition: id})}`}
-                >
-                    <span className="material-icons">visibility</span> View Submission
-                </Button>
-            </div>
+            <Button
+                variant="outline-primary"
+                as={Link}
+                className="me-2"
+                to={`/project?${qs.stringify({competition: id})}`}
+            >
+                <span className="material-icons">visibility</span> View Submission
+            </Button>
         )
     } else if (inComp) {
         return (
@@ -47,7 +37,7 @@ export const SubmissionButton: React.FC<{competition: Competition}> = ({
                 className="mx-2"
                 to={`/editProject/new?${qs.stringify({competition: id})}`}
             >
-                <span className="material-icons">add</span> Create Submission
+                <span className="material-icons">add</span> Create New Submission
             </Button>
         )
     }
@@ -74,22 +64,6 @@ export const JoinButton: React.FC<JoinButtonProps> = ({competition, user, onSucc
 
         setJoining(false)
     }, [user, competition])
-
-    if (
-        user?.isOrganization && // User is organization
-        competition // Competition exists
-    ) {
-        return user.uid === competition.organizationId ? ( // Organization owns competition
-            <Button
-                as={Link}
-                variant="outline-dark"
-                to={`/editCompetition/${competition.id}`}
-                className="me-3"
-            >
-                <span className="material-icons">create</span> Edit
-            </Button>
-        ) : null
-    }
 
     // User is not an organization
     return competition?.inComp ? null : (

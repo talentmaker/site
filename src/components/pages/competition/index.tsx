@@ -164,7 +164,7 @@ export const Competition: React.FC<Props> = (props) => {
                     <Button
                         variant="outline-success"
                         as={Link}
-                        to={`/competitions/${competition.id}`}
+                        to={`/projects/${competition.id}`}
                         className="me-3"
                     >
                         <span className="material-icons">visibility</span> Submissions

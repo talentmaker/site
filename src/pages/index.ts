@@ -10,8 +10,6 @@
 export {default as Auth} from "./auth"
 export {default as Competition} from "./competition"
 export {default as Competitions} from "./competitions"
-export {default as EditCompetition} from "./editCompetition"
-export {default as EditProject} from "./editProject"
 export {default as Home} from "./home"
 export {default as JoinTeam} from "./joinTeam"
 export {default as Legal} from "./legal"
