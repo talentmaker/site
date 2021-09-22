@@ -23,7 +23,7 @@ export const mobile: MobileLinks = [
     ["/", "home", "Home"],
     ["/talentmakers", "cases", "Talentmakers"],
     [
-        ["/profile", "account_circle", "Profile"],
+        ["/profile", "account_circle", "<USERNAME>"],
         ["/auth", "account_circle", "Sign Up"],
     ],
 ]
@@ -40,7 +40,7 @@ export const desktop: DesktopLinks = [
         ["https://www.linkedin.com/in/talent-maker-group/", "bootstrap", "bi-linkedin"],
         ["https://github.com/Luke-zhang-04/talentmaker-site", "bootstrap", "bi-github"],
         [
-            ["/profile", "Profile"],
+            ["/profile", "<USERNAME>"],
             ["/auth", "Sign Up"],
         ],
     ],

@@ -30,6 +30,7 @@ const NavLink: React.FC<{
     name: string
     iconName?: string
 }> = ({location, currentLocation, name, iconName}) => {
+    const {currentUser: user} = React.useContext(UserContext)
     const isExternal = /^https?:\/\//u.test(location)
     const linkAs = isExternal ? "a" : Link
     const isActive = currentLocation === location
@@ -67,7 +68,8 @@ const NavLink: React.FC<{
 
                 return (
                     <BsNavLink {...{...linkProps, as: linkAs, active: isActive}}>
-                        {name} {visuallyHidden}
+                        {user ? name.replace(/<USERNAME>/gu, user.username) : name}{" "}
+                        {visuallyHidden}
                     </BsNavLink>
                 )
             })()}
