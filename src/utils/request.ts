@@ -8,6 +8,7 @@
  */
 
 import {inlineTryPromise} from "@luke-zhang-04/utils"
+import {phraseStatuses} from "@luke-zhang-04/utils/http"
 
 /* eslint-disable prefer-arrow/prefer-arrow-functions */
 
@@ -22,7 +23,7 @@ class HTTPError extends Error {
     public readonly name = "HTTPError"
 
     public constructor(public readonly status: number, message: string) {
-        super(`${status} - ${message}`)
+        super(`${phraseStatuses[status as keyof typeof phraseStatuses] ?? status} - ${message}`)
     }
 }
 
