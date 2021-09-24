@@ -11,6 +11,27 @@ import {createAdapter} from "./utils"
 import {projectSchema} from "../schemas/project"
 import {projectsSchema} from "../schemas/projects"
 
+type CreateParams = {
+    title: string
+    competitionId: number
+    desc?: string | null
+    srcURL?: string | null
+    demoURL?: string | null
+    license?: string | null
+    videoURL?: string | null
+}
+
+export const create = createAdapter(
+    async ({request, url}, {idToken}: User, params: CreateParams) => {
+        await request(`${url}/projects/write`, "POST", undefined, {
+            ...params,
+            idToken,
+        })
+
+        return undefined
+    },
+)
+
 export const get = createAdapter(
     async (
         {adapterError, request, url, cache, schema, qs},
@@ -59,15 +80,8 @@ export const getMany = createAdapter(
     projectsSchema,
 )
 
-type UpdateParams = {
-    title?: string
-    competitionId?: string
+type UpdateParams = Partial<CreateParams> & {
     projectId?: string | number
-    desc?: string | null
-    srcURL?: string | null
-    demoURL?: string | null
-    license?: string | null
-    videoURL?: string | null
 }
 
 export const update = createAdapter(
@@ -76,8 +90,6 @@ export const update = createAdapter(
             ...params,
             idToken,
         })
-
-        console.log(params)
 
         return undefined
     },

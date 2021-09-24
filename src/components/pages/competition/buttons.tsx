@@ -11,38 +11,53 @@ import * as adapters from "~/adapters"
 import {Button} from "react-bootstrap"
 import {Competition} from "~/schemas/competition"
 import {Link} from "react-router-dom"
+import {NewProjectModal} from "~/components/newProjectModal"
 import React from "react"
 import {Spinner} from "~/components/bootstrap"
 import qs from "query-string"
 
-export const SubmissionButton: React.FC<{competition: Competition}> = ({
-    competition: {id, hasProject, inComp},
-}) => {
+export const SubmissionButton: React.FC<{competition: Competition}> = ({competition}) => {
+    const {id, hasProject, inComp: isInComp} = competition
+    const [shouldShowModal, setShouldShowModal] = React.useState(false)
+
+    const modal = shouldShowModal ? (
+        <NewProjectModal
+            competition={competition}
+            onClose={() => setShouldShowModal(false)}
+            shouldShow={shouldShowModal}
+        />
+    ) : null
+
     if (hasProject) {
         return (
-            <Button
-                variant="outline-primary"
-                as={Link}
-                className="me-2"
-                to={`/project?${qs.stringify({competition: id})}`}
-            >
-                <span className="material-icons">visibility</span> View Submission
-            </Button>
+            <>
+                {modal}
+                <Button
+                    variant="outline-primary"
+                    as={Link}
+                    className="me-2"
+                    to={`/project?${qs.stringify({competition: id})}`}
+                >
+                    <span className="material-icons">visibility</span> View Submission
+                </Button>
+            </>
         )
-    } else if (inComp) {
+    } else if (isInComp) {
         return (
-            <Button
-                variant="outline-primary"
-                as={Link}
-                className="mx-2"
-                to={`/editProject/new?${qs.stringify({competition: id})}`}
-            >
-                <span className="material-icons">add</span> Create New Submission
-            </Button>
+            <>
+                {modal}
+                <Button
+                    variant="outline-primary"
+                    className="mx-2"
+                    onClick={() => setShouldShowModal(true)}
+                >
+                    <span className="material-icons">add</span> Create New Submission
+                </Button>
+            </>
         )
     }
 
-    return null
+    return modal
 }
 
 type JoinButtonProps = {competition: Competition; user?: User; onSuccess?: () => void}
