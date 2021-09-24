@@ -212,14 +212,16 @@ export const Bar: React.FC<{topics?: (string | undefined)[] | null}> = ({topics}
         <Col xs={12} className={styles.topics}>
             {" "}
             {/* Blue bar with competitions */}
-            {topics?.map((topic, index) => (
-                <p
-                    className="bg-primary mx-1 my-0 py-1 px-2 d-flex"
-                    key={`topic-${topic}-${index}`}
-                >
-                    {topic}
-                </p>
-            ))}
+            {topics?.map((topic, index) =>
+                topic ? (
+                    <p
+                        className="bg-primary mx-1 my-0 py-1 px-2 d-flex"
+                        key={`topic-${topic}-${index}`}
+                    >
+                        {topic}
+                    </p>
+                ) : null,
+            )}
         </Col>
     </Row>
 )
