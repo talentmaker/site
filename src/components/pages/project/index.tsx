@@ -118,9 +118,11 @@ export const Project: React.FC<Props> = (props) => {
                 </Button>
                 {inviteLink && (
                     <p className="mt-3">
-                        Your invite link is: &quot;
+                        Your invite link is:
+                        <br />
+                        &quot;
                         <code>{inviteLink}</code>
-                        &quot;.{" "}
+                        &quot;.
                         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid, jsx-a11y/click-events-have-key-events */}
                         <a
                             tabIndex={0}
@@ -132,7 +134,8 @@ export const Project: React.FC<Props> = (props) => {
                             onClick={() => window.navigator.clipboard.writeText(inviteLink)}
                         >
                             <span className="material-icons">content_copy</span>
-                        </a>{" "}
+                        </a>
+                        <br />
                         Only share this link with people you intend on adding to your team. Team
                         members have editing privileges. This link expires in 24 hours.
                     </p>
