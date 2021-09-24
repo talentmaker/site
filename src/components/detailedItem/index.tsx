@@ -45,7 +45,7 @@ export const UserInfo: React.FC<UserInfoProps> = ({username, desc, children}) =>
 export const Video: React.FC<React.ComponentProps<typeof IFrame>> = (props) => {
     const [didVideoLoad, setLoad] = React.useState(false)
 
-    return (
+    return props.src ? (
         <div className="mx-gx mt-3">
             <div className={`${styles.videoContainer} ${didVideoLoad ? "" : "p-0"}`}>
                 <IFrame
@@ -67,7 +67,7 @@ export const Video: React.FC<React.ComponentProps<typeof IFrame>> = (props) => {
                 </IFrame>
             </div>
         </div>
-    )
+    ) : null
 }
 
 type SidebarProps = {
