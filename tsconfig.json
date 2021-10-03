@@ -35,7 +35,8 @@
     "resolveJsonModule": true,
     "noEmitOnError": false,
     "isolatedModules": true,
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "exactOptionalPropertyTypes": false
   },
   "include": [
     "src"

@@ -13,7 +13,6 @@ import {Competition} from "~/schemas/competition"
 import React from "react"
 import {Spinner} from "~/components/bootstrap/spinner"
 import {UserContext} from "~/contexts"
-import {githubRepoAdapter} from "~/adapters/github"
 import {pick} from "@luke-zhang-04/utils"
 import qs from "query-string"
 import {useHistory} from "react-router"
@@ -39,7 +38,7 @@ const GithubDisplay: React.FC<Props> = ({competition}) => {
             setIsProcessing(true)
             setError(undefined)
 
-            const repoDetails = await githubRepoAdapter(`${ghUsername}/${repoName}`)
+            const repoDetails = await adapters.github.getRepo(`${ghUsername}/${repoName}`)
 
             if (repoDetails instanceof Error) {
                 if (repoDetails.message === "Not Found - Not Found") {

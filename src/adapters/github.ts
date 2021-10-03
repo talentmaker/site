@@ -12,16 +12,14 @@ import {inlineTryPromise, isErrorLike} from "@luke-zhang-04/utils"
 import {request} from "~/utils"
 
 type GithubRepoAdapterResult = {
-    desc?: string
-    srcURL?: string
-    demoURL?: string
-    license?: string
+    desc: string | undefined
+    srcURL: string | undefined
+    demoURL: string | undefined
+    license: string | undefined
     name: string
 }
 
-export const githubRepoAdapter = async (
-    repoName: string,
-): Promise<GithubRepoAdapterResult | Error> => {
+export const getRepo = async (repoName: string): Promise<GithubRepoAdapterResult | Error> => {
     try {
         const repoDetails = await githubRepoResult.validate(
             await request(`https://api.github.com/repos/${repoName}`, "GET", "json"),

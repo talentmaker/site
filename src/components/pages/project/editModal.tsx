@@ -79,7 +79,10 @@ export const EditModal: React.FC<Props> = ({shouldShow, onClose, onSave, project
     )
 
     const submit = React.useCallback(
-        async (values: FormValues, {setSubmitting}: FormikHelpers<FormValues>) => {
+        async (
+            values: FormValues,
+            {setSubmitting}: Pick<FormikHelpers<FormValues>, "setSubmitting">,
+        ) => {
             setSubmitting(true)
 
             if (user) {
@@ -124,6 +127,23 @@ export const EditModal: React.FC<Props> = ({shouldShow, onClose, onSave, project
         [typeof onClose, user?.uid, project.id],
     )
 
+    const syncWithGithub = React.useCallback(
+        async (repoName: string, setSubmitting: (isSubmitting: boolean) => void) => {
+            setSubmitting(true)
+
+            const values = await adapters.github.getRepo(repoName)
+
+            if (values instanceof Error) {
+                return
+            }
+
+            await submit({...values, videoURL: project.videoURL}, {setSubmitting})
+
+            setSubmitting(false)
+        },
+        [project.videoURL, submit],
+    )
+
     return (
         <Modal show={shouldShow} onHide={onClose}>
             <Formik
@@ -132,7 +152,7 @@ export const EditModal: React.FC<Props> = ({shouldShow, onClose, onSave, project
                 validationSchema={formValidationSchema}
                 onSubmit={submit}
             >
-                {({isSubmitting, submitForm}): JSX.Element => (
+                {({isSubmitting, submitForm, setSubmitting, values}): JSX.Element => (
                     <Form>
                         <Modal.Header closeButton>
                             <Modal.Title>Edit project settings</Modal.Title>
@@ -183,6 +203,19 @@ export const EditModal: React.FC<Props> = ({shouldShow, onClose, onSave, project
                             >
                                 <span className="material-icons">video_library</span>
                             </Input>
+                            {values.srcURL?.includes("github") && (
+                                <Button
+                                    variant="outline-dark"
+                                    onClick={() =>
+                                        syncWithGithub(
+                                            values.srcURL!.split("/").slice(-2).join("/"),
+                                            setSubmitting,
+                                        )
+                                    }
+                                >
+                                    <span className="bi-github" /> Sync with Github
+                                </Button>
+                            )}
                         </Modal.Body>
                         <Modal.Footer>
                             <Button variant="outline-secondary" onClick={onClose}>
