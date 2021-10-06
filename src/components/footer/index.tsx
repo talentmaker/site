@@ -7,6 +7,7 @@
  * https://Luke-zhang-04.github.io
  */
 
+import {addZeros, formatDate} from "@luke-zhang-04/dateplus"
 import {Link} from "react-router-dom"
 import React from "react"
 import {Row} from "react-bootstrap"
@@ -75,6 +76,17 @@ export const Footer: React.FC<{user?: User}> = (props): JSX.Element => (
             <a href="https://github.com/Luke-zhang-04/talentmaker-site" {...linkProps}>
                 Repository
             </a>
+        </div>
+
+        <div className={`text-center ${styles.textCenter} mt-3`}>
+            Version:{" "}
+            <a
+                href={`https://github.com/Luke-zhang-04/talentmaker-site/tree/${process.env.REACT_APP_HASH}`}
+                {...linkProps}
+            >
+                {process.env.REACT_APP_HASH.slice(0, 7)}
+            </a>{" "}
+            {addZeros(formatDate(new Date(Number(process.env.REACT_APP_TIME))))}
         </div>
 
         <div className={`footer-copyright text-center ${styles.textCenter}`}>
