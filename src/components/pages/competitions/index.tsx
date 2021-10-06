@@ -14,12 +14,12 @@ import {
     Competitions as CompetitionsType,
     competitionsSchema,
 } from "~/schemas/competitions"
-import {Spinner, initTooltips} from "~/components/bootstrap"
 import {getUtcTime, readCache} from "~/utils"
 import DatePlus from "@luke-zhang-04/dateplus"
 import GridItem from "~/components/gridItem"
 import {Link} from "react-router-dom"
 import React from "react"
+import {Spinner} from "~/components/bootstrap"
 import UserContext from "~/contexts/userContext"
 import {arrayToChunks} from "@luke-zhang-04/utils"
 import {useAdapter} from "~/hooks"
@@ -51,10 +51,6 @@ export const Competitions: React.FC = () => {
         async () => competitionsSchema.validate(await readCache("talentmakerCache_competitions")),
     )
     const {currentUser: user} = React.useContext(UserContext)
-
-    React.useEffect(() => {
-        initTooltips()
-    })
 
     const getSortedCompetitions = React.useCallback(
         (_competitions: CompetitionType[] | undefined): CompetitionsType[][] => {

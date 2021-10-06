@@ -9,15 +9,15 @@
 
 import * as Components from "~/components/detailedItem"
 import * as adapters from "~/adapters"
-import {Breadcrumb, Button, Col, Container, Row} from "react-bootstrap"
+import {Breadcrumb, Button, Col, Container, OverlayTrigger, Popover, Row} from "react-bootstrap"
 import {NotificationContext, UserContext} from "~/contexts"
-import {Spinner, initPopovers, initTooltips} from "~/components/bootstrap"
 import {readCache, writeCache} from "~/utils"
 import EditModal from "./editModal"
 import {EditableMarkdown} from "~/components/markdown"
 import {Link} from "react-router-dom"
 import Prism from "prismjs"
 import React from "react"
+import {Spinner} from "~/components/bootstrap"
 import getProjectData from "./utils"
 import {projectSchema} from "~/schemas/project"
 import scrollToHeader from "~/components/markdown/scrollToHeader"
@@ -59,9 +59,6 @@ export const Project: React.FC<Props> = (props) => {
 
     React.useEffect(() => {
         Prism.highlightAll()
-
-        initTooltips()
-        initPopovers()
     })
 
     const getData = React.useCallback(getProjectData, [])
@@ -123,18 +120,23 @@ export const Project: React.FC<Props> = (props) => {
                         &quot;
                         <code>{inviteLink}</code>
                         &quot;.
-                        {/* eslint-disable-next-line jsx-a11y/anchor-is-valid, jsx-a11y/click-events-have-key-events */}
-                        <a
-                            tabIndex={0}
-                            role="button"
-                            data-bs-toggle="popover"
-                            data-bs-trigger="focus"
-                            data-bs-content="Copied to clipboard"
-                            className="icon-btn"
-                            onClick={() => window.navigator.clipboard.writeText(inviteLink)}
+                        <OverlayTrigger
+                            trigger="click"
+                            placement="right"
+                            rootClose
+                            overlay={
+                                <Popover id="clipboard-popover">
+                                    <Popover.Body>Copied to clipboard</Popover.Body>
+                                </Popover>
+                            }
                         >
-                            <span className="material-icons">content_copy</span>
-                        </a>
+                            <button
+                                className="icon-btn"
+                                onClick={() => window.navigator.clipboard.writeText(inviteLink)}
+                            >
+                                <span className="material-icons">content_copy</span>
+                            </button>
+                        </OverlayTrigger>
                         <br />
                         Only share this link with people you intend on adding to your team. Team
                         members have editing privileges. This link expires in 24 hours.

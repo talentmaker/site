@@ -11,7 +11,6 @@ import * as Components from "~/components/detailedItem"
 import * as adapters from "~/adapters"
 import {Breadcrumb, Button, Col, Container, Row} from "react-bootstrap"
 import {JoinButton, SubmissionButton} from "./buttons"
-import {Spinner, initTooltips} from "~/components/bootstrap"
 import {readCache, writeCache} from "~/utils"
 import EditModal from "./editModal"
 import {EditableMarkdown} from "~/components/markdown"
@@ -19,6 +18,7 @@ import {Link} from "react-router-dom"
 import NotificationContext from "~/contexts/notificationContext"
 import Prism from "prismjs"
 import React from "react"
+import {Spinner} from "~/components/bootstrap"
 import UserContext from "~/contexts/userContext"
 import {competitionSchema} from "~/schemas/competition"
 import getCompetitionData from "./utils"
@@ -59,8 +59,6 @@ export const Competition: React.FC<Props> = (props) => {
 
     React.useEffect(() => {
         Prism.highlightAll()
-
-        initTooltips()
     })
 
     const getData = React.useCallback(getCompetitionData, [])

@@ -10,10 +10,10 @@
 import * as adapters from "~/adapters"
 import {Breadcrumb, Container, Row} from "react-bootstrap"
 import {Projects as ProjectsType, projectsSchema} from "~/schemas/projects"
-import {Spinner, initTooltips} from "~/components/bootstrap"
 import GridItem from "~/components/gridItem"
 import {Link} from "react-router-dom"
 import React from "react"
+import {Spinner} from "~/components/bootstrap"
 import UserContext from "~/contexts/userContext"
 import {arrayToChunks} from "@luke-zhang-04/utils"
 import cache from "~/utils/cache"
@@ -49,10 +49,6 @@ export const Projects: React.FC<{competitionId: string}> = ({competitionId}) => 
         async () => projectsSchema.validate(await cache.read("talentmakerCache_projects")),
     )
     const {currentUser: user} = React.useContext(UserContext)
-
-    React.useEffect(() => {
-        initTooltips()
-    })
 
     const getSortedProjects = React.useCallback((_projects: ProjectsType): ProjectsType[][] => {
         // Projects due in the future and past
