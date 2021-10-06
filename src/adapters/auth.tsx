@@ -27,13 +27,21 @@ export const login = createAdapter(
         ),
     userSchema,
 )
+
 export const confirm = createAdapter(async ({request, url}, idToken: string) => {
-    const result = await request(`${url}/auth/confirm`, "POST", "json", {
+    await request(`${url}/auth/confirm`, "POST", "text", {
         idToken,
     })
-
-    console.log(result)
 })
+
+export const confirmFromOutside = createAdapter(
+    async ({request, url}, email: string, password: string) => {
+        await request(`${url}/auth/confirm`, "POST", "text", {
+            email,
+            password,
+        })
+    },
+)
 
 export const register = createAdapter(
     async ({request, url}, username: string, email: string, password: string) => {

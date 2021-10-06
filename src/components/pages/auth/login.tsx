@@ -35,13 +35,21 @@ const initialValues: FormValues = {
 export const Login = (): JSX.Element => {
     const {push: changeHistory} = useHistory()
     const {setUserFromUnknown: setUser} = React.useContext(UserContext)
+    const [unconfirmedEmail, setUnconfirmedEmail] =
+        React.useState<[email: string, password: string]>()
+    const [message, setMessage] = React.useState<[error: boolean, message: string]>()
+
     const submit = React.useCallback(
         async (values: FormValues, {setSubmitting}: FormikHelpers<FormValues>): Promise<void> => {
             setSubmitting(true)
 
             const data = await adapters.auth.login(values.email, values.password)
 
-            if (!(data instanceof Error)) {
+            if (data instanceof Error) {
+                if (data.message.includes("not confirmed")) {
+                    setUnconfirmedEmail([values.email, values.password])
+                }
+            } else {
                 await setUser(data)
 
                 setSubmitting(false)
@@ -79,6 +87,35 @@ export const Login = (): JSX.Element => {
                         {isSubmitting ? <Spinner inline> </Spinner> : undefined}
                         Login
                     </Button>
+
+                    {unconfirmedEmail && (
+                        <>
+                            <br />
+                            <Button
+                                onClick={async () => {
+                                    const result = await adapters.auth.confirmFromOutside(
+                                        ...unconfirmedEmail,
+                                    )
+
+                                    if (result instanceof Error) {
+                                        setMessage([true, result.message])
+                                    } else {
+                                        setMessage([
+                                            false,
+                                            `Successfully sent confrimation email to ${unconfirmedEmail[0]}`,
+                                        ])
+                                    }
+                                }}
+                                variant="dark"
+                                className="mt-3"
+                            >
+                                Resend Confrimation Email
+                            </Button>
+                        </>
+                    )}
+                    {message && (
+                        <p className={message[0] ? "text-danger" : "text-success"}>{message[1]}</p>
+                    )}
                 </Container>
             )}
         </Formik>

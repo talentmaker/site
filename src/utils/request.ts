@@ -12,10 +12,11 @@ import {phraseStatuses} from "@luke-zhang-04/utils/http"
 
 /* eslint-disable prefer-arrow/prefer-arrow-functions */
 
+type ThenArg<T> = T extends PromiseLike<infer U> ? U : T
 type Methods = "GET" | "HEAD" | "POST" | "PUT" | "DELETE" | "CONNECT" | "OPTIONS" | "TRACE"
 type Conversions = "arrayBuffer" | "blob" | "formData" | "json" | "text"
 
-interface ConversionTypes extends Omit<Body, "json"> {
+type ConversionTypes = {[P in Exclude<Conversions, "json">]: ThenArg<ReturnType<Body[P]>>} & {
     json: {[key: string]: unknown}
 }
 

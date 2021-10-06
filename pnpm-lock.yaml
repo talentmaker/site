@@ -5,7 +5,7 @@ specifiers:
   "@craco/craco": ^6.2.0
   "@luke-zhang-04/dateplus": ^4.0.0-beta1
   "@luke-zhang-04/react-simple-markdown-editor": ^1.1.0
-  "@luke-zhang-04/utils": github:luke-zhang-04/utils#semver:^1.2.0
+  "@luke-zhang-04/utils": github:luke-zhang-04/utils#semver:^1.5.0
   "@testing-library/jest-dom": ^5.12.0
   "@testing-library/react": ^11.2.6
   "@testing-library/user-event": ^13.1.5
