@@ -46,7 +46,7 @@ const Project: React.FC<{project: ProjectsType[0]; user?: User}> = ({project, us
 export const Projects: React.FC<{competitionId: string}> = ({competitionId}) => {
     const {data: projects} = useAdapter(
         () => adapters.project.getMany(competitionId),
-        async () => projectsSchema.validate(await cache.read("talentmakerCache_projects")),
+        () => projectsSchema.validate(cache.read("talentmakerCache_projects")),
     )
     const {currentUser: user} = React.useContext(UserContext)
 

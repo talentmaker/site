@@ -48,7 +48,7 @@ const Competition: React.FC<{comp: CompetitionType; user?: User}> = ({comp, user
 export const Competitions: React.FC = () => {
     const {isDone, data} = useAdapter(
         () => adapters.competition.getMany(),
-        async () => competitionsSchema.validate(await readCache("talentmakerCache_competitions")),
+        () => competitionsSchema.validate(readCache("talentmakerCache_competitions")),
     )
     const {currentUser: user} = React.useContext(UserContext)
 

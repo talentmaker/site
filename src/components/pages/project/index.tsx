@@ -40,9 +40,9 @@ export const Project: React.FC<Props> = (props) => {
     const {currentUser: user} = React.useContext(UserContext)
     const {data: project, setData} = useAdapter(
         () => (user ? adapters.project.get(user, props.id, props.competitionId) : undefined),
-        async () =>
+        () =>
             props.id
-                ? projectSchema.validate(await readCache(`talentmakerCache_project-${props.id}`))
+                ? projectSchema.validate(readCache(`talentmakerCache_project-${props.id}`))
                 : undefined,
         [user],
     )
@@ -93,7 +93,7 @@ export const Project: React.FC<Props> = (props) => {
                       })
 
                       if (!(result instanceof Error)) {
-                          await writeCache(`talentmakerCache_project-${props.id}`, project)
+                          writeCache(`talentmakerCache_project-${props.id}`, project)
 
                           setIsDescSaved(true)
 
@@ -176,9 +176,9 @@ export const Project: React.FC<Props> = (props) => {
                     project={project}
                     shouldShow={shouldShowModal}
                     onClose={() => setShouldShowModal(false)}
-                    onSave={async (_project) => {
+                    onSave={(_project) => {
                         setData(_project)
-                        await writeCache(`talentmakerCache_project-${props.id}`, _project)
+                        writeCache(`talentmakerCache_project-${props.id}`, _project)
                     }}
                 />
                 <Breadcrumb className="container-fluid" listProps={{className: "mb-0"}}>

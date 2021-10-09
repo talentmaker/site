@@ -45,46 +45,46 @@ const isCacheEntry = (obj: unknown): obj is CacheEntry =>
     typeof obj === "object" &&
     typeof (obj as {[key: string]: unknown}).lastUsed === "number" &&
     typeof (obj as {[key: string]: unknown}).data === "string"
+
 /**
  * Gets all localstorage cache entries, and removes the oldest ones Also removed problematic cache
  * entries that cause errors
  */
-const cleanCache = async (): Promise<void> =>
-    await Promise.resolve().then(() => {
-        const entries: [lastUsed: number, key: string][] = []
+const cleanCache = (): void => {
+    const entries: [lastUsed: number, key: string][] = []
 
-        for (const key of Object.keys(localStorage)) {
-            try {
-                const item = localStorage.getItem(key)
+    for (const key of Object.keys(localStorage)) {
+        try {
+            const item = localStorage.getItem(key)
 
-                if (item === null) {
-                    // eslint-disable-next-line
-                    continue
-                }
+            if (item === null) {
+                // eslint-disable-next-line
+                continue
+            }
 
-                const parsedItem: unknown = JSON.parse(item)
+            const parsedItem: unknown = JSON.parse(item)
 
-                if (isCacheEntry(parsedItem)) {
-                    entries.push([parsedItem.lastUsed, key])
-                } else {
-                    // eslint-disable-next-line
-                    throw undefined
-                }
-            } catch {
-                if (/^talentmakerCache.*/u.test(key)) {
-                    localStorage.removeItem(key) // Remove error-causing keys
-                }
+            if (isCacheEntry(parsedItem)) {
+                entries.push([parsedItem.lastUsed, key])
+            } else {
+                // eslint-disable-next-line
+                throw undefined
+            }
+        } catch {
+            if (/^talentmakerCache.*/u.test(key)) {
+                localStorage.removeItem(key) // Remove error-causing keys
             }
         }
+    }
 
-        const sortedEntries = entries
-            .sort((first, second) => second[0] - first[0]) // Sort from oldest to newest
-            .slice((entries.length - entries.length) * Config.AmountToClear)
+    const sortedEntries = entries
+        .sort((first, second) => second[0] - first[0]) // Sort from oldest to newest
+        .slice((entries.length - entries.length) * Config.AmountToClear)
 
-        for (const [, key] of sortedEntries) {
-            localStorage.removeItem(key) // Remove storage items
-        }
-    })
+    for (const [, key] of sortedEntries) {
+        localStorage.removeItem(key) // Remove storage items
+    }
+}
 /**
  * Truncates long strings as they take a lot of cache space
  */
@@ -138,24 +138,22 @@ const hasLocalStorage = ((): boolean => {
  * @param key - Key to write data
  * @param data - Data to write
  */
-export const writeCache = async (key: string, data: unknown): Promise<void> => {
+export const writeCache = (key: string, data: unknown): void => {
     if (!hasLocalStorage) {
         return
     }
 
-    return await Promise.resolve().then(() => {
-        try {
-            localStorage.setItem(
-                key,
-                JSON.stringify({
-                    lastUsed: Date.now(),
-                    data: lzString.compressToUTF16(JSON.stringify(formatData(data))),
-                }),
-            )
-        } catch {
-            cleanCache()
-        }
-    })
+    try {
+        localStorage.setItem(
+            key,
+            JSON.stringify({
+                lastUsed: Date.now(),
+                data: lzString.compressToUTF16(JSON.stringify(formatData(data))),
+            }),
+        )
+    } catch {
+        cleanCache()
+    }
 }
 
 /**
@@ -163,38 +161,36 @@ export const writeCache = async (key: string, data: unknown): Promise<void> => {
  *
  * @param key - Key for data
  */
-export const readCache = async (key: string): Promise<unknown> => {
+export const readCache = (key: string): unknown => {
     if (!hasLocalStorage) {
         return
     }
 
-    return await Promise.resolve().then(() => {
-        const cacheEntry = localStorage.getItem(key)
+    const cacheEntry = localStorage.getItem(key)
 
-        if (cacheEntry === null) {
+    if (cacheEntry === null) {
+        return null
+    }
+
+    try {
+        const parsedCacheEntry: unknown = JSON.parse(cacheEntry)
+
+        if (!isCacheEntry(parsedCacheEntry)) {
             return null
         }
 
-        try {
-            const parsedCacheEntry: unknown = JSON.parse(cacheEntry)
+        const decompressedData = lzString.decompressFromUTF16(parsedCacheEntry.data)
 
-            if (!isCacheEntry(parsedCacheEntry)) {
-                return null
-            }
+        if (decompressedData) {
+            const parsedData: unknown = JSON.parse(decompressedData)
 
-            const decompressedData = lzString.decompressFromUTF16(parsedCacheEntry.data)
-
-            if (decompressedData) {
-                const parsedData: unknown = JSON.parse(decompressedData)
-
-                return parsedData
-            }
-
-            return null
-        } catch {
-            return null
+            return parsedData
         }
-    })
+
+        return null
+    } catch {
+        return null
+    }
 }
 
 export default {

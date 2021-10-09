@@ -41,10 +41,7 @@ export const Competition: React.FC<Props> = (props) => {
         setData,
     } = useAdapter(
         () => adapters.competition.get(user?.uid, props.id),
-        async () =>
-            competitionSchema.validate(
-                await readCache(`talentmakerCache_competition-${props.id}`),
-            ),
+        () => competitionSchema.validate(readCache(`talentmakerCache_competition-${props.id}`)),
         [user],
     )
     const [shouldShowModal, setShouldShowModal] = React.useState(false)
@@ -77,7 +74,7 @@ export const Competition: React.FC<Props> = (props) => {
                       })
 
                       if (!(result instanceof Error)) {
-                          await writeCache(`talentmakerCache_competition-${props.id}`, competition)
+                          writeCache(`talentmakerCache_competition-${props.id}`, competition)
 
                           setIsDescSaved(true)
 
@@ -143,9 +140,9 @@ export const Competition: React.FC<Props> = (props) => {
                     competition={competition}
                     shouldShow={shouldShowModal}
                     onClose={() => setShouldShowModal(false)}
-                    onSave={async (_competition) => {
+                    onSave={(_competition) => {
                         setData(_competition)
-                        await writeCache(`talentmakerCache_competition-${props.id}`, _competition)
+                        writeCache(`talentmakerCache_competition-${props.id}`, _competition)
                     }}
                 />
                 <Breadcrumb className="container-fluid" listProps={{className: "mb-0"}}>
