@@ -58,6 +58,7 @@ export const Footer: React.FC<{user?: User}> = (props): JSX.Element => (
         <Row className={`${styles.row} pages`}>
             <FooterLinks
                 links={[
+                    ["/", "Home"],
                     ["/competitions", "Competitions"],
                     ["/talents", "Talents"],
                     ["/talentmakers", "Talentmakers"],
