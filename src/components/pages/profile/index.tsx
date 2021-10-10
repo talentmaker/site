@@ -100,7 +100,7 @@ export const UserDisplay: React.FC = () => {
                         )}
                     </ul>
                 </Col>
-                <Col xs={9} className="px-gx">
+                <Col xs={9} className="px-tm-gx">
                     <h1>Projects:</h1>
                     <p>Coming soon!</p>
                 </Col>

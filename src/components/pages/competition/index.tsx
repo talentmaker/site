@@ -91,7 +91,7 @@ export const Competition: React.FC<Props> = (props) => {
         const mainDisplay = (
             <Col lg={9}>
                 <Components.Video title="competition video" src={data.src} />
-                <div className={`${styles.markdownContainer} py-3 px-gx`}>
+                <div className={`${styles.markdownContainer} py-3 px-tm-gx`}>
                     <Container fluid className="p-4 bg-lighter">
                         <EditableMarkdown
                             hasWarningMessage={!isDescSaved}

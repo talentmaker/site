@@ -47,10 +47,10 @@
   align-items: center;
   justify-content: center;
   flex-direction: row;
-  color: variables.$light;
+  color: var(--light);
 
   p {
-    border: solid 0.125rem variables.$light;
+    border: solid 0.125rem var(--light);
   }
 }
 

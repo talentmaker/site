@@ -37,8 +37,8 @@
     padding: 0.75rem;
     border: none; // Add border
     border-radius: 50%; // Make circular
-    color: variables.$dark;
-    background-color: variables.$lighter;
+    color: var(--dark);
+    background-color: var(--lighter);
 
     $transition-time: 0.25s;
     $transition-timing: ease;

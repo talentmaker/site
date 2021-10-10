@@ -26,7 +26,7 @@
   .cardInfo {
     width: 100%;
     position: relative;
-    background-color: variables.$lighter;
+    background-color: var(--lighter);
     padding-top: map-get(variables.$spacers, 3);
     padding-bottom: map-get(variables.$spacers, 3);
 
@@ -75,7 +75,7 @@
       }
 
       .cardDetails {
-        background-color: variables.$lighter;
+        background-color: var(--lighter);
       }
     }
   }

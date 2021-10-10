@@ -21,7 +21,7 @@ type UserInfoProps = {
 
 export const UserInfo: React.FC<UserInfoProps> = ({username, desc, children}) => (
     <Container fluid>
-        <Row className="mb-gy">
+        <Row className="mb-tm-gy">
             {children ? (
                 <>
                     <Col lg={7} className="d-flex flex-column justify-content-center">
@@ -46,7 +46,7 @@ export const Video: React.FC<React.ComponentProps<typeof IFrame>> = (props) => {
     const [didVideoLoad, setLoad] = React.useState(false)
 
     return props.src ? (
-        <div className="mx-gx mt-3">
+        <div className="mx-tm-gx mt-3">
             <div className={`${styles.videoContainer} ${didVideoLoad ? "" : "p-0"}`}>
                 <IFrame
                     {...props}

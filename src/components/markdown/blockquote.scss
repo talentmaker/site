@@ -12,7 +12,7 @@
 @use "src/styles/variables";
 
 blockquote {
-  border-left: solid mix(variables.$lighter, black, 80%) 0.5rem;
+  border-left: solid var(--light-grey) 0.5rem;
   padding-left: 1rem;
 
   p {

@@ -55,7 +55,7 @@
 
   .mobileNavUnderline {
     width: percentage((100 / $nav-item-count) / 100);
-    background-color: variables.$dark;
+    background-color: var(--dark);
     position: absolute;
     height: $underline-height;
     bottom: 0;
@@ -70,7 +70,7 @@
     align-items: center;
 
     .mobileNavLink {
-      color: variables.$dark;
+      color: var(--dark);
       text-decoration: none;
       text-align: center;
       transition: transform 0.5s $transition-timing;

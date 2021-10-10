@@ -21,14 +21,14 @@ $line-height: 2vw;
   line-height: $line-height;
   border-width: 0;
   min-height: 0;
-  box-shadow: 0 0 5vw rgba(variables.$dark, 0.25);
+  box-shadow: 0 0 5vw rgba(var(--dark), 0.25);
 
   @include mixins.max-width("sm") {
     padding: 1vw 2vw;
   }
 
   &::placeholder {
-    color: variables.$dark;
+    color: var(--dark);
     opacity: 1;
     font-weight: 350;
     font-size: 1.5vw;
@@ -44,7 +44,7 @@ $line-height: 2vw;
 @mixin input-btn {
   border-radius: 100vw;
   background-image: linear-gradient(to right, #3f88c5, #6199c7);
-  color: variables.$light;
+  color: var(--light);
   position: absolute;
   top: 0;
   right: 0;

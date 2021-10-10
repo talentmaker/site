@@ -9,10 +9,10 @@
 
 import {NavLink as BsNavLink, Container, NavItem, Navbar, NavbarBrand} from "react-bootstrap"
 import {Link, useLocation} from "react-router-dom"
+import {ThemeContext, UserContext} from "~/contexts"
 import {BreakPoints} from "~/globals"
 import Logo from "~/images/logo.svg"
 import React from "react"
-import UserContext from "~/contexts/userContext"
 import routes from "./routes"
 import styles from "./index.module.scss"
 import {useWindowSize} from "~/hooks/useWindowSize"
@@ -164,6 +164,7 @@ export const Nav: React.FC = () => {
     const currentLocation = useLocation()
     const dimensions = useWindowSize()
     const {currentUser: user} = React.useContext(UserContext)
+    const {theme} = React.useContext(ThemeContext)
 
     const getPageIndex = React.useCallback(() => {
         for (const [index, value] of routes.mobile.entries()) {
@@ -196,7 +197,7 @@ export const Nav: React.FC = () => {
         </div>
     ) : (
         <Navbar
-            variant="light"
+            variant={theme}
             expand="md"
             className={`${styles.navbar} bg-lighter d-none d-sm-block`}
         >
