@@ -51,15 +51,7 @@ import {url} from "./globals"
 // Hacky way to expose the addNotification callback
 export let addNotification: ((notification: NotificationType | Error) => void) | undefined
 
-const applyTheme = (): "light" | "dark" => {
-    let theme = localStorage.getItem("theme")
-
-    if (theme !== "light" && theme !== "dark") {
-        localStorage.setItem("theme", "light")
-
-        theme = "light"
-    }
-
+const applyTheme = (theme: "light" | "dark") => {
     const root = document.querySelector(":root") as HTMLElement
     const styles = getComputedStyle(root)
 
@@ -108,8 +100,6 @@ const applyTheme = (): "light" | "dark" => {
             root.style.setProperty(key, value)
         }
     }
-
-    return theme as "light" | "dark"
 }
 
 const App: React.FC = () => {
@@ -151,10 +141,8 @@ const App: React.FC = () => {
     const setThemeContext = React.useCallback((newTheme: string) => {
         if (newTheme === "dark" || newTheme === "light") {
             setTheme(newTheme)
-            localStorage.setItem("theme", newTheme)
         } else {
             setTheme("light")
-            localStorage.setItem("theme", "light")
         }
     }, [])
 
@@ -193,13 +181,17 @@ const App: React.FC = () => {
             await setUser(undefined)
             setCurrentUser((_currentUser) => _currentUser)
         })()
+
+        const deviceTheme = window.matchMedia?.("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light"
+
+        setThemeContext(deviceTheme)
     }, [])
 
     React.useEffect(() => {
-        const newTheme = applyTheme()
-
-        setThemeContext(newTheme)
-    }, [])
+        applyTheme(theme)
+    }, [theme])
 
     return (
         <UserContext.Provider value={{currentUser, setUser, setUserFromUnknown}}>
