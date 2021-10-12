@@ -9,12 +9,12 @@
 
 import ProjectComponent from "../components/pages/project"
 import type React from "react"
-import queryString from "query-string"
 import {useParams} from "react-router"
+import {useSearch} from "~/hooks"
 
 export const Project: React.FC = () => {
     const {id} = useParams<{id?: string}>()
-    const {competition: competitionId} = queryString.parse(window.location.search)
+    const {competition: competitionId} = useSearch()
 
     if (id) {
         return <ProjectComponent id={id} />
