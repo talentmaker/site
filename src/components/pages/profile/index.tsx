@@ -10,14 +10,24 @@
 import * as adapters from "~/adapters"
 import {Button, Col, Container, Row} from "react-bootstrap"
 import DefaultPFP from "~/images/profile.svg"
+import GridItem from "~/components/gridItem"
 import React from "react"
 import {UserContext} from "~/contexts"
+import {arrayToChunks} from "@luke-zhang-04/utils"
 import styles from "./index.module.scss"
+import {useAdapter} from "~/hooks"
 import {useHistory} from "react-router-dom"
 
 export const UserDisplay: React.FC = () => {
     const history = useHistory()
     const {currentUser: user, setUser} = React.useContext(UserContext)
+    const {data: projects} = useAdapter(
+        () => (user ? adapters.project.getManyByUser(user) : undefined),
+        undefined,
+        [user?.uid],
+    )
+
+    console.log(projects)
 
     return user === undefined ? (
         <Container>It looks like you&apos;ve been signed out</Container>
@@ -102,7 +112,19 @@ export const UserDisplay: React.FC = () => {
                 </Col>
                 <Col xs={9} className="px-tm-gx">
                     <h1>Projects:</h1>
-                    <p>Coming soon!</p>
+                    {projects &&
+                        arrayToChunks(projects).map((row, index) => (
+                            <Row key={`profile-project-row-${index}`} className="g-3">
+                                {row.map((project, index2) => (
+                                    <GridItem
+                                        key={`comp-item-0-${index}-${index2}`}
+                                        imageURL={project.coverImageURL ?? undefined}
+                                        title={project.name ?? ""}
+                                        link={{to: `/project/${project.id}`, text: "Details"}}
+                                    />
+                                ))}
+                            </Row>
+                        ))}
                 </Col>
             </Row>
         </>

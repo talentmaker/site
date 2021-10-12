@@ -80,6 +80,20 @@ export const getMany = createAdapter(
     projectsSchema,
 )
 
+export const getManyByUser = createAdapter(async ({request, url, qs, schema}, user: User) => {
+    const data = await request(
+        qs.stringifyUrl({
+            url: `${url}/projects/getMany`,
+            query: {column: "teamMember", value: user.uid, sortBy: "createdAt"},
+        }),
+        "GET",
+        "json",
+    )
+    const projects = await schema.validate(data)
+
+    return projects
+}, projectsSchema)
+
 type UpdateParams = Partial<CreateParams> & {
     projectId?: string | number
 }
