@@ -34,7 +34,10 @@ const NavLink: React.FC<{
     const isExternal = /^https?:\/\//u.test(location)
     const linkAs = isExternal ? "a" : Link
     const isActive = currentLocation === location
-    const linkProps = isExternal ? {href: location, ...externalLinkProps} : {to: location}
+    const formattedLocation = user ? location.replace(/<UID>/gu, user.uid) : location
+    const linkProps = isExternal
+        ? {href: formattedLocation, ...externalLinkProps}
+        : {to: formattedLocation}
     const visuallyHidden = isActive ? <span className="visually-hidden">(current)</span> : ""
 
     return (

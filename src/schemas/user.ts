@@ -8,6 +8,7 @@
  */
 
 import * as yup from "yup"
+import {projectsSchema} from "./projects"
 
 export const userSchema = yup.object({
     idToken: yup.string().required(),
@@ -19,3 +20,11 @@ export const userSchema = yup.object({
 })
 
 export type CognitoUser = typeof userSchema.__outputType
+
+export const publicDbUserSchema = yup.object({
+    uid: yup.string().required(),
+    username: yup.string().required(),
+    projects: projectsSchema.optional(),
+})
+
+export type PublicDbUser = typeof publicDbUserSchema.__outputType

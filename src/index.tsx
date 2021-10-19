@@ -211,7 +211,7 @@ const App: React.FC = () => {
                                 <Route path="/joinTeam/:data" component={JoinTeam} />
                                 <Route path="/legal" component={Legal} />
                                 <Route path="/privacy-policy" component={PrivacyPolicy} />
-                                <Route path="/profile" component={Profile} />
+                                <Route path="/profile/:uid" component={Profile} />
                                 <Route path="/project/:id" component={Project} />
                                 <Route path="/project" component={Project} />
                                 <Route path="/projects/:competitionId" component={Projects} />

@@ -229,12 +229,16 @@ export const Project: React.FC<Props> = (props) => {
                                         member.isCreator ? (
                                             <li key={member.uid}>
                                                 <b>Creator: </b>
-                                                {member.username}
+                                                <Link to={`/profile/${member.uid}`}>
+                                                    {member.username}
+                                                </Link>
                                             </li>
                                         ) : (
                                             <li key={member.uid}>
                                                 <b>Member: </b>
-                                                {member.username}
+                                                <Link to={`/profile/${member.uid}`}>
+                                                    {member.username}
+                                                </Link>
                                             </li>
                                         ),
                                 )}
