@@ -17,7 +17,5 @@ export const getWithProjects = createAdapter(async ({qs, request, schema, url}, 
         "json",
     )
 
-    console.log(user)
-
     return schema.validate(user)
 }, publicDbUserSchema)
