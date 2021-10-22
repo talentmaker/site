@@ -5,8 +5,6 @@ frontend:
     preBuild:
       commands:
         - npm i -g pnpm
-        - rm -rf ./node_modules
-        - pnpm store prune
         - pnpm install --frozen-lockfile
 
     build:
