@@ -195,11 +195,6 @@ const App: React.FC = () => {
                 setThemeContext("light")
             }
         })
-
-        _addNotification({
-            title: "no",
-            content: "no",
-        })
     }, [])
 
     React.useEffect(() => {
