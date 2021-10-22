@@ -9,6 +9,8 @@ frontend:
 
     build:
       commands:
+        - rm -rf ./node_modules
+        - pnpm store prune
         - pnpm build
 
   artifacts:
