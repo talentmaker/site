@@ -5,9 +5,9 @@
  * @author Luke Zhang
  * @copyright (C) 2020 - 2021 Luke Zhang
  * https://Luke-zhang-04.github.io
- * https://github.com/ethanlim04
  */
 
+import {addZeros, formatDate} from "@luke-zhang-04/dateplus"
 import {Link} from "react-router-dom"
 import React from "react"
 import {Row} from "react-bootstrap"
@@ -58,6 +58,7 @@ export const Footer: React.FC<{user?: User}> = (props): JSX.Element => (
         <Row className={`${styles.row} pages`}>
             <FooterLinks
                 links={[
+                    ["/", "Home"],
                     ["/competitions", "Competitions"],
                     ["/talents", "Talents"],
                     ["/talentmakers", "Talentmakers"],
@@ -76,6 +77,17 @@ export const Footer: React.FC<{user?: User}> = (props): JSX.Element => (
             <a href="https://github.com/Luke-zhang-04/talentmaker-site" {...linkProps}>
                 Repository
             </a>
+        </div>
+
+        <div className={`text-center ${styles.textCenter} mt-3`}>
+            Version:{" "}
+            <a
+                href={`https://github.com/Luke-zhang-04/talentmaker-site/tree/${process.env.REACT_APP_HASH}`}
+                {...linkProps}
+            >
+                {process.env.REACT_APP_HASH.slice(0, 7)}
+            </a>{" "}
+            {addZeros(formatDate(new Date(Number(process.env.REACT_APP_TIME))))}
         </div>
 
         <div className={`footer-copyright text-center ${styles.textCenter}`}>

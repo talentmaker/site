@@ -6,7 +6,6 @@
  * @file image Component which allows for backup a image(s) to be specified
  * @copyright (C) 2020 - 2021 Luke Zhang
  * https://Luke-zhang-04.github.io
- * https://github.com/ethanlim04
  */
 
 import DefaultImage from "~/images/default.svg"

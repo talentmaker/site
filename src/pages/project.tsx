@@ -5,22 +5,21 @@
  * @author Luke Zhang
  * @copyright (C) 2020 - 2021 Luke Zhang
  * https://Luke-zhang-04.github.io
- * https://github.com/ethanlim04
  */
 
 import ProjectComponent from "../components/pages/project"
 import type React from "react"
-import queryString from "query-string"
 import {useParams} from "react-router"
+import {useSearch} from "~/hooks"
 
 export const Project: React.FC = () => {
     const {id} = useParams<{id?: string}>()
-    const {competition: compId} = queryString.parse(window.location.search)
+    const {competition: competitionId} = useSearch()
 
     if (id) {
         return <ProjectComponent id={id} />
-    } else if (typeof compId === "string") {
-        return <ProjectComponent compId={compId} />
+    } else if (typeof competitionId === "string") {
+        return <ProjectComponent competitionId={competitionId} />
     }
 
     return (

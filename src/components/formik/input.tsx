@@ -5,12 +5,11 @@
  * @author Luke Zhang
  * @copyright (C) 2020 - 2021 Luke Zhang
  * https://Luke-zhang-04.github.io
- * https://github.com/ethanlim04
  */
 
 import {Field, useField} from "formik"
 import {InputGroup} from "react-bootstrap"
-import type React from "react"
+import React from "react"
 
 type InputProps = React.DetailedHTMLProps<
     React.HTMLAttributes<HTMLInputElement>,
@@ -21,11 +20,13 @@ type InputProps = React.DetailedHTMLProps<
     label: string
     shouldShowValidFeedback?: boolean
     placeholder?: string
+    shouldShowLabel?: boolean
 }
 
 export const Input: React.FC<InputProps> = ({
     children,
     shouldShowValidFeedback = true,
+    shouldShowLabel = false,
     ...props
 }) => {
     const [field, meta] = useField<Omit<InputProps, "children" | "shouldShowValidFeedback">>(props)
@@ -44,17 +45,26 @@ export const Input: React.FC<InputProps> = ({
         ) : undefined
     }
 
+    const id = React.useMemo(
+        () => `${props.name.split(" ").join("-")}-${props.label.split(" ").join("-")}`,
+        [props.name, props.label],
+    )
+
     return (
-        <InputGroup className="border-none br-0">
-            <InputGroup.Text>{children ?? ""}</InputGroup.Text>
-            <Field
-                {...props}
-                {...field}
-                placeholder={props.placeholder ?? props.label}
-                className={`${props.className ?? ""} ${errorClass ?? ""} form-control`}
-            />
-            {feedback}
-        </InputGroup>
+        <>
+            {shouldShowLabel ? <label htmlFor={id}>{props.label}</label> : undefined}
+            <InputGroup className={`border-none br-0 ${shouldShowLabel ? "mb-3" : ""}`}>
+                <InputGroup.Text>{children ?? ""}</InputGroup.Text>
+                <Field
+                    {...props}
+                    {...field}
+                    id={id}
+                    placeholder={props.placeholder ?? props.label}
+                    className={`${props.className ?? ""} ${errorClass ?? ""} form-control`}
+                />
+                {feedback}
+            </InputGroup>
+        </>
     )
 }
 

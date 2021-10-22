@@ -13,3 +13,10 @@ declare module "osi-licenses" {
 }
 
 declare type User = import("./schemas/user").CognitoUser
+
+declare namespace NodeJS {
+    interface ProcessEnv {
+        readonly REACT_APP_HASH: string
+        readonly REACT_APP_TIME: string
+    }
+}

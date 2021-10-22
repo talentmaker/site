@@ -6,7 +6,6 @@
  * @file markdown Render components
  * @copyright (C) 2020 - 2021 Luke Zhang
  * https://Luke-zhang-04.github.io
- * https://github.com/ethanlim04
  */
 
 import type React from "react"
@@ -19,17 +18,10 @@ type Props = React.DetailedHTMLProps<
 
 /* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
 export const Anchor: React.FC<Props> = (props) => {
-    if (props.href?.slice(0, 1) === "#") {
+    if (props.href?.[0] === "#") {
         return (
             <a
                 {...props}
-                {...(props.href?.[0] === "#"
-                    ? {}
-                    : {
-                          // External link force noopener, noreferrer, and blank target
-                          rel: "noopener noreferrer",
-                          target: "_blank",
-                      })}
                 /**
                  * Scroll to the header specified in href if the header is already in the location hash
                  */
@@ -46,7 +38,11 @@ export const Anchor: React.FC<Props> = (props) => {
         )
     }
 
-    return <a {...props}>{props.children}</a>
+    return (
+        <a target="_blank" rel="noopener noreferrer" {...props}>
+            {props.children}
+        </a>
+    )
 }
 /* eslint-enable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
 

@@ -5,15 +5,14 @@
  * @author Luke Zhang
  * @copyright (C) 2020 - 2021 Luke Zhang
  * https://Luke-zhang-04.github.io
- * https://github.com/ethanlim04
  */
 
 import {NavLink as BsNavLink, Container, NavItem, Navbar, NavbarBrand} from "react-bootstrap"
 import {Link, useLocation} from "react-router-dom"
+import {ThemeContext, UserContext} from "~/contexts"
 import {BreakPoints} from "~/globals"
 import Logo from "~/images/logo.svg"
 import React from "react"
-import UserContext from "~/contexts/userContext"
 import routes from "./routes"
 import styles from "./index.module.scss"
 import {useWindowSize} from "~/hooks/useWindowSize"
@@ -31,10 +30,14 @@ const NavLink: React.FC<{
     name: string
     iconName?: string
 }> = ({location, currentLocation, name, iconName}) => {
+    const {currentUser: user} = React.useContext(UserContext)
     const isExternal = /^https?:\/\//u.test(location)
     const linkAs = isExternal ? "a" : Link
     const isActive = currentLocation === location
-    const linkProps = isExternal ? {href: location, ...externalLinkProps} : {to: location}
+    const formattedLocation = user ? location.replace(/<UID>/gu, user.uid) : location
+    const linkProps = isExternal
+        ? {href: formattedLocation, ...externalLinkProps}
+        : {to: formattedLocation}
     const visuallyHidden = isActive ? <span className="visually-hidden">(current)</span> : ""
 
     return (
@@ -68,7 +71,8 @@ const NavLink: React.FC<{
 
                 return (
                     <BsNavLink {...{...linkProps, as: linkAs, active: isActive}}>
-                        {name} {visuallyHidden}
+                        {user ? name.replace(/<USERNAME>/gu, user.username) : name}{" "}
+                        {visuallyHidden}
                     </BsNavLink>
                 )
             })()}
@@ -163,6 +167,7 @@ export const Nav: React.FC = () => {
     const currentLocation = useLocation()
     const dimensions = useWindowSize()
     const {currentUser: user} = React.useContext(UserContext)
+    const {theme} = React.useContext(ThemeContext)
 
     const getPageIndex = React.useCallback(() => {
         for (const [index, value] of routes.mobile.entries()) {
@@ -195,7 +200,7 @@ export const Nav: React.FC = () => {
         </div>
     ) : (
         <Navbar
-            variant="light"
+            variant={theme}
             expand="md"
             className={`${styles.navbar} bg-lighter d-none d-sm-block`}
         >

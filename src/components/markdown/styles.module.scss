@@ -41,7 +41,7 @@
     margin-top: $total-spacing;
     margin-bottom: $total-spacing - $line-distance;
     padding-bottom: $line-distance;
-    border-bottom: 1px solid variables.$light-grey; // Add grey underline
+    border-bottom: 1px solid var(--light-grey); // Add grey underline
     font-weight: 500;
   }
 
@@ -80,7 +80,7 @@
     }
 
     &:global(.bold) {
-      text-shadow: -$shadow-size 0 variables.$dark, $shadow-size 0 variables.$dark; // Use text shadow to bold instead
+      text-shadow: -$shadow-size 0 var(--dark), $shadow-size 0 var(--dark); // Use text shadow to bold instead
     }
 
     &:global(.important) {

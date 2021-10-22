@@ -5,13 +5,13 @@
  * @author Luke Zhang
  * @copyright (C) 2020 - 2021 Luke Zhang
  * https://Luke-zhang-04.github.io
- * https://github.com/ethanlim04
  */
 
 import {competitionSchema} from "../schemas/competition"
+import {competitionsSchema} from "../schemas/competitions"
 import {createAdapter} from "./utils"
 
-export const competitionJoinAdapter = createAdapter(
+export const join = createAdapter(
     async ({request, url}, {idToken}: User, competitionId: number) => {
         await request(`${url}/competitions/join`, "POST", undefined, {
             idToken,
@@ -22,10 +22,13 @@ export const competitionJoinAdapter = createAdapter(
     },
 )
 
-export const competitionAdapter = createAdapter(
-    async ({request, url, cache, schema}, user: User | undefined, id: string) => {
-        const userQS = user ? `&idToken=${user.idToken}` : ""
-        const data = await request(`${url}/competitions/getOne?id=${id}${userQS}`, "GET", "json")
+export const get = createAdapter(
+    async ({request, url, cache, qs, schema}, uid: string | undefined, id: string) => {
+        const data = await request(
+            `${url}/competitions/get?${qs.stringify({id, uid})}`,
+            "GET",
+            "json",
+        )
         const competition = await schema.validate(data)
 
         cache.write(`talentmakerCache_competition-${id}`, data)
@@ -35,4 +38,39 @@ export const competitionAdapter = createAdapter(
     competitionSchema,
 )
 
-export default competitionAdapter
+export const getMany = createAdapter(async ({request, url, cache, schema}) => {
+    const data = await request(`${url}/competitions/getMany`, "GET", "json")
+    const competitions = await schema.validate(data)
+
+    cache.write(
+        "talentmakerCache_competitions",
+        competitions.map((competition) => ({
+            ...competition,
+            desc: undefined, // Remove descriptions; They're long and aren't used in this context
+        })),
+    )
+
+    return competitions
+}, competitionsSchema)
+
+type UpdateParams = {
+    title?: string | null
+    desc?: string | null
+    shortDesc?: string
+    id: number
+    videoURL?: string | null
+    deadline?: string
+    website?: string | null
+    coverImageURL?: string | null
+}
+
+export const update = createAdapter(
+    async ({request, url}, {idToken}: User, params: UpdateParams) => {
+        await request(`${url}/competitions/write`, "PUT", undefined, {
+            ...params,
+            idToken,
+        })
+
+        return undefined
+    },
+)

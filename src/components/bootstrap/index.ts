@@ -5,10 +5,7 @@
  * @author Luke Zhang
  * @copyright (C) 2020 - 2021 Luke Zhang
  * https://Luke-zhang-04.github.io
- * https://github.com/ethanlim04
  */
 
 export {Toast} from "./toast"
 export {Spinner} from "./spinner"
-export {initPopovers} from "./popover"
-export {initTooltips} from "./tooltip"

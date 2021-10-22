@@ -5,40 +5,36 @@
  * @author Luke Zhang
  * @copyright (C) 2020 - 2021 Luke Zhang
  * https://Luke-zhang-04.github.io
- * https://github.com/ethanlim04
  */
 
+import * as adapters from "~/adapters"
 import {Button, Col, Container, Row} from "react-bootstrap"
-import {NotificationContext, UserContext} from "~/contexts"
 import DefaultPFP from "~/images/profile.svg"
+import GridItem from "~/components/gridItem"
 import React from "react"
-import orgRequestAdapter from "~/adapters/orgRequest"
+import {Spinner} from "~/components/bootstrap"
+import {UserContext} from "~/contexts"
+import {arrayToChunks} from "@luke-zhang-04/utils"
 import styles from "./index.module.scss"
+import {useAdapter} from "~/hooks"
 import {useHistory} from "react-router-dom"
 
-export const UserDisplay: React.FC = () => {
+export const UserDisplay: React.FC<{uid: string}> = ({uid}) => {
     const history = useHistory()
-    const {currentUser: user, setUser} = React.useContext(UserContext)
-    const {addNotification: notify} = React.useContext(NotificationContext)
-    const orgRequest = React.useCallback(
-        async (_user: User): Promise<void> => {
-            const data = await orgRequestAdapter(_user)
+    const {currentUser, setUser} = React.useContext(UserContext)
+    const {data: user, error} = useAdapter(() => adapters.user.getWithProjects(uid), undefined, [
+        uid,
+    ])
 
-            if (!(data instanceof Error)) {
-                notify({
-                    title: "Successfully Made Request!",
-                    content: "Success! You have requested to become an organization!",
-                    icon: "account_box",
-                    iconClassName: "text-success",
-                })
-            }
-        },
-        [notify],
-    )
+    const projects = user?.projects
 
-    return user === undefined ? (
-        <Container>It looks like you&apos;ve been signed out</Container>
-    ) : (
+    if (error !== undefined) {
+        return <Container>{error.toString()}</Container>
+    } else if (user === undefined) {
+        return <Spinner color="primary" size="25vw" className="my-5" centered />
+    }
+
+    return (
         <>
             <Row>
                 <Col lg={2}>
@@ -54,55 +50,90 @@ export const UserDisplay: React.FC = () => {
                 <Col lg={6} className="d-flex flex-column justify-content-center">
                     <p className={styles.username}>
                         {user.username}
-                        <span className="text-muted">#{user.sub.slice(0, 8)}</span>
+                        <span className="text-muted">#{user.uid.slice(0, 8)}</span>
                     </p>
-                    <p className={`${styles.sub} text-muted`}>{user.sub}</p>
+                    <p className={`${styles.uid} text-muted`}>{user.uid}</p>
                 </Col>
-                <Col lg={4} className="d-flex flex-row align-items-center justify-content-end">
-                    <Button variant="outline-primary" size="lg">
-                        Edit
-                    </Button>
-                    <Button
-                        size="lg"
-                        variant="outline-danger"
-                        className="mx-4"
-                        onClick={async (): Promise<void> => {
-                            await setUser(undefined)
+                {user.uid === currentUser?.uid && (
+                    <Col lg={4} className="d-flex flex-row align-items-center justify-content-end">
+                        <Button variant="outline-primary" size="lg">
+                            Edit
+                        </Button>
+                        <Button
+                            size="lg"
+                            variant="outline-danger"
+                            className="mx-4"
+                            onClick={async (): Promise<void> => {
+                                await setUser(undefined)
 
-                            return history.push("/")
-                        }}
-                    >
-                        Logout
-                    </Button>
-                </Col>
+                                return history.push("/")
+                            }}
+                        >
+                            Logout
+                        </Button>
+                    </Col>
+                )}
             </Row>
 
             <Row className={`bg-primary ${styles.bar}`}>
-                <Col xs={12}></Col>
+                <Col xs={12} />
             </Row>
 
             <Row>
                 <Col xs={3} className="bg-lighter">
                     <ul className="list-unstyled text-dark px-4 py-5">
-                        <li>Email: {user.email}</li>
-                        <br />
+                        {user.uid === currentUser?.uid && (
+                            <>
+                                <li>Email: {currentUser.email}</li>
+                                <br />
+                            </>
+                        )}
                         <li>Username: {user.username}</li>
                         <br />
-                        <li>UID (short): {user.sub.slice(0, 8)}</li>
-                        <br />
-                        An organization? Apply to become an organization!
-                        <br />
-                        <Button
-                            variant="outline-primary"
-                            onClick={(): Promise<void> => orgRequest(user)}
-                        >
-                            Apply
-                        </Button>
+                        <li>UID (short): {user.uid.slice(0, 8)}</li>
+                        {user.uid === currentUser?.uid && !currentUser.isOrganization && (
+                            <>
+                                <br />
+                                An organization? Apply to become an organization!
+                                <br />
+                                <Button
+                                    variant="outline-primary"
+                                    onClick={() => adapters.organization.request(currentUser)}
+                                >
+                                    Apply
+                                </Button>
+                            </>
+                        )}
+                        {user.uid === currentUser?.uid && !currentUser.isVerified && (
+                            <>
+                                <br />
+                                Resend verification email
+                                <br />
+                                <Button
+                                    variant="outline-primary"
+                                    onClick={() => adapters.auth.confirm(currentUser.idToken)}
+                                >
+                                    Verify
+                                </Button>
+                            </>
+                        )}
                     </ul>
                 </Col>
-                <Col xs={9} className="px-gx">
+                <Col xs={9} className="px-tm-gx">
                     <h1>Projects:</h1>
-                    <p>Coming soon!</p>
+                    {projects &&
+                        arrayToChunks(projects).map((row, index) => (
+                            <Row key={`profile-project-row-${index}`} className="g-3">
+                                {row.map((project, index2) => (
+                                    <GridItem
+                                        key={`comp-item-0-${index}-${index2}`}
+                                        imageURL={project.coverImageURL ?? undefined}
+                                        title={project.name ?? ""}
+                                        link={{to: `/project/${project.id}`, text: "Details"}}
+                                    />
+                                ))}
+                            </Row>
+                        ))}
                 </Col>
             </Row>
         </>

@@ -5,7 +5,6 @@
  * @author Luke Zhang
  * @copyright (C) 2020 - 2021 Luke Zhang
  * https://Luke-zhang-04.github.io
- * https://github.com/ethanlim04
  */
 
 import {Col, Container, Row} from "react-bootstrap"
@@ -22,12 +21,12 @@ type UserInfoProps = {
 
 export const UserInfo: React.FC<UserInfoProps> = ({username, desc, children}) => (
     <Container fluid>
-        <Row className="mb-gy">
+        <Row className="mb-tm-gy">
             {children ? (
                 <>
                     <Col lg={7} className="d-flex flex-column justify-content-center">
                         {username && <p className={styles.username}>{username}</p>}
-                        {desc && <p className="sub text-muted mb-0">{desc}</p>}
+                        {desc && <p className="uid text-muted mb-0">{desc}</p>}
                     </Col>
                     <Col lg={5} className="d-flex flex-row align-items-center justify-content-end">
                         {children}
@@ -36,7 +35,7 @@ export const UserInfo: React.FC<UserInfoProps> = ({username, desc, children}) =>
             ) : (
                 <Col lg={12} className="d-flex flex-column justify-content-center">
                     {username && <p className={styles.username}>{username}</p>}
-                    {desc && <p className="sub text-muted mb-0">{desc}</p>}
+                    {desc && <p className="uid text-muted mb-0">{desc}</p>}
                 </Col>
             )}
         </Row>
@@ -46,8 +45,8 @@ export const UserInfo: React.FC<UserInfoProps> = ({username, desc, children}) =>
 export const Video: React.FC<React.ComponentProps<typeof IFrame>> = (props) => {
     const [didVideoLoad, setLoad] = React.useState(false)
 
-    return (
-        <div className="mx-gx mt-3">
+    return props.src ? (
+        <div className="mx-tm-gx mt-3">
             <div className={`${styles.videoContainer} ${didVideoLoad ? "" : "p-0"}`}>
                 <IFrame
                     {...props}
@@ -68,17 +67,45 @@ export const Video: React.FC<React.ComponentProps<typeof IFrame>> = (props) => {
                 </IFrame>
             </div>
         </div>
-    )
+    ) : null
 }
 
 type SidebarProps = {
     items: (
-        | {title: string; icon?: undefined; contents: ReactNode; href?: string; to?: undefined}
-        | {icon: string; title?: undefined; contents: ReactNode; href?: string; to?: undefined}
-        | {title: string; icon?: undefined; contents: ReactNode; to?: string; href?: undefined}
-        | {icon: string; title?: undefined; contents: ReactNode; to?: string; href?: undefined}
+        | (
+              | {
+                    title: string
+                    icon?: undefined
+                    contents: ReactNode
+                    href?: string
+                    to?: undefined
+                }
+              | {
+                    icon: string
+                    title?: undefined
+                    contents: ReactNode
+                    href?: string
+                    to?: undefined
+                }
+              | {
+                    title: string
+                    icon?: undefined
+                    contents: ReactNode
+                    to?: string
+                    href?: undefined
+                }
+              | {
+                    icon: string
+                    title?: undefined
+                    contents: ReactNode
+                    to?: string
+                    href?: undefined
+                }
+          )
         | undefined
     )[]
+    canEdit?: boolean
+    onSettingsClicked?: () => void
 }
 
 const linkProps = {
@@ -138,19 +165,38 @@ const SidebarItem: React.FC<SidebarProps["items"][0]> = ({icon, title, contents,
     )
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({items, children}) => (
+export const Sidebar: React.FC<SidebarProps> = ({items, children, canEdit, onSettingsClicked}) => (
     <div className={`p-3 position-sticky top-0 ${styles.sidebar}`}>
-        <button
-            className="icon-btn-animate"
-            onClick={(): void => {
-                window.scrollTo({
-                    top: 0,
-                    behavior: "smooth",
-                })
-            }}
-        >
-            <span className="material-icons">expand_less</span>
-        </button>
+        {canEdit ? (
+            <div className="d-flex flex-row justify-content-between">
+                <button
+                    className="icon-btn-animate"
+                    onClick={(): void => {
+                        window.scrollTo({
+                            top: 0,
+                            behavior: "smooth",
+                        })
+                    }}
+                >
+                    <span className="material-icons">expand_less</span>
+                </button>
+                <button className="icon-btn icon-btn-accent" onClick={onSettingsClicked}>
+                    <span className="material-icons-outlined">settings</span>
+                </button>
+            </div>
+        ) : (
+            <button
+                className="icon-btn-animate"
+                onClick={(): void =>
+                    window.scrollTo({
+                        top: 0,
+                        behavior: "smooth",
+                    })
+                }
+            >
+                <span className="material-icons">expand_less</span>
+            </button>
+        )}
         <h1>About</h1>
         <ul className="list-unstyled text-dark">
             {items.map((item, index) =>
@@ -166,14 +212,16 @@ export const Bar: React.FC<{topics?: (string | undefined)[] | null}> = ({topics}
         <Col xs={12} className={styles.topics}>
             {" "}
             {/* Blue bar with competitions */}
-            {topics?.map((topic, index) => (
-                <p
-                    className="bg-primary mx-1 my-0 py-1 px-2 d-flex"
-                    key={`topic-${topic}-${index}`}
-                >
-                    {topic}
-                </p>
-            ))}
+            {topics?.map((topic, index) =>
+                topic ? (
+                    <p
+                        className="bg-primary mx-1 my-0 py-1 px-2 d-flex"
+                        key={`topic-${topic}-${index}`}
+                    >
+                        {topic}
+                    </p>
+                ) : null,
+            )}
         </Col>
     </Row>
 )

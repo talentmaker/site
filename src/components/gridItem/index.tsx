@@ -5,7 +5,6 @@
  * @author Luke Zhang
  * @copyright (C) 2020 - 2021 Luke Zhang
  * https://Luke-zhang-04.github.io
- * https://github.com/ethanlim04
  */
 
 import {Button, Col, Container} from "react-bootstrap"
@@ -25,9 +24,18 @@ type Props = {
     }
     tag?: string
     title?: string
+    bottomFlexMode?: "start" | "end" | "center" | "baseline" | "stretch"
 }
 
-export const GridItem: React.FC<Props> = ({children, desc, imageURL, link, tag, title}) => (
+export const GridItem: React.FC<Props> = ({
+    children,
+    desc,
+    imageURL,
+    link,
+    tag,
+    title,
+    bottomFlexMode = "end",
+}) => (
     <Col lg={4} className="my-3">
         <div className={styles.gridCard}>
             <Img src={imageURL ?? DefaultPhoto} alt="cover">
@@ -38,12 +46,16 @@ export const GridItem: React.FC<Props> = ({children, desc, imageURL, link, tag, 
                 <Container fluid className={styles.cardDetails}>
                     {title && <h3>{title}</h3>}
                     {desc && <p className="text-primary">{desc}</p>}
-                    {link && (
-                        <Button as={Link} variant="primary" to={link.to}>
-                            {link.text}
-                        </Button>
-                    )}
-                    {children}
+                    <div
+                        className={`d-flex flex-row justify-content-between align-items-${bottomFlexMode}`}
+                    >
+                        {link && (
+                            <Button as={Link} variant="primary" to={link.to}>
+                                {link.text}
+                            </Button>
+                        )}
+                        {children}
+                    </div>
                 </Container>
             </div>
         </div>

@@ -5,24 +5,24 @@
  * @author Luke Zhang
  * @copyright (C) 2020 - 2021 Luke Zhang
  * https://Luke-zhang-04.github.io
- * https://github.com/ethanlim04
  */
 
 import * as Components from "~/components/detailedItem"
-import {Breadcrumb, Button, Col, Container, Row} from "react-bootstrap"
-import {Project as ProjectType, projectSchema} from "~/schemas/project"
-import {Spinner, initPopovers, initTooltips} from "~/components/bootstrap"
-import {readCache, validate} from "~/utils"
+import * as adapters from "~/adapters"
+import {Breadcrumb, Button, Col, Container, OverlayTrigger, Popover, Row} from "react-bootstrap"
+import {NotificationContext, UserContext} from "~/contexts"
+import {readCache, writeCache} from "~/utils"
+import EditModal from "./editModal"
+import {EditableMarkdown} from "~/components/markdown"
 import {Link} from "react-router-dom"
-import Markdown from "~/components/markdown"
 import Prism from "prismjs"
 import React from "react"
-import {UserContext} from "~/contexts"
+import {Spinner} from "~/components/bootstrap"
 import getProjectData from "./utils"
-import {invliteLinkAdapter} from "~/adapters/teams"
-import projectAdapter from "~/adapters/project"
+import {projectSchema} from "~/schemas/project"
 import scrollToHeader from "~/components/markdown/scrollToHeader"
 import styles from "~/components/markdown/styles.module.scss"
+import {useAdapter} from "~/hooks"
 
 type Props = {
     /**
@@ -33,54 +33,38 @@ type Props = {
     /**
      * Competition id
      */
-    compId?: string
+    competitionId?: string
 }
 
 export const Project: React.FC<Props> = (props) => {
-    const [project, setProject] = React.useState<ProjectType | undefined>()
-    const [inviteLink, setInviteLink] = React.useState<string | string>()
     const {currentUser: user} = React.useContext(UserContext)
-
-    const setup = React.useCallback(() => {
-        ;(async () => {
-            if (props.id) {
-                const data = await readCache(`talentmakerCache_project-${props.id}`)
-
-                setProject(await validate(projectSchema, data, false))
-            }
-        })()
-        ;(async () => {
-            const data = await projectAdapter(user, props.id, props.compId)
-
-            if (!(data instanceof Error)) {
-                setProject({
-                    ...data,
-                    teamMembers: data.teamMembers.sort(({isCreator}) => (isCreator ? -1 : 1)),
-                })
-            }
-        })()
-    }, [props.id, props.compId, user])
+    const {data: project, setData} = useAdapter(
+        () => (user ? adapters.project.get(user, props.id, props.competitionId) : undefined),
+        () =>
+            props.id
+                ? projectSchema.validate(readCache(`talentmakerCache_project-${props.id}`))
+                : undefined,
+        [user],
+    )
+    const [inviteLink, setInviteLink] = React.useState<string | string>()
+    const [shouldShowModal, setShouldShowModal] = React.useState(false)
+    const [isDescSaved, setIsDescSaved] = React.useState(true)
+    const {addNotification: notify} = React.useContext(NotificationContext)
 
     React.useEffect(() => {
-        setup()
-
         if (window.location.hash) {
             scrollToHeader(window.location.hash)
         }
-    }, [props.id, props.compId, user])
+    }, [])
 
     React.useEffect(() => {
         Prism.highlightAll()
-
-        initTooltips()
-        initPopovers()
     })
 
     const getData = React.useCallback(getProjectData, [])
-    const data = React.useMemo(() => getData(project), [project, project?.license, project?.id])
     const setInviteLinkState = React.useCallback(async () => {
         if (user && project) {
-            const link = await invliteLinkAdapter(
+            const link = await adapters.team.getInviteLink(
                 user,
                 project?.id.toString(),
                 project?.competitionId,
@@ -92,8 +76,38 @@ export const Project: React.FC<Props> = (props) => {
         }
     }, [project, project?.id, project?.competitionId])
 
+    const data = getData(project)
+
     if (project && data) {
-        const management = user && user.sub === project?.creator && (
+        const isOwner = user !== undefined && user.uid === project?.creatorId
+        const isTeamMember =
+            user !== undefined && project.teamMembers.some((member) => member.uid === user?.uid)
+        const onDescSave = isTeamMember // Why
+            ? async (desc: string): Promise<void> => {
+                  if (user && project) {
+                      setData({...project, desc})
+
+                      const result = await adapters.project.update(user, {
+                          desc,
+                          projectId: project.id,
+                      })
+
+                      if (!(result instanceof Error)) {
+                          writeCache(`talentmakerCache_project-${props.id}`, project)
+
+                          setIsDescSaved(true)
+
+                          notify({
+                              title: "Success!",
+                              content: "Successfully edited your project!",
+                              icon: "done_all",
+                              iconClassName: "text-success",
+                          })
+                      }
+                  }
+              }
+            : undefined
+        const management = isOwner && (
             <Container fluid className="p-4 my-3 bg-lighter">
                 <h1>Management</h1>
                 <Button onClick={setInviteLinkState} variant="outline-dark">
@@ -101,23 +115,29 @@ export const Project: React.FC<Props> = (props) => {
                 </Button>
                 {inviteLink && (
                     <p className="mt-3">
-                        Your invite link is: &quot;
+                        Your invite link is:
+                        <br />
+                        &quot;
                         <code>{inviteLink}</code>
-                        &quot;.{" "}
-                        {/* eslint-disable-next-line jsx-a11y/anchor-is-valid, jsx-a11y/click-events-have-key-events */}
-                        <a
-                            tabIndex={0}
-                            role="button"
-                            data-bs-toggle="popover"
-                            data-bs-trigger="focus"
-                            data-bs-content="Copied to clipboard"
-                            className="icon-btn"
-                            onClick={() => {
-                                window.navigator.clipboard.writeText(inviteLink)
-                            }}
+                        &quot;.
+                        <OverlayTrigger
+                            trigger="click"
+                            placement="right"
+                            rootClose
+                            overlay={
+                                <Popover id="clipboard-popover">
+                                    <Popover.Body>Copied to clipboard</Popover.Body>
+                                </Popover>
+                            }
                         >
-                            <span className="material-icons">content_copy</span>
-                        </a>{" "}
+                            <button
+                                className="icon-btn"
+                                onClick={() => window.navigator.clipboard.writeText(inviteLink)}
+                            >
+                                <span className="material-icons">content_copy</span>
+                            </button>
+                        </OverlayTrigger>
+                        <br />
                         Only share this link with people you intend on adding to your team. Team
                         members have editing privileges. This link expires in 24 hours.
                     </p>
@@ -127,9 +147,23 @@ export const Project: React.FC<Props> = (props) => {
         const mainDisplay = (
             <Col lg={9}>
                 <Components.Video title="competition video" src={data.src} />
-                <div className={`${styles.markdownContainer} py-3 px-gx`}>
+                <div className={`${styles.markdownContainer} py-3 px-tm-gx`}>
                     <Container fluid className="p-4 bg-lighter">
-                        <Markdown>{project.desc ?? ""}</Markdown>
+                        <EditableMarkdown
+                            hasWarningMessage={!isDescSaved}
+                            onChange={(desc) => {
+                                setData({...project, desc})
+
+                                if (isDescSaved) {
+                                    setIsDescSaved(false)
+                                }
+                            }}
+                            onSave={onDescSave}
+                            onCancel={() => setIsDescSaved(true)}
+                            canEdit={isTeamMember}
+                        >
+                            {project.desc ?? ""}
+                        </EditableMarkdown>
                     </Container>
                     {management}
                 </div>
@@ -138,6 +172,15 @@ export const Project: React.FC<Props> = (props) => {
 
         return (
             <>
+                <EditModal
+                    project={project}
+                    shouldShow={shouldShowModal}
+                    onClose={() => setShouldShowModal(false)}
+                    onSave={(_project) => {
+                        setData(_project)
+                        writeCache(`talentmakerCache_project-${props.id}`, _project)
+                    }}
+                />
                 <Breadcrumb className="container-fluid" listProps={{className: "mb-0"}}>
                     <Breadcrumb.Item linkAs={Link} linkProps={{to: "/competitions"}}>
                         Competitions
@@ -158,37 +201,44 @@ export const Project: React.FC<Props> = (props) => {
                 </Breadcrumb>
                 <Components.UserInfo
                     username={project.name ?? "Submission"}
-                    desc={`Submission for ${project.name ?? "Submission"}`}
+                    desc={`Submission for ${project.competitionName}`}
                 >
-                    {project.teamMembers.some((member) => member.uid === user?.sub) ? (
+                    {isTeamMember && (
                         <Button
                             variant="outline-dark"
-                            as={Link}
                             className="mx-2"
-                            to={`/editProject/${project.id}`}
+                            onClick={() => setShouldShowModal(true)}
                         >
-                            <span className="material-icons">create</span> Edit Submission
+                            <span className="material-icons">settings</span> Edit Details
                         </Button>
-                    ) : undefined}
+                    )}
                 </Components.UserInfo>
                 <Components.Bar topics={project.topics} />
                 <Row>
                     {mainDisplay}
                     <Col lg={3} className="bg-lighter">
-                        <Components.Sidebar items={data.items}>
+                        <Components.Sidebar
+                            items={data.items}
+                            canEdit={isTeamMember}
+                            onSettingsClicked={() => setShouldShowModal(true)}
+                        >
                             <h2>Team</h2>
                             <ul>
                                 {project.teamMembers.map(
                                     (member): JSX.Element =>
                                         member.isCreator ? (
-                                            <li>
+                                            <li key={member.uid}>
                                                 <b>Creator: </b>
-                                                {member.username}
+                                                <Link to={`/profile/${member.uid}`}>
+                                                    {member.username}
+                                                </Link>
                                             </li>
                                         ) : (
-                                            <li>
+                                            <li key={member.uid}>
                                                 <b>Member: </b>
-                                                {member.username}
+                                                <Link to={`/profile/${member.uid}`}>
+                                                    {member.username}
+                                                </Link>
                                             </li>
                                         ),
                                 )}

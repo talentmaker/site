@@ -4,7 +4,7 @@ bracketSpacing: false
 embeddedLanguageFormatting: "auto"
 endOfLine: "lf"
 htmlWhitespaceSensitivity: "strict"
-jsxBracketSameLine: false
+bracketSameLine: false
 jsxSingleQuote: false
 printWidth: 99
 quoteProps: "as-needed"
@@ -23,9 +23,20 @@ jsdocKeepUnParseAbleExampleIndent: false
 jsdocSingleLineComment: false
 tsdoc: true
 
+# Sh plugin
+keepComments: true
+indent: 4
+binaryNextLine: true
+switchCaseIndent: true
+spaceRedirects: true
+keepPadding: false
+minify: false
+functionNextLine: true
+
 plugins:
   - ./node_modules/prettier-plugin-jsdoc
   - ./node_modules/prettier-plugin-package
+  - ./node_modules/prettier-plugin-sh
 
 overrides:
   - files:

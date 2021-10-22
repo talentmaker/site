@@ -27,6 +27,7 @@ The directory structure in `src/` is based off this [Free Code Camp Article](htt
 -   `adapers`
     -   All connections to API endpoints are made here
     -   The `createAdapters` API is a nifty way to reduce imports and create endpoint interactions with minimal boilerplate
+    -   Adapters should be ordered via CRUD (post, get, put, delete)
 -   `components`
     -   The first "layer" defines all all **reusable** components
     -   Page-specific components go into `components/pages`

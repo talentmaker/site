@@ -5,14 +5,13 @@
  * @author Luke Zhang
  * @copyright (C) 2020 - 2021 Luke Zhang
  * https://Luke-zhang-04.github.io
- * https://github.com/ethanlim04
  */
 
 import * as yup from "yup"
 
 export const projectSchema = yup.object({
     id: yup.number().required(),
-    creator: yup.string().required(),
+    creatorId: yup.string().required(),
     createdAt: yup.date().required(),
     desc: yup.string().nullable(),
     srcURL: yup.string().nullable(),

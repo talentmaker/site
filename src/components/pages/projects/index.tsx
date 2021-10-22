@@ -5,68 +5,50 @@
  * @author Luke Zhang
  * @copyright (C) 2020 - 2021 Luke Zhang
  * https://Luke-zhang-04.github.io
- * https://github.com/ethanlim04
  */
 
-import {Breadcrumb, Button, Container, Row} from "react-bootstrap"
+import * as adapters from "~/adapters"
+import {Breadcrumb, Container, Row} from "react-bootstrap"
 import {Projects as ProjectsType, projectsSchema} from "~/schemas/projects"
-import {Spinner, initTooltips} from "~/components/bootstrap"
 import GridItem from "~/components/gridItem"
 import {Link} from "react-router-dom"
 import React from "react"
+import {Spinner} from "~/components/bootstrap"
 import UserContext from "~/contexts/userContext"
 import {arrayToChunks} from "@luke-zhang-04/utils"
 import cache from "~/utils/cache"
-import projectsAdapter from "~/adapters/projects"
-import {validate} from "~/utils"
+import {useAdapter} from "~/hooks"
 
-const Project: React.FC<{project: ProjectsType[0]; user?: User}> = ({project, user}) => (
-    <GridItem
-        imageURL={project.coverImageURL ?? undefined}
-        title={project.name ?? ""}
-        link={{to: `/project/${project.id}`, text: "Details"}}
-    >
-        {
-            // This project belongs to this user
-            user?.sub === project.creator && (
-                <Button
-                    as={Link}
-                    variant="outline-dark"
-                    to={`/editProject/${project.id}`}
-                    className="d-inline-block float-end"
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="left"
-                    title="Edit"
-                >
-                    <span className="material-icons">create</span>
-                </Button>
-            )
-        }
-    </GridItem>
-)
+const Project: React.FC<{project: ProjectsType[0]; user?: User}> = ({project, user}) => {
+    const isOwner = user !== undefined && project.creatorId === user.uid
+    const isTeamMember =
+        user !== undefined && project.teamMembers.some((teamMember) => teamMember.uid === user.uid)
 
-export const Projects: React.FC<{compId: string}> = ({compId}) => {
-    const [projects, setProjects] = React.useState<ProjectsType | undefined>()
+    let userStatus: string | undefined
+
+    if (isOwner) {
+        userStatus = "Your project"
+    } else if (isTeamMember) {
+        userStatus = "You team's project"
+    }
+
+    return (
+        <GridItem
+            imageURL={project.coverImageURL ?? undefined}
+            title={project.name ?? ""}
+            link={{to: `/project/${project.id}`, text: "Details"}}
+        >
+            {userStatus}
+        </GridItem>
+    )
+}
+
+export const Projects: React.FC<{competitionId: string}> = ({competitionId}) => {
+    const {data: projects} = useAdapter(
+        () => adapters.project.getMany(competitionId),
+        () => projectsSchema.validate(cache.read("talentmakerCache_projects")),
+    )
     const {currentUser: user} = React.useContext(UserContext)
-
-    React.useEffect(() => {
-        ;(async () => {
-            const data = await cache.read("talentmakerCache_projects")
-
-            setProjects(await validate(projectsSchema, data, false))
-        })()
-        ;(async () => {
-            const data = await projectsAdapter(compId)
-
-            if (!(data instanceof Error)) {
-                setProjects(data)
-            }
-        })()
-    }, [])
-
-    React.useEffect(() => {
-        initTooltips()
-    })
 
     const getSortedProjects = React.useCallback((_projects: ProjectsType): ProjectsType[][] => {
         // Projects due in the future and past
@@ -77,7 +59,7 @@ export const Projects: React.FC<{compId: string}> = ({compId}) => {
     }, [])
 
     if (projects) {
-        const sortedCompetitions = getSortedProjects(projects)
+        const sortedProjects = getSortedProjects(projects)
 
         return (
             <Container fluid>
@@ -85,14 +67,17 @@ export const Projects: React.FC<{compId: string}> = ({compId}) => {
                     <Breadcrumb.Item linkAs={Link} linkProps={{to: "/competitions"}}>
                         Competitions
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item linkAs={Link} linkProps={{to: `/competition/${compId}`}}>
-                        {compId}
+                    <Breadcrumb.Item
+                        linkAs={Link}
+                        linkProps={{to: `/competition/${competitionId}`}}
+                    >
+                        {competitionId}
                     </Breadcrumb.Item>
                     <Breadcrumb.Item active>Submissions</Breadcrumb.Item>
                 </Breadcrumb>
                 <h1 className="my-3">Advancing</h1>
-                {(sortedCompetitions[0]?.length ?? 0) > 0 ? (
-                    sortedCompetitions[0].map((row, index) => (
+                {(sortedProjects[0]?.length ?? 0) > 0 ? (
+                    sortedProjects[0].map((row, index) => (
                         <Row key={`project-row-${index}`} className="g-3">
                             {row.map((project, index2) => (
                                 <Project
@@ -108,7 +93,7 @@ export const Projects: React.FC<{compId: string}> = ({compId}) => {
                 )}
 
                 <h1 className="mb-3">Submitted</h1>
-                {sortedCompetitions[1]?.map((row, index) => (
+                {sortedProjects[1]?.map((row, index) => (
                     <Row key={`project-row-${index}`} className="g-3">
                         {row.map((project, index2) => (
                             <Project
