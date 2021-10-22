@@ -187,6 +187,19 @@ const App: React.FC = () => {
             : "light"
 
         setThemeContext(deviceTheme)
+
+        window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (event) => {
+            if (event.matches) {
+                setThemeContext("dark")
+            } else {
+                setThemeContext("light")
+            }
+        })
+
+        _addNotification({
+            title: "no",
+            content: "no",
+        })
     }, [])
 
     React.useEffect(() => {

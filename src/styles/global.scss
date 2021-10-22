@@ -145,3 +145,16 @@ nav[aria-label="breadcrumb"] {
 .colored-icon.bi-github.nav-link {
   @include mixins.icon(black);
 }
+
+// Theme fixes
+.btn-outline-dark {
+  color: var(--dark) !important;
+  background-color: #0000 !important;
+  border-color: var(--dark) !important;
+
+  &:hover {
+    color: var(--light) !important;
+    background-color: var(--dark) !important;
+    border-color: var(--dark) !important;
+  }
+}

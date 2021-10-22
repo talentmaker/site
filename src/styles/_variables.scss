@@ -51,6 +51,7 @@ $btn-border-radius-lg: 0;
 $btn-border-radius-sm: 0;
 
 $toast-border-radius: 0; // Get rid of border radius on toasts
+$toast-background-color: var(--lighter); // Fix toast bg
 
 $theme-colors: map-merge(
   $theme-colors,
