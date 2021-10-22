@@ -14,18 +14,18 @@ jobs:
           node-version: "16"
 
       - name: install deps
-        run: yarn --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: lint
-        run: yarn lint -CI
+        run: pnpm lint -- -CI
 
       - name: audit
-        run: yarn audit --groups dependencies
+        run: pnpm audit -P
 
       - name: browser coverage
         run: node ./browserCheck.js
 
       - name: build
-        run: yarn build
+        run: pnpm build
         env:
           CI: false
