@@ -17,6 +17,6 @@ frontend:
     files:
       - "**/*"
 
-  cache:
-    paths:
-      - ~/.pnpm-store
+  # cache:
+  #   paths:
+  #     - ~/.pnpm-store
