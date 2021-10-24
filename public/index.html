@@ -325,6 +325,16 @@ License: BSD-3-Clause
           content: " .";
           animation: dots 1s 0s steps(3, end) alternate-reverse infinite;
         }
+
+        @media (prefers-color-scheme: dark) {
+          body {
+            background-color: #373737;
+          }
+
+          .header {
+            color: #f4f4f4;
+          }
+        }
       </style>
       <div class="loading-container">
         <div class="spinner"></div>
