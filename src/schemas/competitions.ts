@@ -19,7 +19,7 @@ export const bulkCompetitionSchema = yup.object({
     email: yup.string().nullable(),
     organizationId: yup.string().required(),
     coverImageURL: yup.string().nullable(),
-    orgName: yup.string(),
+    orgName: yup.string().required(),
     shortDesc: yup.string(),
 })
 
