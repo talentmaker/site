@@ -33,7 +33,7 @@ const initialValues: FormValues = {
 }
 
 export const Login = (): JSX.Element => {
-    const {push: changeHistory} = useHistory()
+    const history = useHistory()
     const {setUserFromUnknown: setUser} = React.useContext(UserContext)
     const [unconfirmedEmail, setUnconfirmedEmail] =
         React.useState<[email: string, password: string]>()
@@ -54,7 +54,7 @@ export const Login = (): JSX.Element => {
 
                 setSubmitting(false)
 
-                return changeHistory("/")
+                return history.push(`/profile/${data.uid}`)
             }
 
             setSubmitting(false)
