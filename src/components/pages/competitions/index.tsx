@@ -17,20 +17,24 @@ import {
 import {getUtcTime, readCache} from "~/utils"
 import DatePlus from "@luke-zhang-04/dateplus"
 import GridItem from "~/components/gridItem"
-import {Link} from "react-router-dom"
 import React from "react"
 import {Spinner} from "~/components/bootstrap"
 import UserContext from "~/contexts/userContext"
 import {arrayToChunks} from "@luke-zhang-04/utils"
 import {useAdapter} from "~/hooks"
+import {useHistory} from "react-router"
 
 const Competition: React.FC<{comp: CompetitionType; user?: User}> = ({comp, user}) => {
-    const deadline = new DatePlus(comp.deadline)
+    const deadline = comp.deadline ? new DatePlus(comp.deadline) : undefined
 
     return (
         <GridItem
             imageURL={comp.coverImageURL ?? undefined}
-            tag={`${deadline.getWordMonth()} ${deadline.getDate()}, ${deadline.getFullYear()}`}
+            tag={
+                deadline
+                    ? `${deadline.getWordMonth()} ${deadline.getDate()}, ${deadline.getFullYear()}`
+                    : "No deadline"
+            }
             title={comp.name ?? `${comp.orgName}'s Competition`}
             desc={comp.shortDesc}
             link={{to: `/competition/${comp.id}`, text: "Details"}}
@@ -51,6 +55,7 @@ export const Competitions: React.FC = () => {
         () => competitionsSchema.validate(readCache("talentmakerCache_competitions")),
     )
     const {currentUser: user} = React.useContext(UserContext)
+    const history = useHistory()
 
     const getSortedCompetitions = React.useCallback(
         (_competitions: CompetitionType[] | undefined): CompetitionsType[][] => {
@@ -60,10 +65,12 @@ export const Competitions: React.FC = () => {
 
             // Competitions due in the future and past
             const future: CompetitionsType = _competitions.filter(
-                (val) => new Date(val.deadline).getTime() >= getUtcTime(),
+                (val) =>
+                    val.deadline === undefined || new Date(val.deadline).getTime() >= getUtcTime(),
             )
             const past: CompetitionsType = _competitions.filter(
-                (val) => new Date(val.deadline).getTime() < getUtcTime(),
+                (val) =>
+                    val.deadline !== undefined && new Date(val.deadline).getTime() < getUtcTime(),
             )
 
             return [arrayToChunks(future), arrayToChunks(past)]
@@ -80,7 +87,16 @@ export const Competitions: React.FC = () => {
                     <>
                         <h1>Create a Competition</h1>
                         <p>As an organization, you can create a new competition</p>
-                        <Button to="/editCompetition/new" as={Link} variant="outline-primary">
+                        <Button
+                            onClick={async () => {
+                                const result = await adapters.competition.create(user)
+
+                                if (!(result instanceof Error)) {
+                                    history.push(`/competition/${result.id}`)
+                                }
+                            }}
+                            variant="outline-primary"
+                        >
                             New Competition
                         </Button>
                     </>

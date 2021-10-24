@@ -32,7 +32,6 @@ const formValidationSchema = yup.object({
     coverImageURL: yup.string().url().nullable().max(256),
     deadline: yup
         .string()
-        .required()
         .test(
             "is-date",
             "${path} is an invalid date",
@@ -116,7 +115,6 @@ export const EditModal: React.FC<Props> = ({shouldShow, onClose, onSave, competi
                 if (await shouldSubmitCompetition(values)) {
                     const result = await adapters.competition.update(user, {
                         ...values,
-                        deadline: values.deadline,
                         title: values.name,
                         id: competition.id,
                     })
@@ -125,7 +123,7 @@ export const EditModal: React.FC<Props> = ({shouldShow, onClose, onSave, competi
                         onSave?.({
                             ...competition,
                             ...values,
-                            deadline: new Date(values.deadline),
+                            deadline: values.deadline ? new Date(values.deadline) : undefined,
                         })
 
                         notify({
@@ -180,7 +178,7 @@ export const EditModal: React.FC<Props> = ({shouldShow, onClose, onSave, competi
                         "website",
                         "coverImageURL",
                     ),
-                    deadline: competition.deadline.toISOString().slice(0, 10),
+                    deadline: competition.deadline?.toISOString().slice(0, 10),
                 }}
                 validationSchema={formValidationSchema}
                 onSubmit={submit}
