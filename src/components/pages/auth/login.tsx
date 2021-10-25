@@ -34,10 +34,11 @@ const initialValues: FormValues = {
 
 export const Login = (): JSX.Element => {
     const history = useHistory()
-    const {setUserFromUnknown: setUser} = React.useContext(UserContext)
+    const {setUserFromUnknown, setUser} = React.useContext(UserContext)
     const [unconfirmedEmail, setUnconfirmedEmail] =
         React.useState<[email: string, password: string]>()
     const [message, setMessage] = React.useState<[error: boolean, message: string]>()
+    const [isAttemptingRemember, setIsAttemptingRemember] = React.useState(false)
 
     const submit = React.useCallback(
         async (values: FormValues, {setSubmitting}: FormikHelpers<FormValues>): Promise<void> => {
@@ -50,7 +51,7 @@ export const Login = (): JSX.Element => {
                     setUnconfirmedEmail([values.email, values.password])
                 }
             } else {
-                await setUser(data)
+                await setUserFromUnknown(data)
 
                 setSubmitting(false)
 
@@ -79,13 +80,36 @@ export const Login = (): JSX.Element => {
                     </Input>
 
                     <Button
-                        className="mt-3"
+                        className="mt-3 me-1"
                         variant="primary"
                         type="submit"
                         disabled={isSubmitting}
                     >
                         {isSubmitting ? <Spinner inline> </Spinner> : undefined}
                         Login
+                    </Button>
+                    <Button
+                        className="mt-3 ms-1"
+                        variant="outline-success"
+                        onClick={async () => {
+                            setIsAttemptingRemember(true)
+                            const user = await adapters.auth.tokens()
+
+                            await setUser(user instanceof Error ? undefined : user)
+
+                            if (user instanceof Error) {
+                                setMessage([true, "Couldn't remember you"])
+                                console.log(user)
+                            } else {
+                                return history.push(`/profile/${user.uid}`)
+                            }
+
+                            setIsAttemptingRemember(false)
+                        }}
+                        disabled={isAttemptingRemember}
+                    >
+                        {isAttemptingRemember ? <Spinner inline> </Spinner> : undefined}
+                        Try to remember me
                     </Button>
 
                     {unconfirmedEmail && (
