@@ -14,7 +14,7 @@ export const competitionSchema = yup.object({
     name: yup.string().nullable(),
     desc: yup.string().nullable(),
     videoURL: yup.string().nullable(),
-    deadline: yup.date().required(),
+    deadline: yup.date(),
     website: yup.string().nullable(),
     email: yup.string().required(),
     organizationId: yup.string().required(),

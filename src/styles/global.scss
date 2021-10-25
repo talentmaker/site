@@ -158,3 +158,25 @@ nav[aria-label="breadcrumb"] {
     border-color: var(--dark) !important;
   }
 }
+
+.modal-header {
+  border-bottom-color: var(--lighter) !important;
+}
+
+.modal-footer {
+  border-top-color: var(--lighter) !important;
+}
+
+.modal-header,
+.modal-footer {
+  background-color: var(--lighter);
+  color: var(--darker);
+}
+
+.language-css .token.string,
+.style .token.string,
+.token.entity,
+.token.operator,
+.token.url {
+  background: none;
+}

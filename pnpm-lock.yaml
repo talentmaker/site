@@ -17,6 +17,7 @@ specifiers:
   "@types/prismjs": ^1.16.6
   "@types/react": ^17.0.19
   "@types/react-dom": ^17.0.9
+  "@types/react-helmet": ^6.1.4
   "@types/react-router": ^5.1.16
   "@types/react-router-dom": ^5.1.8
   "@types/react-tag-input": ^6.1.3
@@ -46,6 +47,7 @@ specifiers:
   react: ^17.0.2
   react-bootstrap: ^2.0.0-beta.0
   react-dom: ^17.0.2
+  react-helmet: ^6.1.0
   react-markdown: ^5.0.3
   react-router: ^5.2.0
   react-router-dom: ^5.2.0
@@ -79,6 +81,7 @@ dependencies:
   react: 17.0.2
   react-bootstrap: 2.0.0-beta.2_react-dom@17.0.2+react@17.0.2
   react-dom: 17.0.2_react@17.0.2
+  react-helmet: 6.1.0_react@17.0.2
   react-markdown: 5.0.3_4cd822c6044f4c1a7e1f1fea0e728f12
   react-router: 5.2.0_react@17.0.2
   react-router-dom: 5.2.0_react@17.0.2
@@ -102,6 +105,7 @@ devDependencies:
   "@types/prismjs": 1.16.6
   "@types/react": 17.0.19
   "@types/react-dom": 17.0.9
+  "@types/react-helmet": 6.1.4
   "@types/react-router": 5.1.16
   "@types/react-router-dom": 5.1.8
   "@types/react-tag-input": 6.1.3
@@ -3178,6 +3182,15 @@ packages:
     resolution:
       {
         integrity: sha512-wIvGxLfgpVDSAMH5utdL9Ngm5Owu0VsGmldro3ORLXV8CShrL8awVj06NuEXFQ5xyaYfdca7Sgbk/50Ri1GdPg==,
+      }
+    dependencies:
+      "@types/react": 17.0.19
+    dev: true
+
+  /@types/react-helmet/6.1.4:
+    resolution:
+      {
+        integrity: sha512-jyx50RNZXVaTGHY3MsoRPNpeiVk8b0XTPgD/O6KHF6COTDnG/+lRjPYvTK5nfWtR3xDOux0w6bHLAsaHo2ZLTA==,
       }
     dependencies:
       "@types/react": 17.0.19
@@ -14187,6 +14200,28 @@ packages:
       }
     dev: false
 
+  /react-fast-compare/3.2.0:
+    resolution:
+      {
+        integrity: sha512-rtGImPZ0YyLrscKI9xTpV8psd6I8VAtjKCzQDlzyDvqJA8XOW78TXYQwNRNd8g8JZnDu8q9Fu/1v4HPAVwVdHA==,
+      }
+    dev: false
+
+  /react-helmet/6.1.0_react@17.0.2:
+    resolution:
+      {
+        integrity: sha512-4uMzEY9nlDlgxr61NL3XbKRy1hEkXmKNXhjbAIOVw5vcFrsdYbH2FEwcNyWvWinl103nXgzYNlns9ca+8kFiWw==,
+      }
+    peerDependencies:
+      react: ">=16.3.0"
+    dependencies:
+      object-assign: 4.1.1
+      prop-types: 15.7.2
+      react: 17.0.2
+      react-fast-compare: 3.2.0
+      react-side-effect: 2.1.1_react@17.0.2
+    dev: false
+
   /react-is/16.13.1:
     resolution:
       {
@@ -14393,6 +14428,17 @@ packages:
       - webpack-hot-middleware
       - webpack-plugin-serve
     dev: true
+
+  /react-side-effect/2.1.1_react@17.0.2:
+    resolution:
+      {
+        integrity: sha512-2FoTQzRNTncBVtnzxFOk2mCpcfxQpenBMbk5kSVBg5UcPqV9fRbgY2zhb7GTWWOlpFmAxhClBDlIq8Rsubz1yQ==,
+      }
+    peerDependencies:
+      react: ^16.3.0 || ^17.0.0
+    dependencies:
+      react: 17.0.2
+    dev: false
 
   /react-tag-input/6.7.3_react-dom@17.0.2+react@17.0.2:
     resolution:

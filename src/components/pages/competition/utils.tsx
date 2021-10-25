@@ -13,14 +13,14 @@ import DatePlus from "@luke-zhang-04/dateplus"
 
 type Data = {
     src: string
-    deadline: DatePlus
+    deadline?: DatePlus
     items: React.ComponentProps<typeof Components.Sidebar>["items"]
 }
 
 export const getCompetitionData = (_competition: CompetitionType): Data => {
-    const deadline = new DatePlus(_competition.deadline)
+    const deadline = _competition.deadline ? new DatePlus(_competition.deadline) : undefined
 
-    deadline.setMinutes(
+    deadline?.setMinutes(
         // Offset from UTC Time
         deadline.getMinutes() - deadline.getTimezoneOffset(),
     )
@@ -51,12 +51,16 @@ export const getCompetitionData = (_competition: CompetitionType): Data => {
                 contents: _competition.email,
                 href: `mailto:${_competition.email}`,
             },
-            {
-                icon: "event",
-                contents: `${deadline.getWordMonth()} ${deadline.getDate()}, ${deadline.getFullYear()}@${
-                    deadline.getHours() < 10 ? `0${deadline.getHours()}` : deadline.getHours()
-                }:${deadline.getMinutes()}`,
-            },
+            deadline
+                ? {
+                      icon: "event",
+                      contents: `${deadline.getWordMonth()} ${deadline.getDate()}, ${deadline.getFullYear()}@${
+                          deadline.getHours() < 10
+                              ? `0${deadline.getHours()}`
+                              : deadline.getHours()
+                      }:${deadline.getMinutes()}`,
+                  }
+                : undefined,
         ],
         src:
             _competition.videoURL

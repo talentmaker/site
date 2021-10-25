@@ -218,7 +218,7 @@ export const EditModal: React.FC<Props> = ({shouldShow, onClose, onSave, project
                             )}
                         </Modal.Body>
                         <Modal.Footer>
-                            <Button variant="outline-secondary" onClick={onClose}>
+                            <Button variant="outline-danger" onClick={onClose}>
                                 Cancel
                             </Button>
                             <Button variant="primary" disabled={isSubmitting} onClick={submitForm}>

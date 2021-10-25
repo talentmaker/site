@@ -7,6 +7,7 @@
  * https://Luke-zhang-04.github.io
  */
 
+import * as yup from "yup"
 import {competitionSchema} from "../schemas/competition"
 import {competitionsSchema} from "../schemas/competitions"
 import {createAdapter} from "./utils"
@@ -21,6 +22,15 @@ export const join = createAdapter(
         return undefined
     },
 )
+
+export const create = createAdapter(async ({request, url, schema}, {idToken, username}: User) => {
+    const res = await request(`${url}/competitions/write`, "POST", "json", {
+        idToken,
+        shortDesc: `Competition by ${username}`,
+    })
+
+    return await schema.validate(res)
+}, yup.object({id: yup.number().required()}))
 
 export const get = createAdapter(
     async ({request, url, cache, qs, schema}, uid: string | undefined, id: string) => {
