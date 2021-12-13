@@ -50,7 +50,7 @@ export const Footer: React.FC<{user?: User}> = (props): JSX.Element => (
             />
             <a
                 {...linkProps}
-                href="https://github.com/Luke-zhang-04/talentmaker-site"
+                href="https://github.com/talentmaker/site"
                 className="bi-github colored-icon"
             />
         </Row>
@@ -74,7 +74,7 @@ export const Footer: React.FC<{user?: User}> = (props): JSX.Element => (
         </div>
 
         <div className={`text-center ${styles.textCenter} mt-3`}>
-            <a href="https://github.com/Luke-zhang-04/talentmaker-site" {...linkProps}>
+            <a href="https://github.com/talentmaker/site" {...linkProps}>
                 Repository
             </a>
         </div>
@@ -82,7 +82,7 @@ export const Footer: React.FC<{user?: User}> = (props): JSX.Element => (
         <div className={`text-center ${styles.textCenter} mt-3`}>
             Version:{" "}
             <a
-                href={`https://github.com/Luke-zhang-04/talentmaker-site/tree/${process.env.REACT_APP_HASH}`}
+                href={`https://github.com/talentmaker/site/tree/${process.env.REACT_APP_HASH}`}
                 {...linkProps}
             >
                 {process.env.REACT_APP_HASH.slice(0, 7)}
