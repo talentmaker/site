@@ -110,9 +110,7 @@ const App: React.FC = () => {
     const [theme, setTheme] = React.useState<"light" | "dark">("light")
 
     const setUser = React.useCallback(async (user?: User | null): Promise<void> => {
-        const isLoggedin = localStorage.getItem("loggedin") === "true"
-
-        if (isLoggedin && (user === undefined || user === null)) {
+        if (currentUser && (user === undefined || user === null)) {
             await fetch(`${url}/auth/logout`, {
                 method: "POST",
                 credentials: "include",
@@ -120,10 +118,6 @@ const App: React.FC = () => {
                     "Content-Type": "application/json",
                 },
             })
-
-            localStorage.setItem("loggedin", "false")
-        } else {
-            localStorage.setItem("loggedin", "true")
         }
 
         setCurrentUser(user ?? undefined)
@@ -162,23 +156,14 @@ const App: React.FC = () => {
 
     React.useEffect(() => {
         ;(async () => {
-            if (localStorage.getItem("loggedin") === "true") {
-                const user = await adapters.auth.tokens()
+            const user = await adapters.auth.tokens()
 
-                if (user instanceof Error) {
-                    await setUser(undefined)
-                    setCurrentUser((_currentUser) => _currentUser)
-
-                    return
-                }
-
+            if (user instanceof Error) {
+                await setUser(undefined)
+            } else {
                 await setUser(user)
-                setCurrentUser((_currentUser) => _currentUser)
-
-                return
             }
 
-            await setUser(undefined)
             setCurrentUser((_currentUser) => _currentUser)
         })()
 

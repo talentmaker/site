@@ -7,10 +7,18 @@
  * https://Luke-zhang-04.github.io
  */
 
-import {NavLink as BsNavLink, Container, NavItem, Navbar, NavbarBrand} from "react-bootstrap"
+import {
+    NavLink as BsNavLink,
+    Button,
+    Container,
+    NavItem,
+    Navbar,
+    NavbarBrand,
+} from "react-bootstrap"
 import {Link, useLocation} from "react-router-dom"
 import {ThemeContext, UserContext} from "~/contexts"
 import {BreakPoints} from "~/globals"
+import {ButtonVariant} from "react-bootstrap/esm/types"
 import Logo from "~/images/logo.svg"
 import React from "react"
 import routes from "./routes"
@@ -29,7 +37,8 @@ const NavLink: React.FC<{
     currentLocation: string
     name: string
     iconName?: string
-}> = ({location, currentLocation, name, iconName}) => {
+    buttonVariant?: ButtonVariant
+}> = ({location, currentLocation, name, iconName, buttonVariant}) => {
     const {currentUser: user} = React.useContext(UserContext)
     const isExternal = /^https?:\/\//u.test(location)
     const linkAs = isExternal ? "a" : Link
@@ -66,6 +75,20 @@ const NavLink: React.FC<{
                         >
                             {iconName} {visuallyHidden}
                         </BsNavLink>
+                    )
+                } else if (buttonVariant) {
+                    return (
+                        <Button
+                            {...{
+                                ...linkProps,
+                                as: linkAs,
+                                active: isActive,
+                                variant: buttonVariant,
+                            }}
+                        >
+                            {user ? name.replace(/<USERNAME>/gu, user.username) : name}{" "}
+                            {visuallyHidden}
+                        </Button>
                     )
                 }
 
@@ -138,23 +161,47 @@ const NavLinks: React.FC<{isMobile?: boolean; pathname: string}> = ({isMobile, p
                                 />
                             )
                         } else if (user === null || user === undefined) {
+                            const arrVal = (
+                                typeof val[1][0] === "string" ? [val[1][0]] : val[1]
+                            ) as [
+                                path: string,
+                                displayName: string,
+                                buttonVariant?: string | undefined,
+                            ][]
+
                             return (
-                                <NavLink
-                                    currentLocation={pathname}
-                                    key={`nav-link-${val[0]}`}
-                                    location={val[1][0]}
-                                    name={val[1][1]}
-                                />
+                                <>
+                                    {arrVal.map((_val) => (
+                                        <NavLink
+                                            currentLocation={pathname}
+                                            key={`nav-link-${_val[0]}`}
+                                            location={_val[0]}
+                                            name={_val[1]}
+                                            buttonVariant={_val[2]}
+                                        />
+                                    ))}
+                                </>
                             )
                         }
 
+                        const arrVal = (typeof val[1][0] === "string" ? [val[1][0]] : val[1]) as [
+                            path: string,
+                            displayName: string,
+                            buttonVariant?: string | undefined,
+                        ][]
+
                         return (
-                            <NavLink
-                                currentLocation={pathname}
-                                key={`nav-link-${val[0]}`}
-                                location={val[0][0]}
-                                name={val[0][1]}
-                            />
+                            <>
+                                {arrVal.map((_val) => (
+                                    <NavLink
+                                        currentLocation={pathname}
+                                        key={`nav-link-${_val[0]}`}
+                                        location={_val[0]}
+                                        name={_val[1]}
+                                        buttonVariant={_val[2]}
+                                    />
+                                ))}
+                            </>
                         )
                     })}
                 </ul>
