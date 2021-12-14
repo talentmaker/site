@@ -44,7 +44,7 @@ export const Project: React.FC<Props> = (props) => {
             props.id
                 ? projectSchema.validate(readCache(`talentmakerCache_project-${props.id}`))
                 : undefined,
-        [user],
+        [user?.uid],
     )
     const [inviteLink, setInviteLink] = React.useState<string | string>()
     const [shouldShowModal, setShouldShowModal] = React.useState(false)

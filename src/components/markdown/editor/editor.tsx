@@ -36,6 +36,10 @@ export const EditableMarkdown = ({
     }, [])
 
     React.useEffect(() => {
+        setValue(props.children)
+    }, [props.children])
+
+    React.useEffect(() => {
         if (props.isEditing !== undefined) {
             setIsEditing(props.isEditing)
         }
