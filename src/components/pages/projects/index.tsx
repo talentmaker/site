@@ -50,13 +50,13 @@ export const Projects: React.FC<{competitionId: string}> = ({competitionId}) => 
     )
     const {currentUser: user} = React.useContext(UserContext)
 
-    const getSortedProjects = React.useCallback((_projects: ProjectsType): ProjectsType[][] => {
+    const getSortedProjects = (_projects: ProjectsType): ProjectsType[][] => {
         // Projects due in the future and past
         const advancing: ProjectsType = []
         const submitted = _projects ?? []
 
         return [arrayToChunks(advancing), arrayToChunks(submitted)]
-    }, [])
+    }
 
     if (projects) {
         const sortedProjects = getSortedProjects(projects)

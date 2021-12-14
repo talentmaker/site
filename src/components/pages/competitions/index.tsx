@@ -57,26 +57,24 @@ export const Competitions: React.FC = () => {
     const {currentUser: user} = React.useContext(UserContext)
     const history = useHistory()
 
-    const getSortedCompetitions = React.useCallback(
-        (_competitions: CompetitionType[] | undefined): CompetitionsType[][] => {
-            if (_competitions === undefined) {
-                return []
-            }
+    const getSortedCompetitions = (
+        _competitions: CompetitionType[] | undefined,
+    ): CompetitionsType[][] => {
+        if (_competitions === undefined) {
+            return []
+        }
 
-            // Competitions due in the future and past
-            const future: CompetitionsType = _competitions.filter(
-                (val) =>
-                    val.deadline === undefined || new Date(val.deadline).getTime() >= getUtcTime(),
-            )
-            const past: CompetitionsType = _competitions.filter(
-                (val) =>
-                    val.deadline !== undefined && new Date(val.deadline).getTime() < getUtcTime(),
-            )
+        // Competitions due in the future and past
+        const future: CompetitionsType = _competitions.filter(
+            (val) =>
+                val.deadline === undefined || new Date(val.deadline).getTime() >= getUtcTime(),
+        )
+        const past: CompetitionsType = _competitions.filter(
+            (val) => val.deadline !== undefined && new Date(val.deadline).getTime() < getUtcTime(),
+        )
 
-            return [arrayToChunks(future), arrayToChunks(past)]
-        },
-        [],
-    )
+        return [arrayToChunks(future), arrayToChunks(past)]
+    }
 
     const sortedCompetitions = getSortedCompetitions(data)
 

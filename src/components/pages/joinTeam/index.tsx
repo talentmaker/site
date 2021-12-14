@@ -26,7 +26,7 @@ export const JoinTeam: React.FC<Props> = ({data}) => {
     const {addNotification: notify} = React.useContext(NotificationContext)
     const history = useHistory()
 
-    const joinTeam = React.useCallback(async () => {
+    const joinTeam = async () => {
         if (user && inviteLinkData) {
             setIsJoining(true)
 
@@ -44,7 +44,7 @@ export const JoinTeam: React.FC<Props> = ({data}) => {
 
             setIsJoining(false)
         }
-    }, [user, data, inviteLinkData, inviteLinkData?.projectName, inviteLinkData?.projectId])
+    }
 
     if (!user) {
         return <p>Error: unauthenticated</p>

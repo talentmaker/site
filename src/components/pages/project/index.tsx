@@ -61,8 +61,7 @@ export const Project: React.FC<Props> = (props) => {
         Prism.highlightAll()
     })
 
-    const getData = React.useCallback(getProjectData, [])
-    const setInviteLinkState = React.useCallback(async () => {
+    const setInviteLinkState = async () => {
         if (user && project) {
             const link = await adapters.team.getInviteLink(
                 user,
@@ -74,9 +73,9 @@ export const Project: React.FC<Props> = (props) => {
                 setInviteLink(`${window.location.origin}/joinTeam/${link.urlSuffix}`)
             }
         }
-    }, [project, project?.id, project?.competitionId])
+    }
 
-    const data = getData(project)
+    const data = getProjectData(project)
 
     if (project && data) {
         const isOwner = user !== undefined && user.uid === project?.creatorId

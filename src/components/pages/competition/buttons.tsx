@@ -64,7 +64,8 @@ type JoinButtonProps = {competition: Competition; user?: User; onSuccess?: () =>
 
 export const JoinButton: React.FC<JoinButtonProps> = ({competition, user, onSuccess}) => {
     const [isJoining, setJoining] = React.useState(false)
-    const join = React.useCallback(async (): Promise<void> => {
+
+    const join = async (): Promise<void> => {
         setJoining(true)
 
         if (user !== undefined && user !== null) {
@@ -78,7 +79,7 @@ export const JoinButton: React.FC<JoinButtonProps> = ({competition, user, onSucc
         }
 
         setJoining(false)
-    }, [user, competition])
+    }
 
     // User is not an organization
     return competition?.inComp ? null : (

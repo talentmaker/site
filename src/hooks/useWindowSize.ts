@@ -24,14 +24,14 @@ export const useWindowSize = (): Dimensions => {
         window.outerHeight,
     ])
 
-    const dimensionsSetter = React.useCallback(() => {
+    const dimensionsSetter = () => {
         setDimensions([
             window.innerWidth,
             window.innerHeight,
             window.outerWidth,
             window.outerHeight,
         ])
-    }, [window.innerWidth, window.innerHeight, window.outerWidth, window.outerHeight])
+    }
 
     Object.defineProperty(dimensionsSetter, "name", {value: Date.now().toString()})
 

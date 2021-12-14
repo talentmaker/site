@@ -123,36 +123,33 @@ const App: React.FC = () => {
         setCurrentUser(user ?? undefined)
     }, [])
 
-    const setUserFromUnknown = React.useCallback(
-        async (user?: {[key: string]: unknown} | null): Promise<void> => {
-            if (user === undefined || user === null || userSchema.isValidSync(user)) {
-                return await setUser(user)
-            }
-        },
-        [],
-    )
+    const setUserFromUnknown = async (user?: {[key: string]: unknown} | null): Promise<void> => {
+        if (user === undefined || user === null || userSchema.isValidSync(user)) {
+            return await setUser(user)
+        }
+    }
 
-    const setThemeContext = React.useCallback((newTheme: string) => {
+    const setThemeContext = (newTheme: string) => {
         if (newTheme === "dark" || newTheme === "light") {
             setTheme(newTheme)
         } else {
             setTheme("light")
         }
-    }, [])
+    }
 
-    const _addNotification = React.useCallback((notification: NotificationType | Error) => {
+    const _addNotification = (notification: NotificationType | Error) => {
         setNotifications((notifs) => ({...notifs, [Date.now()]: notification}))
-    }, [])
+    }
 
     addNotification = _addNotification
 
-    const removeNotification = React.useCallback((id: number) => {
+    const removeNotification = (id: number) => {
         setNotifications((notifs) => {
             Reflect.deleteProperty(notifs, id)
 
             return notifs
         })
-    }, [])
+    }
 
     React.useEffect(() => {
         ;(async () => {

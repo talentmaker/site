@@ -39,28 +39,28 @@ export const Login = (): JSX.Element => {
         React.useState<[email: string, password: string]>()
     const [message, setMessage] = React.useState<[error: boolean, message: string]>()
 
-    const submit = React.useCallback(
-        async (values: FormValues, {setSubmitting}: FormikHelpers<FormValues>): Promise<void> => {
-            setSubmitting(true)
+    const submit = async (
+        values: FormValues,
+        {setSubmitting}: FormikHelpers<FormValues>,
+    ): Promise<void> => {
+        setSubmitting(true)
 
-            const data = await adapters.auth.login(values.email, values.password)
+        const data = await adapters.auth.login(values.email, values.password)
 
-            if (data instanceof Error) {
-                if (data.message.includes("not confirmed")) {
-                    setUnconfirmedEmail([values.email, values.password])
-                }
-            } else {
-                await setUserFromUnknown(data)
-
-                setSubmitting(false)
-
-                return history.push(`/profile/${data.uid}`)
+        if (data instanceof Error) {
+            if (data.message.includes("not confirmed")) {
+                setUnconfirmedEmail([values.email, values.password])
             }
+        } else {
+            await setUserFromUnknown(data)
 
             setSubmitting(false)
-        },
-        [],
-    )
+
+            return history.push(`/profile/${data.uid}`)
+        }
+
+        setSubmitting(false)
+    }
 
     return (
         <Formik

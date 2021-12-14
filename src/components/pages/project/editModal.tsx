@@ -65,84 +65,78 @@ export const EditModal: React.FC<Props> = ({shouldShow, onClose, onSave, project
         })()
     }, [])
 
-    const shouldSubmitProject = React.useCallback(
-        async (values: FormValues) => {
-            const newDataHash = await hash(
-                JSON.stringify(pick(values, "name", "srcURL", "demoURL", "license", "videoURL")),
-                "SHA-256",
-                "base64",
-            )
+    const shouldSubmitProject = async (values: FormValues) => {
+        const newDataHash = await hash(
+            JSON.stringify(pick(values, "name", "srcURL", "demoURL", "license", "videoURL")),
+            "SHA-256",
+            "base64",
+        )
 
-            return newDataHash !== initialDataHash.current // If data has been changed
-        },
-        [initialDataHash.current],
-    )
+        return newDataHash !== initialDataHash.current // If data has been changed
+    }
 
-    const submit = React.useCallback(
-        async (
-            values: FormValues,
-            {setSubmitting}: Pick<FormikHelpers<FormValues>, "setSubmitting">,
-        ) => {
-            setSubmitting(true)
+    const submit = async (
+        values: FormValues,
+        {setSubmitting}: Pick<FormikHelpers<FormValues>, "setSubmitting">,
+    ) => {
+        setSubmitting(true)
 
-            if (user) {
-                if (await shouldSubmitProject(values)) {
-                    const result = await adapters.project.update(user, {
-                        ...values,
-                        title: values.name,
-                        projectId: project.id,
-                    })
+        if (user) {
+            if (await shouldSubmitProject(values)) {
+                const result = await adapters.project.update(user, {
+                    ...values,
+                    title: values.name,
+                    projectId: project.id,
+                })
 
-                    if (!(result instanceof Error)) {
-                        onSave?.({...project, ...values})
+                if (!(result instanceof Error)) {
+                    onSave?.({...project, ...values})
 
-                        notify({
-                            title: "Success!",
-                            content: "Successfully edited your project!",
-                            icon: "done_all",
-                            iconClassName: "text-success",
-                        })
-
-                        initialDataHash.current = await hash(
-                            JSON.stringify(
-                                pick(values, "name", "srcURL", "demoURL", "license", "videoURL"),
-                            ),
-                            "SHA-256",
-                            "base64",
-                        )
-                    }
-                } else {
                     notify({
                         title: "Success!",
                         content: "Successfully edited your project!",
                         icon: "done_all",
                         iconClassName: "text-success",
                     })
+
+                    initialDataHash.current = await hash(
+                        JSON.stringify(
+                            pick(values, "name", "srcURL", "demoURL", "license", "videoURL"),
+                        ),
+                        "SHA-256",
+                        "base64",
+                    )
                 }
+            } else {
+                notify({
+                    title: "Success!",
+                    content: "Successfully edited your project!",
+                    icon: "done_all",
+                    iconClassName: "text-success",
+                })
             }
+        }
 
-            setSubmitting(false)
-            onClose?.()
-        },
-        [typeof onClose, user?.uid, project.id],
-    )
+        setSubmitting(false)
+        onClose?.()
+    }
 
-    const syncWithGithub = React.useCallback(
-        async (repoName: string, setSubmitting: (isSubmitting: boolean) => void) => {
-            setSubmitting(true)
+    const syncWithGithub = async (
+        repoName: string,
+        setSubmitting: (isSubmitting: boolean) => void,
+    ) => {
+        setSubmitting(true)
 
-            const values = await adapters.github.getRepo(repoName)
+        const values = await adapters.github.getRepo(repoName)
 
-            if (values instanceof Error) {
-                return
-            }
+        if (values instanceof Error) {
+            return
+        }
 
-            await submit({...values, videoURL: project.videoURL}, {setSubmitting})
+        await submit({...values, videoURL: project.videoURL}, {setSubmitting})
 
-            setSubmitting(false)
-        },
-        [project.videoURL, submit],
-    )
+        setSubmitting(false)
+    }
 
     return (
         <Modal show={shouldShow} onHide={onClose}>

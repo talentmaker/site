@@ -58,10 +58,8 @@ export const Competition: React.FC<Props> = (props) => {
         Prism.highlightAll()
     })
 
-    const getData = React.useCallback(getCompetitionData, [])
-
     if (competition) {
-        const data = getData(competition)
+        const data = getCompetitionData(competition)
         const isOwner = user !== undefined && user.uid === competition.organizationId
         const onDescSave = isOwner // Why
             ? async (desc: string): Promise<void> => {

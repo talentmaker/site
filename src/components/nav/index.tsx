@@ -216,7 +216,7 @@ export const Nav: React.FC = () => {
     const {currentUser: user} = React.useContext(UserContext)
     const {theme} = React.useContext(ThemeContext)
 
-    const getPageIndex = React.useCallback(() => {
+    const getPageIndex = () => {
         for (const [index, value] of routes.mobile.entries()) {
             if (typeof value[0] === "string") {
                 if (currentLocation.pathname === value[0]) {
@@ -233,7 +233,7 @@ export const Nav: React.FC = () => {
         }
 
         return 0
-    }, [currentLocation.pathname])
+    }
 
     return dimensions[0] <= BreakPoints.Md ? (
         <div className={`${styles.mobileNav} bg-lighter`}>
