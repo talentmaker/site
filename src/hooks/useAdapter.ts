@@ -78,7 +78,7 @@ export const useAdapter = <
                     setIsLoading(false)
                 }
             })
-    }, [adapterCall, isLoading])
+    }, [adapterCall, isLoading, ...deps])
 
     React.useEffect(() => {
         if (cacheHook !== undefined && isLoading) {
