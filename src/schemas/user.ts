@@ -21,6 +21,19 @@ export const userSchema = yup.object({
 
 export type CognitoUser = typeof userSchema.__outputType
 
+export const publicDbBareUserSchema = yup.object({
+    uid: yup.string().required(),
+    username: yup.string().required(),
+})
+
+export type PublicDbBareUser = typeof publicDbBareUserSchema.__outputType
+
+export const publicDbBulkUserSchema = yup.array(
+    publicDbBareUserSchema.shape({projectCount: yup.number().required()}),
+)
+
+export type PublicDbBulkUser = typeof publicDbBulkUserSchema.__outputType
+
 export const publicDbUserSchema = yup.object({
     uid: yup.string().required(),
     username: yup.string().required(),

@@ -7,8 +7,8 @@
  * https://Luke-zhang-04.github.io
  */
 
+import {publicDbBulkUserSchema, publicDbUserSchema} from "~/schemas/user"
 import {createAdapter} from "./utils"
-import {publicDbUserSchema} from "~/schemas/user"
 
 export const getWithProjects = createAdapter(async ({qs, request, schema, url}, uid: string) => {
     const user = await request(
@@ -19,3 +19,9 @@ export const getWithProjects = createAdapter(async ({qs, request, schema, url}, 
 
     return schema.validate(user)
 }, publicDbUserSchema)
+
+export const getMany = createAdapter(async ({qs, request, schema, url}, search?: string) => {
+    const users = await request(`${url}/users/getMany?${qs.stringify({search})}`, "GET", "json")
+
+    return schema.validate(users)
+}, publicDbBulkUserSchema)

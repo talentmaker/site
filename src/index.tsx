@@ -193,26 +193,28 @@ const App: React.FC = () => {
                     <ErrorBoundary>
                         <Notifications notifications={notifications} />
                         <Router>
-                            <Nav />
-                            {/* prettier-ignore */}
-                            <Switch>
-                                <Route path="/" exact component={Home} title="Home | Talentmaker" />
-                                <Route path="/auth" component={Auth} title="Auth | Talentmaker" />
-                                <Route path="/competition/:id" component={Competition} title="Competition | Talentmaker" />
-                                <Route path="/competitions" component={Competitions} title="Competitions | Talentmaker" />
-                                <Route path="/joinTeam/:data" component={JoinTeam} title="JoinTeam | Talentmaker" />
-                                <Route path="/legal" component={Legal} title="Legal | Talentmaker" />
-                                <Route path="/privacy-policy" component={PrivacyPolicy} title="PrivacyPolicy | Talentmaker" />
-                                <Route path="/profile/:uid" component={Profile} title="Profile | Talentmaker" />
-                                <Route path="/project/:id" component={Project} title="Project | Talentmaker" />
-                                <Route path="/project" component={Project} title="Project | Talentmaker" />
-                                <Route path="/projects/:competitionId" component={Projects} title="Projects | Talentmaker" />
-                                <Route path="/talents" component={Talents}  title="Talents | Talentmaker"/>
-                                <Route path="/talentmakers" component={Talentmakers} title="Talentmakers | Talentmaker" />
+                            <div>
+                                <Nav />
+                                {/* prettier-ignore */}
+                                <Switch>
+                                    <Route path="/" exact component={Home} title="Home | Talentmaker" />
+                                    <Route path="/auth" component={Auth} title="Auth | Talentmaker" />
+                                    <Route path="/competition/:id" component={Competition} title="Competition | Talentmaker" />
+                                    <Route path="/competitions" component={Competitions} title="Competitions | Talentmaker" />
+                                    <Route path="/joinTeam/:data" component={JoinTeam} title="JoinTeam | Talentmaker" />
+                                    <Route path="/legal" component={Legal} title="Legal | Talentmaker" />
+                                    <Route path="/privacy-policy" component={PrivacyPolicy} title="PrivacyPolicy | Talentmaker" />
+                                    <Route path="/profile/:uid" component={Profile} title="Profile | Talentmaker" />
+                                    <Route path="/project/:id" component={Project} title="Project | Talentmaker" />
+                                    <Route path="/project" component={Project} title="Project | Talentmaker" />
+                                    <Route path="/projects/:competitionId" component={Projects} title="Projects | Talentmaker" />
+                                    <Route path="/talents" component={Talents}  title="Talents | Talentmaker"/>
+                                    <Route path="/talentmakers" component={Talentmakers} title="Talentmakers | Talentmaker" />
 
-                                {/* 404 */}
-                                <Route component={NotFound} />
-                            </Switch>
+                                    {/* 404 */}
+                                    <Route component={NotFound} />
+                                </Switch>
+                            </div>
                             <Footer user={currentUser} />
                         </Router>
                     </ErrorBoundary>

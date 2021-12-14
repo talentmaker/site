@@ -24,6 +24,11 @@
     --gutter-x: var(--tm-gutter-x);
     --gutter-y: var(--tm-gutter-y);
   }
+
+  min-height: 100vh !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 html,
