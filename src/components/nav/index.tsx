@@ -184,7 +184,7 @@ const NavLinks: React.FC<{isMobile?: boolean; pathname: string}> = ({isMobile, p
                             )
                         }
 
-                        const arrVal = (typeof val[1][0] === "string" ? [val[1][0]] : val[1]) as [
+                        const arrVal = (typeof val[0][0] === "string" ? [val[0]] : val[0]) as [
                             path: string,
                             displayName: string,
                             buttonVariant?: string | undefined,
