@@ -42,7 +42,7 @@ export const Competition: React.FC<Props> = (props) => {
     } = useAdapter(
         () => adapters.competition.get(user?.uid, props.id),
         () => competitionSchema.validate(readCache(`talentmakerCache_competition-${props.id}`)),
-        [user],
+        [user?.uid],
     )
     const [shouldShowModal, setShouldShowModal] = React.useState(false)
     const [isDescSaved, setIsDescSaved] = React.useState(true)
