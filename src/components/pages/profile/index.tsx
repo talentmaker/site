@@ -119,9 +119,9 @@ export const UserDisplay: React.FC<{uid: string}> = ({uid}) => {
                         )}
                     </ul>
                 </Col>
-                <Col xs={9} className="px-tm-gx">
+                <Col xs={9} className="p-tm-gx">
                     <h1>Projects:</h1>
-                    {projects &&
+                    {projects?.length ? (
                         arrayToChunks(projects).map((row, index) => (
                             <Row key={`profile-project-row-${index}`} className="g-3">
                                 {row.map((project, index2) => (
@@ -133,7 +133,10 @@ export const UserDisplay: React.FC<{uid: string}> = ({uid}) => {
                                     />
                                 ))}
                             </Row>
-                        ))}
+                        ))
+                    ) : (
+                        <p>No projects yet</p>
+                    )}
                 </Col>
             </Row>
         </>
