@@ -33,8 +33,6 @@ export const useWindowSize = (): Dimensions => {
         ])
     }
 
-    Object.defineProperty(dimensionsSetter, "name", {value: Date.now().toString()})
-
     React.useEffect(() => {
         window.addEventListener("resize", dimensionsSetter)
 

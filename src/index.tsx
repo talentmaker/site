@@ -8,6 +8,9 @@
  * https://Luke-zhang-04.github.io
  */
 
+// Load initialized stuff
+import "./init"
+
 // Load Prismjs languages
 import "prismjs"
 import "prismjs/components/prism-clike"

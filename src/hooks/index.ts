@@ -11,5 +11,5 @@
 export {useAdapter} from "./useAdapter"
 export {useDebounce} from "./useDebounce"
 export {useFunctionMemoPromise} from "./useFunctionMemo"
-export {useSearch} from "./useSearch"
+export {useQuery} from "./useQuery"
 export {useWindowSize} from "./useWindowSize"

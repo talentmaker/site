@@ -9,7 +9,7 @@
 
 import * as adapters from "~/adapters"
 import {Container, FormControl, InputGroup, Row} from "react-bootstrap"
-import {useAdapter, useDebounce, useFunctionMemoPromise} from "~/hooks"
+import {useAdapter, useDebounce, useFunctionMemoPromise, useQuery} from "~/hooks"
 import GridItem from "~/components/gridItem"
 import React from "react"
 import {Spinner} from "~/components/bootstrap"
@@ -20,6 +20,7 @@ import {secsToMs} from "@luke-zhang-04/dateplus"
 const debounceTimeout = 1
 
 export const Talents: React.FC = () => {
+    const {query, setQuery} = useQuery<{query?: string}>()
     const [search, searchCache] = useFunctionMemoPromise((term: string) =>
         adapters.user.getMany(term),
     )
@@ -33,6 +34,14 @@ export const Talents: React.FC = () => {
     } = useDebounce(searchTerm, secsToMs(debounceTimeout))
 
     React.useEffect(() => {
+        if (query.query && searchTerm !== query.query) {
+            setSearchTerm(query.query)
+            setImmediately()
+        }
+    }, [query.query])
+
+    React.useEffect(() => {
+        setQuery(searchTerm ? {query: searchTerm} : {})
         const cacheEntry = searchCache(searchTerm)
 
         if (cacheEntry && !(cacheEntry instanceof Error)) {
@@ -62,6 +71,7 @@ export const Talents: React.FC = () => {
                 </InputGroup.Text>
                 <FormControl
                     className="bg-lighter"
+                    value={searchTerm}
                     onChange={(event) => {
                         setSearchTerm(event.target.value)
                     }}
@@ -78,7 +88,7 @@ export const Talents: React.FC = () => {
         if (isWaiting || isLoading) {
             return (
                 <>
-                    <Container fluid className="mt-3">
+                    <Container fluid className="py-3">
                         <h1>Talents</h1>
                         {searchBar}
                     </Container>
@@ -90,7 +100,7 @@ export const Talents: React.FC = () => {
         const chunkedUsers = arrayToChunks(users, 3)
 
         return (
-            <Container fluid className="mt-3">
+            <Container fluid className="py-3">
                 <h1>Talents</h1>
                 {searchBar}
                 {users.length === 0 ? (
@@ -102,7 +112,7 @@ export const Talents: React.FC = () => {
                                 (prev, current) => prev + current.uid,
                                 "",
                             )}`}
-                            className="g-3"
+                            className="g-3 mt-0"
                         >
                             {userRow.map((user) => (
                                 <GridItem
