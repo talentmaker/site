@@ -62,7 +62,7 @@ export const Projects: React.FC<{competitionId: string}> = ({competitionId}) => 
         const sortedProjects = getSortedProjects(projects)
 
         return (
-            <Container fluid>
+            <Container fluid className="py-3">
                 <Breadcrumb>
                     <Breadcrumb.Item linkAs={Link} linkProps={{to: "/competitions"}}>
                         Competitions
@@ -78,7 +78,7 @@ export const Projects: React.FC<{competitionId: string}> = ({competitionId}) => 
                 <h1 className="my-3">Advancing</h1>
                 {(sortedProjects[0]?.length ?? 0) > 0 ? (
                     sortedProjects[0].map((row, index) => (
-                        <Row key={`project-row-${index}`} className="g-3">
+                        <Row key={`project-row-${index}`} className="g-3 mt-0">
                             {row.map((project, index2) => (
                                 <Project
                                     key={`comp-item-0-${index}-${index2}`}
@@ -94,7 +94,7 @@ export const Projects: React.FC<{competitionId: string}> = ({competitionId}) => 
 
                 <h1 className="mb-3">Submitted</h1>
                 {sortedProjects[1]?.map((row, index) => (
-                    <Row key={`project-row-${index}`} className="g-3">
+                    <Row key={`project-row-${index}`} className="g-3 mt-0">
                         {row.map((project, index2) => (
                             <Project
                                 key={`comp-item-1-${index}-${index2}`}

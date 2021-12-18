@@ -80,7 +80,7 @@ export const Competitions: React.FC = () => {
 
     if (isDone) {
         return (
-            <Container fluid className="mt-3">
+            <Container fluid className="py-3">
                 {user?.isOrganization === true && (
                     <>
                         <h1>Create a Competition</h1>
@@ -102,7 +102,7 @@ export const Competitions: React.FC = () => {
 
                 <h1 className="my-3">Upcoming Competitions</h1>
                 {sortedCompetitions[0].map((row, index) => (
-                    <Row key={`comp-row-0-${index}`} className="g-3">
+                    <Row key={`comp-row-0-${index}`} className="g-3 mt-0">
                         {row.map((comp, index2) => (
                             <Competition
                                 key={`comp-item-0-${index}-${index2}`}
@@ -115,7 +115,7 @@ export const Competitions: React.FC = () => {
 
                 <h1 className="mb-3">Past Competitions</h1>
                 {sortedCompetitions[1]?.map((row, index) => (
-                    <Row key={`comp-row-1-${index}`} className="g-3">
+                    <Row key={`comp-row-1-${index}`} className="g-3 mt-0">
                         {row.map((comp, index2) => (
                             <Competition
                                 key={`comp-item-1-${index}-${index2}`}
