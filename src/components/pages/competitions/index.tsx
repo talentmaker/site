@@ -101,17 +101,21 @@ export const Competitions: React.FC = () => {
                 )}
 
                 <h1 className="my-3">Upcoming Competitions</h1>
-                {sortedCompetitions[0].map((row, index) => (
-                    <Row key={`comp-row-0-${index}`} className="g-3 mt-0">
-                        {row.map((comp, index2) => (
-                            <Competition
-                                key={`comp-item-0-${index}-${index2}`}
-                                comp={comp}
-                                user={user}
-                            />
-                        ))}
-                    </Row>
-                ))}
+                {sortedCompetitions[0].length === 0 ? (
+                    <p>None</p>
+                ) : (
+                    sortedCompetitions[0].map((row, index) => (
+                        <Row key={`comp-row-0-${index}`} className="g-3 mt-0">
+                            {row.map((comp, index2) => (
+                                <Competition
+                                    key={`comp-item-0-${index}-${index2}`}
+                                    comp={comp}
+                                    user={user}
+                                />
+                            ))}
+                        </Row>
+                    ))
+                )}
 
                 <h1 className="mb-3">Past Competitions</h1>
                 {sortedCompetitions[1]?.map((row, index) => (

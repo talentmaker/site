@@ -76,7 +76,7 @@ export const Projects: React.FC<{competitionId: string}> = ({competitionId}) => 
                     <Breadcrumb.Item active>Submissions</Breadcrumb.Item>
                 </Breadcrumb>
                 <h1 className="my-3">Advancing</h1>
-                {(sortedProjects[0]?.length ?? 0) > 0 ? (
+                {sortedProjects[0]?.length ? (
                     sortedProjects[0].map((row, index) => (
                         <Row key={`project-row-${index}`} className="g-3 mt-0">
                             {row.map((project, index2) => (
@@ -93,17 +93,21 @@ export const Projects: React.FC<{competitionId: string}> = ({competitionId}) => 
                 )}
 
                 <h1 className="mb-3">Submitted</h1>
-                {sortedProjects[1]?.map((row, index) => (
-                    <Row key={`project-row-${index}`} className="g-3 mt-0">
-                        {row.map((project, index2) => (
-                            <Project
-                                key={`comp-item-1-${index}-${index2}`}
-                                project={project}
-                                user={user}
-                            />
-                        ))}
-                    </Row>
-                ))}
+                {sortedProjects[0]?.length ? (
+                    sortedProjects[1]?.map((row, index) => (
+                        <Row key={`project-row-${index}`} className="g-3 mt-0">
+                            {row.map((project, index2) => (
+                                <Project
+                                    key={`comp-item-1-${index}-${index2}`}
+                                    project={project}
+                                    user={user}
+                                />
+                            ))}
+                        </Row>
+                    ))
+                ) : (
+                    <p>None</p>
+                )}
             </Container>
         )
     }
