@@ -44,6 +44,7 @@ const NavLink: React.FC<{
     const linkAs = isExternal ? "a" : Link
     const isActive = currentLocation === location
     const formattedLocation = user ? location.replace(/<UID>/gu, user.uid) : location
+    const formattedDisplayname = user ? name.replace(/<USERNAME>/gu, user.username) : name
     const linkProps = isExternal
         ? {href: formattedLocation, ...externalLinkProps}
         : {to: formattedLocation}
@@ -86,16 +87,14 @@ const NavLink: React.FC<{
                                 variant: buttonVariant,
                             }}
                         >
-                            {user ? name.replace(/<USERNAME>/gu, user.username) : name}{" "}
-                            {visuallyHidden}
+                            {formattedDisplayname} {visuallyHidden}
                         </Button>
                     )
                 }
 
                 return (
                     <BsNavLink {...{...linkProps, as: linkAs, active: isActive}}>
-                        {user ? name.replace(/<USERNAME>/gu, user.username) : name}{" "}
-                        {visuallyHidden}
+                        {formattedDisplayname} {visuallyHidden}
                     </BsNavLink>
                 )
             })()}
@@ -103,47 +102,67 @@ const NavLink: React.FC<{
     )
 }
 
-const navIcon = (
-    location: string,
-    iconName: string,
-    displayName: string,
-    currentLocation: string,
-): JSX.Element => (
-    <BsNavLink
-        as={Link}
-        active={currentLocation === location}
-        className={styles.mobileNavLink}
-        to={location}
-    >
-        <span
-            className={currentLocation === location ? "material-icons" : "material-icons-outlined"}
+const NavIcon: React.FC<{
+    location: string
+    iconName: string
+    displayName: string
+    currentLocation: string
+}> = ({location, iconName, displayName, currentLocation}): JSX.Element => {
+    const {currentUser: user} = React.useContext(UserContext)
+    const formattedLocation = user ? location.replace(/<UID>/gu, user.uid) : location
+    const formattedDisplayname = user
+        ? displayName.replace(/<USERNAME>/gu, user.username)
+        : displayName
+
+    return (
+        <BsNavLink
+            as={Link}
+            active={currentLocation === location}
+            className={styles.mobileNavLink}
+            to={formattedLocation}
         >
-            {iconName}
-        </span>
-        <p>{displayName}</p>
-    </BsNavLink>
-)
+            <span
+                className={
+                    currentLocation === location ? "material-icons" : "material-icons-outlined"
+                }
+            >
+                {iconName}
+            </span>
+            <p>{formattedDisplayname}</p>
+        </BsNavLink>
+    )
+}
 
 const NavLinks: React.FC<{isMobile?: boolean; pathname: string}> = ({isMobile, pathname}) => {
     const {currentUser: user} = React.useContext(UserContext)
 
     return isMobile ? (
         <>
-            {routes.mobile.map((properties) => (
-                <div
-                    key={`mobile-name-item-${properties.toString()}`}
-                    className={styles.mobileNavItemContainer}
-                >
-                    {typeof properties[0] === "string"
-                        ? navIcon(...(properties as [string, string, string]), pathname)
-                        : navIcon(
-                              ...((user === null || user === undefined
-                                  ? properties[1]
-                                  : properties[0]) as [string, string, string]),
-                              pathname,
-                          )}
-                </div>
-            ))}
+            {routes.mobile.map((properties) => {
+                let _properties: [string, string, string]
+
+                if (typeof properties[0] === "string") {
+                    _properties = properties as [string, string, string]
+                } else {
+                    _properties = (
+                        user === null || user === undefined ? properties[1] : properties[0]
+                    ) as [string, string, string]
+                }
+
+                return (
+                    <div
+                        key={`mobile-name-item-${properties.toString()}`}
+                        className={styles.mobileNavItemContainer}
+                    >
+                        <NavIcon
+                            location={_properties[0]}
+                            iconName={_properties[1]}
+                            displayName={_properties[2]}
+                            currentLocation={pathname}
+                        />
+                    </div>
+                )
+            })}
         </>
     ) : (
         <div className={styles.navLinkGroup}>
