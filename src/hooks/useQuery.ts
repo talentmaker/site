@@ -12,15 +12,15 @@ import qs from "query-string"
 import {useHistory} from "react-router"
 
 type UseQueryReturn<T extends qs.ParsedQuery = qs.ParsedQuery> = {
-    query: T
+    query: Partial<T>
     rawQuery: string
     setRawQuery: (rawQuery: string) => void
     setQuery: (query: T) => void
 }
 
 export const useQuery = <T extends qs.ParsedQuery = qs.ParsedQuery>(): UseQueryReturn<T> => {
-    const [rawQuery, setRawQuery] = React.useState(window.location.search)
-    const [query, setQuery] = React.useState<T>(qs.parse(rawQuery) as T)
+    const [rawQuery, setRawQuery] = React.useState("")
+    const [query, setQuery] = React.useState<T>({} as T)
     const history = useHistory()
 
     const queryChangeHandler = () => {
@@ -31,6 +31,8 @@ export const useQuery = <T extends qs.ParsedQuery = qs.ParsedQuery>(): UseQueryR
     }
 
     React.useEffect(() => {
+        setRawQuery(window.location.search)
+        setQuery(qs.parse(window.location.search) as T)
         window.addEventListener("locationchange", queryChangeHandler)
 
         return () => {
