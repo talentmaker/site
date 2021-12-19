@@ -9,6 +9,7 @@
 
 import * as adapters from "~/adapters"
 import {Button, Col, Container, Row} from "react-bootstrap"
+import {Link, useHistory} from "react-router-dom"
 import DefaultPFP from "~/images/profile.svg"
 import GridItem from "~/components/gridItem"
 import React from "react"
@@ -17,7 +18,6 @@ import {UserContext} from "~/contexts"
 import {arrayToChunks} from "@luke-zhang-04/utils"
 import styles from "./index.module.scss"
 import {useAdapter} from "~/hooks"
-import {useHistory} from "react-router-dom"
 
 export const UserDisplay: React.FC<{uid: string}> = ({uid}) => {
     const history = useHistory()
@@ -56,7 +56,7 @@ export const UserDisplay: React.FC<{uid: string}> = ({uid}) => {
                 </Col>
                 {user.uid === currentUser?.uid && (
                     <Col lg={4} className="d-flex flex-row align-items-center justify-content-end">
-                        <Button variant="outline-primary" size="lg">
+                        <Button variant="outline-primary" size="lg" as={Link} to="/profile/edit">
                             Edit
                         </Button>
                         <Button

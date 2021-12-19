@@ -29,6 +29,7 @@ import {
     Auth,
     Competition,
     Competitions,
+    EditProfile,
     Home,
     JoinTeam,
     Legal,
@@ -207,6 +208,7 @@ const App: React.FC = () => {
                                     <Route path="/joinTeam/:data" component={JoinTeam} title="JoinTeam | Talentmaker" />
                                     <Route path="/legal" component={Legal} title="Legal | Talentmaker" />
                                     <Route path="/privacy-policy" component={PrivacyPolicy} title="PrivacyPolicy | Talentmaker" />
+                                    <Route path="/profile/edit" component={EditProfile} title="Edit Profile | Talentmaker" />
                                     <Route path="/profile/:uid" component={Profile} title="Profile | Talentmaker" />
                                     <Route path="/project/:id" component={Project} title="Project | Talentmaker" />
                                     <Route path="/project" component={Project} title="Project | Talentmaker" />
