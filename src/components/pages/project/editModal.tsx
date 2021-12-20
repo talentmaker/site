@@ -9,8 +9,8 @@
 
 import * as adapters from "~/adapters"
 import * as yup from "yup"
-import {Button, Form, Modal} from "react-bootstrap"
-import {Formik, FormikHelpers} from "formik"
+import {Button, Modal} from "react-bootstrap"
+import {Form, Formik, FormikHelpers} from "formik"
 import {NotificationContext, UserContext} from "~/contexts"
 import {Input} from "~/components/formik"
 import {Project} from "~/schemas/project"
@@ -146,7 +146,7 @@ export const EditModal: React.FC<Props> = ({shouldShow, onClose, onSave, project
                 validationSchema={formValidationSchema}
                 onSubmit={submit}
             >
-                {({isSubmitting, submitForm, setSubmitting, values}): JSX.Element => (
+                {({isSubmitting, setSubmitting, values}): JSX.Element => (
                     <Form>
                         <Modal.Header closeButton>
                             <Modal.Title>Edit project settings</Modal.Title>
@@ -215,7 +215,7 @@ export const EditModal: React.FC<Props> = ({shouldShow, onClose, onSave, project
                             <Button variant="outline-danger" onClick={onClose}>
                                 Cancel
                             </Button>
-                            <Button variant="primary" disabled={isSubmitting} onClick={submitForm}>
+                            <Button variant="primary" disabled={isSubmitting} type="submit">
                                 {isSubmitting && <Spinner inline> </Spinner>}
                                 Edit
                             </Button>

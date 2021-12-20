@@ -9,8 +9,8 @@
 
 import * as adapters from "~/adapters"
 import * as yup from "yup"
-import {Button, Form, Modal} from "react-bootstrap"
-import {Formik, FormikHelpers} from "formik"
+import {Button, Modal} from "react-bootstrap"
+import {Form, Formik, FormikHelpers} from "formik"
 import {NotificationContext, UserContext} from "~/contexts"
 import {Competition} from "~/schemas/competition"
 import {Input} from "~/components/formik"
@@ -172,7 +172,7 @@ export const EditModal: React.FC<Props> = ({shouldShow, onClose, onSave, competi
                 validationSchema={formValidationSchema}
                 onSubmit={submit}
             >
-                {({isSubmitting, submitForm}): JSX.Element => (
+                {({isSubmitting}): JSX.Element => (
                     <Form>
                         <Modal.Header closeButton>
                             <Modal.Title>Edit competition settings</Modal.Title>
@@ -236,7 +236,7 @@ export const EditModal: React.FC<Props> = ({shouldShow, onClose, onSave, competi
                             <Button variant="outline-danger" onClick={onClose}>
                                 Cancel
                             </Button>
-                            <Button variant="primary" disabled={isSubmitting} onClick={submitForm}>
+                            <Button variant="primary" disabled={isSubmitting} type="submit">
                                 {isSubmitting && <Spinner inline> </Spinner>}
                                 Edit
                             </Button>
