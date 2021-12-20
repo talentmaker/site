@@ -11,6 +11,7 @@ import * as adapters from "~/adapters"
 import {Container, FormControl, InputGroup, Row} from "react-bootstrap"
 import {useAdapter, useDebounce, useFunctionMemoPromise, useQuery} from "~/hooks"
 import GridItem from "~/components/gridItem"
+import MetaTags from "~/components/metaTags"
 import React from "react"
 import {Spinner} from "~/components/bootstrap"
 import {arrayToChunks} from "@luke-zhang-04/utils"
@@ -100,36 +101,39 @@ export const Talents: React.FC = () => {
         const chunkedUsers = arrayToChunks(users, 3)
 
         return (
-            <Container fluid className="py-3">
-                <h1>Talents</h1>
-                {searchBar}
-                {users.length === 0 ? (
-                    <p>No results</p>
-                ) : (
-                    chunkedUsers.map((userRow) => (
-                        <Row
-                            key={`comp-row-${userRow.reduce(
-                                (prev, current) => prev + current.uid,
-                                "",
-                            )}`}
-                            className="g-3 mt-0"
-                        >
-                            {userRow.map((user) => (
-                                <GridItem
-                                    key={`grid-item-${user.uid}`}
-                                    imageURL={defaultProfileImage}
-                                    tag={user.uid.slice(0, 8)}
-                                    title={user.username}
-                                    desc={`${user.projectCount} project${
-                                        user.projectCount === 1 ? "" : "s"
-                                    } so far`}
-                                    link={{to: `/profile/${user.uid}`, text: "More info"}}
-                                />
-                            ))}
-                        </Row>
-                    ))
-                )}
-            </Container>
+            <>
+                <MetaTags />
+                <Container fluid className="py-3">
+                    <h1>Talents</h1>
+                    {searchBar}
+                    {users.length === 0 ? (
+                        <p>No results</p>
+                    ) : (
+                        chunkedUsers.map((userRow) => (
+                            <Row
+                                key={`comp-row-${userRow.reduce(
+                                    (prev, current) => prev + current.uid,
+                                    "",
+                                )}`}
+                                className="g-3 mt-0"
+                            >
+                                {userRow.map((user) => (
+                                    <GridItem
+                                        key={`grid-item-${user.uid}`}
+                                        imageURL={defaultProfileImage}
+                                        tag={user.uid.slice(0, 8)}
+                                        title={user.username}
+                                        desc={`${user.projectCount} project${
+                                            user.projectCount === 1 ? "" : "s"
+                                        } so far`}
+                                        link={{to: `/profile/${user.uid}`, text: "More info"}}
+                                    />
+                                ))}
+                            </Row>
+                        ))
+                    )}
+                </Container>
+            </>
         )
     }
 

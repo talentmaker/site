@@ -13,6 +13,7 @@ import {Button, Container} from "react-bootstrap"
 import {Form, Formik, FormikHelpers} from "formik"
 import {NotificationContext, UserContext} from "~/contexts"
 import {Input} from "~/components/formik"
+import MetaTags from "~/components/metaTags"
 import React from "react"
 import {Spinner} from "~/components/bootstrap"
 
@@ -122,8 +123,11 @@ export const EditProfile: React.FC = () => {
     }
 
     return (
-        <Container fluid className="my-3">
-            <p>You are not logged in</p>
-        </Container>
+        <>
+            <MetaTags statusCode={401} />
+            <Container fluid className="my-3">
+                <p>You are not logged in</p>
+            </Container>
+        </>
     )
 }

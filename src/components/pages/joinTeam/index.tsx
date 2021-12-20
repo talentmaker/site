@@ -11,6 +11,7 @@ import * as adapters from "~/adapters"
 import {Button, Container} from "react-bootstrap"
 import {Link, useHistory} from "react-router-dom"
 import {NotificationContext, UserContext} from "~/contexts"
+import MetaTags from "~/components/metaTags"
 import React from "react"
 import {Spinner} from "~/components/bootstrap"
 import {useAdapter} from "~/hooks"
@@ -47,50 +48,63 @@ export const JoinTeam: React.FC<Props> = ({data}) => {
     }
 
     if (!user) {
-        return <p>Error: unauthenticated</p>
+        return (
+            <>
+                <MetaTags statusCode={401} />
+                <p>Error: unauthenticated</p>
+            </>
+        )
     } else if (!inviteLinkData) {
         return <Spinner color="primary" size="25vw" className="my-5" centered />
     } else if (Date.now() > inviteLinkData.expiry) {
         // Don't worry, there's a server side check for this too
-        return <p>Error: your link is expired</p>
+        return (
+            <>
+                <MetaTags statusCode={410} />
+                <p>Error: your link is expired</p>
+            </>
+        )
     }
 
     return (
-        <Container fluid className="py-5" style={{height: "65vh"}}>
-            <h1>Join Team</h1>
-            <ul>
-                <li>
-                    Project name:{" "}
-                    <Link to={`/project/${inviteLinkData.projectId}`}>
-                        <code>{inviteLinkData.projectName}</code>
-                    </Link>
-                </li>
-                <li>
-                    Project creator: <code>{inviteLinkData.projectCreator}</code>
-                </li>
-                <li>
-                    Competition name:{" "}
-                    <Link to={`/competition/${inviteLinkData.competitionId}`}>
-                        <code>{inviteLinkData.competitionName}</code>
-                    </Link>
-                </li>
-                <li>
-                    Competition creator: <code>{inviteLinkData.competitionCreator}</code>
-                </li>
-            </ul>
-            <p>
-                Are you sure you would like to join the team for{" "}
-                <code>{inviteLinkData.projectName}</code> for the competition{" "}
-                <code>{inviteLinkData.competitionName}</code>?
-            </p>
-            <Button variant="success" onClick={joinTeam} className="me-3">
-                {isJoining ? <Spinner inline> </Spinner> : undefined}
-                Yes
-            </Button>
-            <Button variant="outline-danger" to="/" as={Link} disabled={isJoining}>
-                No
-            </Button>
-        </Container>
+        <>
+            <MetaTags title={`Join ${inviteLinkData.competitionCreator}'s Team`} />
+            <Container fluid className="py-5" style={{height: "65vh"}}>
+                <h1>Join Team</h1>
+                <ul>
+                    <li>
+                        Project name:{" "}
+                        <Link to={`/project/${inviteLinkData.projectId}`}>
+                            <code>{inviteLinkData.projectName}</code>
+                        </Link>
+                    </li>
+                    <li>
+                        Project creator: <code>{inviteLinkData.projectCreator}</code>
+                    </li>
+                    <li>
+                        Competition name:{" "}
+                        <Link to={`/competition/${inviteLinkData.competitionId}`}>
+                            <code>{inviteLinkData.competitionName}</code>
+                        </Link>
+                    </li>
+                    <li>
+                        Competition creator: <code>{inviteLinkData.competitionCreator}</code>
+                    </li>
+                </ul>
+                <p>
+                    Are you sure you would like to join the team for{" "}
+                    <code>{inviteLinkData.projectName}</code> for the competition{" "}
+                    <code>{inviteLinkData.competitionName}</code>?
+                </p>
+                <Button variant="success" onClick={joinTeam} className="me-3">
+                    {isJoining ? <Spinner inline> </Spinner> : undefined}
+                    Yes
+                </Button>
+                <Button variant="outline-danger" to="/" as={Link} disabled={isJoining}>
+                    No
+                </Button>
+            </Container>
+        </>
     )
 }
 

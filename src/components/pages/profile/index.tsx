@@ -12,6 +12,7 @@ import {Button, Col, Container, Row} from "react-bootstrap"
 import {Link, useHistory} from "react-router-dom"
 import DefaultPFP from "~/images/profile.svg"
 import GridItem from "~/components/gridItem"
+import MetaTags from "~/components/metaTags"
 import React from "react"
 import {Spinner} from "~/components/bootstrap"
 import {UserContext} from "~/contexts"
@@ -36,6 +37,7 @@ export const UserDisplay: React.FC<{uid: string}> = ({uid}) => {
 
     return (
         <>
+            <MetaTags title={user.username} description={`${user.username}'s profile`} />
             <Row>
                 <Col lg={2}>
                     <div className="px-4 my-3">

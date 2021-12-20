@@ -15,6 +15,7 @@ import {readCache, writeCache} from "~/utils"
 import EditModal from "./editModal"
 import {EditableMarkdown} from "~/components/markdown"
 import {Link} from "react-router-dom"
+import MetaTags from "~/components/metaTags"
 import NotificationContext from "~/contexts/notificationContext"
 import Prism from "prismjs"
 import React from "react"
@@ -134,6 +135,11 @@ export const Competition: React.FC<Props> = (props) => {
 
         return (
             <>
+                <MetaTags
+                    title={competition.name ?? `${competition.orgName}'s Competition`}
+                    description={competition.shortDesc}
+                    image={competition.coverImageURL}
+                />
                 <EditModal
                     competition={competition}
                     shouldShow={shouldShowModal}

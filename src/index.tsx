@@ -47,11 +47,16 @@ import {BrowserRouter as Router, Switch} from "react-router-dom"
 import {CognitoUser as User, userSchema} from "./schemas/user"
 import ErrorBoundary from "./components/errorBoundary"
 import Footer from "./components/footer"
+import {Helmet} from "react-helmet"
 import Nav from "./components/nav"
 import React from "react"
 import ReactDOM from "react-dom"
 import {Route} from "./components/route"
 import {url} from "./globals"
+
+const defaultDescription =
+    "A student project community and technology consulting company. Encouraging and empowering students to pursure their future endeavours and career asprirations with real, hands on, and rewarding project experience."
+const defaultImageURL = "/images/sc.png"
 
 // Hacky way to expose the addNotification callback
 export let addNotification: ((notification: NotificationType | Error) => void) | undefined
@@ -196,28 +201,39 @@ const App: React.FC = () => {
                 >
                     <ErrorBoundary>
                         <Notifications notifications={notifications} />
+                        <Helmet
+                            meta={[
+                                {property: "description", content: defaultDescription},
+                                {property: "og:description", content: defaultDescription},
+                                {property: "twitter:description", content: defaultDescription},
+                                {property: "og:image", content: defaultImageURL},
+                                {property: "twitter:image", content: defaultImageURL},
+                                {property: "og:title", content: "Talentmaker"},
+                                {property: "twitter:title", content: "Talentmaker"},
+                            ]}
+                        />
                         <Router>
                             <div>
                                 <Nav />
                                 {/* prettier-ignore */}
                                 <Switch>
-                                    <Route path="/" exact component={Home} title="Home | Talentmaker" />
-                                    <Route path="/auth" component={Auth} title="Auth | Talentmaker" />
-                                    <Route path="/competition/:id" component={Competition} title="Competition | Talentmaker" />
-                                    <Route path="/competitions" component={Competitions} title="Competitions | Talentmaker" />
-                                    <Route path="/joinTeam/:data" component={JoinTeam} title="JoinTeam | Talentmaker" />
-                                    <Route path="/legal" component={Legal} title="Legal | Talentmaker" />
-                                    <Route path="/privacy-policy" component={PrivacyPolicy} title="PrivacyPolicy | Talentmaker" />
-                                    <Route path="/profile/edit" component={EditProfile} title="Edit Profile | Talentmaker" />
-                                    <Route path="/profile/:uid" component={Profile} title="Profile | Talentmaker" />
-                                    <Route path="/project/:id" component={Project} title="Project | Talentmaker" />
-                                    <Route path="/project" component={Project} title="Project | Talentmaker" />
-                                    <Route path="/projects/:competitionId" component={Projects} title="Projects | Talentmaker" />
-                                    <Route path="/talents" component={Talents}  title="Talents | Talentmaker"/>
-                                    <Route path="/talentmakers" component={Talentmakers} title="Talentmakers | Talentmaker" />
+                                    <Route path="/" exact component={Home} title="Home - Talentmaker" />
+                                    <Route path="/auth" component={Auth} title="Auth - Talentmaker" />
+                                    <Route path="/competition/:id" component={Competition} title="Competition - Talentmaker" />
+                                    <Route path="/competitions" component={Competitions} title="Competitions - Talentmaker" />
+                                    <Route path="/joinTeam/:data" component={JoinTeam} title="Join Team - Talentmaker" />
+                                    <Route path="/legal" component={Legal} title="Legal - Talentmaker" />
+                                    <Route path="/privacy-policy" component={PrivacyPolicy} title="Privacy Policy - Talentmaker" />
+                                    <Route path="/profile/edit" component={EditProfile} title="Edit Your Profile - Talentmaker" />
+                                    <Route path="/profile/:uid" component={Profile} title="Profile - Talentmaker" />
+                                    <Route path="/project/:id" component={Project} title="Project - Talentmaker" />
+                                    <Route path="/project" component={Project} title="Project - Talentmaker" />
+                                    <Route path="/projects/:competitionId" component={Projects} title="Projects - Talentmaker" />
+                                    <Route path="/talents" component={Talents}  title="Talents - Talentmaker"/>
+                                    <Route path="/talentmakers" component={Talentmakers} title="Talentmakers - Talentmaker" />
 
                                     {/* 404 */}
-                                    <Route component={NotFound} />
+                                    <Route component={NotFound} title="404 Not Found" />
                                 </Switch>
                             </div>
                             <Footer user={currentUser} />

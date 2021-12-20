@@ -15,6 +15,7 @@ import {readCache, writeCache} from "~/utils"
 import EditModal from "./editModal"
 import {EditableMarkdown} from "~/components/markdown"
 import {Link} from "react-router-dom"
+import MetaTags from "~/components/metaTags"
 import Prism from "prismjs"
 import React from "react"
 import {Spinner} from "~/components/bootstrap"
@@ -171,6 +172,10 @@ export const Project: React.FC<Props> = (props) => {
 
         return (
             <>
+                <MetaTags
+                    title={project.name}
+                    description={`${project.creatorUsername}'s Submission to ${project.competitionName}`}
+                />
                 <EditModal
                     project={project}
                     shouldShow={shouldShowModal}
