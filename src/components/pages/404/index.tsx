@@ -14,9 +14,6 @@ import styles from "./index.module.scss"
 
 export const NotFound = (): JSX.Element => (
     <>
-        <MetaTags>
-            <meta name="render:status_code" content="404" />
-        </MetaTags>
         <div className={`${styles.notFound} d-flex align-items-center justify-content-center`}>
             <section className={styles.errorContainer}>
                 <span className={styles.four}>
@@ -44,6 +41,9 @@ export const NotFound = (): JSX.Element => (
                 </Button>
             </div>
         </div>
+        <MetaTags>
+            <meta name="render:status_code" content="404" />
+        </MetaTags>
     </>
 )
 

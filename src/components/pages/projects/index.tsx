@@ -46,7 +46,7 @@ const Project: React.FC<{project: ProjectsType[0]; user?: User}> = ({project, us
 export const Projects: React.FC<{competitionId: string}> = ({competitionId}) => {
     const {data: projects} = useAdapter(
         () => adapters.project.getMany(competitionId),
-        () => projectsSchema.validate(cache.read("talentmakerCache_projects")),
+        () => projectsSchema.validate(cache.read(`talentmakerCache_projects_${competitionId}`)),
     )
     const {currentUser: user} = React.useContext(UserContext)
 
@@ -93,7 +93,7 @@ export const Projects: React.FC<{competitionId: string}> = ({competitionId}) => 
                 )}
 
                 <h1 className="mb-3">Submitted</h1>
-                {sortedProjects[0]?.length ? (
+                {sortedProjects[1]?.length ? (
                     sortedProjects[1]?.map((row, index) => (
                         <Row key={`project-row-${index}`} className="g-3 mt-0">
                             {row.map((project, index2) => (

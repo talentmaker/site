@@ -74,9 +74,11 @@ export const Talents: React.FC = () => {
                     className="bg-lighter"
                     value={searchTerm}
                     onChange={(event) => {
+                        event.preventDefault()
                         setSearchTerm(event.target.value)
                     }}
                     onKeyUp={(event) => {
+                        event.preventDefault()
                         if (event.code === "Enter") {
                             setImmediately()
                         }
@@ -102,7 +104,6 @@ export const Talents: React.FC = () => {
 
         return (
             <>
-                <MetaTags />
                 <Container fluid className="py-3">
                     <h1>Talents</h1>
                     {searchBar}
@@ -133,6 +134,7 @@ export const Talents: React.FC = () => {
                         ))
                     )}
                 </Container>
+                <MetaTags />
             </>
         )
     }

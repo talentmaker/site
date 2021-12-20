@@ -135,11 +135,6 @@ export const Competition: React.FC<Props> = (props) => {
 
         return (
             <>
-                <MetaTags
-                    title={competition.name ?? `${competition.orgName}'s Competition`}
-                    description={competition.shortDesc}
-                    image={competition.coverImageURL}
-                />
                 <EditModal
                     competition={competition}
                     shouldShow={shouldShowModal}
@@ -177,6 +172,11 @@ export const Competition: React.FC<Props> = (props) => {
                         <Components.Sidebar items={data.items} />
                     </Col>
                 </Row>
+                <MetaTags
+                    title={competition.name ?? `${competition.orgName}'s Competition`}
+                    description={competition.shortDesc}
+                    image={competition.coverImageURL}
+                />
             </>
         )
     }

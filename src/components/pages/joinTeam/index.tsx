@@ -50,8 +50,8 @@ export const JoinTeam: React.FC<Props> = ({data}) => {
     if (!user) {
         return (
             <>
-                <MetaTags statusCode={401} />
                 <p>Error: unauthenticated</p>
+                <MetaTags statusCode={401} />{" "}
             </>
         )
     } else if (!inviteLinkData) {
@@ -60,15 +60,14 @@ export const JoinTeam: React.FC<Props> = ({data}) => {
         // Don't worry, there's a server side check for this too
         return (
             <>
-                <MetaTags statusCode={410} />
                 <p>Error: your link is expired</p>
+                <MetaTags statusCode={410} />
             </>
         )
     }
 
     return (
         <>
-            <MetaTags title={`Join ${inviteLinkData.competitionCreator}'s Team`} />
             <Container fluid className="py-5" style={{height: "65vh"}}>
                 <h1>Join Team</h1>
                 <ul>
@@ -104,6 +103,7 @@ export const JoinTeam: React.FC<Props> = ({data}) => {
                     No
                 </Button>
             </Container>
+            <MetaTags title={`Join ${inviteLinkData.competitionCreator}'s Team`} />
         </>
     )
 }

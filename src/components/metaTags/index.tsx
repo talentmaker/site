@@ -19,6 +19,12 @@ type MetaTagData = {
     image?: string | null
 }
 
+/**
+ * Component which renders meta tags to <head> default meta tags, Opengraph, and Twitter
+ *
+ * @warn put these after rendering the main content; putting it at the beginning can cause weird
+ *  render refresh glitches and force the VDOM to completely rerender
+ */
 export const MetaTags: React.FC<MetaTagData> = ({
     title,
     description,

@@ -37,7 +37,6 @@ export const UserDisplay: React.FC<{uid: string}> = ({uid}) => {
 
     return (
         <>
-            <MetaTags title={user.username} description={`${user.username}'s profile`} />
             <Row>
                 <Col lg={2}>
                     <div className="px-4 my-3">
@@ -76,11 +75,9 @@ export const UserDisplay: React.FC<{uid: string}> = ({uid}) => {
                     </Col>
                 )}
             </Row>
-
             <Row className={`bg-primary ${styles.bar}`}>
                 <Col xs={12} />
             </Row>
-
             <Row>
                 <Col xs={3} className="bg-lighter">
                     <ul className="list-unstyled text-dark px-4 py-5">
@@ -141,6 +138,7 @@ export const UserDisplay: React.FC<{uid: string}> = ({uid}) => {
                     )}
                 </Col>
             </Row>
+            <MetaTags title={user.username} description={`${user.username}'s profile`} />
         </>
     )
 }
