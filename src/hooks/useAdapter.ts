@@ -15,19 +15,25 @@ import React from "react"
 type UseAdapterReturn<OutputType> = (
     | {
           isLoading: true
+          isLoadingApi: true
           isDone: false
+          isDoneApi: false
           data: undefined
           error: undefined
       }
     | {
           isLoading: false
+          isLoadingApi: boolean
           isDone: true
+          isDoneApi: boolean
           data: OutputType
           error: undefined
       }
     | {
           isLoading: false
+          isLoadingApi: boolean
           isDone: false
+          isDoneApi: boolean
           isSuccessful: false
           data: undefined
           error: Error
@@ -66,6 +72,7 @@ export const useAdapter = <
     deps: React.DependencyList = [],
 ): Readonly<UseAdapterReturn<OutputType>> => {
     const [isLoading, setIsLoading] = React.useState(true)
+    const [isLoadingApi, setIsLoadingApi] = React.useState(true)
     const [data, setData] = React.useState<OutputType>()
     const [error, setError] = React.useState<Error>()
 
@@ -85,6 +92,7 @@ export const useAdapter = <
             .finally(() => {
                 if (isLoading) {
                     setIsLoading(false)
+                    setIsLoadingApi(false)
                 }
             })
     }, [adapterCall, isLoading, ...deps])
@@ -122,6 +130,8 @@ export const useAdapter = <
     return {
         isLoading,
         isDone: !isLoading,
+        isLoadingApi,
+        isDoneApi: !isLoadingApi,
         data,
         error,
         rerun: callAdapter,

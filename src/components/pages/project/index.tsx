@@ -39,8 +39,12 @@ type Props = {
 
 export const Project: React.FC<Props> = (props) => {
     const {currentUser: user} = React.useContext(UserContext)
-    const {data: project, setData} = useAdapter(
-        () => (user ? adapters.project.get(user, props.id, props.competitionId) : undefined),
+    const {
+        data: project,
+        setData,
+        isLoadingApi,
+    } = useAdapter(
+        () => adapters.project.get(user, props.id, props.competitionId),
         () =>
             props.id
                 ? projectSchema.validate(readCache(`talentmakerCache_project-${props.id}`))
@@ -56,7 +60,7 @@ export const Project: React.FC<Props> = (props) => {
         if (window.location.hash) {
             scrollToHeader(window.location.hash)
         }
-    }, [])
+    }, [project?.id, isLoadingApi])
 
     React.useEffect(() => {
         Prism.highlightAll()

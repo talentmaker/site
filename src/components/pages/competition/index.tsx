@@ -40,6 +40,7 @@ export const Competition: React.FC<Props> = (props) => {
         data: competition,
         rerun,
         setData,
+        isLoadingApi,
     } = useAdapter(
         () => adapters.competition.get(user?.uid, props.id),
         () => competitionSchema.validate(readCache(`talentmakerCache_competition-${props.id}`)),
@@ -53,7 +54,7 @@ export const Competition: React.FC<Props> = (props) => {
         if (window.location.hash) {
             scrollToHeader(window.location.hash)
         }
-    }, [])
+    }, [competition?.id, isLoadingApi])
 
     React.useEffect(() => {
         Prism.highlightAll()
