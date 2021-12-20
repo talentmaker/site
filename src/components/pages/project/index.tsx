@@ -209,7 +209,9 @@ export const Project: React.FC<Props> = (props) => {
                 </Breadcrumb>
                 <Components.UserInfo
                     username={project.name ?? "Submission"}
-                    desc={`Submission for ${project.competitionName}`}
+                    desc={`Submission for ${
+                        project.competitionName ?? `${project.competitionOrgName}'s Competition`
+                    }`}
                 >
                     {isTeamMember && (
                         <Button
