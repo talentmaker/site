@@ -36,11 +36,6 @@ const formValidationSchema = yup.object({
             "is-date",
             "${path} is an invalid date",
             (value) => value !== undefined && !isNaN(new Date(value).getTime()),
-        )
-        .test(
-            "is-in-future",
-            "${path} must be in the future",
-            (value) => value !== undefined && new Date(value).getTime() > Date.now(),
         ),
 })
 
