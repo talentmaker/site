@@ -10,7 +10,7 @@
 import React from "react"
 import {isEqualArray} from "@luke-zhang-04/utils"
 
-type UseFunctionMemoPromiseReturn<R, P extends unknown[]> = [
+export type UseFunctionMemoPromiseReturn<R, P extends unknown[]> = [
     /**
      * Memoized function
      */

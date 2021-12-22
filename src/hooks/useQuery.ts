@@ -11,7 +11,7 @@ import React from "react"
 import qs from "query-string"
 import {useHistory} from "react-router"
 
-type UseQueryReturn<T extends qs.ParsedQuery = qs.ParsedQuery> = {
+export type UseQueryReturn<T extends qs.ParsedQuery = qs.ParsedQuery> = {
     query: Partial<T>
     rawQuery: string
     setRawQuery: (rawQuery: string) => void

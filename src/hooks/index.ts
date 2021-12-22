@@ -9,6 +9,7 @@
 
 export {useAdapter} from "./useAdapter"
 export {useDebounce} from "./useDebounce"
+export {useDebounceSearch} from "./useDebounceSearch"
 export {useFunctionMemoPromise} from "./useFunctionMemo"
 export {useQuery} from "./useQuery"
 export {useWindowSize} from "./useWindowSize"

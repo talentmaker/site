@@ -7,10 +7,14 @@
 
 import React from "react"
 
-export const useDebounce = <T>(
-    value: T,
-    delay: number,
-): {value: T; isWaiting: boolean; setImmediately: () => void; clearDebounce: () => void} => {
+export type UseDebounceReturn<T> = {
+    value: T
+    isWaiting: boolean
+    setImmediately: () => void
+    clearDebounce: () => void
+}
+
+export const useDebounce = <T>(value: T, delay: number): UseDebounceReturn<T> => {
     const [debouncedValue, setDebouncedValue] = React.useState(value)
     const [isWaiting, setIsWaiting] = React.useState(false)
     const timeout = React.useRef<NodeJS.Timeout>()

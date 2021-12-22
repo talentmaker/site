@@ -12,7 +12,7 @@ import type {AdapterReturnTypeOrError} from "~/adapters/utils/createAdapter"
 import type {MaybePromise} from "@luke-zhang-04/utils/types"
 import React from "react"
 
-type UseAdapterReturn<OutputType> = (
+export type UseAdapterReturn<OutputType> = (
     | {
           isLoading: true
           isLoadingApi: true

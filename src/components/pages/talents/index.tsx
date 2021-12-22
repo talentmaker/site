@@ -8,84 +8,33 @@
  */
 
 import * as adapters from "~/adapters"
-import {Container, FormControl, InputGroup, Row} from "react-bootstrap"
-import {useAdapter, useDebounce, useFunctionMemoPromise, useQuery} from "~/hooks"
+import {Container, Row} from "react-bootstrap"
 import GridItem from "~/components/gridItem"
 import MetaTags from "~/components/metaTags"
 import React from "react"
+import SearchBar from "~/components/searchBar"
 import {Spinner} from "~/components/bootstrap"
 import {arrayToChunks} from "@luke-zhang-04/utils"
 import defaultProfileImage from "~/images/profile.svg"
-import {secsToMs} from "@luke-zhang-04/dateplus"
-
-const debounceTimeout = 1
+import {useDebounceSearch} from "~/hooks"
 
 export const Talents: React.FC = () => {
-    const {query, setQuery} = useQuery<{query?: string}>()
-    const [search, searchCache] = useFunctionMemoPromise((term: string) =>
-        adapters.user.getMany(term),
-    )
-    const {data: users, setData, setError, isLoading, setIsLoading} = useAdapter(() => search(""))
-    const [searchTerm, setSearchTerm] = React.useState("")
     const {
-        value: debounceSearchTerm,
-        isWaiting,
+        data: users,
+        searchTerm,
+        setSearchTerm,
         setImmediately,
-        clearDebounce,
-    } = useDebounce(searchTerm, secsToMs(debounceTimeout))
-
-    React.useEffect(() => {
-        if (query.query && searchTerm !== query.query) {
-            setSearchTerm(query.query)
-            setImmediately()
-        }
-    }, [query.query])
-
-    React.useEffect(() => {
-        setQuery(searchTerm ? {query: searchTerm} : {})
-        const cacheEntry = searchCache(searchTerm)
-
-        if (cacheEntry && !(cacheEntry instanceof Error)) {
-            clearDebounce()
-            setData(cacheEntry)
-        }
-    }, [searchTerm])
-
-    React.useEffect(() => {
-        setIsLoading(true)
-        search(debounceSearchTerm)
-            .then((newUsers) => {
-                if (newUsers instanceof Error) {
-                    setError(newUsers)
-                } else {
-                    setData(newUsers)
-                }
-            })
-            .catch(() => {})
-    }, [debounceSearchTerm])
+        isWaiting,
+        isLoading,
+    } = useDebounceSearch(adapters.user.getMany)
 
     if (users) {
         const searchBar = (
-            <InputGroup className="mb-3">
-                <InputGroup.Text>
-                    <span className="material-icons">search</span>
-                </InputGroup.Text>
-                <FormControl
-                    className="bg-lighter"
-                    value={searchTerm}
-                    onChange={(event) => {
-                        event.preventDefault()
-                        setSearchTerm(event.target.value)
-                    }}
-                    onKeyUp={(event) => {
-                        event.preventDefault()
-                        if (event.code === "Enter") {
-                            setImmediately()
-                        }
-                    }}
-                    placeholder="Search users"
-                />
-            </InputGroup>
+            <SearchBar
+                searchTerm={searchTerm}
+                onChange={setSearchTerm}
+                onPressEnter={setImmediately}
+            />
         )
 
         if (isWaiting || isLoading) {
