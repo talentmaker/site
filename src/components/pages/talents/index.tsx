@@ -20,12 +20,9 @@ import {useDebounceSearch} from "~/hooks"
 
 export const Talents: React.FC = () => {
     const {
-        data: users,
-        searchTerm,
-        setSearchTerm,
-        setImmediately,
-        isWaiting,
-        isLoading,
+        adapter: {data: users, isLoading},
+        search: {searchTerm, setSearchTerm},
+        debounce: {setImmediately, isWaiting},
     } = useDebounceSearch(adapters.user.getMany)
 
     if (users) {
@@ -34,6 +31,7 @@ export const Talents: React.FC = () => {
                 searchTerm={searchTerm}
                 onChange={setSearchTerm}
                 onPressEnter={setImmediately}
+                placeholder="Search Users"
             />
         )
 

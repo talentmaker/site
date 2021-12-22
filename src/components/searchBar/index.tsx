@@ -14,9 +14,15 @@ interface SearchBarProps {
     searchTerm: string
     onChange: (value: string) => void
     onPressEnter: () => void
+    placeholder: string
 }
 
-export const SearchBar: React.FC<SearchBarProps> = ({searchTerm, onChange, onPressEnter}) => (
+export const SearchBar: React.FC<SearchBarProps> = ({
+    searchTerm,
+    onChange,
+    onPressEnter,
+    placeholder,
+}) => (
     <InputGroup className="mb-3">
         <InputGroup.Text>
             <span className="material-icons">search</span>
@@ -34,7 +40,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({searchTerm, onChange, onPre
                     onPressEnter()
                 }
             }}
-            placeholder="Search users"
+            placeholder={placeholder}
         />
     </InputGroup>
 )

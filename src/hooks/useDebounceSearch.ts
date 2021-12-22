@@ -22,24 +22,32 @@ const debounceTimeout = 1
 /**
  * Monstrous type that includes data from all the hooks used below in case they're needed
  */
-export type UseDebounceSearchReturn<T extends yup.BaseSchema | undefined> = UseQueryReturn<{
-    query?: string | undefined
-}> & {
-    search: UseFunctionMemoPromiseReturn<AdapterReturnTypeOrError<T>, [searchTerm: string]>[0]
-    searchCache: UseFunctionMemoPromiseReturn<AdapterReturnTypeOrError<T>, [searchTerm: string]>[1]
-    searchTerm: string
-    setSearchTerm: (searchTerm: string) => void
-} & UseDebounceReturn<string> &
-    UseAdapterReturn<T extends yup.BaseSchema ? T["__outputType"] : undefined>
+export type UseDebounceSearchReturn<T extends yup.BaseSchema | undefined> = {
+    query: UseQueryReturn<{
+        query?: string | undefined
+    }>
+    search: {
+        search: UseFunctionMemoPromiseReturn<AdapterReturnTypeOrError<T>, [searchTerm: string]>[0]
+        searchCache: UseFunctionMemoPromiseReturn<
+            AdapterReturnTypeOrError<T>,
+            [searchTerm: string]
+        >[1]
+        searchTerm: string
+        setSearchTerm: (searchTerm: string) => void
+    }
+    debounce: UseDebounceReturn<string>
+    adapter: UseAdapterReturn<T extends yup.BaseSchema ? T["__outputType"] : undefined>
+}
 
 export const useDebounceSearch = <T extends yup.BaseSchema | undefined>(
     searchFunction: (searchTerm: string) => Promise<AdapterReturnTypeOrError<T>>,
+    adapterCacheFunction?: () => Promise<T extends yup.BaseSchema ? T["__outputType"] : undefined>,
 ): UseDebounceSearchReturn<T> => {
     const useQueryReturn = useQuery<{query?: string}>()
     const [search, searchCache] = useFunctionMemoPromise(searchFunction)
     const [searchTerm, setSearchTerm] = React.useState("")
     const useDebounceReturn = useDebounce(searchTerm, secsToMs(debounceTimeout))
-    const useAdapterReturn = useAdapter(() => search(""))
+    const useAdapterReturn = useAdapter(() => search(""), adapterCacheFunction)
 
     const {query, setQuery} = useQueryReturn
     const {value: debounceSearchTerm, setImmediately, clearDebounce} = useDebounceReturn
@@ -76,13 +84,15 @@ export const useDebounceSearch = <T extends yup.BaseSchema | undefined>(
     }, [debounceSearchTerm])
 
     return {
-        ...useQueryReturn,
-        search,
-        searchCache,
-        searchTerm,
-        setSearchTerm,
-        ...useDebounceReturn,
-        ...useAdapterReturn,
+        query: useQueryReturn,
+        search: {
+            search,
+            searchCache,
+            searchTerm,
+            setSearchTerm,
+        },
+        debounce: useDebounceReturn,
+        adapter: useAdapterReturn,
     }
 }
 

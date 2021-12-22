@@ -18,10 +18,11 @@ import {getUtcTime, readCache} from "~/utils"
 import DatePlus from "@luke-zhang-04/dateplus"
 import GridItem from "~/components/gridItem"
 import React from "react"
+import SearchBar from "~/components/searchBar"
 import {Spinner} from "~/components/bootstrap"
 import UserContext from "~/contexts/userContext"
 import {arrayToChunks} from "@luke-zhang-04/utils"
-import {useAdapter} from "~/hooks"
+import {useDebounceSearch} from "~/hooks"
 import {useHistory} from "react-router"
 
 const Competition: React.FC<{comp: CompetitionType; user?: User}> = ({comp, user}) => {
@@ -50,9 +51,12 @@ const Competition: React.FC<{comp: CompetitionType; user?: User}> = ({comp, user
 }
 
 export const Competitions: React.FC = () => {
-    const {isDone, data} = useAdapter(
-        () => adapters.competition.getMany(),
-        () => competitionsSchema.validate(readCache("talentmakerCache_competitions")),
+    const {
+        adapter: {data, isLoading},
+        search: {searchTerm, setSearchTerm},
+        debounce: {setImmediately, isWaiting},
+    } = useDebounceSearch(adapters.competition.getMany, () =>
+        competitionsSchema.validate(readCache("talentmakerCache_competitions")),
     )
     const {currentUser: user} = React.useContext(UserContext)
     const history = useHistory()
@@ -78,31 +82,54 @@ export const Competitions: React.FC = () => {
 
     const sortedCompetitions = getSortedCompetitions(data)
 
-    if (isDone) {
+    if (data) {
+        const createCompetitionSection = user?.isOrganization === true && (
+            <>
+                <h1>Create a Competition</h1>
+                <p>As an organization, you can create a new competition</p>
+                <Button
+                    onClick={async () => {
+                        const result = await adapters.competition.create(user)
+
+                        if (!(result instanceof Error)) {
+                            history.push(`/competition/${result.id}`)
+                        }
+                    }}
+                    variant="outline-primary"
+                >
+                    New Competition
+                </Button>
+            </>
+        )
+        const searchBar = (
+            <SearchBar
+                searchTerm={searchTerm}
+                onChange={setSearchTerm}
+                onPressEnter={setImmediately}
+                placeholder="Search Competitions"
+            />
+        )
+
+        if (isWaiting || isLoading) {
+            return (
+                <>
+                    <Container fluid className="py-3">
+                        {searchBar}
+                    </Container>
+                    <Spinner color="primary" size="25vw" className="my-5" centered />
+                </>
+            )
+        }
+
         return (
             <Container fluid className="py-3">
-                {user?.isOrganization === true && (
-                    <>
-                        <h1>Create a Competition</h1>
-                        <p>As an organization, you can create a new competition</p>
-                        <Button
-                            onClick={async () => {
-                                const result = await adapters.competition.create(user)
+                {searchBar}
 
-                                if (!(result instanceof Error)) {
-                                    history.push(`/competition/${result.id}`)
-                                }
-                            }}
-                            variant="outline-primary"
-                        >
-                            New Competition
-                        </Button>
-                    </>
-                )}
+                {createCompetitionSection}
 
-                <h1 className="my-3">Upcoming Competitions</h1>
+                <h1 className="mt-3">Upcoming Competitions</h1>
                 {sortedCompetitions[0].length === 0 ? (
-                    <p>None</p>
+                    <p>{searchTerm ? "No results" : "None"}</p>
                 ) : (
                     sortedCompetitions[0].map((row, index) => (
                         <Row key={`comp-row-0-${index}`} className="g-3 mt-0">
@@ -116,19 +143,22 @@ export const Competitions: React.FC = () => {
                         </Row>
                     ))
                 )}
-
-                <h1 className="mb-3">Past Competitions</h1>
-                {sortedCompetitions[1]?.map((row, index) => (
-                    <Row key={`comp-row-1-${index}`} className="g-3 mt-0">
-                        {row.map((comp, index2) => (
-                            <Competition
-                                key={`comp-item-1-${index}-${index2}`}
-                                comp={comp}
-                                user={user}
-                            />
-                        ))}
-                    </Row>
-                ))}
+                <h1 className="mt-3">Past Competitions</h1>
+                {sortedCompetitions[1].length === 0 ? (
+                    <p>{searchTerm ? "No results" : "None"}</p>
+                ) : (
+                    sortedCompetitions[1].map((row, index) => (
+                        <Row key={`comp-row-1-${index}`} className="g-3 mt-0">
+                            {row.map((comp, index2) => (
+                                <Competition
+                                    key={`comp-item-1-${index}-${index2}`}
+                                    comp={comp}
+                                    user={user}
+                                />
+                            ))}
+                        </Row>
+                    ))
+                )}
             </Container>
         )
     }
