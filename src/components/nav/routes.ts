@@ -48,7 +48,7 @@ export const desktop: DesktopLinks = [
     [
         ["https://www.youtube.com/channel/UCltJw7oSTdHDio806LztCzQ", "bootstrap", "bi-youtube"],
         ["https://www.linkedin.com/in/talent-maker-group/", "bootstrap", "bi-linkedin"],
-        ["https://github.com/talentmaker/site", "bootstrap", "bi-github"],
+        ["https://github.com/talentmaker", "bootstrap", "bi-github"],
         [
             ["/profile/<UID>", "<USERNAME>"],
             [

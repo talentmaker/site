@@ -50,7 +50,7 @@ export const Footer: React.FC<{user?: User}> = (props): JSX.Element => (
             />
             <a
                 {...linkProps}
-                href="https://github.com/talentmaker/site"
+                href="https://github.com/talentmaker"
                 className="bi-github colored-icon"
             />
         </Row>
