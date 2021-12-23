@@ -12,12 +12,14 @@
 @use "src/styles/mixins";
 @use "src/styles/variables";
 
-.slideImage {
-  filter: grayscale(100%);
-  transition: filter 0.25s ease-in-out;
+@media (hover: hover) and (pointer: fine) {
+  .slideImage {
+    filter: grayscale(100%);
+    transition: filter 0.25s ease-in-out;
 
-  &:hover {
-    filter: grayscale(0);
+    &:hover {
+      filter: grayscale(0);
+    }
   }
 }
 

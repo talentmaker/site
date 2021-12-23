@@ -68,6 +68,14 @@ $theme-colors: map-merge(
   )
 );
 
+$font-sizes: map-merge(
+  $font-sizes,
+  (
+    7: $font-size-base / 1.25,
+    8: $font-size-base / 1.5,
+  )
+);
+
 $theme-colors-rgb: map-loop($theme-colors, to-rgb, "$value");
 
 $utilities-colors: map-merge(

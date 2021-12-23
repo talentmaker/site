@@ -34,7 +34,6 @@ $utilities: map-remove(
   "negative-margin-bottom",
   "negative-margin-start",
   "font-family",
-  "font-size",
   "font-style",
   "font-weight",
   "line-height",
@@ -55,10 +54,16 @@ $utilities: map-remove(
   "vstack",
   "vr"
 );
-
 $utilities: map-merge(
   $utilities,
   (
+    "font-size":
+      map-merge(
+        map-get($utilities, "font-size"),
+        (
+          responsive: true,
+        )
+      ),
     "float":
       map-merge(
         map-get($utilities, "float"),
@@ -69,13 +74,6 @@ $utilities: map-merge(
     "flex":
       map-merge(
         map-get($utilities, "flex"),
-        (
-          responsive: false,
-        )
-      ),
-    "flex-direction":
-      map-merge(
-        map-get($utilities, "flex-direction"),
         (
           responsive: false,
         )
