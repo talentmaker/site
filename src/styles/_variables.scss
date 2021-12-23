@@ -7,6 +7,7 @@
  * License: BSD-3-Clause
  */
 
+@use "sass:math";
 @import "~bootstrap/scss/functions";
 
 $border-radius: 0; // Get rid of border radius on everything
@@ -71,8 +72,8 @@ $theme-colors: map-merge(
 $font-sizes: map-merge(
   $font-sizes,
   (
-    7: $font-size-base / 1.25,
-    8: $font-size-base / 1.5,
+    7: math.div($font-size-base, 1.25),
+    8: math.div($font-size-base, 1.5),
   )
 );
 
