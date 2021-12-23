@@ -122,7 +122,6 @@ const App: React.FC = () => {
     const setUser = React.useCallback(
         async (user?: User | null): Promise<void> => {
             if (currentUser && (user === undefined || user === null)) {
-                console.log("FETCH LOGOUT")
                 await fetch(`${url}/auth/logout`, {
                     method: "POST",
                     credentials: "include",
