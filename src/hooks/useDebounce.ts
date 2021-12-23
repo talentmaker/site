@@ -18,6 +18,7 @@ export const useDebounce = <T>(value: T, delay: number): UseDebounceReturn<T> =>
     const [debouncedValue, setDebouncedValue] = React.useState(value)
     const [isWaiting, setIsWaiting] = React.useState(false)
     const timeout = React.useRef<NodeJS.Timeout>()
+    const didMount = React.useRef(false)
 
     const clearDebounce = React.useCallback(() => {
         clearTimeout(timeout.current!)
@@ -30,11 +31,16 @@ export const useDebounce = <T>(value: T, delay: number): UseDebounceReturn<T> =>
     }, [`${timeout.current}`, value])
 
     React.useEffect(() => {
-        setIsWaiting(true)
-        timeout.current = setTimeout(() => {
-            setDebouncedValue(value)
-            setIsWaiting(false)
-        }, delay)
+        // Don't set isWaiting to true on first mount
+        if (didMount.current) {
+            setIsWaiting(true)
+            timeout.current = setTimeout(() => {
+                setDebouncedValue(value)
+                setIsWaiting(false)
+            }, delay)
+        } else {
+            didMount.current = true
+        }
 
         return () => {
             clearDebounce()

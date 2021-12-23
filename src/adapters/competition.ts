@@ -57,7 +57,7 @@ export const getMany = createAdapter(
         )
         const competitions = await schema.validate(data)
 
-        if (search) {
+        if (!search) {
             cache.write(
                 "talentmakerCache_competitions",
                 competitions.map((competition) => ({
