@@ -119,19 +119,23 @@ const App: React.FC = () => {
     }>({})
     const [theme, setTheme] = React.useState<"light" | "dark">("light")
 
-    const setUser = React.useCallback(async (user?: User | null): Promise<void> => {
-        if (currentUser && (user === undefined || user === null)) {
-            await fetch(`${url}/auth/logout`, {
-                method: "POST",
-                credentials: "include",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            })
-        }
+    const setUser = React.useCallback(
+        async (user?: User | null): Promise<void> => {
+            if (currentUser && (user === undefined || user === null)) {
+                console.log("FETCH LOGOUT")
+                await fetch(`${url}/auth/logout`, {
+                    method: "POST",
+                    credentials: "include",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                })
+            }
 
-        setCurrentUser(user ?? undefined)
-    }, [])
+            setCurrentUser(user ?? undefined)
+        },
+        [currentUser?.uid],
+    )
 
     const setUserFromUnknown = async (user?: {[key: string]: unknown} | null): Promise<void> => {
         if (user === undefined || user === null || userSchema.isValidSync(user)) {
