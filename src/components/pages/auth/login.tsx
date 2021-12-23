@@ -15,7 +15,7 @@ import {Input} from "~/components/formik"
 import React from "react"
 import {Spinner} from "~/components/bootstrap"
 import UserContext from "~/contexts/userContext"
-import {useHistory} from "react-router-dom"
+import {useNavigate} from "react-router-dom"
 
 interface FormValues {
     email: string
@@ -33,7 +33,7 @@ const initialValues: FormValues = {
 }
 
 export const Login = (): JSX.Element => {
-    const history = useHistory()
+    const navigate = useNavigate()
     const {setUserFromUnknown} = React.useContext(UserContext)
     const [unconfirmedEmail, setUnconfirmedEmail] =
         React.useState<[email: string, password: string]>()
@@ -56,7 +56,7 @@ export const Login = (): JSX.Element => {
 
             setSubmitting(false)
 
-            return history.push(`/profile/${data.uid}`)
+            return navigate(`/profile/${data.uid}`)
         }
 
         setSubmitting(false)

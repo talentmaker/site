@@ -9,7 +9,7 @@
 
 import React from "react"
 import qs from "query-string"
-import {useHistory} from "react-router"
+import {useNavigate} from "react-router"
 
 export type UseQueryReturn<T extends qs.ParsedQuery = qs.ParsedQuery> = {
     query: Partial<T>
@@ -21,7 +21,7 @@ export type UseQueryReturn<T extends qs.ParsedQuery = qs.ParsedQuery> = {
 export const useQuery = <T extends qs.ParsedQuery = qs.ParsedQuery>(): UseQueryReturn<T> => {
     const [rawQuery, setRawQuery] = React.useState("")
     const [query, setQuery] = React.useState<T>({} as T)
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const queryChangeHandler = () => {
         if (window.location.search !== rawQuery) {
@@ -41,7 +41,7 @@ export const useQuery = <T extends qs.ParsedQuery = qs.ParsedQuery>(): UseQueryR
     }, [])
 
     const setRawQueryPublic = (queryString: string) => {
-        history.push(
+        navigate(
             qs.stringifyUrl({
                 url: `${window.location.pathname}`,
                 query: qs.parse(queryString),
@@ -50,7 +50,7 @@ export const useQuery = <T extends qs.ParsedQuery = qs.ParsedQuery>(): UseQueryR
     }
 
     const setQueryPublic = (queryObject: T) => {
-        history.push(
+        navigate(
             qs.stringifyUrl({
                 url: `${window.location.pathname}`,
                 query: queryObject,

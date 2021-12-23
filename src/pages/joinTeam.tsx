@@ -14,11 +14,9 @@ import {useParams} from "react-router-dom"
 export const EditProject: React.FC = () => {
     const {data} = useParams<{data?: string}>()
 
-    if (data) {
-        return <JoinTeamComponent data={data} />
-    }
-
-    return (
+    return data ? (
+        <JoinTeamComponent data={data} />
+    ) : (
         <>
             <h1>Error:</h1>
             <p>Data param not specified</p>

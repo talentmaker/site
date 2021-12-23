@@ -42,7 +42,7 @@ export const MetaTags: React.FC<MetaTagData> = ({
         {property: "twitter:url", content: window.location.href},
     ]
 
-    const suffix = exactTitle ? " - Talentmaker" : ""
+    const suffix = exactTitle ? "" : " - Talentmaker"
 
     if (title) {
         metaAttrs.push({property: "og:title", content: `${title}${suffix}`})
@@ -67,5 +67,12 @@ export const MetaTags: React.FC<MetaTagData> = ({
         </Helmet>
     )
 }
+
+export const MetaTagsWrapper: React.FC<MetaTagData> = ({children, ...props}) => (
+    <>
+        <MetaTags {...props} />
+        {children}
+    </>
+)
 
 export default MetaTags

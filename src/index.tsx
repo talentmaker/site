@@ -43,15 +43,15 @@ import {
 } from "./pages"
 import {NotificationContext, ThemeContext, UserContext} from "./contexts"
 import {NotificationType, Notifications} from "./components/notifications"
-import {BrowserRouter as Router, Switch} from "react-router-dom"
+import {Route, BrowserRouter as Router, Routes} from "react-router-dom"
 import {CognitoUser as User, userSchema} from "./schemas/user"
 import ErrorBoundary from "./components/errorBoundary"
 import Footer from "./components/footer"
 import {Helmet} from "react-helmet"
+import {MetaTagsWrapper} from "./components/metaTags"
 import Nav from "./components/nav"
 import React from "react"
 import ReactDOM from "react-dom"
-import {Route} from "./components/route"
 import {url} from "./globals"
 
 const defaultDescription =
@@ -219,25 +219,25 @@ const App: React.FC = () => {
                             <div>
                                 <Nav />
                                 {/* prettier-ignore */}
-                                <Switch>
-                                    <Route path="/" exact component={Home} title="Home - Talentmaker" />
-                                    <Route path="/auth" component={Auth} title="Auth - Talentmaker" />
-                                    <Route path="/competition/:id" component={Competition} title="Competition - Talentmaker" />
-                                    <Route path="/competitions" component={Competitions} title="Competitions - Talentmaker" />
-                                    <Route path="/joinTeam/:data" component={JoinTeam} title="Join Team - Talentmaker" />
-                                    <Route path="/legal" component={Legal} title="Legal - Talentmaker" />
-                                    <Route path="/privacy-policy" component={PrivacyPolicy} title="Privacy Policy - Talentmaker" />
-                                    <Route path="/profile/edit" component={EditProfile} title="Edit Your Profile - Talentmaker" />
-                                    <Route path="/profile/:uid" component={Profile} title="Profile - Talentmaker" />
-                                    <Route path="/project/:id" component={Project} title="Project - Talentmaker" />
-                                    <Route path="/project" component={Project} title="Project - Talentmaker" />
-                                    <Route path="/projects/:competitionId" component={Projects} title="Projects - Talentmaker" />
-                                    <Route path="/talents" component={Talents}  title="Talents - Talentmaker"/>
-                                    <Route path="/talentmakers" component={Talentmakers} title="Talentmakers - Talentmaker" />
+                                <Routes>
+                                    <Route path="/"                        element={<MetaTagsWrapper title="Home"><Home/></MetaTagsWrapper>} />
+                                    <Route path="/auth"                    element={<MetaTagsWrapper title="Auth"><Auth/></MetaTagsWrapper>} />
+                                    <Route path="/competition/:id"         element={<MetaTagsWrapper title="Competition"><Competition/></MetaTagsWrapper>} />
+                                    <Route path="/competitions"            element={<MetaTagsWrapper title="Competitions"><Competitions/></MetaTagsWrapper>} />
+                                    <Route path="/joinTeam/:data"          element={<MetaTagsWrapper title="Join Team"><JoinTeam/></MetaTagsWrapper>} />
+                                    <Route path="/legal"                   element={<MetaTagsWrapper title="Legal"><Legal/></MetaTagsWrapper>} />
+                                    <Route path="/privacy-policy"          element={<MetaTagsWrapper title="Privacy Policy"><PrivacyPolicy/></MetaTagsWrapper>} />
+                                    <Route path="/profile/edit"            element={<MetaTagsWrapper title="Edit Your Profile"><EditProfile/></MetaTagsWrapper>} />
+                                    <Route path="/profile/:uid"            element={<MetaTagsWrapper title="Profile"><Profile/></MetaTagsWrapper>} />
+                                    <Route path="/project/:id"             element={<MetaTagsWrapper title="Project"><Project/></MetaTagsWrapper>} />
+                                    <Route path="/project"                 element={<MetaTagsWrapper title="Project"><Project/></MetaTagsWrapper>} />
+                                    <Route path="/projects/:competitionId" element={<MetaTagsWrapper title="Projects"><Projects/></MetaTagsWrapper>} />
+                                    <Route path="/talents"                 element={<MetaTagsWrapper title="Talents"><Talents/></MetaTagsWrapper>} />
+                                    <Route path="/talentmakers"            element={<MetaTagsWrapper title="Talentmakers"><Talentmakers/></MetaTagsWrapper>} />
 
                                     {/* 404 */}
-                                    <Route component={NotFound} title="404 Not Found" />
-                                </Switch>
+                                    <Route path="*" element={<MetaTagsWrapper title="404 Not Found"><NotFound/></MetaTagsWrapper>} />
+                                </Routes>
                             </div>
                             <Footer user={currentUser} />
                         </Router>

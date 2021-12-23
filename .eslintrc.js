@@ -158,7 +158,7 @@ module.exports = {
         "@typescript-eslint/no-shadow": "warn",
         "@typescript-eslint/no-unused-expressions": "warn",
         "@typescript-eslint/no-unused-vars": "off",
-        "@typescript-eslint/no-unused-vars-experimental": "warn",
+        "@typescript-eslint/no-unused-vars": "warn",
         "@typescript-eslint/no-use-before-define": "warn",
 
         // Preter arrow rules

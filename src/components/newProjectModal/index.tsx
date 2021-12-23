@@ -15,7 +15,7 @@ import {Spinner} from "~/components/bootstrap/spinner"
 import {UserContext} from "~/contexts"
 import {pick} from "@luke-zhang-04/utils"
 import qs from "query-string"
-import {useHistory} from "react-router"
+import {useNavigate} from "react-router"
 
 interface Props {
     competition: Competition
@@ -33,7 +33,7 @@ const GithubDisplay: React.FC<DisplayProps> = ({competition}) => {
     const [isProcessing, setIsProcessing] = React.useState(false)
     const [error, setError] = React.useState<Error>()
     const {currentUser: user} = React.useContext(UserContext)
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const onSubmit: FormProps["onSubmit"] = async (event) => {
         event.preventDefault()
@@ -60,7 +60,7 @@ const GithubDisplay: React.FC<DisplayProps> = ({competition}) => {
                 if (response instanceof Error) {
                     setError(response)
                 } else {
-                    history.push(`/project?${qs.stringify({competition: competition.id})}`)
+                    navigate(`/project?${qs.stringify({competition: competition.id})}`)
                 }
             }
 
@@ -113,7 +113,7 @@ const InputDisplay: React.FC<DisplayProps> = ({competition}) => {
     const [isProcessing, setIsProcessing] = React.useState(false)
     const [error, setError] = React.useState<Error>()
     const {currentUser: user} = React.useContext(UserContext)
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const onSubmit: FormProps["onSubmit"] = async (event) => {
         event.preventDefault()
@@ -131,7 +131,7 @@ const InputDisplay: React.FC<DisplayProps> = ({competition}) => {
                 if (response instanceof Error) {
                     setError(response)
                 } else {
-                    history.push(`/project?${qs.stringify({competition: competition.id})}`)
+                    navigate(`/project?${qs.stringify({competition: competition.id})}`)
                 }
             } else {
                 setError(new Error("Title is a required field"))

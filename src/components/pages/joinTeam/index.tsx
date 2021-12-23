@@ -9,7 +9,7 @@
 
 import * as adapters from "~/adapters"
 import {Button, Container} from "react-bootstrap"
-import {Link, useHistory} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 import {NotificationContext, UserContext} from "~/contexts"
 import MetaTags from "~/components/metaTags"
 import React from "react"
@@ -25,7 +25,7 @@ export const JoinTeam: React.FC<Props> = ({data}) => {
     const [isJoining, setIsJoining] = React.useState(false)
     const {currentUser: user} = React.useContext(UserContext)
     const {addNotification: notify} = React.useContext(NotificationContext)
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const joinTeam = async () => {
         if (user && inviteLinkData) {
@@ -40,7 +40,7 @@ export const JoinTeam: React.FC<Props> = ({data}) => {
                     icon: "done",
                     iconClassName: "text-success",
                 })
-                history.push(`/project/${inviteLinkData.projectId}`)
+                navigate(`/project/${inviteLinkData.projectId}`)
             }
 
             setIsJoining(false)

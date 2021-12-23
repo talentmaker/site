@@ -9,7 +9,7 @@
 
 import * as adapters from "~/adapters"
 import {Button, Col, Container, Row} from "react-bootstrap"
-import {Link, useHistory} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 import DefaultPFP from "~/images/profile.svg"
 import GridItem from "~/components/gridItem"
 import MetaTags from "~/components/metaTags"
@@ -21,7 +21,7 @@ import styles from "./index.module.scss"
 import {useAdapter} from "~/hooks"
 
 export const UserDisplay: React.FC<{uid: string}> = ({uid}) => {
-    const history = useHistory()
+    const navigate = useNavigate()
     const {currentUser, setUser} = React.useContext(UserContext)
     const {data: user, error} = useAdapter(() => adapters.user.getWithProjects(uid), undefined, [
         uid,
@@ -67,7 +67,7 @@ export const UserDisplay: React.FC<{uid: string}> = ({uid}) => {
                             onClick={async (): Promise<void> => {
                                 await setUser(undefined)
 
-                                return history.push("/")
+                                return navigate("/")
                             }}
                         >
                             Logout

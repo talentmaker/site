@@ -23,7 +23,7 @@ import {Spinner} from "~/components/bootstrap"
 import UserContext from "~/contexts/userContext"
 import {arrayToChunks} from "@luke-zhang-04/utils"
 import {useDebounceSearch} from "~/hooks"
-import {useHistory} from "react-router"
+import {useNavigate} from "react-router"
 
 const Competition: React.FC<{comp: CompetitionType; user?: User}> = ({comp, user}) => {
     const deadline = comp.deadline ? new DatePlus(comp.deadline) : undefined
@@ -59,7 +59,7 @@ export const Competitions: React.FC = () => {
         competitionsSchema.validate(readCache("talentmakerCache_competitions")),
     )
     const {currentUser: user} = React.useContext(UserContext)
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const getSortedCompetitions = (
         _competitions: CompetitionType[] | undefined,
@@ -92,7 +92,7 @@ export const Competitions: React.FC = () => {
                         const result = await adapters.competition.create(user)
 
                         if (!(result instanceof Error)) {
-                            history.push(`/competition/${result.id}`)
+                            navigate(`/competition/${result.id}`)
                         }
                     }}
                     variant="outline-primary"
