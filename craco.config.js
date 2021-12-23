@@ -53,15 +53,29 @@ module.exports = {
             mainFields: ["module", "main", "browser"],
         },
         configure: (webpackConfig) => {
-            const webpackJsonpName = appPackageJson.name.replace(/-[A-z]/u, (str) =>
+            const chunkLoadingGlobal = appPackageJson.name.replace(/-[A-z]/u, (str) =>
                 str[1].toUpperCase(),
             )
 
+            webpackConfig.plugins[webpackConfig.plugins.length - 1].options.baseConfig.extends = []
+
             return {
                 ...webpackConfig,
+                module: {
+                    ...webpackConfig.module,
+                    rules: [
+                        ...webpackConfig.module.rules,
+                        {
+                            test: /\.m?js/,
+                            resolve: {
+                                fullySpecified: false,
+                            },
+                        },
+                    ],
+                },
                 output: {
                     ...webpackConfig.output,
-                    jsonpFunction: `wpJsonp${webpackJsonpName[0].toUpperCase()}${webpackJsonpName.slice(
+                    chunkLoadingGlobal: `wpJsonp${chunkLoadingGlobal[0].toUpperCase()}${chunkLoadingGlobal.slice(
                         1,
                     )}`,
                 },

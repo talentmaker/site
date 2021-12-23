@@ -7,9 +7,9 @@
  * https://Luke-zhang-04.github.io
  */
 
-import "swiper/swiper.scss"
+import "swiper/scss"
 import {Col, Container, Row} from "react-bootstrap"
-import {Swiper, SwiperSlide} from "swiper/react/swiper-react"
+import {Swiper, SwiperSlide} from "swiper/react"
 import SwiperCore, {Autoplay} from "swiper"
 import {BreakPoints} from "~/globals"
 import {ContactForm} from "./contactForm"
