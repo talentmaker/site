@@ -7,7 +7,10 @@
  * License: BSD-3-Clause
  */
 
+@use "sass:color";
+@use "sass:map";
 @use "sass:math";
+@use "sass:string";
 @import "~bootstrap/scss/functions";
 
 $border-radius: 0; // Get rid of border radius on everything
@@ -22,15 +25,15 @@ $primary: #3f88c5;
 $secondary: #303131;
 $light: #eee;
 $lighter: #fff;
-$light-grey: mix($light, black, 90%);
+$light-grey: color.mix($light, black, 90%);
 $dark: #373737;
 $darker: #272727;
-$dark-grey: mix($dark, white, 90%);
+$dark-grey: color.mix($dark, white, 90%);
 $accent: #01559c;
 
 $min-contrast-ratio: 4.5;
 
-$breadcrumb-divider: quote(">");
+$breadcrumb-divider: string.quote(">");
 
 $font-family-sans-serif: "Ubuntu", sans-serif;
 $font-family-base: "Ubuntu", sans-serif;
@@ -54,7 +57,7 @@ $btn-border-radius-sm: 0;
 $toast-border-radius: 0; // Get rid of border radius on toasts
 $toast-background-color: var(--lighter); // Fix toast bg
 
-$theme-colors: map-merge(
+$theme-colors: map.merge(
   $theme-colors,
   (
     primary: $primary,
@@ -69,7 +72,7 @@ $theme-colors: map-merge(
   )
 );
 
-$font-sizes: map-merge(
+$font-sizes: map.merge(
   $font-sizes,
   (
     7: math.div($font-size-base, 1.25),
@@ -79,7 +82,7 @@ $font-sizes: map-merge(
 
 $theme-colors-rgb: map-loop($theme-colors, to-rgb, "$value");
 
-$utilities-colors: map-merge(
+$utilities-colors: map.merge(
   $theme-colors-rgb,
   (
     "black": to-rgb($black),
@@ -93,7 +96,7 @@ $utilities-text-colors: map-loop($utilities-colors, rgba-css-var, "$key", "text"
 $utilities-bg-colors: map-loop($utilities-colors, rgba-css-var, "$key", "bg");
 
 // Add extra spacers
-$spacers: map-merge(
+$spacers: map.merge(
   (
     // These utilities might come in handy later
     // "gx": var(--gutter-x),

@@ -7,19 +7,20 @@
  * License: BSD-3-Clause
  */
 
+@use "sass:map";
 @use "functions" as utils;
 @use "mixins";
 @use "variables";
 
 // Set the gutter for root div
 #root {
-  --tm-gutter-x: #{map-get(variables.$spacers, 3)};
+  --tm-gutter-x: #{map.get(variables.$spacers, 3)};
   --tm-gutter-y: var(--gutter-x);
   --gutter-x: var(--tm-gutter-x);
   --gutter-y: var(--tm-gutter-y);
 
   @include mixins.min-width("md") {
-    --tm-gutter-x: #{map-get(variables.$spacers, 4)};
+    --tm-gutter-x: #{map.get(variables.$spacers, 4)};
     --tm-gutter-y: var(--gutter-x);
     --gutter-x: var(--tm-gutter-x);
     --gutter-y: var(--tm-gutter-y);
@@ -134,7 +135,7 @@ nav[aria-label="breadcrumb"] {
   margin-bottom: utils.spacer(4);
 }
 
-//Set icon colours for social media icons icons
+// Set icon colours for social media icons icons
 .colored-icon.bi-youtube {
   @include mixins.icon(#ff0000);
 }

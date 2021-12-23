@@ -7,12 +7,13 @@
  * License: BSD-3-Clause
  */
 
+@use "sass:map";
 @use "variables";
 
 @function breakpoint($size) {
-  @return map-get(variables.$grid-breakpoints, $size);
+  @return map.get(variables.$grid-breakpoints, $size);
 }
 
 @function spacer($size) {
-  @return map-get(variables.$spacers, $size);
+  @return map.get(variables.$spacers, $size);
 }

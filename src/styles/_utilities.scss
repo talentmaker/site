@@ -7,10 +7,11 @@
  * License: BSD-3-Clause
  */
 
+@use "sass:map";
 @import "~bootstrap/scss/utilities";
 
 // Remove unused utilities
-$utilities: map-remove(
+$utilities: map.remove(
   $utilities,
   "align",
   "overflow",
@@ -54,68 +55,68 @@ $utilities: map-remove(
   "vstack",
   "vr"
 );
-$utilities: map-merge(
+$utilities: map.merge(
   $utilities,
   (
     "font-size":
-      map-merge(
-        map-get($utilities, "font-size"),
+      map.merge(
+        map.get($utilities, "font-size"),
         (
           responsive: true,
         )
       ),
     "float":
-      map-merge(
-        map-get($utilities, "float"),
+      map.merge(
+        map.get($utilities, "float"),
         (
           responsive: false,
         )
       ),
     "flex":
-      map-merge(
-        map-get($utilities, "flex"),
+      map.merge(
+        map.get($utilities, "flex"),
         (
           responsive: false,
         )
       ),
     "flex-grow":
-      map-merge(
-        map-get($utilities, "flex-grow"),
+      map.merge(
+        map.get($utilities, "flex-grow"),
         (
           responsive: false,
         )
       ),
     "flex-shrink":
-      map-merge(
-        map-get($utilities, "flex-shrink"),
+      map.merge(
+        map.get($utilities, "flex-shrink"),
         (
           responsive: false,
         )
       ),
     "flex-wrap":
-      map-merge(
-        map-get($utilities, "flex-wrap"),
+      map.merge(
+        map.get($utilities, "flex-wrap"),
         (
           responsive: false,
         )
       ),
     "justify-content":
-      map-merge(
-        map-get($utilities, "justify-content"),
+      map.merge(
+        map.get($utilities, "justify-content"),
         (
           responsive: false,
         )
       ),
     "align-items":
-      map-merge(
-        map-get($utilities, "align-items"),
+      map.merge(
+        map.get($utilities, "align-items"),
         (
           responsive: false,
         )
       ),
     "text-align":
-      map-merge(
-        map-get($utilities, "text-align"),
+      map.merge(
+        map.get($utilities, "text-align"),
         (
           responsive: false,
         )
