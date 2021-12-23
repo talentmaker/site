@@ -9,13 +9,15 @@
 
 import "./home.scss"
 import {Button, Col, Row} from "react-bootstrap"
-import {Content} from "./content"
 import Img from "~/components/elements/image"
 import {Link} from "react-router-dom"
+import LoadingDots from "~/components/loadingDots"
 import ProblemSolvingSvg from "~/images/problemSolving.svg"
 import React from "react"
 import UserContext from "~/contexts/userContext"
 import styles from "./home.module.scss"
+
+const Content = React.lazy(() => import("./content"))
 
 export const Home: React.FC = () => {
     const {currentUser: user} = React.useContext(UserContext)
@@ -47,7 +49,9 @@ export const Home: React.FC = () => {
                     </Col>
                 </Row>
             </div>
-            <Content />
+            <React.Suspense fallback={<LoadingDots medium />}>
+                <Content />
+            </React.Suspense>
         </>
     )
 }

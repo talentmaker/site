@@ -1,0 +1,50 @@
+/**
+ * Talentmaker website
+ *
+ * Copyright (C) 2020 - 2021 Luke Zhang
+ * https://Luke-zhang-04.github.io
+ *
+ * Author: Luke Zhang
+ *
+ * License: BSD-3-Clause
+ */
+
+@use "src/styles/variables";
+
+@keyframes dots {
+  0%,
+  20% {
+    color: rgba(var(--darker-rgb));
+    text-shadow: 0.25em 0 0 rgba(var(--darker-rgb)), 0.5em 0 0 rgba(var(--darker-rgb));
+  }
+  40% {
+    color: rgba(var(--light-rgb));
+    text-shadow: 0.25em 0 0 rgba(var(--darker-rgb)), 0.5em 0 0 rgba(var(--darker-rgb));
+  }
+  60% {
+    color: rgba(var(--light-rgb));
+    text-shadow: 0.25em 0 0 rgba(var(--light-rgb)), 0.5em 0 0 rgba(var(--darker-rgb));
+  }
+  80%,
+  100% {
+    color: rgba(var(--light-rgb));
+    text-shadow: 0.25em 0 0 rgba(var(--light-rgb)), 0.5em 0 0 rgba(var(--light-rgb));
+  }
+}
+
+.loadingDots {
+  content: " .";
+  animation: dots 1s 0s steps(3, end) alternate-reverse infinite;
+}
+
+.large {
+  font-size: 10rem;
+}
+
+.medium {
+  font-size: 5rem;
+}
+
+.small {
+  font-size: 2.5rem;
+}

@@ -85,7 +85,7 @@ export const Img: React.FC<Props> & {DefaultSpinner: React.FC} = ({
 
                     return props.onLoad?.(event)
                 }}
-                className={`${didLoad ? "d-block" : "d-none"} ${props.className ?? ""}`}
+                className={`d-block ${props.className ?? ""}`}
             />
         </>
     )

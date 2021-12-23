@@ -183,3 +183,5 @@ export const Content: React.FC = () => (
         </Row>
     </>
 )
+
+export default Content
