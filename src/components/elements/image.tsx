@@ -10,6 +10,7 @@
 
 import DefaultImage from "~/images/default.svg"
 import React from "react"
+import {Spinner} from "~/components/bootstrap"
 
 type ImgProps = React.DetailedHTMLProps<
     React.ImgHTMLAttributes<HTMLImageElement>,
@@ -42,7 +43,17 @@ type Props = ImgProps & {
     lazy?: boolean
 }
 
-const Img: React.FC<Props> = ({lazy, src, shouldUseDefault, children, ...props}) => {
+/**
+ * An image component which allows for backup images to be specified in case of faliure, with the
+ * alt attribute last
+ */
+export const Img: React.FC<Props> & {DefaultSpinner: React.FC} = ({
+    lazy,
+    src,
+    shouldUseDefault,
+    children,
+    ...props
+}) => {
     const images: string[] = typeof src === "string" ? [src] : src
     // Current image index to use
     const [currentIndex, setIndex] = React.useState(0)
@@ -80,10 +91,8 @@ const Img: React.FC<Props> = ({lazy, src, shouldUseDefault, children, ...props})
     )
 }
 
-/**
- * An image component which allows for backup images to be specified in case of faliure, with the
- * alt attribute last
- */
-export const Image = React.memo(Img)
+export const DefaultSpinner = () => <Spinner color="primary" size="6rem" centered />
 
-export default Image
+Img.DefaultSpinner = DefaultSpinner
+
+export default Img

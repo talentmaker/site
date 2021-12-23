@@ -22,6 +22,7 @@ type InputProps = React.DetailedHTMLProps<
     placeholder?: string
     shouldShowLabel?: boolean
     noFeedback?: boolean
+    textArea?: boolean
 }
 
 export const Input: React.FC<InputProps> = ({
@@ -29,6 +30,7 @@ export const Input: React.FC<InputProps> = ({
     shouldShowValidFeedback = true,
     shouldShowLabel = false,
     noFeedback = false,
+    textArea = false,
     ...props
 }) => {
     const [field, meta] = useField<Omit<InputProps, "children" | "shouldShowValidFeedback">>(props)
@@ -62,6 +64,7 @@ export const Input: React.FC<InputProps> = ({
                 <Field
                     {...props}
                     {...field}
+                    as={textArea ? "textarea" : undefined}
                     id={id}
                     placeholder={props.placeholder ?? props.label}
                     className={`${props.className ?? ""} ${errorClass ?? ""} form-control`}

@@ -45,6 +45,7 @@
     "react-tag-input": "^6.7.3",
     "remark-gfm": "^1.0.0",
     "spdx-license-ids": "^3.0.10",
+    "swiper": "^7.3.4",
     "web-vitals": "^2.1.0",
     "yup": "^0.32.9"
   },
