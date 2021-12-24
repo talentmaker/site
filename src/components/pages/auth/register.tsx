@@ -13,9 +13,12 @@ import * as yup from "yup"
 import {Button, Container} from "react-bootstrap"
 import {Checkbox, Input} from "~/components/formik"
 import {Form, Formik, FormikHelpers} from "formik"
+import LoadingDots from "~/components/loadingDots"
 import {NotificationContext} from "~/contexts"
 import React from "react"
 import {Spinner} from "~/components/bootstrap"
+
+const Zxcvbn = React.lazy(() => import("~/components/zxcvbn"))
 
 interface FormValues {
     username: string
@@ -95,7 +98,7 @@ export const Reg: React.FC = () => {
             validate={validate}
             validationSchema={validationSchema}
         >
-            {({isSubmitting}): JSX.Element => (
+            {({isSubmitting, values}): JSX.Element => (
                 <Container fluid as={Form}>
                     <Input name="username" type="username" label="Username">
                         <span className="material-icons">person</span>
@@ -110,6 +113,10 @@ export const Reg: React.FC = () => {
                         <span className="material-icons">vpn_key</span>
                     </Input>
                     <Checkbox name="didagree" type="checkbox" />
+
+                    <React.Suspense fallback={values.password && <LoadingDots small />}>
+                        <Zxcvbn password={values.password} className="mt-3" />
+                    </React.Suspense>
 
                     <Button variant="primary" type="submit" disabled={isSubmitting}>
                         {isSubmitting ? <Spinner inline> </Spinner> : undefined}

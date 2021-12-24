@@ -13,9 +13,12 @@ import {Button, Container} from "react-bootstrap"
 import {Form, Formik, FormikHelpers} from "formik"
 import {NotificationContext, UserContext} from "~/contexts"
 import {Input} from "~/components/formik"
+import LoadingDots from "~/components/loadingDots"
 import MetaTags from "~/components/metaTags"
 import React from "react"
 import {Spinner} from "~/components/bootstrap"
+
+const Zxcvbn = React.lazy(() => import("~/components/zxcvbn"))
 
 const validationSchema = yup.object({
     oldPassword: yup.string().required(),
@@ -78,7 +81,7 @@ export const EditProfile: React.FC = () => {
                     onSubmit={onSubmit}
                     validationSchema={validationSchema}
                 >
-                    {({isSubmitting}) => (
+                    {({isSubmitting, values}) => (
                         <Form>
                             <Input
                                 name="oldPassword"
@@ -106,6 +109,11 @@ export const EditProfile: React.FC = () => {
                             >
                                 <span className="material-icons">vpn_key</span>
                             </Input>
+
+                            <React.Suspense fallback={values.newPassword && <LoadingDots small />}>
+                                <Zxcvbn password={values.newPassword} className="mt-3" />
+                            </React.Suspense>
+
                             <Button
                                 variant="primary"
                                 type="submit"
