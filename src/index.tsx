@@ -104,7 +104,7 @@ const applyTheme = (theme: "light" | "dark") => {
         for (const key of Object.keys(colors)) {
             root.style.setProperty(key, "")
         }
-    } else if (styles.getPropertyValue("--darker") === "#272727") {
+    } else if (styles.getPropertyValue("--darker").trim() === "#272727") {
         // If dark theme and dark theme hasn't been applied
         for (const [key, value] of Object.entries(colors)) {
             root.style.setProperty(key, value)
