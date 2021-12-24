@@ -9,13 +9,13 @@
  * License: BSD-3-Clause
  */
 
+@use "sass:map";
 @use "src/styles/mixins";
 @use "src/styles/variables";
 
 .gridCard {
   height: auto;
   position: relative;
-  margin-bottom: 2vw;
 
   img {
     width: 100%;
@@ -27,8 +27,8 @@
     width: 100%;
     position: relative;
     background-color: var(--lighter);
-    padding-top: map-get(variables.$spacers, 3);
-    padding-bottom: map-get(variables.$spacers, 3);
+    padding-top: map.get(variables.$spacers, 3);
+    padding-bottom: map.get(variables.$spacers, 3);
 
     .tag {
       position: relative;

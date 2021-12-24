@@ -7,10 +7,18 @@
  * https://Luke-zhang-04.github.io
  */
 
-import {NavLink as BsNavLink, Container, NavItem, Navbar, NavbarBrand} from "react-bootstrap"
+import {
+    NavLink as BsNavLink,
+    Button,
+    Container,
+    NavItem,
+    Navbar,
+    NavbarBrand,
+} from "react-bootstrap"
 import {Link, useLocation} from "react-router-dom"
 import {ThemeContext, UserContext} from "~/contexts"
 import {BreakPoints} from "~/globals"
+import {ButtonVariant} from "react-bootstrap/esm/types"
 import Logo from "~/images/logo.svg"
 import React from "react"
 import routes from "./routes"
@@ -29,12 +37,14 @@ const NavLink: React.FC<{
     currentLocation: string
     name: string
     iconName?: string
-}> = ({location, currentLocation, name, iconName}) => {
+    buttonVariant?: ButtonVariant
+}> = ({location, currentLocation, name, iconName, buttonVariant}) => {
     const {currentUser: user} = React.useContext(UserContext)
     const isExternal = /^https?:\/\//u.test(location)
     const linkAs = isExternal ? "a" : Link
     const isActive = currentLocation === location
     const formattedLocation = user ? location.replace(/<UID>/gu, user.uid) : location
+    const formattedDisplayname = user ? name.replace(/<USERNAME>/gu, user.username) : name
     const linkProps = isExternal
         ? {href: formattedLocation, ...externalLinkProps}
         : {to: formattedLocation}
@@ -67,12 +77,24 @@ const NavLink: React.FC<{
                             {iconName} {visuallyHidden}
                         </BsNavLink>
                     )
+                } else if (buttonVariant) {
+                    return (
+                        <Button
+                            {...{
+                                ...linkProps,
+                                as: linkAs,
+                                active: isActive,
+                                variant: buttonVariant,
+                            }}
+                        >
+                            {formattedDisplayname} {visuallyHidden}
+                        </Button>
+                    )
                 }
 
                 return (
                     <BsNavLink {...{...linkProps, as: linkAs, active: isActive}}>
-                        {user ? name.replace(/<USERNAME>/gu, user.username) : name}{" "}
-                        {visuallyHidden}
+                        {formattedDisplayname} {visuallyHidden}
                     </BsNavLink>
                 )
             })()}
@@ -80,47 +102,67 @@ const NavLink: React.FC<{
     )
 }
 
-const navIcon = (
-    location: string,
-    iconName: string,
-    displayName: string,
-    currentLocation: string,
-): JSX.Element => (
-    <BsNavLink
-        as={Link}
-        active={currentLocation === location}
-        className={styles.mobileNavLink}
-        to={location}
-    >
-        <span
-            className={currentLocation === location ? "material-icons" : "material-icons-outlined"}
+const NavIcon: React.FC<{
+    location: string
+    iconName: string
+    displayName: string
+    currentLocation: string
+}> = ({location, iconName, displayName, currentLocation}): JSX.Element => {
+    const {currentUser: user} = React.useContext(UserContext)
+    const formattedLocation = user ? location.replace(/<UID>/gu, user.uid) : location
+    const formattedDisplayname = user
+        ? displayName.replace(/<USERNAME>/gu, user.username)
+        : displayName
+
+    return (
+        <BsNavLink
+            as={Link}
+            active={currentLocation === location}
+            className={styles.mobileNavLink}
+            to={formattedLocation}
         >
-            {iconName}
-        </span>
-        <p>{displayName}</p>
-    </BsNavLink>
-)
+            <span
+                className={
+                    currentLocation === location ? "material-icons" : "material-icons-outlined"
+                }
+            >
+                {iconName}
+            </span>
+            <p>{formattedDisplayname}</p>
+        </BsNavLink>
+    )
+}
 
 const NavLinks: React.FC<{isMobile?: boolean; pathname: string}> = ({isMobile, pathname}) => {
     const {currentUser: user} = React.useContext(UserContext)
 
     return isMobile ? (
         <>
-            {routes.mobile.map((properties) => (
-                <div
-                    key={`mobile-name-item-${properties.toString()}`}
-                    className={styles.mobileNavItemContainer}
-                >
-                    {typeof properties[0] === "string"
-                        ? navIcon(...(properties as [string, string, string]), pathname)
-                        : navIcon(
-                              ...((user === null || user === undefined
-                                  ? properties[1]
-                                  : properties[0]) as [string, string, string]),
-                              pathname,
-                          )}
-                </div>
-            ))}
+            {routes.mobile.map((properties) => {
+                let _properties: [string, string, string]
+
+                if (typeof properties[0] === "string") {
+                    _properties = properties as [string, string, string]
+                } else {
+                    _properties = (
+                        user === null || user === undefined ? properties[1] : properties[0]
+                    ) as [string, string, string]
+                }
+
+                return (
+                    <div
+                        key={`mobile-name-item-${properties.toString()}`}
+                        className={styles.mobileNavItemContainer}
+                    >
+                        <NavIcon
+                            location={_properties[0]}
+                            iconName={_properties[1]}
+                            displayName={_properties[2]}
+                            currentLocation={pathname}
+                        />
+                    </div>
+                )
+            })}
         </>
     ) : (
         <div className={styles.navLinkGroup}>
@@ -138,23 +180,47 @@ const NavLinks: React.FC<{isMobile?: boolean; pathname: string}> = ({isMobile, p
                                 />
                             )
                         } else if (user === null || user === undefined) {
+                            const arrVal = (
+                                typeof val[1][0] === "string" ? [val[1][0]] : val[1]
+                            ) as [
+                                path: string,
+                                displayName: string,
+                                buttonVariant?: string | undefined,
+                            ][]
+
                             return (
-                                <NavLink
-                                    currentLocation={pathname}
-                                    key={`nav-link-${val[0]}`}
-                                    location={val[1][0]}
-                                    name={val[1][1]}
-                                />
+                                <>
+                                    {arrVal.map((_val) => (
+                                        <NavLink
+                                            currentLocation={pathname}
+                                            key={`nav-link-${_val[0]}`}
+                                            location={_val[0]}
+                                            name={_val[1]}
+                                            buttonVariant={_val[2]}
+                                        />
+                                    ))}
+                                </>
                             )
                         }
 
+                        const arrVal = (typeof val[0][0] === "string" ? [val[0]] : val[0]) as [
+                            path: string,
+                            displayName: string,
+                            buttonVariant?: string | undefined,
+                        ][]
+
                         return (
-                            <NavLink
-                                currentLocation={pathname}
-                                key={`nav-link-${val[0]}`}
-                                location={val[0][0]}
-                                name={val[0][1]}
-                            />
+                            <>
+                                {arrVal.map((_val) => (
+                                    <NavLink
+                                        currentLocation={pathname}
+                                        key={`nav-link-${_val[0]}`}
+                                        location={_val[0]}
+                                        name={_val[1]}
+                                        buttonVariant={_val[2]}
+                                    />
+                                ))}
+                            </>
                         )
                     })}
                 </ul>
@@ -169,7 +235,7 @@ export const Nav: React.FC = () => {
     const {currentUser: user} = React.useContext(UserContext)
     const {theme} = React.useContext(ThemeContext)
 
-    const getPageIndex = React.useCallback(() => {
+    const getPageIndex = () => {
         for (const [index, value] of routes.mobile.entries()) {
             if (typeof value[0] === "string") {
                 if (currentLocation.pathname === value[0]) {
@@ -186,7 +252,7 @@ export const Nav: React.FC = () => {
         }
 
         return 0
-    }, [currentLocation.pathname])
+    }
 
     return dimensions[0] <= BreakPoints.Md ? (
         <div className={`${styles.mobileNav} bg-lighter`}>

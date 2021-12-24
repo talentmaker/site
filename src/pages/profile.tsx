@@ -12,9 +12,16 @@ import {UserDisplay} from "../components/pages/profile"
 import {useParams} from "react-router"
 
 export const Profile: React.FC = () => {
-    const params = useParams<{uid: string}>()
+    const {uid} = useParams<{uid: string}>()
 
-    return <UserDisplay uid={params.uid} />
+    return uid ? (
+        <UserDisplay uid={uid} />
+    ) : (
+        <>
+            <h1>Error:</h1>
+            <p>No UID specified</p>
+        </>
+    )
 }
 
 export default Profile

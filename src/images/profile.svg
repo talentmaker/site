@@ -1,12 +1,1 @@
-<!--
-Talentmaker website
-
-Copyright (C) 2020 - 2021 Luke Zhang
-https://Luke-zhang-04.github.io
-https://github.com/ethanlim04
-
-Author: Luke Zhang - luke-zhang-04.github.io
-
-License: BSD-3-Clause
--->
-<svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0)"><rect width="500" height="500" fill="white"/><rect x="75" y="287" width="350" height="256" rx="128" fill="#C4C4C4"/><circle cx="250" cy="209" r="125" fill="white"/><circle cx="250" cy="209" r="100" fill="#C4C4C4"/><rect x="75" y="415" width="350" height="105" fill="#C4C4C4"/></g><defs><clipPath id="clip0"><rect width="500" height="500" fill="white"/></clipPath></defs></svg>
+<svg width="500" height="500" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#a)"><path fill="#fff" d="M0 0h500v500H0z"/><rect x="75" y="287" width="350" height="256" rx="128" fill="#C4C4C4"/><circle cx="250" cy="209" r="125" fill="#fff"/><circle cx="250" cy="209" r="100" fill="#C4C4C4"/><path fill="#C4C4C4" d="M75 415h350v105H75z"/></g><defs><clipPath id="a"><path fill="#fff" d="M0 0h500v500H0z"/></clipPath></defs></svg>

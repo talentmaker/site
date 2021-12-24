@@ -8,6 +8,9 @@
  * https://Luke-zhang-04.github.io
  */
 
+// Load initialized stuff
+import "./init"
+
 // Load Prismjs languages
 import "prismjs"
 import "prismjs/components/prism-clike"
@@ -26,6 +29,7 @@ import {
     Auth,
     Competition,
     Competitions,
+    EditProfile,
     Home,
     JoinTeam,
     Legal,
@@ -39,14 +43,20 @@ import {
 } from "./pages"
 import {NotificationContext, ThemeContext, UserContext} from "./contexts"
 import {NotificationType, Notifications} from "./components/notifications"
-import {Route, BrowserRouter as Router, Switch} from "react-router-dom"
+import {Route, BrowserRouter as Router, Routes} from "react-router-dom"
 import {CognitoUser as User, userSchema} from "./schemas/user"
 import ErrorBoundary from "./components/errorBoundary"
 import Footer from "./components/footer"
+import {Helmet} from "react-helmet"
+import {MetaTagsWrapper} from "./components/metaTags"
 import Nav from "./components/nav"
 import React from "react"
 import ReactDOM from "react-dom"
 import {url} from "./globals"
+
+const defaultDescription =
+    "A student project community and technology consulting company. Encouraging and empowering students to pursure their future endeavours and career asprirations with real, hands on, and rewarding project experience."
+const defaultImageURL = "/images/sc.png"
 
 // Hacky way to expose the addNotification callback
 export let addNotification: ((notification: NotificationType | Error) => void) | undefined
@@ -94,7 +104,7 @@ const applyTheme = (theme: "light" | "dark") => {
         for (const key of Object.keys(colors)) {
             root.style.setProperty(key, "")
         }
-    } else if (styles.getPropertyValue("--darker") === "#272727") {
+    } else if (styles.getPropertyValue("--darker").trim() === "#272727") {
         // If dark theme and dark theme hasn't been applied
         for (const [key, value] of Object.entries(colors)) {
             root.style.setProperty(key, value)
@@ -109,76 +119,61 @@ const App: React.FC = () => {
     }>({})
     const [theme, setTheme] = React.useState<"light" | "dark">("light")
 
-    const setUser = React.useCallback(async (user?: User | null): Promise<void> => {
-        const isLoggedin = localStorage.getItem("loggedin") === "true"
-
-        if (isLoggedin && (user === undefined || user === null)) {
-            await fetch(`${url}/auth/logout`, {
-                method: "POST",
-                credentials: "include",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            })
-
-            localStorage.setItem("loggedin", "false")
-        } else {
-            localStorage.setItem("loggedin", "true")
-        }
-
-        setCurrentUser(user ?? undefined)
-    }, [])
-
-    const setUserFromUnknown = React.useCallback(
-        async (user?: {[key: string]: unknown} | null): Promise<void> => {
-            if (user === undefined || user === null || userSchema.isValidSync(user)) {
-                return await setUser(user)
+    const setUser = React.useCallback(
+        async (user?: User | null): Promise<void> => {
+            if (currentUser && (user === undefined || user === null)) {
+                await fetch(`${url}/auth/logout`, {
+                    method: "POST",
+                    credentials: "include",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                })
             }
+
+            setCurrentUser(user ?? undefined)
         },
-        [],
+        [currentUser?.uid],
     )
 
-    const setThemeContext = React.useCallback((newTheme: string) => {
+    const setUserFromUnknown = async (user?: {[key: string]: unknown} | null): Promise<void> => {
+        if (user === undefined || user === null || userSchema.isValidSync(user)) {
+            return await setUser(user)
+        }
+    }
+
+    const setThemeContext = (newTheme: string) => {
         if (newTheme === "dark" || newTheme === "light") {
             setTheme(newTheme)
         } else {
             setTheme("light")
         }
-    }, [])
+    }
 
-    const _addNotification = React.useCallback((notification: NotificationType | Error) => {
+    const _addNotification = (notification: NotificationType | Error) => {
         setNotifications((notifs) => ({...notifs, [Date.now()]: notification}))
-    }, [])
+    }
 
     addNotification = _addNotification
 
-    const removeNotification = React.useCallback((id: number) => {
+    const removeNotification = (id: number) => {
         setNotifications((notifs) => {
             Reflect.deleteProperty(notifs, id)
 
             return notifs
         })
-    }, [])
+    }
 
     React.useEffect(() => {
         ;(async () => {
-            if (localStorage.getItem("loggedin") === "true") {
-                const user = await adapters.auth.tokens()
+            const user = await adapters.auth.tokens()
 
-                if (user instanceof Error) {
-                    await setUser(undefined)
-                    setCurrentUser((_currentUser) => _currentUser)
-
-                    return
-                }
-
+            if (user instanceof Error) {
+                await setUser(undefined)
+            } else {
                 await setUser(user)
-                setCurrentUser((_currentUser) => _currentUser)
-
-                return
             }
 
-            await setUser(undefined)
             setCurrentUser((_currentUser) => _currentUser)
         })()
 
@@ -209,26 +204,41 @@ const App: React.FC = () => {
                 >
                     <ErrorBoundary>
                         <Notifications notifications={notifications} />
+                        <Helmet
+                            meta={[
+                                {property: "description", content: defaultDescription},
+                                {property: "og:description", content: defaultDescription},
+                                {property: "twitter:description", content: defaultDescription},
+                                {property: "og:image", content: defaultImageURL},
+                                {property: "twitter:image", content: defaultImageURL},
+                                {property: "og:title", content: "Talentmaker"},
+                                {property: "twitter:title", content: "Talentmaker"},
+                            ]}
+                        />
                         <Router>
-                            <Nav />
-                            <Switch>
-                                <Route path="/" exact component={Home} />
-                                <Route path="/auth" component={Auth} />
-                                <Route path="/competition/:id" component={Competition} />
-                                <Route path="/competitions" component={Competitions} />
-                                <Route path="/joinTeam/:data" component={JoinTeam} />
-                                <Route path="/legal" component={Legal} />
-                                <Route path="/privacy-policy" component={PrivacyPolicy} />
-                                <Route path="/profile/:uid" component={Profile} />
-                                <Route path="/project/:id" component={Project} />
-                                <Route path="/project" component={Project} />
-                                <Route path="/projects/:competitionId" component={Projects} />
-                                <Route path="/talents" component={Talents} />
-                                <Route path="/talentmakers" component={Talentmakers} />
+                            <div>
+                                <Nav />
+                                {/* prettier-ignore */}
+                                <Routes>
+                                    <Route path="/"                        element={<MetaTagsWrapper title="Home"><Home/></MetaTagsWrapper>} />
+                                    <Route path="/auth"                    element={<MetaTagsWrapper title="Auth"><Auth/></MetaTagsWrapper>} />
+                                    <Route path="/competition/:id"         element={<MetaTagsWrapper title="Competition"><Competition/></MetaTagsWrapper>} />
+                                    <Route path="/competitions"            element={<MetaTagsWrapper title="Competitions"><Competitions/></MetaTagsWrapper>} />
+                                    <Route path="/joinTeam/:data"          element={<MetaTagsWrapper title="Join Team"><JoinTeam/></MetaTagsWrapper>} />
+                                    <Route path="/legal"                   element={<MetaTagsWrapper title="Legal"><Legal/></MetaTagsWrapper>} />
+                                    <Route path="/privacy-policy"          element={<MetaTagsWrapper title="Privacy Policy"><PrivacyPolicy/></MetaTagsWrapper>} />
+                                    <Route path="/profile/edit"            element={<MetaTagsWrapper title="Edit Your Profile"><EditProfile/></MetaTagsWrapper>} />
+                                    <Route path="/profile/:uid"            element={<MetaTagsWrapper title="Profile"><Profile/></MetaTagsWrapper>} />
+                                    <Route path="/project/:id"             element={<MetaTagsWrapper title="Project"><Project/></MetaTagsWrapper>} />
+                                    <Route path="/project"                 element={<MetaTagsWrapper title="Project"><Project/></MetaTagsWrapper>} />
+                                    <Route path="/projects/:competitionId" element={<MetaTagsWrapper title="Projects"><Projects/></MetaTagsWrapper>} />
+                                    <Route path="/talents"                 element={<MetaTagsWrapper title="Talents"><Talents/></MetaTagsWrapper>} />
+                                    <Route path="/talentmakers"            element={<MetaTagsWrapper title="Talentmakers"><Talentmakers/></MetaTagsWrapper>} />
 
-                                {/* 404 */}
-                                <Route component={NotFound} />
-                            </Switch>
+                                    {/* 404 */}
+                                    <Route path="*" element={<MetaTagsWrapper title="404 Not Found"><NotFound/></MetaTagsWrapper>} />
+                                </Routes>
+                            </div>
                             <Footer user={currentUser} />
                         </Router>
                     </ErrorBoundary>

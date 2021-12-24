@@ -9,18 +9,19 @@
 
 import * as adapters from "~/adapters"
 import {Button, Col, Container, Row} from "react-bootstrap"
+import {Link, useNavigate} from "react-router-dom"
 import DefaultPFP from "~/images/profile.svg"
 import GridItem from "~/components/gridItem"
+import MetaTags from "~/components/metaTags"
 import React from "react"
 import {Spinner} from "~/components/bootstrap"
 import {UserContext} from "~/contexts"
 import {arrayToChunks} from "@luke-zhang-04/utils"
 import styles from "./index.module.scss"
 import {useAdapter} from "~/hooks"
-import {useHistory} from "react-router-dom"
 
 export const UserDisplay: React.FC<{uid: string}> = ({uid}) => {
-    const history = useHistory()
+    const navigate = useNavigate()
     const {currentUser, setUser} = React.useContext(UserContext)
     const {data: user, error} = useAdapter(() => adapters.user.getWithProjects(uid), undefined, [
         uid,
@@ -56,7 +57,7 @@ export const UserDisplay: React.FC<{uid: string}> = ({uid}) => {
                 </Col>
                 {user.uid === currentUser?.uid && (
                     <Col lg={4} className="d-flex flex-row align-items-center justify-content-end">
-                        <Button variant="outline-primary" size="lg">
+                        <Button variant="outline-primary" size="lg" as={Link} to="/profile/edit">
                             Edit
                         </Button>
                         <Button
@@ -66,7 +67,7 @@ export const UserDisplay: React.FC<{uid: string}> = ({uid}) => {
                             onClick={async (): Promise<void> => {
                                 await setUser(undefined)
 
-                                return history.push("/")
+                                return navigate("/")
                             }}
                         >
                             Logout
@@ -74,11 +75,9 @@ export const UserDisplay: React.FC<{uid: string}> = ({uid}) => {
                     </Col>
                 )}
             </Row>
-
             <Row className={`bg-primary ${styles.bar}`}>
                 <Col xs={12} />
             </Row>
-
             <Row>
                 <Col xs={3} className="bg-lighter">
                     <ul className="list-unstyled text-dark px-4 py-5">
@@ -119,9 +118,9 @@ export const UserDisplay: React.FC<{uid: string}> = ({uid}) => {
                         )}
                     </ul>
                 </Col>
-                <Col xs={9} className="px-tm-gx">
+                <Col xs={9} className="p-tm-gx">
                     <h1>Projects:</h1>
-                    {projects &&
+                    {projects?.length ? (
                         arrayToChunks(projects).map((row, index) => (
                             <Row key={`profile-project-row-${index}`} className="g-3">
                                 {row.map((project, index2) => (
@@ -133,9 +132,13 @@ export const UserDisplay: React.FC<{uid: string}> = ({uid}) => {
                                     />
                                 ))}
                             </Row>
-                        ))}
+                        ))
+                    ) : (
+                        <p>No projects yet</p>
+                    )}
                 </Col>
             </Row>
+            <MetaTags title={user.username} description={`${user.username}'s profile`} />
         </>
     )
 }

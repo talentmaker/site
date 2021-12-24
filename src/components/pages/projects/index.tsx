@@ -46,23 +46,23 @@ const Project: React.FC<{project: ProjectsType[0]; user?: User}> = ({project, us
 export const Projects: React.FC<{competitionId: string}> = ({competitionId}) => {
     const {data: projects} = useAdapter(
         () => adapters.project.getMany(competitionId),
-        () => projectsSchema.validate(cache.read("talentmakerCache_projects")),
+        () => projectsSchema.validate(cache.read(`talentmakerCache_projects_${competitionId}`)),
     )
     const {currentUser: user} = React.useContext(UserContext)
 
-    const getSortedProjects = React.useCallback((_projects: ProjectsType): ProjectsType[][] => {
+    const getSortedProjects = (_projects: ProjectsType): ProjectsType[][] => {
         // Projects due in the future and past
         const advancing: ProjectsType = []
         const submitted = _projects ?? []
 
         return [arrayToChunks(advancing), arrayToChunks(submitted)]
-    }, [])
+    }
 
     if (projects) {
         const sortedProjects = getSortedProjects(projects)
 
         return (
-            <Container fluid>
+            <Container fluid className="py-3">
                 <Breadcrumb>
                     <Breadcrumb.Item linkAs={Link} linkProps={{to: "/competitions"}}>
                         Competitions
@@ -76,9 +76,9 @@ export const Projects: React.FC<{competitionId: string}> = ({competitionId}) => 
                     <Breadcrumb.Item active>Submissions</Breadcrumb.Item>
                 </Breadcrumb>
                 <h1 className="my-3">Advancing</h1>
-                {(sortedProjects[0]?.length ?? 0) > 0 ? (
+                {sortedProjects[0]?.length ? (
                     sortedProjects[0].map((row, index) => (
-                        <Row key={`project-row-${index}`} className="g-3">
+                        <Row key={`project-row-${index}`} className="g-3 mt-0">
                             {row.map((project, index2) => (
                                 <Project
                                     key={`comp-item-0-${index}-${index2}`}
@@ -93,17 +93,21 @@ export const Projects: React.FC<{competitionId: string}> = ({competitionId}) => 
                 )}
 
                 <h1 className="mb-3">Submitted</h1>
-                {sortedProjects[1]?.map((row, index) => (
-                    <Row key={`project-row-${index}`} className="g-3">
-                        {row.map((project, index2) => (
-                            <Project
-                                key={`comp-item-1-${index}-${index2}`}
-                                project={project}
-                                user={user}
-                            />
-                        ))}
-                    </Row>
-                ))}
+                {sortedProjects[1]?.length ? (
+                    sortedProjects[1]?.map((row, index) => (
+                        <Row key={`project-row-${index}`} className="g-3 mt-0">
+                            {row.map((project, index2) => (
+                                <Project
+                                    key={`comp-item-1-${index}-${index2}`}
+                                    project={project}
+                                    user={user}
+                                />
+                            ))}
+                        </Row>
+                    ))
+                ) : (
+                    <p>None</p>
+                )}
             </Container>
         )
     }

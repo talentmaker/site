@@ -48,21 +48,29 @@ export const get = createAdapter(
     competitionSchema,
 )
 
-export const getMany = createAdapter(async ({request, url, cache, schema}) => {
-    const data = await request(`${url}/competitions/getMany`, "GET", "json")
-    const competitions = await schema.validate(data)
+export const getMany = createAdapter(
+    async ({request, url, cache, schema, qs}, search?: string) => {
+        const data = await request(
+            qs.stringifyUrl({url: `${url}/competitions/getMany`, query: {search}}),
+            "GET",
+            "json",
+        )
+        const competitions = await schema.validate(data)
 
-    cache.write(
-        "talentmakerCache_competitions",
-        competitions.map((competition) => ({
-            ...competition,
-            desc: undefined, // Remove descriptions; They're long and aren't used in this context
-        })),
-    )
+        if (!search) {
+            cache.write(
+                "talentmakerCache_competitions",
+                competitions.map((competition) => ({
+                    ...competition,
+                    desc: undefined, // Remove descriptions; They're long and aren't used in this context
+                })),
+            )
+        }
 
-    return competitions
-}, competitionsSchema)
-
+        return competitions
+    },
+    competitionsSchema,
+)
 type UpdateParams = {
     title?: string | null
     desc?: string | null

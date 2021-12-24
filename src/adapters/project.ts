@@ -68,7 +68,7 @@ export const getMany = createAdapter(
         const projects = await schema.validate(data)
 
         cache.write(
-            "talentmakerCache_projects",
+            `talentmakerCache_projects_${competitionId}`,
             projects.map((project) => ({
                 ...project,
                 desc: undefined, // Remove descriptions; They're long and aren't used in this context

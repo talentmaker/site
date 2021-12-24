@@ -36,7 +36,7 @@ export const GridItem: React.FC<Props> = ({
     title,
     bottomFlexMode = "end",
 }) => (
-    <Col lg={4} className="my-3">
+    <Col lg={4} className="mt-3">
         <div className={styles.gridCard}>
             <Img src={imageURL ?? DefaultPhoto} alt="cover">
                 <Spinner color="primary" size="6rem" centered />

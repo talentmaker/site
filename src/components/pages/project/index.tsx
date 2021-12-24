@@ -15,6 +15,7 @@ import {readCache, writeCache} from "~/utils"
 import EditModal from "./editModal"
 import {EditableMarkdown} from "~/components/markdown"
 import {Link} from "react-router-dom"
+import MetaTags from "~/components/metaTags"
 import Prism from "prismjs"
 import React from "react"
 import {Spinner} from "~/components/bootstrap"
@@ -38,13 +39,17 @@ type Props = {
 
 export const Project: React.FC<Props> = (props) => {
     const {currentUser: user} = React.useContext(UserContext)
-    const {data: project, setData} = useAdapter(
-        () => (user ? adapters.project.get(user, props.id, props.competitionId) : undefined),
+    const {
+        data: project,
+        setData,
+        isLoadingApi,
+    } = useAdapter(
+        () => adapters.project.get(user, props.id, props.competitionId),
         () =>
             props.id
                 ? projectSchema.validate(readCache(`talentmakerCache_project-${props.id}`))
                 : undefined,
-        [user],
+        [user?.uid],
     )
     const [inviteLink, setInviteLink] = React.useState<string | string>()
     const [shouldShowModal, setShouldShowModal] = React.useState(false)
@@ -55,14 +60,13 @@ export const Project: React.FC<Props> = (props) => {
         if (window.location.hash) {
             scrollToHeader(window.location.hash)
         }
-    }, [])
+    }, [project?.id, isLoadingApi])
 
     React.useEffect(() => {
         Prism.highlightAll()
     })
 
-    const getData = React.useCallback(getProjectData, [])
-    const setInviteLinkState = React.useCallback(async () => {
+    const setInviteLinkState = async () => {
         if (user && project) {
             const link = await adapters.team.getInviteLink(
                 user,
@@ -74,9 +78,9 @@ export const Project: React.FC<Props> = (props) => {
                 setInviteLink(`${window.location.origin}/joinTeam/${link.urlSuffix}`)
             }
         }
-    }, [project, project?.id, project?.competitionId])
+    }
 
-    const data = getData(project)
+    const data = getProjectData(project)
 
     if (project && data) {
         const isOwner = user !== undefined && user.uid === project?.creatorId
@@ -172,6 +176,10 @@ export const Project: React.FC<Props> = (props) => {
 
         return (
             <>
+                <MetaTags
+                    title={project.name}
+                    description={`${project.creatorUsername}'s Submission to ${project.competitionName}`}
+                />
                 <EditModal
                     project={project}
                     shouldShow={shouldShowModal}
@@ -201,7 +209,9 @@ export const Project: React.FC<Props> = (props) => {
                 </Breadcrumb>
                 <Components.UserInfo
                     username={project.name ?? "Submission"}
-                    desc={`Submission for ${project.competitionName}`}
+                    desc={`Submission for ${
+                        project.competitionName ?? `${project.competitionOrgName}'s Competition`
+                    }`}
                 >
                     {isTeamMember && (
                         <Button

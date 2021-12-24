@@ -5,7 +5,6 @@
  * @author Luke Zhang
  * @copyright (C) 2020 - 2021 Luke Zhang
  * https://Luke-zhang-04.github.io
- * https://github.com/ethanlim04
  */
 
 import type * as yup from "yup"
@@ -13,22 +12,28 @@ import type {AdapterReturnTypeOrError} from "~/adapters/utils/createAdapter"
 import type {MaybePromise} from "@luke-zhang-04/utils/types"
 import React from "react"
 
-type UseAdapterReturn<OutputType> = (
+export type UseAdapterReturn<OutputType> = (
     | {
           isLoading: true
+          isLoadingApi: true
           isDone: false
+          isDoneApi: false
           data: undefined
           error: undefined
       }
     | {
           isLoading: false
+          isLoadingApi: boolean
           isDone: true
+          isDoneApi: boolean
           data: OutputType
           error: undefined
       }
     | {
           isLoading: false
+          isLoadingApi: boolean
           isDone: false
+          isDoneApi: boolean
           isSuccessful: false
           data: undefined
           error: Error
@@ -44,6 +49,16 @@ type UseAdapterReturn<OutputType> = (
      * Manually set the data and toggle isLoading and isDone. Erases errors.
      */
     setData: React.Dispatch<React.SetStateAction<OutputType | undefined>>
+
+    /**
+     * Manually set the error and toggle isLoading and isDone.
+     */
+    setError: React.Dispatch<React.SetStateAction<Error | undefined>>
+
+    /**
+     * Manually set isLoading and toggle isDone.
+     */
+    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export const useAdapter = <
@@ -57,6 +72,7 @@ export const useAdapter = <
     deps: React.DependencyList = [],
 ): Readonly<UseAdapterReturn<OutputType>> => {
     const [isLoading, setIsLoading] = React.useState(true)
+    const [isLoadingApi, setIsLoadingApi] = React.useState(true)
     const [data, setData] = React.useState<OutputType>()
     const [error, setError] = React.useState<Error>()
 
@@ -76,9 +92,10 @@ export const useAdapter = <
             .finally(() => {
                 if (isLoading) {
                     setIsLoading(false)
+                    setIsLoadingApi(false)
                 }
             })
-    }, [adapterCall, isLoading])
+    }, [adapterCall, isLoading, ...deps])
 
     React.useEffect(() => {
         if (cacheHook !== undefined && isLoading) {
@@ -100,16 +117,27 @@ export const useAdapter = <
     >((_data) => {
         setData(_data)
         setError(undefined)
-        setIsLoading(false)
+        setIsLoading(_data === undefined && error === undefined)
+    }, [])
+
+    const publicSetError = React.useCallback<
+        React.Dispatch<React.SetStateAction<Error | undefined>>
+    >((_error) => {
+        setError(_error)
+        setIsLoading(data === undefined && _error === undefined)
     }, [])
 
     return {
         isLoading,
         isDone: !isLoading,
+        isLoadingApi,
+        isDoneApi: !isLoadingApi,
         data,
         error,
         rerun: callAdapter,
         setData: publicSetData,
+        setError: publicSetError,
+        setIsLoading,
     } as UseAdapterReturn<OutputType>
 }
 

@@ -9,8 +9,8 @@
 
 import * as adapters from "~/adapters"
 import * as yup from "yup"
-import {Button, Form, Modal} from "react-bootstrap"
-import {Formik, FormikHelpers} from "formik"
+import {Button, Modal} from "react-bootstrap"
+import {Form, Formik, FormikHelpers} from "formik"
 import {NotificationContext, UserContext} from "~/contexts"
 import {Competition} from "~/schemas/competition"
 import {Input} from "~/components/formik"
@@ -36,11 +36,6 @@ const formValidationSchema = yup.object({
             "is-date",
             "${path} is an invalid date",
             (value) => value !== undefined && !isNaN(new Date(value).getTime()),
-        )
-        .test(
-            "is-in-future",
-            "${path} must be in the future",
-            (value) => value !== undefined && new Date(value).getTime() > Date.now(),
         ),
 })
 
@@ -84,86 +79,80 @@ export const EditModal: React.FC<Props> = ({shouldShow, onClose, onSave, competi
         })()
     }, [])
 
-    const shouldSubmitCompetition = React.useCallback(
-        async (values: FormValues) => {
-            const newDataHash = await hash(
-                JSON.stringify(
-                    pick(
-                        values,
-                        "name",
-                        "shortDesc",
-                        "videoURL",
-                        "website",
-                        "coverImageURL",
-                        "deadline",
-                    ),
+    const shouldSubmitCompetition = async (values: FormValues) => {
+        const newDataHash = await hash(
+            JSON.stringify(
+                pick(
+                    values,
+                    "name",
+                    "shortDesc",
+                    "videoURL",
+                    "website",
+                    "coverImageURL",
+                    "deadline",
                 ),
-                "SHA-256",
-                "base64",
-            )
+            ),
+            "SHA-256",
+            "base64",
+        )
 
-            return newDataHash !== initialDataHash.current // If data has been changed
-        },
-        [initialDataHash.current],
-    )
+        return newDataHash !== initialDataHash.current // If data has been changed
+    }
 
-    const submit = React.useCallback(
-        async (values: FormValues, {setSubmitting}: FormikHelpers<FormValues>) => {
-            setSubmitting(true)
+    const submit = async (values: FormValues, {setSubmitting}: FormikHelpers<FormValues>) => {
+        setSubmitting(true)
 
-            if (user) {
-                if (await shouldSubmitCompetition(values)) {
-                    const result = await adapters.competition.update(user, {
+        if (user) {
+            if (await shouldSubmitCompetition(values)) {
+                const result = await adapters.competition.update(user, {
+                    ...values,
+                    title: values.name,
+                    id: competition.id,
+                })
+
+                if (!(result instanceof Error)) {
+                    onSave?.({
+                        ...competition,
                         ...values,
-                        title: values.name,
-                        id: competition.id,
+                        deadline: values.deadline ? new Date(values.deadline) : undefined,
                     })
 
-                    if (!(result instanceof Error)) {
-                        onSave?.({
-                            ...competition,
-                            ...values,
-                            deadline: values.deadline ? new Date(values.deadline) : undefined,
-                        })
-
-                        notify({
-                            title: "Success!",
-                            content: "Successfully edited your competition!",
-                            icon: "done_all",
-                            iconClassName: "text-success",
-                        })
-
-                        initialDataHash.current = await hash(
-                            JSON.stringify(
-                                pick(
-                                    values,
-                                    "name",
-                                    "shortDesc",
-                                    "videoURL",
-                                    "website",
-                                    "coverImageURL",
-                                    "deadline",
-                                ),
-                            ),
-                            "SHA-256",
-                            "base64",
-                        )
-                    }
-                } else {
                     notify({
                         title: "Success!",
                         content: "Successfully edited your competition!",
                         icon: "done_all",
                         iconClassName: "text-success",
                     })
-                }
-            }
 
-            setSubmitting(false)
-            onClose?.()
-        },
-        [typeof onClose, user?.uid, competition.id],
-    )
+                    initialDataHash.current = await hash(
+                        JSON.stringify(
+                            pick(
+                                values,
+                                "name",
+                                "shortDesc",
+                                "videoURL",
+                                "website",
+                                "coverImageURL",
+                                "deadline",
+                            ),
+                        ),
+                        "SHA-256",
+                        "base64",
+                    )
+                }
+            } else {
+                notify({
+                    title: "Success!",
+                    content: "Successfully edited your competition!",
+                    icon: "done_all",
+                    iconClassName: "text-success",
+                })
+            }
+        }
+
+        setSubmitting(false)
+        onClose?.()
+    }
 
     return (
         <Modal show={shouldShow} onHide={onClose}>
@@ -183,7 +172,7 @@ export const EditModal: React.FC<Props> = ({shouldShow, onClose, onSave, competi
                 validationSchema={formValidationSchema}
                 onSubmit={submit}
             >
-                {({isSubmitting, submitForm}): JSX.Element => (
+                {({isSubmitting}): JSX.Element => (
                     <Form>
                         <Modal.Header closeButton>
                             <Modal.Title>Edit competition settings</Modal.Title>
@@ -247,7 +236,7 @@ export const EditModal: React.FC<Props> = ({shouldShow, onClose, onSave, competi
                             <Button variant="outline-danger" onClick={onClose}>
                                 Cancel
                             </Button>
-                            <Button variant="primary" disabled={isSubmitting} onClick={submitForm}>
+                            <Button variant="primary" disabled={isSubmitting} type="submit">
                                 {isSubmitting && <Spinner inline> </Spinner>}
                                 Edit
                             </Button>

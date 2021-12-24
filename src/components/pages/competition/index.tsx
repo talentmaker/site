@@ -15,6 +15,7 @@ import {readCache, writeCache} from "~/utils"
 import EditModal from "./editModal"
 import {EditableMarkdown} from "~/components/markdown"
 import {Link} from "react-router-dom"
+import MetaTags from "~/components/metaTags"
 import NotificationContext from "~/contexts/notificationContext"
 import Prism from "prismjs"
 import React from "react"
@@ -39,10 +40,11 @@ export const Competition: React.FC<Props> = (props) => {
         data: competition,
         rerun,
         setData,
+        isLoadingApi,
     } = useAdapter(
         () => adapters.competition.get(user?.uid, props.id),
         () => competitionSchema.validate(readCache(`talentmakerCache_competition-${props.id}`)),
-        [user],
+        [user?.uid],
     )
     const [shouldShowModal, setShouldShowModal] = React.useState(false)
     const [isDescSaved, setIsDescSaved] = React.useState(true)
@@ -52,16 +54,14 @@ export const Competition: React.FC<Props> = (props) => {
         if (window.location.hash) {
             scrollToHeader(window.location.hash)
         }
-    }, [])
+    }, [competition?.id, isLoadingApi])
 
     React.useEffect(() => {
         Prism.highlightAll()
     })
 
-    const getData = React.useCallback(getCompetitionData, [])
-
     if (competition) {
-        const data = getData(competition)
+        const data = getCompetitionData(competition)
         const isOwner = user !== undefined && user.uid === competition.organizationId
         const onDescSave = isOwner // Why
             ? async (desc: string): Promise<void> => {
@@ -173,6 +173,11 @@ export const Competition: React.FC<Props> = (props) => {
                         <Components.Sidebar items={data.items} />
                     </Col>
                 </Row>
+                <MetaTags
+                    title={competition.name ?? `${competition.orgName}'s Competition`}
+                    description={competition.shortDesc}
+                    image={competition.coverImageURL}
+                />
             </>
         )
     }

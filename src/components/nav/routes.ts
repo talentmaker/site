@@ -1,8 +1,14 @@
+import type {ButtonVariant} from "react-bootstrap/esm/types"
+
 export type MobileLinks = (
     | [path: string, displayName: string, iconName: string]
     | [
-          authenticated: [path: string, displayName: string, iconName: string],
-          unauthenticated: [path: string, displayName: string, iconName: string],
+          authenticated:
+              | [path: string, displayName: string, iconName: string]
+              | [path: string, displayName: string, iconName: string][],
+          unauthenticated:
+              | [path: string, displayName: string, iconName: string]
+              | [path: string, displayName: string, iconName: string][],
       ]
 )[]
 
@@ -10,8 +16,12 @@ type DesktopLinkGroup = (
     | [path: string, displayName: string]
     | [href: string, iconType: "bootstrap" | "material-icons", iconName: string]
     | [
-          authenticated: [path: string, displayName: string],
-          unauthenticated: [path: string, displayName: string],
+          authenticated:
+              | [path: string, displayName: string, buttonVariant?: ButtonVariant]
+              | [path: string, displayName: string, buttonVariant?: ButtonVariant][],
+          unauthenticated:
+              | [path: string, displayName: string, buttonVariant?: ButtonVariant]
+              | [path: string, displayName: string, buttonVariant?: ButtonVariant][],
       ]
 )[]
 
@@ -38,10 +48,13 @@ export const desktop: DesktopLinks = [
     [
         ["https://www.youtube.com/channel/UCltJw7oSTdHDio806LztCzQ", "bootstrap", "bi-youtube"],
         ["https://www.linkedin.com/in/talent-maker-group/", "bootstrap", "bi-linkedin"],
-        ["https://github.com/Luke-zhang-04/talentmaker-site", "bootstrap", "bi-github"],
+        ["https://github.com/talentmaker", "bootstrap", "bi-github"],
         [
             ["/profile/<UID>", "<USERNAME>"],
-            ["/auth", "Sign Up"],
+            [
+                ["/auth?mode=login", "Sign In"],
+                ["/auth?mode=register", "Sign Up", "outline-primary"],
+            ],
         ],
     ],
 ]

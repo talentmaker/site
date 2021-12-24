@@ -21,12 +21,16 @@ type InputProps = React.DetailedHTMLProps<
     shouldShowValidFeedback?: boolean
     placeholder?: string
     shouldShowLabel?: boolean
+    noFeedback?: boolean
+    textArea?: boolean
 }
 
 export const Input: React.FC<InputProps> = ({
     children,
     shouldShowValidFeedback = true,
     shouldShowLabel = false,
+    noFeedback = false,
+    textArea = false,
     ...props
 }) => {
     const [field, meta] = useField<Omit<InputProps, "children" | "shouldShowValidFeedback">>(props)
@@ -35,14 +39,16 @@ export const Input: React.FC<InputProps> = ({
     let errorClass: string | undefined
     let feedback: JSX.Element | undefined
 
-    if (errorText) {
-        errorClass = "is-invalid"
-        feedback = <div className="invalid-feedback">{errorText}</div>
-    } else if (meta.touched) {
-        errorClass = "is-valid"
-        feedback = shouldShowValidFeedback ? (
-            <div className="valid-feedback">Looks Good!</div>
-        ) : undefined
+    if (!noFeedback) {
+        if (errorText) {
+            errorClass = "is-invalid"
+            feedback = <div className="invalid-feedback">{errorText}</div>
+        } else if (meta.touched) {
+            errorClass = "is-valid"
+            feedback = shouldShowValidFeedback ? (
+                <div className="valid-feedback">Looks Good!</div>
+            ) : undefined
+        }
     }
 
     const id = React.useMemo(
@@ -58,6 +64,7 @@ export const Input: React.FC<InputProps> = ({
                 <Field
                     {...props}
                     {...field}
+                    as={textArea ? "textarea" : undefined}
                     id={id}
                     placeholder={props.placeholder ?? props.label}
                     className={`${props.className ?? ""} ${errorClass ?? ""} form-control`}

@@ -63,3 +63,13 @@ export const tokens = createAdapter(
     userSchema,
     false,
 )
+
+export const changePassword = createAdapter(
+    async ({request, url}, user: User, oldPassword: string, newPassword: string) => {
+        await request(`${url}/auth/changePassword`, "POST", "text", {
+            email: user.email,
+            oldPassword,
+            newPassword,
+        })
+    },
+)

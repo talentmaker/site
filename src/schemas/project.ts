@@ -23,7 +23,8 @@ export const projectSchema = yup.object({
     topics: yup.array(yup.string()).nullable(),
     name: yup.string().required(),
     creatorUsername: yup.string().required(),
-    competitionName: yup.string().required(),
+    competitionName: yup.string().nullable(),
+    competitionOrgName: yup.string().required(),
     teamMembers: yup
         .array(
             yup.object({

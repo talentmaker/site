@@ -25,7 +25,7 @@ export const scrollToHeader = (
     if (container) {
         const headers = "h1, h2, h3, h4, h5, h6"
 
-        for (const header of container.querySelectorAll(headers)) {
+        for (const header of Array.from(container.querySelectorAll(headers))) {
             if (header instanceof HTMLElement) {
                 const content = header.innerText.trim().replace(/ /gu, "-").toLowerCase()
                 const wantedContent = hash.slice(1)

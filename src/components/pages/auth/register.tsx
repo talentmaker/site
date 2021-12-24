@@ -54,30 +54,30 @@ const validationSchema = yup.object({
 export const Reg: React.FC = () => {
     const {addNotification: notify} = React.useContext(NotificationContext)
 
-    const submit = React.useCallback(
-        async (values: FormValues, {setSubmitting}: FormikHelpers<FormValues>): Promise<void> => {
-            setSubmitting(true)
-            const register = await adapters.auth.register(
-                values.username,
-                values.email,
-                values.password,
-            )
+    const submit = async (
+        values: FormValues,
+        {setSubmitting}: FormikHelpers<FormValues>,
+    ): Promise<void> => {
+        setSubmitting(true)
+        const register = await adapters.auth.register(
+            values.username,
+            values.email,
+            values.password,
+        )
 
-            if (!(register instanceof Error)) {
-                notify({
-                    title: "Successfully Registered!",
-                    content: "Success! You have been registered! Please confirm your email.",
-                    icon: "account_box",
-                    iconClassName: "text-success",
-                })
-            }
+        if (!(register instanceof Error)) {
+            notify({
+                title: "Successfully Registered!",
+                content: "Success! You have been registered! Please confirm your email.",
+                icon: "account_box",
+                iconClassName: "text-success",
+            })
+        }
 
-            setSubmitting(false)
-        },
-        [notify],
-    )
+        setSubmitting(false)
+    }
 
-    const validate = React.useCallback((values: FormValues): {} => {
+    const validate = (values: FormValues): {} => {
         const errors: {[key: string]: string} = {}
 
         if (!values.didagree) {
@@ -86,7 +86,7 @@ export const Reg: React.FC = () => {
         }
 
         return errors
-    }, [])
+    }
 
     return (
         <Formik

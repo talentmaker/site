@@ -21,7 +21,7 @@ export enum BreakPoints {
     Md = 768,
     Lg = 992,
     Xl = 1200,
-    Xxl = 140,
+    Xxl = 1400,
 }
 
 export default Object.freeze({

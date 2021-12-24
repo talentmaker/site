@@ -15,7 +15,7 @@ import {Input} from "~/components/formik"
 import React from "react"
 import {Spinner} from "~/components/bootstrap"
 import UserContext from "~/contexts/userContext"
-import {useHistory} from "react-router-dom"
+import {useNavigate} from "react-router-dom"
 
 interface FormValues {
     email: string
@@ -33,35 +33,34 @@ const initialValues: FormValues = {
 }
 
 export const Login = (): JSX.Element => {
-    const history = useHistory()
-    const {setUserFromUnknown, setUser} = React.useContext(UserContext)
+    const navigate = useNavigate()
+    const {setUserFromUnknown} = React.useContext(UserContext)
     const [unconfirmedEmail, setUnconfirmedEmail] =
         React.useState<[email: string, password: string]>()
     const [message, setMessage] = React.useState<[error: boolean, message: string]>()
-    const [isAttemptingRemember, setIsAttemptingRemember] = React.useState(false)
 
-    const submit = React.useCallback(
-        async (values: FormValues, {setSubmitting}: FormikHelpers<FormValues>): Promise<void> => {
-            setSubmitting(true)
+    const submit = async (
+        values: FormValues,
+        {setSubmitting}: FormikHelpers<FormValues>,
+    ): Promise<void> => {
+        setSubmitting(true)
 
-            const data = await adapters.auth.login(values.email, values.password)
+        const data = await adapters.auth.login(values.email, values.password)
 
-            if (data instanceof Error) {
-                if (data.message.includes("not confirmed")) {
-                    setUnconfirmedEmail([values.email, values.password])
-                }
-            } else {
-                await setUserFromUnknown(data)
-
-                setSubmitting(false)
-
-                return history.push(`/profile/${data.uid}`)
+        if (data instanceof Error) {
+            if (data.message.includes("not confirmed")) {
+                setUnconfirmedEmail([values.email, values.password])
             }
+        } else {
+            await setUserFromUnknown(data)
 
             setSubmitting(false)
-        },
-        [],
-    )
+
+            return navigate(`/profile/${data.uid}`)
+        }
+
+        setSubmitting(false)
+    }
 
     return (
         <Formik
@@ -87,29 +86,6 @@ export const Login = (): JSX.Element => {
                     >
                         {isSubmitting ? <Spinner inline> </Spinner> : undefined}
                         Login
-                    </Button>
-                    <Button
-                        className="mt-3 ms-1"
-                        variant="outline-success"
-                        onClick={async () => {
-                            setIsAttemptingRemember(true)
-                            const user = await adapters.auth.tokens()
-
-                            await setUser(user instanceof Error ? undefined : user)
-
-                            if (user instanceof Error) {
-                                setMessage([true, "Couldn't remember you"])
-                                console.log(user)
-                            } else {
-                                return history.push(`/profile/${user.uid}`)
-                            }
-
-                            setIsAttemptingRemember(false)
-                        }}
-                        disabled={isAttemptingRemember}
-                    >
-                        {isAttemptingRemember ? <Spinner inline> </Spinner> : undefined}
-                        Try to remember me
                     </Button>
 
                     {unconfirmedEmail && (
