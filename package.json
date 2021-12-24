@@ -26,7 +26,7 @@
   "dependencies": {
     "@luke-zhang-04/dateplus": "^4.0.0-beta1",
     "@luke-zhang-04/react-simple-markdown-editor": "^1.1.1",
-    "@luke-zhang-04/utils": "github:luke-zhang-04/utils#semver:^1.5.0",
+    "@luke-zhang-04/utils": "github:luke-zhang-04/utils#semver:^1.7.0",
     "bootstrap": "^5.1.3",
     "dompurify": "^2.3.4",
     "formik": "^2.2.9",
