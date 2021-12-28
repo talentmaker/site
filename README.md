@@ -6,7 +6,7 @@
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/talentmaker/site/build?style=flat-square&logo=Github)](https://github.com/talentmaker/site/actions)
 [![Code Size](https://img.shields.io/github/languages/code-size/talentmaker/site?style=flat-square)](.)
 
-Web app for [talentmaker](https://talentmaker.ca) white interacts with an [api](https://github.com/talentmaker/api), hosted by a [web server](https://github.com/talentmaker/web-server).
+Web app for [talentmaker](https://talentmaker.ca) which interacts with an [api](https://github.com/talentmaker/api), hosted by a [web server](https://github.com/talentmaker/web-server).
 
 ## Browser Support
 
