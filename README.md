@@ -2,9 +2,9 @@
 
 [![Live Site](https://img.shields.io/badge/Site-talentmaker.ca-blue?style=for-the-badge&logo=oracle)](https://talentmaker.ca)
 
-[![GitHub](https://img.shields.io/github/license/Luke-zhang-04/talentmaker-site?style=flat-square)](https://github.com/Luke-zhang-04/talentmaker-site/blob/master/LICENSE)
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Luke-zhang-04/talentmaker-site/build?style=flat-square&logo=Github)](https://github.com/Luke-zhang-04/talentmaker-site/actions)
-[![Code Size](https://img.shields.io/github/languages/code-size/Luke-zhang-04/talentmaker-site?style=flat-square)](.)
+[![GitHub](https://img.shields.io/github/license/talentmaker/site?style=flat-square)](https://github.com/talentmaker/site/blob/master/LICENSE)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/talentmaker/site/build?style=flat-square&logo=Github)](https://github.com/talentmaker/site/actions)
+[![Code Size](https://img.shields.io/github/languages/code-size/talentmaker/site?style=flat-square)](.)
 
 Web app for [talentmaker](https://talentmaker.ca) white interacts with an [api](https://github.com/talentmaker/api), hosted by a [web server](https://github.com/talentmaker/web-server).
 
