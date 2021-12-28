@@ -13,6 +13,7 @@ import {Button, Modal} from "react-bootstrap"
 import {Form, Formik, FormikHelpers} from "formik"
 import {NotificationContext, UserContext} from "~/contexts"
 import {Input} from "~/components/formik"
+import MaterialIcons from "~/components/materialIcons"
 import {Project} from "~/schemas/project"
 import React from "react"
 import {Spinner} from "~/components/bootstrap"
@@ -159,7 +160,7 @@ export const EditModal: React.FC<Props> = ({shouldShow, onClose, onSave, project
                                 label="Submission Title"
                                 placeholder="Submission Title"
                             >
-                                <span className="material-icons">sort</span>
+                                <MaterialIcons icon="sort" />
                             </Input>
                             <Input
                                 {...sharedInputProps}
@@ -168,7 +169,7 @@ export const EditModal: React.FC<Props> = ({shouldShow, onClose, onSave, project
                                 label="Source Code URL"
                                 placeholder="Source Code URL"
                             >
-                                <span className="material-icons">code</span>
+                                <MaterialIcons icon="code" />
                             </Input>
                             <Input
                                 {...sharedInputProps}
@@ -177,7 +178,7 @@ export const EditModal: React.FC<Props> = ({shouldShow, onClose, onSave, project
                                 label="Demo URL"
                                 placeholder="Demo URL"
                             >
-                                <span className="material-icons">preview</span>
+                                <MaterialIcons icon="preview" />
                             </Input>
                             <Input
                                 {...sharedInputProps}
@@ -186,7 +187,7 @@ export const EditModal: React.FC<Props> = ({shouldShow, onClose, onSave, project
                                 label="License"
                                 placeholder="SPDX License ID or URL to a custom license"
                             >
-                                <span className="material-icons">gavel</span>
+                                <MaterialIcons icon="gavel" />
                             </Input>
                             <Input
                                 {...sharedInputProps}
@@ -195,7 +196,7 @@ export const EditModal: React.FC<Props> = ({shouldShow, onClose, onSave, project
                                 label="Video URL"
                                 placeholder="Video URL"
                             >
-                                <span className="material-icons">video_library</span>
+                                <MaterialIcons icon="video_library" />
                             </Input>
                             {values.srcURL?.includes("github") && (
                                 <Button

@@ -8,6 +8,7 @@
  */
 
 import {FormControl, InputGroup} from "react-bootstrap"
+import MaterialIcons from "~/components/materialIcons"
 import type React from "react"
 
 interface SearchBarProps {
@@ -25,7 +26,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
 }) => (
     <InputGroup className="mb-3">
         <InputGroup.Text>
-            <span className="material-icons">search</span>
+            <MaterialIcons icon="search" />
         </InputGroup.Text>
         <FormControl
             className="bg-lighter"

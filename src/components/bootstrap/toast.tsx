@@ -8,6 +8,7 @@
  */
 
 import {Button} from "react-bootstrap"
+import MaterialIcons from "~/components/materialIcons"
 import React from "react"
 import {secondsToHours} from "@luke-zhang-04/dateplus"
 
@@ -132,9 +133,7 @@ export const Toast: React.FC<Props> = ({
         >
             {/* Do these with direct classNames */}
             <div className="toast-header text-dark bg-light">
-                <span className={`material-icons me-2 ${iconClassName ?? ""}`}>
-                    {icon ?? "error"}
-                </span>
+                <MaterialIcons icon={icon ?? "error"} className={`me-2 ${iconClassName ?? ""}`} />
                 <strong className="me-auto">{title}</strong>
                 <small className="text-muted">{getTimeFromSeconds(time)}</small>
                 <Button

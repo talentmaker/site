@@ -14,6 +14,7 @@ import {Form, Formik, FormikHelpers} from "formik"
 import {NotificationContext, UserContext} from "~/contexts"
 import {Competition} from "~/schemas/competition"
 import {Input} from "~/components/formik"
+import MaterialIcons from "~/components/materialIcons"
 import React from "react"
 import {Spinner} from "~/components/bootstrap"
 import {hash} from "@luke-zhang-04/utils/browser"
@@ -185,7 +186,7 @@ export const EditModal: React.FC<Props> = ({shouldShow, onClose, onSave, competi
                                 label="Competition Title"
                                 placeholder="Competition Title"
                             >
-                                <span className="material-icons">sort</span>
+                                <MaterialIcons icon="sort" />
                             </Input>
                             <Input
                                 {...sharedInputProps}
@@ -194,7 +195,7 @@ export const EditModal: React.FC<Props> = ({shouldShow, onClose, onSave, competi
                                 label="Short Description"
                                 placeholder="Short Description"
                             >
-                                <span className="material-icons">description</span>
+                                <MaterialIcons icon="description" />
                             </Input>
                             <Input
                                 {...sharedInputProps}
@@ -202,7 +203,7 @@ export const EditModal: React.FC<Props> = ({shouldShow, onClose, onSave, competi
                                 type="date"
                                 label="Deadline"
                             >
-                                <span className="material-icons">event</span>
+                                <MaterialIcons icon="event" />
                             </Input>
                             <Input
                                 {...sharedInputProps}
@@ -211,7 +212,7 @@ export const EditModal: React.FC<Props> = ({shouldShow, onClose, onSave, competi
                                 label="Video URL"
                                 placeholder="Video URL"
                             >
-                                <span className="material-icons">video_library</span>
+                                <MaterialIcons icon="video_library" />
                             </Input>
                             <Input
                                 {...sharedInputProps}
@@ -220,7 +221,7 @@ export const EditModal: React.FC<Props> = ({shouldShow, onClose, onSave, competi
                                 label="Website URL"
                                 placeholder="Website URL"
                             >
-                                <span className="material-icons">language</span>
+                                <MaterialIcons icon="language" />
                             </Input>
                             <Input
                                 {...sharedInputProps}
@@ -229,7 +230,7 @@ export const EditModal: React.FC<Props> = ({shouldShow, onClose, onSave, competi
                                 label="Cover Image URL"
                                 placeholder="Cover Image URL"
                             >
-                                <span className="material-icons">insert_photo</span>
+                                <MaterialIcons icon="insert_photo" />
                             </Input>
                         </Modal.Body>
                         <Modal.Footer>

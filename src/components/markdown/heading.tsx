@@ -9,6 +9,7 @@
  */
 
 import Anchor from "./anchor"
+import MaterialIcons from "~/components/materialIcons"
 import React from "react"
 import styles from "./heading.module.scss"
 
@@ -40,7 +41,7 @@ export const Heading = (props: Props): JSX.Element => {
                 href={`#${content.trim().replace(/ /gu, "-").toLowerCase()}`}
                 className={`${styles.headerLink} d-inline-block`}
             >
-                <span className="material-icons">link</span>
+                <MaterialIcons icon="link" />
             </Anchor>
             {React.createElement(`h${props.level}`, null, content)}
         </div>

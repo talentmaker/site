@@ -12,6 +12,7 @@ import * as yup from "yup"
 import {Button, Container} from "react-bootstrap"
 import {Form, Formik, FormikHelpers} from "formik"
 import {Input} from "~/components/formik"
+import MaterialIcons from "~/components/materialIcons"
 import React from "react"
 import {Spinner} from "~/components/bootstrap"
 import UserContext from "~/contexts/userContext"
@@ -72,10 +73,10 @@ export const Login = (): JSX.Element => {
             {({isSubmitting}): JSX.Element => (
                 <Container fluid as={Form}>
                     <Input name="email" type="Email" label="Email">
-                        <span className="material-icons">person</span>
+                        <MaterialIcons icon="person" />
                     </Input>
                     <Input name="password" type="password" label="Password">
-                        <span className="material-icons">vpn_key</span>
+                        <MaterialIcons icon="vpn_key" />
                     </Input>
 
                     <Button

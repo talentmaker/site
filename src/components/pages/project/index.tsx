@@ -15,6 +15,7 @@ import {readCache, writeCache} from "~/utils"
 import EditModal from "./editModal"
 import {EditableMarkdown} from "~/components/markdown"
 import {Link} from "react-router-dom"
+import MaterialIcons from "~/components/materialIcons"
 import MetaTags from "~/components/metaTags"
 import Prism from "prismjs"
 import React from "react"
@@ -115,7 +116,7 @@ export const Project: React.FC<Props> = (props) => {
             <Container fluid className="p-4 my-3 bg-lighter">
                 <h1>Management</h1>
                 <Button onClick={setInviteLinkState} variant="outline-dark">
-                    <span className="material-icons">groups</span> Generate Invite link
+                    <MaterialIcons icon="groups" /> Generate Invite link
                 </Button>
                 {inviteLink && (
                     <p className="mt-3">
@@ -138,7 +139,7 @@ export const Project: React.FC<Props> = (props) => {
                                 className="icon-btn"
                                 onClick={() => window.navigator.clipboard.writeText(inviteLink)}
                             >
-                                <span className="material-icons">content_copy</span>
+                                <MaterialIcons icon="content_copy" />
                             </button>
                         </OverlayTrigger>
                         <br />
@@ -219,7 +220,7 @@ export const Project: React.FC<Props> = (props) => {
                             className="mx-2"
                             onClick={() => setShouldShowModal(true)}
                         >
-                            <span className="material-icons">settings</span> Edit Details
+                            <MaterialIcons icon="settings" /> Edit Details
                         </Button>
                     )}
                 </Components.UserInfo>

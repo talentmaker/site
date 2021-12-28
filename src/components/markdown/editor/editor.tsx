@@ -2,6 +2,7 @@ import {Props, RenderMarkdown} from ".."
 import {highlight, languages} from "prismjs"
 import {Button} from "react-bootstrap"
 import Editor from "@luke-zhang-04/react-simple-markdown-editor"
+import MaterialIcons from "~/components/materialIcons"
 import React from "react"
 import styles from "~/components/markdown/styles.module.scss"
 
@@ -47,11 +48,11 @@ export const EditableMarkdown = ({
 
     const button = isEditing ? (
         <Button variant="outline-dark" onClick={() => setIsEditing(false)}>
-            <span className="material-icons">visibility</span>
+            <MaterialIcons icon="visibility" />
         </Button>
     ) : (
         <Button variant="outline-dark" onClick={() => setIsEditing(true)}>
-            <span className="material-icons">create</span>
+            <MaterialIcons icon="create" />
         </Button>
     )
 

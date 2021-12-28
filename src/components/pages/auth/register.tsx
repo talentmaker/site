@@ -14,6 +14,7 @@ import {Button, Container} from "react-bootstrap"
 import {Checkbox, Input} from "~/components/formik"
 import {Form, Formik, FormikHelpers} from "formik"
 import LoadingDots from "~/components/loadingDots"
+import MaterialIcons from "~/components/materialIcons"
 import {NotificationContext} from "~/contexts"
 import React from "react"
 import {Spinner} from "~/components/bootstrap"
@@ -101,16 +102,16 @@ export const Reg: React.FC = () => {
             {({isSubmitting, values}): JSX.Element => (
                 <Container fluid as={Form}>
                     <Input name="username" type="username" label="Username">
-                        <span className="material-icons">person</span>
+                        <MaterialIcons icon="person" />
                     </Input>
                     <Input name="email" type="email" label="Email">
-                        <span className="material-icons">alternate_email</span>
+                        <MaterialIcons icon="alternate_email" />
                     </Input>
                     <Input name="password" type="password" label="Password">
-                        <span className="material-icons">vpn_key</span>
+                        <MaterialIcons icon="vpn_key" />
                     </Input>
                     <Input name="password2" type="password" label="Confirm password">
-                        <span className="material-icons">vpn_key</span>
+                        <MaterialIcons icon="vpn_key" />
                     </Input>
                     <Checkbox name="didagree" type="checkbox" />
 

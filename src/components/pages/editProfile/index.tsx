@@ -14,6 +14,7 @@ import {Form, Formik, FormikHelpers} from "formik"
 import {NotificationContext, UserContext} from "~/contexts"
 import {Input} from "~/components/formik"
 import LoadingDots from "~/components/loadingDots"
+import MaterialIcons from "~/components/materialIcons"
 import MetaTags from "~/components/metaTags"
 import React from "react"
 import {Spinner} from "~/components/bootstrap"
@@ -90,7 +91,7 @@ export const EditProfile: React.FC = () => {
                                 className="bg-lighter"
                                 noFeedback
                             >
-                                <span className="material-icons">password</span>
+                                <MaterialIcons icon="password" />
                             </Input>
                             <Input
                                 name="newPassword"
@@ -99,7 +100,7 @@ export const EditProfile: React.FC = () => {
                                 className="bg-lighter"
                                 noFeedback
                             >
-                                <span className="material-icons">vpn_key</span>
+                                <MaterialIcons icon="vpn_key" />
                             </Input>
                             <Input
                                 name="newPassword2"
@@ -107,7 +108,7 @@ export const EditProfile: React.FC = () => {
                                 label="Confirm New Password"
                                 className="bg-lighter"
                             >
-                                <span className="material-icons">vpn_key</span>
+                                <MaterialIcons icon="vpn_key" />
                             </Input>
 
                             <React.Suspense fallback={values.newPassword && <LoadingDots small />}>

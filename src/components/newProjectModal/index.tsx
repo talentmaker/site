@@ -10,6 +10,7 @@
 import * as adapters from "~/adapters"
 import {Button, Form, FormProps, InputGroup, Modal} from "react-bootstrap"
 import {Competition} from "~/schemas/competition"
+import MaterialIcons from "~/components/materialIcons"
 import React from "react"
 import {Spinner} from "~/components/bootstrap/spinner"
 import {UserContext} from "~/contexts"
@@ -147,7 +148,7 @@ const InputDisplay: React.FC<DisplayProps> = ({competition}) => {
             <Form onSubmit={onSubmit}>
                 <InputGroup className="border-none">
                     <InputGroup.Text>
-                        <span className="material-icons">title</span>
+                        <MaterialIcons icon="title" />
                     </InputGroup.Text>
                     <input
                         className="form-control bg-lighter"
@@ -193,7 +194,7 @@ export const NewProjectModal: React.FC<Props> = ({competition, shouldShow, onClo
         main: (
             <div className="d-flex flex-row justify-content-start">
                 <Button variant="outline-primary" onClick={() => setDisplay("input")}>
-                    <span className="material-icons">create</span> Create from Scratch
+                    <MaterialIcons icon="create" /> Create from Scratch
                 </Button>
                 <Button
                     className="ms-3"
@@ -220,7 +221,7 @@ export const NewProjectModal: React.FC<Props> = ({competition, shouldShow, onClo
             <Modal.Footer className={display === "main" ? undefined : "justify-content-between"}>
                 {display !== "main" && (
                     <Button variant="outline-dark" onClick={() => setDisplay("main")}>
-                        <span className="material-icons">arrow_back_ios_new</span> back
+                        <MaterialIcons icon="arrow_back_ios_new" /> back
                     </Button>
                 )}
                 <Button variant="danger" onClick={onClose}>

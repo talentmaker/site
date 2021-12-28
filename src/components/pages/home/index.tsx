@@ -12,6 +12,7 @@ import {Button, Col, Row} from "react-bootstrap"
 import Img from "~/components/elements/image"
 import {Link} from "react-router-dom"
 import LoadingDots from "~/components/loadingDots"
+import MaterialIcons from "~/components/materialIcons"
 import ProblemSolvingSvg from "~/images/problemSolving.svg"
 import React from "react"
 import UserContext from "~/contexts/userContext"
@@ -34,11 +35,11 @@ export const Home: React.FC = () => {
                             experience.
                         </p>
                         <Button as={Link} to="/competitions" variant="primary">
-                            <span className="material-icons">developer_board</span> Competitions
+                            <MaterialIcons icon="developer_board" /> Competitions
                         </Button>
                         {user ? undefined : (
                             <Button as={Link} to="/auth" variant="accent" className="ms-md-3">
-                                <span className="material-icons">person</span> Make an account!
+                                <MaterialIcons icon="person" /> Make an account!
                             </Button>
                         )}
                     </Col>

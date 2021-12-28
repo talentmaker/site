@@ -12,6 +12,7 @@ import * as yup from "yup"
 import {Form, Formik, FormikHelpers} from "formik"
 import {Button} from "react-bootstrap"
 import {Input} from "~/components/formik"
+import MaterialIcons from "~/components/materialIcons"
 import {NotificationContext} from "~/contexts"
 import React from "react"
 import {Spinner} from "~/components/bootstrap"
@@ -63,16 +64,16 @@ export const ContactForm: React.FC = () => {
             {({isSubmitting}) => (
                 <Form className="d-flex flex-column align-items-end">
                     <Input name="name" label="Name" type="text">
-                        <span className="material-icons">person</span>
+                        <MaterialIcons icon="person" />
                     </Input>
                     <Input name="email" label="Email" type="email">
-                        <span className="material-icons">email</span>
+                        <MaterialIcons icon="email" />
                     </Input>
                     <Input name="subject" label="Subject" type="text">
-                        <span className="material-icons">subject</span>
+                        <MaterialIcons icon="subject" />
                     </Input>
                     <Input name="message" label="Message" type="text" textArea>
-                        <span className="material-icons">chat_bubble</span>
+                        <MaterialIcons icon="chat_bubble" />
                     </Input>
                     <div>
                         <Button
@@ -85,7 +86,7 @@ export const ContactForm: React.FC = () => {
                             {isSubmitting ? (
                                 <Spinner inline> </Spinner>
                             ) : (
-                                <span className="material-icons">send</span>
+                                <MaterialIcons icon="send" />
                             )}
                         </Button>
                     </div>

@@ -9,6 +9,7 @@
 
 import {Button} from "react-bootstrap"
 import {Link} from "react-router-dom"
+import MaterialIcons from "~/components/materialIcons"
 import MetaTags from "~/components/metaTags"
 import styles from "./index.module.scss"
 
@@ -33,11 +34,11 @@ export const NotFound = (): JSX.Element => (
                         className="d-block mx-5"
                         onClick={(): void => history.back()}
                     >
-                        <span className="material-icons">arrow_left</span> Take me back!
+                        <MaterialIcons icon="arrow_left" /> Take me back!
                     </Button>
                 ) : undefined}
                 <Button to="/" variant="primary" as={Link} className="d-block mx-5">
-                    <span className="material-icons">home</span> Take me home!
+                    <MaterialIcons icon="home" /> Take me home!
                 </Button>
             </div>
         </div>

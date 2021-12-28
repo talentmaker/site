@@ -11,6 +11,7 @@ import {Col, Container, Row} from "react-bootstrap"
 import React, {ReactNode} from "react"
 import {IFrame} from "../elements"
 import {Link} from "react-router-dom"
+import MaterialIcons from "~/components/materialIcons"
 import {Spinner} from "../bootstrap"
 import styles from "./index.module.scss"
 
@@ -119,20 +120,20 @@ const SidebarItem: React.FC<SidebarProps["items"][0]> = ({icon, title, contents,
         if (to) {
             return (
                 <Link className={linkProps.className} to={to}>
-                    <span className="material-icons">{icon}</span> {contents}
+                    <MaterialIcons icon={icon} /> {contents}
                 </Link>
             )
         } else if (href) {
             return (
                 <a {...linkProps} href={href}>
-                    <span className="material-icons">{icon}</span> {contents}
+                    <MaterialIcons icon={icon} /> {contents}
                 </a>
             )
         }
 
         return (
             <p>
-                <span className="material-icons">{icon}</span> {contents}
+                <MaterialIcons icon={icon} /> {contents}
             </p>
         )
     }
@@ -178,10 +179,10 @@ export const Sidebar: React.FC<SidebarProps> = ({items, children, canEdit, onSet
                         })
                     }}
                 >
-                    <span className="material-icons">expand_less</span>
+                    <MaterialIcons icon="expand_less" />
                 </button>
                 <button className="icon-btn icon-btn-accent" onClick={onSettingsClicked}>
-                    <span className="material-icons-outlined">settings</span>
+                    <MaterialIcons icon="settings" type="outlined" />
                 </button>
             </div>
         ) : (
@@ -194,7 +195,7 @@ export const Sidebar: React.FC<SidebarProps> = ({items, children, canEdit, onSet
                     })
                 }
             >
-                <span className="material-icons">expand_less</span>
+                <MaterialIcons icon="expand_less" />
             </button>
         )}
         <h1>About</h1>

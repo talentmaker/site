@@ -20,6 +20,7 @@ import {ThemeContext, UserContext} from "~/contexts"
 import {BreakPoints} from "~/globals"
 import {ButtonVariant} from "react-bootstrap/esm/types"
 import Logo from "~/images/logo.svg"
+import MaterialIcons from "../materialIcons"
 import React from "react"
 import routes from "./routes"
 import styles from "./index.module.scss"
@@ -121,13 +122,10 @@ const NavIcon: React.FC<{
             className={styles.mobileNavLink}
             to={formattedLocation}
         >
-            <span
-                className={
-                    currentLocation === location ? "material-icons" : "material-icons-outlined"
-                }
-            >
-                {iconName}
-            </span>
+            <MaterialIcons
+                icon={iconName}
+                type={currentLocation === location ? undefined : "outlined"}
+            />
             <p>{formattedDisplayname}</p>
         </BsNavLink>
     )

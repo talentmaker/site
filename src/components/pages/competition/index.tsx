@@ -15,6 +15,7 @@ import {readCache, writeCache} from "~/utils"
 import EditModal from "./editModal"
 import {EditableMarkdown} from "~/components/markdown"
 import {Link} from "react-router-dom"
+import MaterialIcons from "~/components/materialIcons"
 import MetaTags from "~/components/metaTags"
 import NotificationContext from "~/contexts/notificationContext"
 import Prism from "prismjs"
@@ -127,7 +128,7 @@ export const Competition: React.FC<Props> = (props) => {
                     className="mx-2"
                     onClick={() => setShouldShowModal(true)}
                 >
-                    <span className="material-icons">settings</span> Edit Details
+                    <MaterialIcons icon="settings" /> Edit Details
                 </Button>
             )
         } else {
@@ -162,7 +163,7 @@ export const Competition: React.FC<Props> = (props) => {
                         to={`/projects/${competition.id}`}
                         className="me-3"
                     >
-                        <span className="material-icons">visibility</span> Submissions
+                        <MaterialIcons icon="visibility" /> Submissions
                     </Button>
                     {joinButton}
                 </Components.UserInfo>

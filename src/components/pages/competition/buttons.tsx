@@ -11,6 +11,7 @@ import * as adapters from "~/adapters"
 import {Button} from "react-bootstrap"
 import {Competition} from "~/schemas/competition"
 import {Link} from "react-router-dom"
+import MaterialIcons from "~/components/materialIcons"
 import {NewProjectModal} from "~/components/newProjectModal"
 import React from "react"
 import {Spinner} from "~/components/bootstrap"
@@ -38,7 +39,7 @@ export const SubmissionButton: React.FC<{competition: Competition}> = ({competit
                     className="me-2"
                     to={`/project?${qs.stringify({competition: id})}`}
                 >
-                    <span className="material-icons">visibility</span> View Submission
+                    <MaterialIcons icon="visibility" /> View Submission
                 </Button>
             </>
         )
@@ -51,7 +52,7 @@ export const SubmissionButton: React.FC<{competition: Competition}> = ({competit
                     className="mx-2"
                     onClick={() => setShouldShowModal(true)}
                 >
-                    <span className="material-icons">add</span> Create New Submission
+                    <MaterialIcons icon="add" /> Create New Submission
                 </Button>
             </>
         )
