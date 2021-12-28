@@ -1,0 +1,14 @@
+/**
+ * Talentmaker website
+ *
+ * Copyright (C) 2020 - 2021 Luke Zhang
+ * Author: Luke Zhang - luke-zhang-04.github.io
+ *
+ * License: BSD-3-Clause
+ */
+
+.icon {
+  &::after {
+    content: attr(data-icon);
+  }
+}
