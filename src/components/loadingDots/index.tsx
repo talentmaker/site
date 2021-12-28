@@ -24,7 +24,12 @@ export const LoadingDots: React.FC<{
         size = styles.small
     }
 
-    return <div className={`${styles.loadingDots} ${className} ${size} text-center`}> .</div>
+    return (
+        <div className={`${styles.loadingDots} ${className} ${size} text-center`}>
+            {" ."}
+            <span className="visually-hidden">Loading...</span>
+        </div>
+    )
 }
 
 export default LoadingDots
