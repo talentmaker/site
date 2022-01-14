@@ -35,7 +35,12 @@ export const Content: React.FC = () => {
 
     return (
         <>
-            <Row className={`${styles.row2} align-items-center`}>
+            <Row
+                className={`${styles.row2} align-items-center`}
+                data-aos="fade-up"
+                data-aos-anchor-placement="top-center"
+                data-aos-duration="750"
+            >
                 <Col md={4}>
                     <Img lazy alt="teamwork" src={TeamworkSvg} className="w-100 ps-3">
                         <Img.DefaultSpinner />
@@ -52,7 +57,12 @@ export const Content: React.FC = () => {
                     </p>
                 </Col>
             </Row>
-            <Row className={`${styles.row} align-items-center flex-column-reverse flex-md-row`}>
+            <Row
+                className={`${styles.row} align-items-center flex-column-reverse flex-md-row`}
+                data-aos="fade-up"
+                data-aos-anchor-placement="top-center"
+                data-aos-duration="750"
+            >
                 <Col md={8} className={`text ${styles.text}`}>
                     <h2>Sponsor the Next Generation</h2>
                     <p>

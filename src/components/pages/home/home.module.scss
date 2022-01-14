@@ -12,6 +12,19 @@
 @use "src/styles/mixins";
 @use "src/styles/variables";
 
+$landing-page-item-count: 3;
+$fade-duration: 0.25s;
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
 @media (hover: hover) and (pointer: fine) {
   .slideImage {
     filter: grayscale(100%);
@@ -56,6 +69,13 @@
 .landingPage .row {
   @include base-row() {
     .text {
+      @for $i from 1 through $landing-page-item-count {
+        & *:nth-child(#{$i}) {
+          opacity: 0;
+          animation: fade-in $fade-duration #{$i * $fade-duration * 0.5} ease forwards;
+        }
+      }
+
       h1,
       h2 {
         font-size: 7vw;
@@ -64,6 +84,11 @@
       p {
         font-size: 4vw;
       }
+    }
+
+    .image {
+      opacity: 0;
+      animation: fade-in $fade-duration #{$fade-duration * 0.5} ease forwards;
     }
   }
 }

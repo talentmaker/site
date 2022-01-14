@@ -34,16 +34,18 @@ export const Home: React.FC = () => {
                             and career asprirations with real, hands on, and rewarding project
                             experience.
                         </p>
-                        <Button as={Link} to="/competitions" variant="primary">
-                            <MaterialIcons icon="developer_board" /> Competitions
-                        </Button>
-                        {user ? undefined : (
-                            <Button as={Link} to="/auth" variant="accent" className="ms-md-3">
-                                <MaterialIcons icon="person" /> Make an account!
+                        <div>
+                            <Button as={Link} to="/competitions" variant="primary">
+                                <MaterialIcons icon="developer_board" /> Competitions
                             </Button>
-                        )}
+                            {user ? undefined : (
+                                <Button as={Link} to="/auth" variant="accent" className="ms-md-3">
+                                    <MaterialIcons icon="person" /> Make an account!
+                                </Button>
+                            )}
+                        </div>
                     </Col>
-                    <Col md={6} className="image">
+                    <Col md={6} className={`image ${styles.image}`}>
                         <Img className="w-100" src={ProblemSolvingSvg} alt="problem solving">
                             <Img.DefaultSpinner />
                         </Img>
