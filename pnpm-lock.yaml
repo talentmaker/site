@@ -3,7 +3,7 @@ lockfileVersion: 5.3
 specifiers:
   "@babel/helper-define-map": ^7.14.5
   "@craco/craco": ^6.4.3
-  "@luke-zhang-04/dateplus": ^4.0.0-beta1
+  "@luke-zhang-04/dateplus": ^4.0.0-beta2
   "@luke-zhang-04/react-simple-markdown-editor": ^1.1.1
   "@luke-zhang-04/utils": github:luke-zhang-04/utils#semver:^1.7.0
   "@testing-library/jest-dom": ^5.12.0
@@ -71,7 +71,7 @@ specifiers:
   zxcvbn: ^4.4.2
 
 dependencies:
-  "@luke-zhang-04/dateplus": 4.0.0-beta1
+  "@luke-zhang-04/dateplus": 4.0.0-beta2
   "@luke-zhang-04/react-simple-markdown-editor": 1.1.1_react-dom@17.0.2+react@17.0.2
   "@luke-zhang-04/utils": github.com/luke-zhang-04/utils/a2388018dff0b500085405203a99956bab7666c5_@types+node@16.7.4
   aos: 2.3.4
@@ -2422,10 +2422,10 @@ packages:
       chalk: 4.1.2
     dev: true
 
-  /@luke-zhang-04/dateplus/4.0.0-beta1:
+  /@luke-zhang-04/dateplus/4.0.0-beta2:
     resolution:
       {
-        integrity: sha512-4tgkTYa2Zdy4HKigRSU6NqhjYCcRDzwAxVgE7e3deXa88zr8/Cwy9OM7jAzMhKsmD2hnjcK8mPUZHuSx+jXFBw==,
+        integrity: sha512-szT1TqWxNxbo+9HlloNW8QYCn39N0/G2qgZ3Ys/098V6lpwAYaw/QwkZmd/7btFniwCmrWgHvVhlrZyi7o2eEQ==,
       }
     dev: false
 

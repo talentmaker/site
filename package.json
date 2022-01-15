@@ -24,7 +24,7 @@
     "test": "REACT_APP_HASH=$(git rev-parse HEAD) REACT_APP_TIME=$(git log -1 --format=%ct)000 craco test"
   },
   "dependencies": {
-    "@luke-zhang-04/dateplus": "^4.0.0-beta1",
+    "@luke-zhang-04/dateplus": "^4.0.0-beta2",
     "@luke-zhang-04/react-simple-markdown-editor": "^1.1.1",
     "@luke-zhang-04/utils": "github:luke-zhang-04/utils#semver:^1.7.0",
     "aos": "^2.3.4",
